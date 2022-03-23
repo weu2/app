@@ -1,21 +1,26 @@
+:root {
+  --background: #380034;
+  --pink: #ff00ff;
+  --green: #b4ff00;
+}
+
 .App {
   text-align: center;
 }
 
 .App-logo {
-  filter: drop-shadow(4px 4px #a0ff00);
-  height: 40vmin;
+  width: 40vmin;
   pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+    animation: App-logo-spin infinite 5s linear;
   }
 }
 
 .App-header {
-  background-color: #380034;
+  background-color: var(--background);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -23,21 +28,50 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  box-shadow: inset 0 0 64px 16px var(--green);
 }
 
 .App-link {
-  color: #a0ff00;
+  color: var(--green);
 }
 
-p {
-  color: #ff10f0;
+@font-face {
+  font-family: Bloxat;
+  src: url('Bloxat.ttf');
+}
+
+h1 {
+  font-family: Bloxat;
+  font-size: calc(10px + 10vmin);
+  margin-top: 0;
+  text-shadow: 8px 8px var(--green);
+}
+
+h1, p {
+  color: var(--pink);
+}
+
+#logodiv {
+  filter: drop-shadow(8px 8px var(--green));
+}
+
+.App-link, h1, p {
+  transition: .2s;
+}
+
+h1:hover {
+  text-shadow: 0 0 var(--green);
+}
+
+.App-link:hover, p:hover {
+  transform: scaleX(1.2);
 }
 
 @keyframes App-logo-spin {
   from {
-    transform: rotate(0deg);
+    transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
   }
   to {
-    transform: rotate(360deg);
+    transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
   }
 }
