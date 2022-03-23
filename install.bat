@@ -1,9 +1,9 @@
 @echo off
 
 pushd backend
-npm install
+call npm install
 popd
 
 pushd frontend
-npm install
+call npm install
 popd

@@ -1,4 +1,4 @@
 @echo off
 
 pushd frontend
-npm start
+call npm start
