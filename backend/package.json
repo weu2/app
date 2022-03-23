@@ -1,0 +1,23 @@
+{
+  "name": "weu",
+  "version": "1.0.0",
+  "description": "The Everything",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/weu2/app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/weu2/app/issues"
+  },
+  "homepage": "https://github.com/weu2/app#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.3"
+  }
+}
