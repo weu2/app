@@ -1,16 +1,16 @@
 {
-  "name": "weu",
+  "name": "WeU Backend",
   "version": "1.0.0",
-  "description": "The Everything",
+  "description": "Express backend for the WeU website",
   "main": "index.js",
   "scripts": {
+    "start": "node index",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/weu2/app.git"
   },
-  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/weu2/app/issues"

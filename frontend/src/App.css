@@ -3,6 +3,7 @@
 }
 
 .App-logo {
+  filter: drop-shadow(4px 4px #a0ff00);
   height: 40vmin;
   pointer-events: none;
 }
@@ -14,7 +15,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #380034;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -25,7 +26,11 @@
 }
 
 .App-link {
-  color: #61dafb;
+  color: #a0ff00;
+}
+
+p {
+  color: #ff10f0;
 }
 
 @keyframes App-logo-spin {
