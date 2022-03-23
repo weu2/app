@@ -1,13 +1,14 @@
-import logo from './logo.png';
+import logo from './logo.svg';
+import wii from './wii.png';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>WeU</h1>
+        <img src={logo} className="App-logo" alt="logo" />
         <div id="logodiv">
-          <img src={logo} className="App-logo" alt="logo" />
+          <img src={wii} className="App-wii" alt="wii" />
         </div>
         <p>
           Edit <code>src/App.js</code> and save to reload.
