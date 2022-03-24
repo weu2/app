@@ -1,8 +1,8 @@
 # Welcome to WeU
 
-**Make sure you're on the most recent version of the repository before making any changes.**
+**Make sure you're on the [most recent version](https://github.com/weu2/app/tree/main) of the repository before making any changes.**
 <br>
-**If you think your code is going to conflict, please open a pull request first.**
+**If you think your code is going to conflict, please open a [pull request](https://github.com/weu2/app/pulls) first.**
 
 Make sure [node version >16](https://nodejs.org/en/download/) is installed before trying the steps below.
 
