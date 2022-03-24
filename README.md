@@ -19,7 +19,7 @@ Make sure [node version >16](https://nodejs.org/en/download/) is installed befor
 2. To set up the environment, run `sudo chmod u+x install.command` then open `install.command`.
 3. To start the frontend and backend, run `sudo chmod u+x start-dev.command` then open `start-dev.command`.
 
-**Windows**
+**Manually - Not Reccomended**
 1. Navigate to the `app/` folder.
 2. Run `npm install` in both the `frontend/` and `backend/` folders.
 3. Run `npm install -g nodemon`.
