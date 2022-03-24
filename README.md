@@ -9,17 +9,17 @@ Make sure [node version >16](https://nodejs.org/en/download/) is installed befor
 ## To start the development servers
 **Do not use this as the production server**
 
-**Windows**
-1. Navigate to the `app/` folder using `cd app`
+### Windows
+1. Navigate to the `app/` folder using `cd app`.
 2. To set up the environment, execute `install`.
 3. To start the frontend and backend, execute `start-dev`.
 
-**Mac**
+### Mac
 1. Navigate to the `app/` folder.
 2. To set up the environment, run `sudo chmod u+x install.command` then open `install.command`.
 3. To start the frontend and backend, run `sudo chmod u+x start-dev.command` then open `start-dev.command`.
 
-**Manually - Not Reccomended**
+### Manually (Not Recommended)
 1. Navigate to the `app/` folder.
 2. Run `npm install` in both the `frontend/` and `backend/` folders.
 3. Run `npm install -g nodemon`.
