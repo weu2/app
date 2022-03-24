@@ -12,7 +12,7 @@ Make sure [node version >16](https://nodejs.org/en/download/) is installed befor
 **Windows**
 1. Navigate to the `app/` folder using `cd app`
 2. To set up the environment, execute `install`.
-3. To start the frontend and backend, exevute `start-dev`.
+3. To start the frontend and backend, execute `start-dev`.
 
 **Mac**
 1. Navigate to the `app/` folder.
