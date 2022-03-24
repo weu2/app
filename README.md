@@ -10,9 +10,9 @@ Make sure [node version >16](https://nodejs.org/en/download/) is installed befor
 **Do not use this as the production server**
 
 **Windows**
-1. Navigate to the `app/` folder.
-2. To set up the environment, open `install.bat`.
-3. To start the frontend and backend, open `start-dev.bat`.
+1. Navigate to the `app/` folder using `cd app`
+2. To set up the environment, execute `install`.
+3. To start the frontend and backend, exevute `start-dev`.
 
 **Windows**
 1. Navigate to the `app/` folder.
