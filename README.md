@@ -1,10 +1,12 @@
 # Welcome to WeU
 
-**Make sure you're on the [most recent version](https://github.com/weu2/app/tree/main) of the repository before making any changes.**
+**Make sure you're on the [most recent version](https://github.com/weu2/app/tree/main) of this repository before making any changes.**
 <br>
 **If you think your code is going to conflict, please open a [pull request](https://github.com/weu2/app/pulls) first.**
 
-Make sure [node version >16](https://nodejs.org/en/download/) is installed before trying the steps below.
+## Things to install
+- [GitHub Desktop](https://desktop.github.com/), for downloading or uploading changes here.
+- [Node version >16](https://nodejs.org/en/download/), for running the servers.
 
 ## To start the development servers
 **Do not use this as the production server**
