@@ -1,9 +1,7 @@
-cd $(dirname $0)
+sudo npm install -g nodemon
 
-cd backend
+cd $(dirname $0)/backend
 sudo npm install
-cd ..
 
-cd frontend
+cd $(dirname $0)/frontend
 sudo npm install
-cd ..
