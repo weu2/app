@@ -20,7 +20,7 @@ Make sure [node version >16](https://nodejs.org/en/download/) is installed befor
 3. To start the frontend and backend, run `sudo chmod u+x start-dev.command` in a terminal then open `start-dev.command`.
 
 ### Manually (Not Recommended)
-1. Navigate to the `app/` folder using `cd`.
+1. Navigate to the `app/`.
 2. Run `npm install` in both the `frontend/` and `backend/` folders.
 3. Run `npm install -g nodemon`.
 4. Run `npm start` in the `frontend/` folder.
