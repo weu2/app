@@ -39,7 +39,9 @@ The world's greatest NRMA clone
 6. Click the `Commit` button
 
 ## Conflicting changes
-Pull requests let changes be reviewed before they get added. The instructions below are about opening a pull request.
+For simple conflicts, you can usually resolve them using GitHub Desktop.
+
+For complex conflicts, pull requests let changes be reviewed before they get added. Here's how to open a pull request:
 1. If a conflict menu has appeared, click `Abort merge`.
 2. From the top dropdown menu, click `Branch > New Branch...`
 3. Give this branch any name you want.
