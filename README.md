@@ -14,7 +14,7 @@ Make sure [node version >16](https://nodejs.org/en/download/) is installed befor
 2. To set up the environment, execute `install`.
 3. To start the frontend and backend, exevute `start-dev`.
 
-**Windows**
+**Mac**
 1. Navigate to the `app/` folder.
 2. To set up the environment, run `sudo chmod u+x install.command` then open `install.command`.
 3. To start the frontend and backend, run `sudo chmod u+x start-dev.command` then open `start-dev.command`.
