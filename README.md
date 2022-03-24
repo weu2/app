@@ -1,8 +1,7 @@
 # Welcome to WeU
 
-**Make sure you're on the most recent version of the repository before making any changes.**
-
-**If you think your code is going to conflict, please make a PR**
+**Make sure you're on the most recent version of the repository before making any changes.**<br>
+**If you think your code is going to conflict, please open a pull request first.**
 
 **For Windows**
 1. Make sure node version >16 is installed
