@@ -16,9 +16,10 @@
 5. Set `Local path` to any folder you want to download into.
 6. Click `Clone`.
 
-## To update your files to the most recent version
+## To update your files from here
 1. Open GitHub Desktop.
-2. Click the `Fetch Origin` button in the top bar.
+2. Click the `Fetch Origin` button in the top bar. This checks for changes.
+3. If the button changes to `Pull Origin`, changes were found. Click `Pull Origin` to update your files.
 
 ## To start the development servers
 
