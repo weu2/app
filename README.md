@@ -31,12 +31,11 @@ The world's greatest NRMA clone
 3. If the button changes to `Pull Origin`, changes were found. Click `Pull Origin` to update your files.
 
 ## To make changes
-1. Open GitHub Desktop.
-2. Anything you changed will be listed to the left.
+1. Open GitHub Desktop. Anything you changed will be listed to the left.
 3. Make sure you're updated before making any changes. Refer to the update instruction for this.
 4. If updating causes a conflict, refer to the conflict instruction.
 5. In the bottom left corner, add a title and description for your change.
-6. Click the `Commit` button
+6. Click the `Commit` button.
 
 ## Conflicting changes
 For simple conflicts, you can usually resolve them using GitHub Desktop.
@@ -45,7 +44,7 @@ For complex conflicts, pull requests let changes be reviewed before they get add
 1. If a conflict menu has appeared, click `Abort merge`.
 2. From the top dropdown menu, click `Branch > New Branch...`
 3. Give this branch any name you want.
-4. Click `Publish branch` in the top bar.
+4. Click the `Publish branch` button in the top bar.
 5. From the top dropdown menu, click `Branch > Create pull request`.
 6. Add a title and description for your change.
 7. Ping Caleb to review the change.
