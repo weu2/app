@@ -1,5 +1,5 @@
 {
-  "name": "WeU Backend",
+  "name": "weubackend",
   "version": "1.0.0",
   "description": "Express backend for the WeU website",
   "main": "index.js",
