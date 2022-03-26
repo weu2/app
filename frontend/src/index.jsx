@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 import "./index.css";
 
-import App from "./App";
+import Home from "./Pages/Home";
 import LoginTest from "./Pages/LoginTest";
 import LocationTest from "./Pages/LocationTest";
 import NoPage from "./Pages/404";
@@ -13,7 +13,7 @@ render(
 	<React.StrictMode>
 		<BrowserRouter>
 			<Routes>
-				<Route path="/" element={<App />} />
+				<Route path="/" element={<Home />} />
 				<Route path="login" element={<LoginTest />} />
 				<Route path="location" element={<LocationTest />} />
 				<Route path="*" element={<NoPage />} />

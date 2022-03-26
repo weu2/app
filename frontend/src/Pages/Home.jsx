@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import logo from "./logo.svg";
-import wii from "./wii.png";
-import "./App.css";
+import logo from "../logo.svg";
+import wii from "../wii.png";
+import "./Home.css";
 
-function App() {
+function Home() {
 	const [data, setData] = React.useState(null);
 
 	React.useEffect(() => {
@@ -15,7 +15,7 @@ function App() {
 	}, []);
 
 	return (
-		<div className="App">
+		<div className="Home">
 			<div className="Content">
 				<img src={logo} className="Logo" alt="logo" />
 				<div className="LogoContainer">
@@ -24,7 +24,7 @@ function App() {
 				<p>
 					{!data ? "Backend is not working!" : data}
 					<br/>
-					Edit <code>src/App.jsx</code> and save to reload.
+					Edit <code>src/Home.jsx</code> and save to reload.
 				</p>
 				<a className="Link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">Learn React</a>
 				<div>
@@ -36,4 +36,4 @@ function App() {
 	);
 }
 
-export default App;
+export default Home;
