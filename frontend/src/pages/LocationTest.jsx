@@ -1,11 +1,12 @@
 import React from "react";
-import './LocationTest.css';
+import Header from "../Components/Header";
 
 function LocationTest() {
 	return (
-		<div>
-			<h1>Still working on the location page, come back soon!</h1>
-		</div>
+		<Header 
+			text="Still working on the location page, come back soon!" 
+			centre="true"
+			/>
 	);
 }
 

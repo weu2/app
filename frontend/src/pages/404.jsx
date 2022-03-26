@@ -1,10 +1,11 @@
-import "./404.css";
+import Header from "../Components/Header";
 
 function NoPage() {
 	return (
-		<div className="NoPage">
-			404: Page not found :(
-		</div>
+		<Header 
+			text="404: Page not found :(" 
+			centre="true"
+			/>
 	);
 }
 
