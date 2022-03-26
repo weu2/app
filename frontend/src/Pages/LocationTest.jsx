@@ -20,11 +20,13 @@ function LocationTest() {
 		setStatus("Error: Geolocation is not supported on your browser!");
 	}
 	
-	navigator.geolocation.watchPosition(pos => {
+	navigator.geolocation.getCurrentPosition(pos => {
 		setStatus("Got your location! (Probably very rough)");
 		setCenter({ lat: pos.coords.latitude, lng: pos.coords.longitude });
 	}, error => {
 		setStatus(`Error: ${error.message}`);
+	}, {
+		enableHighAccuracy: true
 	});
 
 	const { isLoaded } = useJsApiLoader({
