@@ -10,16 +10,16 @@ function App() {
 
 	React.useEffect(() => {
 		fetch("/api/v1/test")
-			.then((res) => res.json())
-			.then((data) => setData(data.message));
+			.then(res => res.json())
+			.then(data => setData(data.message));
 	}, []);
 
 	return (
-		<div id="App">
-			<div id="Header">
-				<img src={logo} id="Logo" alt="logo" />
-				<div id="LogoContainer">
-					<img src={wii} id="Wii" alt="wii" />
+		<div className="App">
+			<div className="Content">
+				<img src={logo} className="Logo" alt="logo" />
+				<div className="LogoContainer">
+					<img src={wii} className="Wii" alt="wii" />
 				</div>
 				<p>
 					{!data ? "Backend is not working!" : data}
