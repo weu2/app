@@ -5,9 +5,9 @@ import reportWebVitals from "./reportWebVitals";
 import "./index.css";
 
 import App from "./App";
-import LoginTest from "./pages/LoginTest";
-import LocationTest from "./pages/LocationTest";
-import NoPage from "./pages/404";
+import LoginTest from "./Pages/LoginTest";
+import LocationTest from "./Pages/LocationTest";
+import NoPage from "./Pages/404";
 
 render(
 	<React.StrictMode>
