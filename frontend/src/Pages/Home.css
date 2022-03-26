@@ -3,8 +3,8 @@
 }
 
 .Home .Wii {
-	width: 40vmin;
 	pointer-events: none;
+	width: 40vmin;
 }
 
 @media (prefers-reduced-motion: no-preference) {

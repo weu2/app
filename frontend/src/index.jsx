@@ -5,7 +5,7 @@ import reportWebVitals from "./reportWebVitals";
 import "./index.css";
 
 import Home from "./Pages/Home";
-import LoginTest from "./Pages/LoginTest";
+import RegisterTest from "./Pages/RegisterTest";
 import LocationTest from "./Pages/LocationTest";
 import NoPage from "./Pages/404";
 
@@ -14,7 +14,7 @@ render(
 		<BrowserRouter>
 			<Routes>
 				<Route path="/" element={<Home />} />
-				<Route path="login" element={<LoginTest />} />
+				<Route path="register" element={<RegisterTest />} />
 				<Route path="location" element={<LocationTest />} />
 				<Route path="*" element={<NoPage />} />
 			</Routes>

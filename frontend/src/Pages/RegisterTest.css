@@ -1,0 +1,102 @@
+.RegisterTest {
+	background-color: var(--background);
+	display: flex;
+	justify-content: center;
+	min-height: 100vh;
+	min-width: 100vw;
+}
+
+.RegisterTest .Content {
+	background-color: white;
+	border-radius: 16px;
+	display: inline-block;
+	margin: 64px;
+	padding: 64px 32px;
+	min-width: 30vw;
+}
+
+.RegisterTest .CategoryButton, .RegisterTest .FormButton {
+	border: none;
+	cursor: pointer;
+	margin-top: 16px;
+	padding: 12px 20px;
+	background-color: var(--pink);
+	box-shadow: 6px 6px var(--green);
+	border-radius: 8px;
+	transition: .07s;
+}
+
+.RegisterTest .CategoryButton:hover, .RegisterTest .FormButton:hover {
+	background-color: var(--pink-light);
+}
+
+.RegisterTest .CategoryButton:active, .RegisterTest .FormButton:active {
+	transform: translate(6px, 6px);
+	box-shadow: 0 0 var(--green);
+}
+
+.RegisterTest .CategoryButton {
+	text-align: left;
+	display: block;
+}
+
+.RegisterTest .CategoryButton, .RegisterTest .FormButton, .RegisterTest input, .RegisterTest label {
+	box-sizing: border-box;
+	font-size: x-large;
+	width: 100%;
+}
+
+.RegisterTest input, .RegisterTest label {
+	display: block;
+	margin: 8px 0;
+}
+
+.RegisterTest input {
+	font-size: large;
+	border: 2px solid lightgray;
+	padding: 8px;
+	border-radius: 8px;
+}
+
+.RegisterTest h1 {
+	margin-top: 0;
+	margin-bottom: 32px;
+}
+
+.RegisterTest .Arrow {
+	content: ">";
+	float: right;
+}
+
+.RegisterTest .BackButton {
+	background: none;
+	border: none;
+	display: block;
+	font-size: large;
+	padding: 0 16px 16px 0;
+	cursor: pointer;
+	border-radius: 8px;
+}
+
+.Slider-Offscreen {
+	display: none;
+}
+
+.CreditCard {
+	border: 1px solid black;
+	border-radius: 16px;
+	padding: 32px 0;
+	flex-flow: wrap;
+	display: flex;
+}
+
+.CreditCard input {
+	margin: 16px;
+	width: 100%;
+}
+
+.CreditCardStrip {
+	background-color: black;
+	height: 32px;
+	width: 100%;
+}

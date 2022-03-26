@@ -28,7 +28,7 @@ function Home() {
 				</p>
 				<a className="Link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">Learn React</a>
 				<div>
-					<Link className="Button" to="/login">Login test page</Link>
+					<Link className="Button" to="/register">Register test page</Link>
 					<Link className="Button" to="/location">Location test page</Link>
 				</div>
 			</div>
