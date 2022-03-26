@@ -21,7 +21,7 @@ function LocationTest() {
 	}
 	
 	navigator.geolocation.getCurrentPosition(pos => {
-		setStatus("Got your location! (Probably very rough)");
+		setStatus("Got your location! (Roughly)");
 		setCenter({ lat: pos.coords.latitude, lng: pos.coords.longitude });
 	}, error => {
 		setStatus(`Error: ${error.message}`);
@@ -49,7 +49,8 @@ function LocationTest() {
 				</GoogleMap> :
 				<p>Loading map...</p>
 			}
-			<p>(Eventually this needs a URL which can be opened on other devices, {url} doesn't work yet)</p>
+			<p>Eventually this page needs a URL which can be opened on other devices</p>
+			<p><a href={url} target="_blank" rel="noreferrer noopener">{url}</a> doesn't work yet</p>
 		</div>
 	);
 }
