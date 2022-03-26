@@ -5,8 +5,8 @@ function LoginTest() {
 	return (
 		<Header 
 			text="Still working on the login page, come back soon!" 
-			centre="true"
-			/>
+			center="true"
+		/>
 	);
 }
 

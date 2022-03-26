@@ -2,9 +2,8 @@ import React from 'react';
 import '../App.css';
 
 function Header(props) {
-
 	return (
-		<div className={props.centre === "true" ? "header header-centre" : "header"}>{props.text}</div>
+		<div className={props.center === "true" ? "Header Header-Center" : "Header"}>{props.text}</div>
 	);
 }
 
