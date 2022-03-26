@@ -35,8 +35,7 @@ function LocationTest() {
 
 	return (
 		<div className="LocationTest">
-			<h1>Send this URL to a friend: {url}</h1>
-			<h2>{status}</h2>
+			<h1>{status}</h1>
 			<p>Latitude: {center ? center.lat : "Unknown"}</p>
 			<p>Longitude: {center ? center.lng : "Unknown"}</p>
 			{(isLoaded && center) ?
@@ -50,6 +49,7 @@ function LocationTest() {
 				</GoogleMap> :
 				<p>Loading map...</p>
 			}
+			<p>(Eventually this needs a URL which can be opened on other devices, {url} doesn't work yet)</p>
 		</div>
 	);
 }
