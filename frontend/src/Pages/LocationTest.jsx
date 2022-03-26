@@ -30,7 +30,7 @@ function LocationTest() {
 	});
 
 	const { isLoaded } = useJsApiLoader({
-		googleMapsApiKey:"AIzaSyC9KNOh8CqX4VnjJ94hrB26PFlzTKCwNH8"
+		googleMapsApiKey: "AIzaSyC9KNOh8CqX4VnjJ94hrB26PFlzTKCwNH8"
 	});
 
 	return (
