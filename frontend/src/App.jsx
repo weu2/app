@@ -1,39 +1,39 @@
 import React from "react";
-import logo from './logo.svg';
-import wii from './wii.png';
-import './App.css';
+import { Link } from "react-router-dom";
+
+import logo from "./logo.svg";
+import wii from "./wii.png";
+import "./App.css";
 
 function App() {
-  const [data, setData] = React.useState(null);
+	const [data, setData] = React.useState(null);
 
-  React.useEffect(() => {
-    fetch("/api/v1/test")
-      .then((res) => res.json())
-      .then((data) => setData(data.message));
-  }, []);
+	React.useEffect(() => {
+		fetch("/api/v1/test")
+			.then((res) => res.json())
+			.then((data) => setData(data.message));
+	}, []);
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <div id="logodiv">
-          <img src={wii} className="App-wii" alt="wii" />
-        </div>
-        <p>{!data ? "Backend is not working!" : data}</p>
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return (
+		<div id="App">
+			<div id="Header">
+				<img src={logo} id="Logo" alt="logo" />
+				<div id="LogoContainer">
+					<img src={wii} id="Wii" alt="wii" />
+				</div>
+				<p>
+					{!data ? "Backend is not working!" : data}
+					<br/>
+					Edit <code>src/App.jsx</code> and save to reload.
+				</p>
+				<a className="Link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">Learn React</a>
+				<div>
+					<Link className="Button" to="/login">Login test page</Link>
+					<Link className="Button" to="/location">Location test page</Link>
+				</div>
+			</div>
+		</div>
+	);
 }
 
 export default App;

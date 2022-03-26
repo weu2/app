@@ -1,71 +1,77 @@
-:root {
-  --background: #380034;
-  --pink: #ff00ff;
-  --green: #b4ff00;
+#App {
+	text-align: center;
 }
 
-.App {
-  text-align: center;
-}
-
-.App-wii {
-  width: 40vmin;
-  pointer-events: none;
+#App #Wii {
+	width: 40vmin;
+	pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-wii {
-    animation: App-wii-spin infinite 5s linear;
-  }
+	#App #Wii {
+		animation: App-wii-spin infinite 5s linear;
+	}
 }
 
-.App-header {
-  background-color: var(--background);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-  box-shadow: inset 0 0 64px 16px var(--green);
+#App #Header {
+	align-items: center;
+	background-color: var(--background);
+	box-shadow: inset 0 0 64px 16px var(--green);
+	color: white;
+	display: flex;
+	flex-direction: column;
+	font-size: calc(10px + 2vmin);
+	justify-content: center;
+	min-height: 100vh;
 }
 
-.App-link {
-  color: var(--green);
+#App #Logo {
+	width: calc(10px + 20vmin);
+	margin-bottom: 2vmin;
+	filter: drop-shadow(8px 8px var(--green));
 }
 
-.App-logo {
-  width: calc(10px + 20vmin);
-  margin-bottom: 2vmin;
-  filter: drop-shadow(8px 8px var(--green));
+#App .Link {
+	color: var(--green);
 }
 
-.App-logo, p {
-  color: var(--pink);
+#App #Logo, #App p {
+	color: var(--pink);
 }
 
-#logodiv {
-  filter: drop-shadow(8px 8px var(--green));
+#App #LogoContainer {
+	filter: drop-shadow(8px 8px var(--green));
 }
 
-.App-link, .App-logo, p {
-  transition: .2s;
+#App .Link, #App #Logo, #App p, #App .Button {
+	transition: .2s;
 }
 
-.App-logo:hover {
-  filter: drop-shadow(0 0 var(--green));
+#App .Link:hover, #App p:hover, #App .Button:hover {
+	transform: scaleX(1.2);
 }
 
-.App-link:hover, p:hover {
-  transform: scaleX(1.2);
+#App #Logo:hover {
+	filter: drop-shadow(0 0 var(--green));
+}
+
+#App .Button {
+	background-color: var(--green);
+	border-radius: 16px;
+	color: black;
+	cursor: pointer;
+	display: inline-block;
+	font-size: calc(5px + 2vmin);
+	margin: 8px;
+	padding: 16px;
+	text-decoration: none;
 }
 
 @keyframes App-wii-spin {
-  from {
-    transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
-  }
-  to {
-    transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
-  }
+	from {
+		transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+	}
+	to {
+		transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
+	}
 }
