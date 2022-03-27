@@ -24,7 +24,7 @@ function Home() {
 				<p>
 					{!data ? "Backend is not working!" : data}
 					<br/>
-					Edit <code>src/Home.jsx</code> and save to reload.
+					Edit <code>src/Pages/Home.jsx</code> and save to reload.
 				</p>
 				<a className="Link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">Learn React</a>
 				<div>
