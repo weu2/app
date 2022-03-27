@@ -19,3 +19,4 @@ yarn-error.log*
 
 # backend folders
 backend/node_modules
+backend/data
