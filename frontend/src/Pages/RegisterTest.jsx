@@ -1,7 +1,10 @@
 import React from "react";
 import "./RegisterTest.css";
+
 import recaptcha from "../Meme/recaptcha.png";
+import cross from "../Meme/cross.png"
 import grid from "../Meme/grid.png"
+import rick from "../Meme/rick.gif"
 
 function formatCreditCard(e) {
 	const cardNumber = e.target.value;
@@ -95,8 +98,8 @@ function RegisterTest() {
 			<div className="Register-Content">
 				<h1>Register Test</h1>
 				{
-					page > 0 ?
-					<button className="Register-BackButton" onMouseDown={() => setPage(page - 1)}>🡸 Back</button>
+					(page > 0)
+					? <button className="Register-BackButton" onMouseDown={() => setPage(page - 1)}>🡸 Back</button>
 					: null
 				}
 				<div className={page === 0 ? null : "Register-Page-Offscreen"}>
@@ -190,48 +193,75 @@ function RegisterTest() {
 					</div>
 					<div className={page === 3 ? null : "Register-Page-Offscreen"}>
 						<div className="Register-Captcha" onClick={toggleForm}>
-							<div className={
-								state === "spinning" ?
-								"Register-Captcha-Spinner" : (
-									state === "crossed" ?
-									"Register-Captcha-Cross" :
-									"Register-Captcha-Checkbox"
+							{
+								(state === "spinning")
+								? <div className="Register-Captcha-Spinner" />
+								: (
+									(state === "crossed")
+									? <div className="Register-Captcha-Cross" style={{backgroundImage: `url(${cross})`}}/>
+									: <div className="Register-Captcha-Checkbox" />
 								)
-							}/>
+							}
 							<span>{state === "crossed" ? "WRONG" : "I'm a robot"}</span>
 							<img src={recaptcha} className="Register-Captcha-Icon" alt="captcha" />
 						</div>
 						{
 							testVisible ?
 							<div className="Register-Test">
-								<div className="Register-Test-Header">Select all squares with good teaching practice.</div>
+								<div className="Register-Test-Header">{
+									(state === "crossed")
+									? "Your credit card has been charged 😊"
+									: "Select all squares with good teaching practice."
+								}</div>
 								<table id="Register-Test-Table">
 									<tbody>
 										<tr>
-											<td><div id="Register-Square0" alt="square0" style={{backgroundImage: `url(${grid})`}} onMouseDown={clickSquare} /></td>
-											<td><div id="Register-Square1" alt="square1" style={{backgroundImage: `url(${grid})`}} onMouseDown={clickSquare} /></td>
-											<td><div id="Register-Square2" alt="square2" style={{backgroundImage: `url(${grid})`}} onMouseDown={clickSquare} /></td>
+											<td><div id="Register-Square0" alt="square0" style={{
+												backgroundImage: `url(${state === "crossed" ? rick : grid})`
+											}} onMouseDown={clickSquare} /></td>
+											<td><div id="Register-Square1" alt="square1" style={{
+												backgroundImage: `url(${state === "crossed" ? rick : grid})`
+											}} onMouseDown={clickSquare} /></td>
+											<td><div id="Register-Square2" alt="square2" style={{
+												backgroundImage: `url(${state === "crossed" ? rick : grid})`
+											}} onMouseDown={clickSquare} /></td>
 										</tr>
 										<tr>
-											<td><div id="Register-Square3" alt="square3" style={{backgroundImage: `url(${grid})`}} onMouseDown={clickSquare} /></td>
-											<td><div id="Register-Square4" alt="square4" style={{backgroundImage: `url(${grid})`}} onMouseDown={clickSquare} /></td>
-											<td><div id="Register-Square5" alt="square5" style={{backgroundImage: `url(${grid})`}} onMouseDown={clickSquare} /></td>
+											<td><div id="Register-Square3" alt="square3" style={{
+												backgroundImage: `url(${state === "crossed" ? rick : grid})`
+											}} onMouseDown={clickSquare} /></td>
+											<td><div id="Register-Square4" alt="square4" style={{
+												backgroundImage: `url(${state === "crossed" ? rick : grid})`
+											}} onMouseDown={clickSquare} /></td>
+											<td><div id="Register-Square5" alt="square5" style={{
+												backgroundImage: `url(${state === "crossed" ? rick : grid})`
+											}} onMouseDown={clickSquare} /></td>
 										</tr>
 										<tr>
-											<td><div id="Register-Square6" alt="square6" style={{backgroundImage: `url(${grid})`}} onMouseDown={clickSquare} /></td>
-											<td><div id="Register-Square7" alt="square7" style={{backgroundImage: `url(${grid})`}} onMouseDown={clickSquare} /></td>
-											<td><div id="Register-Square8" alt="square8" style={{backgroundImage: `url(${grid})`}} onMouseDown={clickSquare} /></td>
+											<td><div id="Register-Square6" alt="square6" style={{
+												backgroundImage: `url(${state === "crossed" ? rick : grid})`
+											}} onMouseDown={clickSquare} /></td>
+											<td><div id="Register-Square7" alt="square7" style={{
+												backgroundImage: `url(${state === "crossed" ? rick : grid})`
+											}} onMouseDown={clickSquare} /></td>
+											<td><div id="Register-Square8" alt="square8" style={{
+												backgroundImage: `url(${state === "crossed" ? rick : grid})`
+											}} onMouseDown={clickSquare} /></td>
 										</tr>
 									</tbody>
 								</table>
-								<button className="Register-Test-Verify" onClick={tickForm}>Verify</button>
+								{
+									(state === "crossed")
+									? null
+									: <button className="Register-Test-Verify" onClick={tickForm}>Verify</button>
+								}
 							</div>
 							: null
 						}
 					</div>
 					{
-						(page >= 1 && page <= 2) ?
-						<button className="Register-NextButton" type="submit">Next</button>
+						(page >= 1 && page <= 2)
+						? <button className="Register-NextButton" type="submit">Next</button>
 						: null
 					}
 				</form>
