@@ -2,13 +2,27 @@ const path = require("path");
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 5000;
 const os = require('os');
+
+const jwt = require('./jwt');
 
 app.use(cors());
 
 app.get("/api/v1/test", (req, res) => {
-	res.send({ message: "Backend is responding" });
+	const test = {
+		jwtverify:false
+	};
+	// verify jwt internally
+	const tok = jwt.createJWT({
+		iss: "WeU Token Authoriser",
+		sub: "Steve or something idk",
+		iat: 1234567890,
+		jti: 1,
+	})
+	if(jwt.verifyJWT(tok)) test.jwtverify = true;
+
+	res.send(test)
 });
 
 let ip;

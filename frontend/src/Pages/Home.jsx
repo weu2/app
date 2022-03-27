@@ -11,11 +11,11 @@ function Home() {
 	React.useEffect(() => {
 		fetch("/api/v1/test")
 			.then(res => res.json())
-			.then(data => setData(data.message));
+			.then(data => setData(JSON.stringify(data)));
 	}, []);
 
 	return (
-		<div className="Home">
+		<div className="Home"	>
 			<div className="Content">
 				<img src={logo} className="Logo" alt="logo" />
 				<div className="LogoContainer">
