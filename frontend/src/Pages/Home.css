@@ -44,7 +44,7 @@
 }
 
 .Home .Link, .Home .Logo, .Home p, .Home .Button {
-	transition: .2s;
+	transition-duration: .2s;
 }
 
 .Home .Link:hover, .Home p:hover, .Home .Button:hover {

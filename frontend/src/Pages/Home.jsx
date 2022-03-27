@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import logo from "../logo.svg";
-import wii from "../wii.png";
+import wii from "../Meme/wii.png";
 import "./Home.css";
 
 function Home() {
@@ -15,7 +15,7 @@ function Home() {
 	}, []);
 
 	return (
-		<div className="Home"	>
+		<div className="Home">
 			<div className="Content">
 				<img src={logo} className="Logo" alt="logo" />
 				<div className="LogoContainer">
