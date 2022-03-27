@@ -25,7 +25,7 @@ class Login extends React.Component {
 			body: JSON.stringify(details)
 		})
 		.then(r => r.text())
-		.then(alert);
+		.then(console.log);
 	}
 
 	render() {
