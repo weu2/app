@@ -6,7 +6,7 @@ class Login extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			username: "",
+			email: "",
 			password: ""
 		};
 	}
@@ -14,7 +14,7 @@ class Login extends React.Component {
 	submitForm(e) {
 		e.preventDefault();
 		const details = {
-			user: this.state.username,
+			email: this.state.email,
 			pwd: this.state.password
 		};
 		fetch("/api/v1/login", {
@@ -35,14 +35,15 @@ class Login extends React.Component {
 					<h1>Login</h1>
 					<form onSubmit={this.submitForm.bind(this)}>
 						<div>
-							<label htmlFor="username">Username</label>
+							<label htmlFor="email">Email</label>
 							<input
-								name="username"
-								type="text"
+								name="email"
+								type="email"
 								required={true}
-								autoComplete="username"
-								value={this.state.username}
-								onChange={e => this.setState({ username: e.target.value })}
+								autoComplete="email"
+								placeholder="jdoe@gmail.com"
+								value={this.state.email}
+								onChange={e => this.setState({ email: e.target.value })}
 							/>
 						</div>
 						<div>

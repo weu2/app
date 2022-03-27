@@ -123,34 +123,33 @@ function RegisterTest() {
 						<div>
 							<label htmlFor="firstName">First Name</label>
 							<input
-								id="firstName"
 								type="text"
 								required={page === 1}
 								autoComplete="given-name"
+								placeholder="John"
 							/>
 						</div>
 						<div>
 							<label htmlFor="lastName">Last Name</label>
 							<input
-								id="lastName"
 								type="text"
 								required={page === 1}
 								autoComplete="family-name"
+								placeholder="Doe"
 							/>
 						</div>
 						<div>
-							<label htmlFor="username">Username</label>
+							<label htmlFor="email">Email</label>
 							<input
-								id="username"
-								type="text"
+								type="email"
 								required={page === 1}
-								autoComplete="username"
+								autoComplete="email"
+								placeholder="jdoe@gmail.com"
 							/>
 						</div>
 						<div>
 							<label htmlFor="password">Password</label>
 							<input
-								id="password"
 								type="password"
 								required={page === 1}
 								autoComplete="current-password"
