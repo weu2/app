@@ -2,7 +2,7 @@
   "name": "weubackend",
   "version": "1.0.0",
   "description": "Express backend for the WeU website",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "start": "node src/index",
     "test": "echo \"Error: no test specified\" && exit 1"
