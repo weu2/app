@@ -16,7 +16,7 @@ for (const i in interfaces) {
 }
 
 const user = require('./user');
-router.use('/user', user);
+router.use('/', user);
 
 router.get('/ip', (req, res) => {
 	res.send({ ip: ip?.address });

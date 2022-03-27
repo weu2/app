@@ -8,6 +8,7 @@ import Home from "./Pages/Home";
 import RegisterTest from "./Pages/RegisterTest";
 import LocationTest from "./Pages/LocationTest";
 import NoPage from "./Pages/404";
+import Login from "./Pages/Login";
 
 render(
 	<React.StrictMode>
@@ -17,6 +18,7 @@ render(
 				<Route path="register" element={<RegisterTest />} />
 				<Route path="location" element={<LocationTest />} />
 				<Route path="*" element={<NoPage />} />
+				<Route path="login" element={<Login />} />
 			</Routes>
 		</BrowserRouter>
 	</React.StrictMode>,

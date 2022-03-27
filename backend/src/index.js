@@ -3,6 +3,8 @@ const app = express();
 
 // please try keep this as clean as possible
 
+app.use(express.json());
+
 const cors = require('cors');
 app.use(cors());
 

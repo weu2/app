@@ -30,6 +30,7 @@ function Home() {
 				<div>
 					<Link className="Button" to="/register">Register test page</Link>
 					<Link className="Button" to="/location">Location test page</Link>
+					<Link className="Button" to="/login">Login test page</Link>
 				</div>
 			</div>
 		</div>
