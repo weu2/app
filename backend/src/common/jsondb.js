@@ -10,11 +10,18 @@ class JSONDB {
 
     // sync load the json file
     initialLoad() {
+        let filecontent = "";
         try {
-            return JSON.parse(fs.readFileSync(this._filepath));
+            filecontent = fs.readFileSync(this._filepath);
+        } catch(e) { 
+            // if the file doesnt exist just make an empty array
+            return []; 
+        }
+        try {
+            return JSON.parse(filecontent);
         } catch(e) {
-            console.error(`${this._filepath} doesnt exist or the formatting is wrong`);
-            return [];
+            console.error(`${this._filepath} has incorrect formatting!`);
+            process.exit(1);
         }
     }
 
@@ -41,6 +48,11 @@ class JSONDB {
                 e[k] = val[k];
             });
         });
+        this.asyncUpdate();
+    }
+
+    add(val) {
+        this._internal.push(val)
         this.asyncUpdate();
     }
 }

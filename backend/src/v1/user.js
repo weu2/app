@@ -10,9 +10,8 @@ router.use((req, res, next) => {
 router.post('/login', (req, res) => {
 
     const db = new jsondb("data/users.json");
-    console.log(db.find({notes:"Some Notes 11"}));
-    db.update({notes:"Some Notes 11"}, {concern:'fuck', name:'hello'});
-    //console.log(db.find({notes:"Some Notes 11"}));
+    db.add({usr:"steve", time:"12 oclock"});
+    console.log(db.find({usr:"steve"}));
     
     console.log(req.body);
     res.send({message:'fuck off'});
