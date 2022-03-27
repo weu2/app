@@ -42,7 +42,6 @@ function authenticate(username, password) {
     const users = new JsonDB('data/users.json');
     return new Promise((res, rej) => {    
         const user = users.find({id:username});
-        console.log(password);
         if(user.length == 0) {
             rej("No users match"); 
             return;
