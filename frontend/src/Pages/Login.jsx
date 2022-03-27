@@ -3,60 +3,66 @@ import "./RegisterTest.css";
 
 class Login extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            email:"",
-            password:""
-        };
-        
-        this.tryLogin = this.tryLogin.bind(this);
-    }
+	constructor(props) {
+		super(props);
+		this.state = {
+			email: "",
+			password: ""
+		};
+	}
 
-    tryLogin() {
-        console.log(this.state.email);
-        console.log(this.state.password);
-        const logindeets = {
-            email: this.state.email,
-            pwd: this.state.password
-        };
-        fetch('/api/v1/login', {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(logindeets)
-        }).then( r => r.json())
-        .then(d => {
-            console.log(d);
-        });     
-    }
+	submitForm(e) {
+		e.preventDefault();
+		const details = {
+			email: this.state.email,
+			pwd: this.state.password
+		};
+		fetch("/api/v1/login", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(details)
+		})
+		.then(r => r.text())
+		.then(alert);
+	}
 
-	render(){ 
-        return (
-            <div className="RegisterTest">
-                <div className="Content">
-                    <h1>Login</h1>
-                    <div className="Slider">
-                        <div>
-                            <label htmlFor="email">Email</label>
-                            <input type="email" placeholder="jdoe@gmail.com" required={true} 
-                                onChange={(e) => this.setState({email:e.target.value})} 
-                                value={this.state.email} />
-                        </div>
-                        <div>
-                            <label htmlFor="password">Password</label>
-                            <input type="password" required={true} 
-                                onChange={(e) => this.setState({password:e.target.value})} 
-                                value={this.state.password}/>
-                        </div>
-                        <button className="FormButton" onClick={this.tryLogin}>Login</button>
-                    </div>
-
-                </div>
-            </div>
-        )
-    }
+	render() {
+		return (
+			<div className="Register">
+				<div className="Register-Content">
+					<h1>Login</h1>
+					<form onSubmit={this.submitForm.bind(this)}>
+						<div>
+							<label htmlFor="email">Email</label>
+							<input
+								name="email"
+								type="email"
+								placeholder="jdoe@gmail.com"
+								required={true}
+								autoComplete="username"
+								value={this.state.email}
+								onChange={e => this.setState({ email: e.target.value })}
+							/>
+						</div>
+						<div>
+							<label htmlFor="password">Password</label>
+							<input
+								name="pwd"
+								type="password"
+								required={true}
+								autoComplete="current-password"
+								value={this.state.password}
+								onChange={e => this.setState({ password: e.target.value })}
+							/>
+						</div>
+						<button className="Register-NextButton" type="submit">Login</button>
+					</form>
+				</div>
+			</div>
+		)
+	}
 }
 
 export default Login;

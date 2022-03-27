@@ -5,36 +5,46 @@ import logo from "../logo.svg";
 import wii from "../Meme/wii.png";
 import "./Home.css";
 
-function Home() {
-	const [data, setData] = React.useState(null);
+class Home extends React.Component {
 
-	React.useEffect(() => {
+	constructor(props) {
+		super(props);
+		this.state = {
+			data: null
+		};
+	}
+
+	componentDidMount() {
 		fetch("/api/v1/test")
-			.then(res => res.json())
-			.then(data => setData(JSON.stringify(data)));
-	}, []);
+		.then(res => res.text())
+		.then(data => this.setState({
+			data: data
+		}));
+	}
 
-	return (
-		<div className="Home">
-			<div className="Content">
-				<img src={logo} className="Logo" alt="logo" />
-				<div className="LogoContainer">
-					<img src={wii} className="Wii" alt="wii" />
-				</div>
-				<p>
-					{!data ? "Backend is not working!" : data}
-					<br/>
-					Edit <code>src/Pages/Home.jsx</code> and save to reload.
-				</p>
-				<a className="Link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">Learn React</a>
-				<div>
-					<Link className="Button" to="/register">Register test page</Link>
-					<Link className="Button" to="/location">Location test page</Link>
-					<Link className="Button" to="/login">Login test page</Link>
+	render() {
+		return (
+			<div className="Home">
+				<div className="Home-Content">
+					<img src={logo} className="Home-Logo" alt="logo" />
+					<div className="Home-LogoContainer">
+						<img src={wii} className="Home-Wii" alt="wii" />
+					</div>
+					<p>
+						{!this.state.data ? "Backend is not working!" : this.state.data}
+						<br/>
+						Edit <code>src/Pages/Home.jsx</code> and save to reload.
+					</p>
+					<a className="Home-Link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">Learn React</a>
+					<div>
+						<Link className="Home-Button" to="/register">Register test page</Link>
+						<Link className="Home-Button" to="/location">Location test page</Link>
+						<Link className="Home-Button" to="/login">Login test page</Link>
+					</div>
 				</div>
 			</div>
-		</div>
-	);
+		)
+	}
 }
 
 export default Home;

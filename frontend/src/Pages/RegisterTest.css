@@ -1,4 +1,4 @@
-.RegisterTest {
+.Register {
 	background-color: var(--background);
 	display: flex;
 	justify-content: center;
@@ -6,69 +6,70 @@
 	min-width: 100vw;
 }
 
-.RegisterTest .Content {
+.Register-Content {
 	background-color: white;
 	border-radius: 16px;
 	display: inline-block;
 	margin: 64px;
 	padding: 64px 32px;
-	min-width: 30vw;
+	min-width: 50%;
 }
 
-.RegisterTest .CategoryButton, .RegisterTest .FormButton {
+.Register-CategoryButton, .Register-NextButton {
+	background-color: var(--pink-button);
+	border-radius: 8px;
 	border: none;
+	box-shadow: 6px 6px var(--green);
+	color: white;
 	cursor: pointer;
 	margin-top: 16px;
 	padding: 12px 20px;
+	transition-duration: .07s;
+}
+
+.Register-CategoryButton:hover, .Register-NextButton:hover, .Register-Test-Verify:hover {
 	background-color: var(--pink);
-	box-shadow: 6px 6px var(--green);
-	border-radius: 8px;
-	transition: .07s;
 }
 
-.RegisterTest .CategoryButton:hover, .RegisterTest .FormButton:hover {
-	background-color: var(--pink-light);
-}
-
-.RegisterTest .CategoryButton:active, .RegisterTest .FormButton:active {
-	transform: translate(6px, 6px);
+.Register-CategoryButton:active, .Register-NextButton:active {
+	transform: translate(3px, 3px);
 	box-shadow: 0 0 var(--green);
 }
 
-.RegisterTest .CategoryButton {
+.Register-CategoryButton {
 	text-align: left;
 	display: block;
 }
 
-.RegisterTest .CategoryButton, .RegisterTest .FormButton, .RegisterTest input, .RegisterTest label {
+.Register-CategoryButton, .Register-NextButton, .Register input, .Register label {
 	box-sizing: border-box;
 	font-size: x-large;
 	width: 100%;
 }
 
-.RegisterTest input, .RegisterTest label {
+.Register input, .Register label {
 	display: block;
 	margin: 8px 0;
 }
 
-.RegisterTest input {
+.Register input {
 	font-size: large;
 	border: 2px solid lightgray;
 	padding: 8px;
 	border-radius: 8px;
 }
 
-.RegisterTest h1 {
+.Register h1 {
 	margin-top: 0;
 	margin-bottom: 32px;
 }
 
-.RegisterTest .Arrow {
+.Register-Arrow {
 	content: ">";
 	float: right;
 }
 
-.RegisterTest .BackButton {
+.Register-BackButton {
 	background: none;
 	border: none;
 	display: block;
@@ -78,25 +79,173 @@
 	border-radius: 8px;
 }
 
-.Slider-Offscreen {
+.Register-Page-Offscreen {
 	display: none;
 }
 
-.CreditCard {
-	border: 1px solid black;
+.Register-CreditCard {
 	border-radius: 16px;
-	padding: 32px 0;
-	flex-flow: wrap;
+	border: 1px solid black;
 	display: flex;
+	flex-flow: column;
+	padding: 32px 0 64px 0;
 }
 
-.CreditCard input {
-	margin: 16px;
-	width: 100%;
+.Register-CardInputs {
+	box-sizing: border-box;
+	padding: 16px 16px;
 }
 
-.CreditCardStrip {
+.Register-CardStrip {
 	background-color: black;
 	height: 32px;
 	width: 100%;
+}
+
+.Register-CardSecrets {
+	display: flex;
+}
+
+.Register-CreditCard #Register-CardDate {
+	margin-right: 16px;
+}
+
+.Register-Captcha {
+	align-items: center;
+	background-color: #f9f9f9;
+	border: 1px solid #d3d3d3;
+	cursor: default;
+	box-shadow: 0 0 4px 1px rgb(0 0 0 / 8%);
+	display: flex;
+	flex-direction: row;
+	font-family: Roboto, Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	height: 78px;
+	width: 304px;
+}
+
+.Register-Captcha-Checkbox {
+	background-color: white;
+	border: 2px solid #c1c1c1;
+	width: 24px;
+	height: 24px;
+	margin: 0 12px;
+}
+
+.Register-Captcha:hover .Register-Captcha-Checkbox {
+	border: 2px solid #ababab;
+}
+
+.Register-Captcha-Spinner {
+	background-color: transparent;
+	border: 6px solid var(--pink);
+	border-radius: 32px;
+	border-bottom-color: transparent;
+	border-left-color: transparent;
+	height: 36px;
+	outline: 0;
+	width: 36px;
+	box-sizing: border-box;
+	margin: 0 12px;
+	animation: spinner-spin linear 2.5s infinite;
+	transition-duration: 1s;
+}
+
+@keyframes spinner-spin {
+	0% {
+		transform: rotateZ(0deg);
+	}
+	10% {
+		transform: rotateZ(135deg);
+	}
+	25% {
+		transform: rotateZ(245deg);
+	}
+	60% {
+		transform: rotateZ(700deg);
+	}
+	75% {
+		transform: rotateZ(810deg);
+	}
+	100% {
+		transform: rotateZ(1080deg);
+	}
+}
+
+.Register-Captcha span {
+	flex: auto;
+}
+
+.Register-Captcha-Icon {
+	height: 68px;
+	margin-top: 4px;
+	margin-right: 4px;
+}
+
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+.Register-Test {
+	animation: fadeIn 0.5s;
+	box-shadow: 0 0 8px gray;
+	display: inline-block;
+	background-color: white;
+	margin-top: 4px;
+	border-radius: 8px;
+}
+
+.Register-Test table {
+	padding: 4px 4px 0 4px;
+}
+
+.Register-Test table img {
+	height: 128px;
+	position: relative;
+	transition-duration: 0.1s;
+	user-select: none;
+	width: 128px;
+}
+
+.Register-Test-Clicked {
+	border: 5px solid var(--pink);
+	box-sizing: border-box;
+}
+
+.Register-Test-Header {
+	background-color: var(--pink-button);
+	border-radius: 4px 4px 0 0;
+	color: white;
+	padding: 16px;
+}
+
+.Register-Test tr, .Register-Test td {
+	margin: 0;
+	padding: 0;
+	line-height: 0;
+}
+
+.Register-Test-Verify {
+	background-color: var(--pink-button);
+	border-radius: 4px;
+	border: none;
+	color: white;
+	cursor: pointer;
+	float: right;
+	font-size: medium;
+	margin: 12px;
+	padding: 12px 24px;
+}
+
+.Register-Captcha-Ticked {
+	content: "X";
+	color: red;
+	width: 64px;
+	height: 64px;
+	background-color: red;
 }

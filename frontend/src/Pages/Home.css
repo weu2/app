@@ -2,18 +2,13 @@
 	text-align: center;
 }
 
-.Home .Wii {
+.Home-Wii {
+	animation: App-wii-spin infinite 5s linear;
 	pointer-events: none;
 	width: 40vmin;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-	.Home .Wii {
-		animation: App-wii-spin infinite 5s linear;
-	}
-}
-
-.Home .Content {
+.Home-Content {
 	align-items: center;
 	background-color: var(--background);
 	box-shadow: inset 0 0 64px 16px var(--green);
@@ -25,37 +20,41 @@
 	min-height: 100vh;
 }
 
-.Home .Logo {
+.Home-Logo {
 	width: calc(10px + 20vmin);
 	margin-bottom: 2vmin;
 	filter: drop-shadow(8px 8px var(--green));
 }
 
-.Home .Link {
+.Home-Link {
 	color: var(--green);
 }
 
-.Home .Logo, .Home p {
+.Home-Logo, .Home p {
 	color: var(--pink);
 }
 
-.Home .LogoContainer {
+.Home-LogoContainer {
 	filter: drop-shadow(8px 8px var(--green));
 }
 
-.Home .Link, .Home .Logo, .Home p, .Home .Button {
+.Home-Link, .Home-Logo, .Home p, .Home-Button {
 	transition-duration: .2s;
 }
 
-.Home .Link:hover, .Home p:hover, .Home .Button:hover {
+.Home-Link:hover, .Home p:hover, .Home-Button:hover {
 	transform: scaleX(1.2);
 }
 
-.Home .Logo:hover {
+.Home-Button:hover {
+	background-color: var(--green-light);
+}
+
+.Home-Logo:hover {
 	filter: drop-shadow(0 0 var(--green));
 }
 
-.Home .Button {
+.Home-Button {
 	background-color: var(--green);
 	border-radius: 16px;
 	color: black;

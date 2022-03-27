@@ -1,9 +1,11 @@
 /* Global website colors, access with var(--pink) */
 :root {
 	--background: #380034;
+
+	--pink-button: #e000e0;
 	--pink: #ff00ff;
+
 	--green: #b4ff00;
-	--pink-light: #ff80ff;
 	--green-light: #daff80;
 }
 
