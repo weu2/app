@@ -55,7 +55,7 @@ function RegisterTest() {
 
 	let timeout;
 	const toggleForm = (e) => {
-		if (timeout) return;
+		if (timeout || state) return;
 		e.preventDefault();
 		setState("spinning");
 		timeout = setTimeout(function() {
