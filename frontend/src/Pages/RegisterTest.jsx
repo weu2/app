@@ -1,4 +1,6 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronLeft, faChevronRight, faFaceGrinWide } from "@fortawesome/free-solid-svg-icons";
 import "./RegisterTest.css";
 
 import recaptcha from "../Meme/recaptcha.png";
@@ -98,14 +100,20 @@ function RegisterTest() {
 			<div className="Register-Content">
 				<h1>Register Test</h1>
 				{
-					(page > 0)
-					? <button className="btn Register-BackButton" onClick={() => setPage(page - 1)}>🡸 Back</button>
-					: null
+					(page > 0) ?
+					<button className="btn Register-BackButton" onClick={() => setPage(page - 1)}>
+						<FontAwesomeIcon icon={faChevronLeft} /> Back
+					</button> :
+					null
 				}
 				<div className={page === 0 ? null : "Register-Page-Offscreen"}>
 					<h2>I am a...</h2>
-					<button onClick={customClick} className="btn btn-primary btn-bevel Register-CategoryButton">Customer</button>
-					<button onClick={customClick} className="btn btn-primary btn-bevel Register-CategoryButton">Service Professional</button>
+					<button onClick={customClick} className="btn btn-primary btn-bevel Register-CategoryButton">
+						Customer <FontAwesomeIcon icon={faChevronRight} />
+					</button>
+					<button onClick={customClick} className="btn btn-primary btn-bevel Register-CategoryButton">
+						Service Professional <FontAwesomeIcon icon={faChevronRight} />
+					</button>
 				</div>
 				<form onSubmit={customClick}>
 					<div className={page === 1 ? null : "Register-Page-Offscreen"}>
@@ -195,12 +203,12 @@ function RegisterTest() {
 					<div className={page === 3 ? null : "Register-Page-Offscreen"}>
 						<div className="Register-Captcha" onClick={toggleForm}>
 							{
-								(state === "spinning")
-								? <div className="Register-Captcha-Spinner" />
-								: (
-									(state === "crossed")
-									? <div className="Register-Captcha-Cross" style={{backgroundImage: `url(${cross})`}}/>
-									: <div className="Register-Captcha-Checkbox" />
+								(state === "spinning") ?
+								<div className="Register-Captcha-Spinner" /> :
+								(
+									(state === "crossed") ?
+									<div className="Register-Captcha-Cross" style={{backgroundImage: `url(${cross})`}}/> :
+									<div className="Register-Captcha-Checkbox" />
 								)
 							}
 							<span>{state === "crossed" ? "WRONG" : "I'm a robot"}</span>
@@ -210,9 +218,9 @@ function RegisterTest() {
 							testVisible ?
 							<div className="Register-Test">
 								<div className="Register-Test-Header">{
-									(state === "crossed")
-									? "Your credit card has been charged 😊"
-									: "Select all squares with good teaching practice."
+									(state === "crossed") ?
+									<div>Your credit card has been charged <FontAwesomeIcon icon={faFaceGrinWide} /></div> :
+									"Select all squares with good teaching practice."
 								}</div>
 								<table id="Register-Test-Table">
 									<tbody>
@@ -252,18 +260,18 @@ function RegisterTest() {
 									</tbody>
 								</table>
 								{
-									(state === "crossed")
-									? null
-									: <button className="btn btn-primary Register-Test-Verify" onClick={tickForm}>Verify</button>
+									(state === "crossed") ?
+									null :
+									<button className="btn btn-primary Register-Test-Verify" onClick={tickForm}>Verify</button>
 								}
 							</div>
 							: null
 						}
 					</div>
 					{
-						(page >= 1 && page <= 2)
-						? <button className="btn btn-primary btn-bevel Register-NextButton" type="submit">Next</button>
-						: null
+						(page >= 1 && page <= 2) ?
+						<button className="btn btn-primary btn-bevel Register-NextButton" type="submit">Next</button> :
+						null
 					}
 				</form>
 			</div>

@@ -21,15 +21,12 @@
 }
 
 .Register-CategoryButton {
+	align-items: center;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
 	margin-top: 24px;
 	padding: 12px 20px;
-}
-
-.Register-CategoryButton:after {
-	content: "🡺";
 }
 
 .Register-CategoryButton, .Register-NextButton, .Register label {

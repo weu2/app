@@ -16,9 +16,9 @@ class Home extends React.Component {
 
 	componentDidMount() {
 		fetch("/api/v1/test")
-		.then(res => res.text())
-		.then(data => this.setState({
-			data: data
+		.then(res => res.json())
+		.then(res => this.setState({
+			data: res.jwtverify
 		}));
 	}
 
@@ -31,7 +31,7 @@ class Home extends React.Component {
 						<img src={wii} className="Home-Wii" alt="wii" />
 					</div>
 					<p>
-						{!this.state.data ? "Backend is not working!" : this.state.data}
+						{!this.state.data ? "Backend is not working!" : "Backend is working!"}
 						<br/>
 						Edit <code>src/Pages/Home.jsx</code> and save to reload.
 					</p>
