@@ -132,10 +132,6 @@
 	margin: 0 12px;
 }
 
-.Register-Captcha:hover .Register-Captcha-Checkbox {
-	border: 2px solid #ababab;
-}
-
 .Register-Captcha-Spinner {
 	background-color: transparent;
 	border: 6px solid var(--pink);
@@ -149,6 +145,22 @@
 	margin: 0 12px;
 	animation: spinner-spin linear 2.5s infinite;
 	transition-duration: 1s;
+}
+
+.Register-Captcha-Cross {
+	animation: cross 0.4s steps(10) forwards;
+	background-image: url("../../src/Meme/cross.png");
+	background-position: top;
+	background-repeat: no-repeat;
+	background-size: 100%;
+	color: red;
+	height: 36px;
+	margin: 0 12px;
+	width: 36px;
+}
+
+.Register-Captcha:hover .Register-Captcha-Checkbox {
+	border: 2px solid #ababab;
 }
 
 @keyframes spinner-spin {
@@ -192,7 +204,7 @@
 }
 
 .Register-Test {
-	animation: fadeIn 0.5s;
+	animation: fadeIn linear 0.5s;
 	box-shadow: 0 0 8px gray;
 	display: inline-block;
 	background-color: white;
@@ -242,10 +254,11 @@
 	padding: 12px 24px;
 }
 
-.Register-Captcha-Ticked {
-	content: "X";
-	color: red;
-	width: 64px;
-	height: 64px;
-	background-color: red;
+@keyframes cross {
+	from {
+		background-position: top;
+	}
+	to {
+		background-position: bottom;
+	}
 }

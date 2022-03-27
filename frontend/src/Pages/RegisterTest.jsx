@@ -70,7 +70,7 @@ function RegisterTest() {
 
 	const tickForm = (e) => {
 		e.preventDefault();
-		setState("ticked");
+		setState("crossed");
 	}
 
 	React.useEffect(() => {
@@ -125,7 +125,6 @@ function RegisterTest() {
 							<input
 								id="firstName"
 								type="text"
-								placeholder="John"
 								required={page === 1}
 								autoComplete="given-name"
 							/>
@@ -135,19 +134,17 @@ function RegisterTest() {
 							<input
 								id="lastName"
 								type="text"
-								placeholder="Doe"
 								required={page === 1}
 								autoComplete="family-name"
 							/>
 						</div>
 						<div>
-							<label htmlFor="email">Email</label>
+							<label htmlFor="username">Username</label>
 							<input
-								id="email"
-								type="email"
-								placeholder="jdoe@gmail.com"
+								id="username"
+								type="text"
 								required={page === 1}
-								autoComplete="email"
+								autoComplete="username"
 							/>
 						</div>
 						<div>
@@ -201,16 +198,16 @@ function RegisterTest() {
 						</div>
 					</div>
 					<div className={page === 3 ? null : "Register-Page-Offscreen"}>
-						<div className="Register-Captcha" onMouseDown={toggleForm}>
+						<div className="Register-Captcha" onClick={toggleForm}>
 							<div className={
 								state === "spinning" ?
 								"Register-Captcha-Spinner" : (
-									state === "ticked" ?
-									"Register-Captcha-Ticked" :
+									state === "crossed" ?
+									"Register-Captcha-Cross" :
 									"Register-Captcha-Checkbox"
 								)
 							}/>
-							<span>I'm a robot</span>
+							<span>{state === "crossed" ? "WRONG" : "I'm a robot"}</span>
 							<img src={recaptcha} className="Register-Captcha-Icon" alt="captcha" />
 						</div>
 						{
@@ -236,7 +233,7 @@ function RegisterTest() {
 										</tr>
 									</tbody>
 								</table>
-								<button className="Register-Test-Verify" onMouseDown={tickForm}>Verify</button>
+								<button className="Register-Test-Verify" onClick={tickForm}>Verify</button>
 							</div>
 							: null
 						}
