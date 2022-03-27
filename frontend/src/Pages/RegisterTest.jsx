@@ -109,10 +109,10 @@ function RegisterTest() {
 				<div className={page === 0 ? null : "Register-Page-Offscreen"}>
 					<h2>I am a...</h2>
 					<button onClick={customClick} className="btn btn-primary btn-bevel Register-CategoryButton">
-						Customer <FontAwesomeIcon icon={faChevronRight} />
+						Customer<FontAwesomeIcon icon={faChevronRight} />
 					</button>
 					<button onClick={customClick} className="btn btn-primary btn-bevel Register-CategoryButton">
-						Service Professional <FontAwesomeIcon icon={faChevronRight} />
+						Service Professional<FontAwesomeIcon icon={faChevronRight} />
 					</button>
 				</div>
 				<form onSubmit={customClick}>
