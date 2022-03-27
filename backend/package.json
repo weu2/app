@@ -18,6 +18,7 @@
   "homepage": "https://github.com/weu2/app#readme",
   "dependencies": {
     "base64url": "^3.0.1",
+    "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "express": "^4.17.3"
   }

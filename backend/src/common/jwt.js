@@ -5,19 +5,19 @@ function objectToBase64URL(obj) {
     return base64url(Buffer.from(JSON.stringify(obj), 'utf-8'));
 }
 
-function makeSignature(encodedHeader, encodedPayload) {
+function makeSignature(encodedHeader, encodedPayload, secret) {
     const data = `${encodedHeader}.${encodedPayload}`;
-    return base64url.fromBase64(crypto.createHmac('sha256', 'yesverygoodsecret').update(data).digest('base64'));
+    return base64url.fromBase64(crypto.createHmac('sha256', secret).update(data).digest('base64'));
 }
 
-module.exports.createJWT = function(payload) {
+module.exports.createJWT = function(payload, secret = 'yesverygoodsecret') {
     const header = {
         typ:'jwt',
         alg:'HS256'
     };
     const encodedHeader = objectToBase64URL(header);
     const encodedPayload = objectToBase64URL(payload);
-    const encodedSignature = makeSignature(encodedHeader, encodedPayload);
+    const encodedSignature = makeSignature(encodedHeader, encodedPayload, secret);
     return `${encodedHeader}.${encodedPayload}.${encodedSignature}`;
 }
 
