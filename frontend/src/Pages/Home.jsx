@@ -24,7 +24,7 @@ class Home extends React.Component {
 
 	render() {
 		return (
-			<div className="Home">
+			<div className="Home text-center">
 				<div className="Home-Content">
 					<img src={logo} className="Home-Logo" alt="logo" />
 					<div className="Home-LogoContainer">
@@ -37,9 +37,9 @@ class Home extends React.Component {
 					</p>
 					<a className="Home-Link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">Learn React</a>
 					<div>
-						<Link className="Home-Button" to="/register">Register test page</Link>
-						<Link className="Home-Button" to="/location">Location test page</Link>
-						<Link className="Home-Button" to="/login">Login test page</Link>
+						<Link className="btn btn-secondary Home-Button" to="/register">Register test page</Link>
+						<Link className="btn btn-secondary Home-Button" to="/location">Location test page</Link>
+						<Link className="btn btn-secondary Home-Button" to="/login">Login test page</Link>
 					</div>
 				</div>
 			</div>

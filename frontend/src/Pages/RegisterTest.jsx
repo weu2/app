@@ -99,25 +99,20 @@ function RegisterTest() {
 				<h1>Register Test</h1>
 				{
 					(page > 0)
-					? <button className="Register-BackButton" onMouseDown={() => setPage(page - 1)}>🡸 Back</button>
+					? <button className="btn Register-BackButton" onClick={() => setPage(page - 1)}>🡸 Back</button>
 					: null
 				}
 				<div className={page === 0 ? null : "Register-Page-Offscreen"}>
 					<h2>I am a...</h2>
-					<button onClick={customClick} className="Register-CategoryButton">
-						Customer
-						<span className="Register-Arrow">🡺</span>
-					</button>
-					<button onClick={customClick} className="Register-CategoryButton">
-						Service Professional
-						<span className="Register-Arrow">🡺</span>
-					</button>
+					<button onClick={customClick} className="btn btn-primary btn-bevel Register-CategoryButton">Customer</button>
+					<button onClick={customClick} className="btn btn-primary btn-bevel Register-CategoryButton">Service Professional</button>
 				</div>
 				<form onSubmit={customClick}>
 					<div className={page === 1 ? null : "Register-Page-Offscreen"}>
 						<div>
 							<label htmlFor="firstName">First Name</label>
 							<input
+								className="form-input"
 								type="text"
 								required={page === 1}
 								autoComplete="given-name"
@@ -127,6 +122,7 @@ function RegisterTest() {
 						<div>
 							<label htmlFor="lastName">Last Name</label>
 							<input
+								className="form-input"
 								type="text"
 								required={page === 1}
 								autoComplete="family-name"
@@ -136,6 +132,7 @@ function RegisterTest() {
 						<div>
 							<label htmlFor="email">Email</label>
 							<input
+								className="form-input"
 								type="email"
 								required={page === 1}
 								autoComplete="email"
@@ -145,6 +142,7 @@ function RegisterTest() {
 						<div>
 							<label htmlFor="password">Password</label>
 							<input
+								className="form-input"
 								type="password"
 								required={page === 1}
 								autoComplete="current-password"
@@ -157,6 +155,7 @@ function RegisterTest() {
 							<div className="Register-CardStrip" />
 							<div className="Register-CardInputs">
 								<input
+									className="form-input"
 									id="Register-CardNumber"
 									type="tel"
 									pattern="[-\d]{19}"
@@ -168,6 +167,7 @@ function RegisterTest() {
 								/>
 								<div className="Register-CardSecrets">
 									<input
+										className="form-input"
 										id="Register-CardDate"
 										type="tel"
 										pattern="[\/\d]{5}"
@@ -178,6 +178,7 @@ function RegisterTest() {
 										autoComplete="cc-exp"
 									/>
 									<input
+										className="form-input"
 										id="Register-CardSecret"
 										type="tel"
 										pattern="[\d]{3}"
@@ -253,7 +254,7 @@ function RegisterTest() {
 								{
 									(state === "crossed")
 									? null
-									: <button className="Register-Test-Verify" onClick={tickForm}>Verify</button>
+									: <button className="btn btn-primary Register-Test-Verify" onClick={tickForm}>Verify</button>
 								}
 							</div>
 							: null
@@ -261,7 +262,7 @@ function RegisterTest() {
 					</div>
 					{
 						(page >= 1 && page <= 2)
-						? <button className="Register-NextButton" type="submit">Next</button>
+						? <button className="btn btn-primary btn-bevel Register-NextButton" type="submit">Next</button>
 						: null
 					}
 				</form>

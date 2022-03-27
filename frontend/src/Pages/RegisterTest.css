@@ -1,5 +1,5 @@
 .Register {
-	background-color: var(--background);
+	background-color: var(--bg-pink);
 	display: flex;
 	justify-content: center;
 	min-height: 100vh;
@@ -11,72 +11,52 @@
 	border-radius: 16px;
 	display: inline-block;
 	margin: 64px;
-	padding: 64px 32px;
 	min-width: 50%;
+	padding: 64px 32px;
 }
 
-.Register-CategoryButton, .Register-NextButton {
-	background-color: var(--pink-button);
-	border-radius: 8px;
-	border: none;
-	box-shadow: 6px 6px var(--green);
-	color: white;
-	cursor: pointer;
-	margin-top: 16px;
+.Register-NextButton {
+	margin-top: 48px;
 	padding: 12px 20px;
-	transition-duration: .07s;
-}
-
-.Register-CategoryButton:hover, .Register-NextButton:hover, .Register-Test-Verify:hover {
-	background-color: var(--pink);
-}
-
-.Register-CategoryButton:active, .Register-NextButton:active {
-	transform: translate(3px, 3px);
-	box-shadow: 0 0 var(--green);
 }
 
 .Register-CategoryButton {
-	text-align: left;
-	display: block;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	margin-top: 24px;
+	padding: 12px 20px;
 }
 
-.Register-CategoryButton, .Register-NextButton, .Register input, .Register label {
-	box-sizing: border-box;
+.Register-CategoryButton:after {
+	content: "🡺";
+}
+
+.Register-CategoryButton, .Register-NextButton, .Register label {
 	font-size: x-large;
 	width: 100%;
 }
 
-.Register input, .Register label {
+.Register label {
 	display: block;
 	margin: 8px 0;
 }
 
 .Register input {
 	font-size: large;
-	border: 2px solid lightgray;
-	padding: 8px;
-	border-radius: 8px;
 }
 
 .Register h1 {
-	margin-top: 0;
 	margin-bottom: 32px;
-}
-
-.Register-Arrow {
-	content: ">";
-	float: right;
+	margin-top: 0;
 }
 
 .Register-BackButton {
 	background: none;
-	border: none;
 	display: block;
 	font-size: large;
-	padding: 0 16px 16px 0;
-	cursor: pointer;
-	border-radius: 8px;
+	margin-bottom: 32px;
+	padding: 0;
 }
 
 .Register-Page-Offscreen {
@@ -84,15 +64,15 @@
 }
 
 .Register-CreditCard {
+	background-color: #edecb0;
 	border-radius: 16px;
-	border: 1px solid black;
+	box-shadow: 0 0 4px grey;
 	display: flex;
 	flex-flow: column;
 	padding: 32px 0 64px 0;
 }
 
 .Register-CardInputs {
-	box-sizing: border-box;
 	padding: 16px 16px;
 }
 
@@ -104,6 +84,7 @@
 
 .Register-CardSecrets {
 	display: flex;
+	margin-top: 16px;
 }
 
 .Register-CreditCard #Register-CardDate {
@@ -267,9 +248,9 @@
 }
 
 .Register-Test-Header {
-	background-color: var(--pink-button);
+	background-color: var(--btn-primary);
 	border-radius: 4px 4px 0 0;
-	color: white;
+	color: var(--btn-primary-text);
 	padding: 16px;
 }
 
@@ -280,11 +261,6 @@
 }
 
 .Register-Test-Verify {
-	background-color: var(--pink-button);
-	border-radius: 4px;
-	border: none;
-	color: white;
-	cursor: pointer;
 	float: right;
 	font-size: medium;
 	margin: 8px 12px 12px 0;

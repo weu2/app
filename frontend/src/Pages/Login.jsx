@@ -37,6 +37,7 @@ class Login extends React.Component {
 						<div>
 							<label htmlFor="email">Email</label>
 							<input
+								className="form-input"
 								name="email"
 								type="email"
 								required={true}
@@ -49,6 +50,7 @@ class Login extends React.Component {
 						<div>
 							<label htmlFor="password">Password</label>
 							<input
+								className="form-input"
 								name="pwd"
 								type="password"
 								required={true}
@@ -57,7 +59,7 @@ class Login extends React.Component {
 								onChange={e => this.setState({ password: e.target.value })}
 							/>
 						</div>
-						<button className="Register-NextButton" type="submit">Login</button>
+						<button className="btn btn-primary btn-bevel Register-NextButton" type="submit">Login</button>
 					</form>
 				</div>
 			</div>

@@ -1,12 +1,18 @@
 /* Global website colors, access with var(--pink) */
 :root {
-	--background: #380034;
-
-	--pink-button: #e000e0;
 	--pink: #ff00ff;
-
 	--green: #b4ff00;
-	--green-light: #daff80;
+
+	--bg-pink: #380034;
+	--bg-green: #4d6e00;
+	
+	--btn-primary: #e000e0;
+	--btn-primary-hover: #ff00ff;
+	--btn-primary-text: white;
+
+	--btn-secondary: #b4ff00;
+	--btn-secondary-hover: #daff80;
+	--btn-secondary-text: black;
 }
 
 body {
@@ -27,6 +33,60 @@ code {
 	padding: 0;
 }
 
-.Header-Center {
+.text-center {
 	text-align: center;
+}
+
+.btn {
+	border-radius: 8px;
+	border: none;
+	box-sizing: border-box;
+	cursor: pointer;
+	text-decoration: none;
+	transition-duration: .07s;
+}
+
+.btn-primary {
+	background-color: var(--btn-primary);
+	color: var(--btn-primary-text);
+}
+
+.btn-primary:hover {
+	background-color: var(--btn-primary-hover);
+}
+
+.btn-primary.btn-bevel {
+	box-shadow: 6px 6px var(--green);
+}
+
+.btn-primary.btn-bevel:active {
+	transform: translate(3px, 3px);
+	box-shadow: 0 0 var(--green);
+}
+
+.btn-secondary {
+	background-color: var(--btn-secondary);
+	color: var(--btn-secondary-text);
+}
+
+.btn-secondary:hover {
+	background-color: var(--btn-secondary-hover);
+}
+
+.btn-secondary.btn-bevel {
+	box-shadow: 6px 6px var(--pink);
+}
+
+.btn-secondary.btn-bevel:active {
+	transform: translate(3px, 3px);
+	box-shadow: 0 0 var(--pink);
+}
+
+.form-input {
+	border-radius: 8px;
+	border: 2px solid lightgray;
+	box-sizing: border-box;
+	display: block;
+	padding: 0.7em;
+	width: 100%;
 }

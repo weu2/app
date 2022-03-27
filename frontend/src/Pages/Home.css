@@ -1,7 +1,3 @@
-.Home {
-	text-align: center;
-}
-
 .Home-Wii {
 	animation: App-wii-spin infinite 5s linear;
 	pointer-events: none;
@@ -10,9 +6,9 @@
 
 .Home-Content {
 	align-items: center;
-	background-color: var(--background);
+	background-image: linear-gradient(var(--bg-green), var(--bg-pink) 20%, var(--bg-pink) 80%, var(--bg-green));
 	box-shadow: inset 0 0 64px 16px var(--green);
-	color: white;
+	color: var(--pink);
 	display: flex;
 	flex-direction: column;
 	font-size: calc(10px + 2vmin);
@@ -21,17 +17,13 @@
 }
 
 .Home-Logo {
-	width: calc(10px + 20vmin);
-	margin-bottom: 2vmin;
 	filter: drop-shadow(8px 8px var(--green));
+	margin-bottom: 2vmin;
+	width: calc(10px + 20vmin);
 }
 
 .Home-Link {
 	color: var(--green);
-}
-
-.Home-Logo, .Home p {
-	color: var(--pink);
 }
 
 .Home-LogoContainer {
@@ -46,24 +38,16 @@
 	transform: scaleX(1.2);
 }
 
-.Home-Button:hover {
-	background-color: var(--green-light);
-}
-
 .Home-Logo:hover {
 	filter: drop-shadow(0 0 var(--green));
 }
 
 .Home-Button {
-	background-color: var(--green);
-	border-radius: 16px;
-	color: black;
-	cursor: pointer;
 	display: inline-block;
 	font-size: calc(5px + 2vmin);
 	margin: 8px;
 	padding: 16px;
-	text-decoration: none;
+	box-shadow: 0 4px white;
 }
 
 @keyframes App-wii-spin {
