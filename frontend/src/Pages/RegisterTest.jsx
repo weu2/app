@@ -127,6 +127,7 @@ function RegisterTest() {
 								type="text"
 								placeholder="John"
 								required={page === 1}
+								autoComplete="given-name"
 							/>
 						</div>
 						<div>
@@ -136,6 +137,7 @@ function RegisterTest() {
 								type="text"
 								placeholder="Doe"
 								required={page === 1}
+								autoComplete="family-name"
 							/>
 						</div>
 						<div>
@@ -145,7 +147,7 @@ function RegisterTest() {
 								type="email"
 								placeholder="jdoe@gmail.com"
 								required={page === 1}
-								autoComplete="username"
+								autoComplete="email"
 							/>
 						</div>
 						<div>
@@ -171,6 +173,7 @@ function RegisterTest() {
 									placeholder="xxxx-xxxx-xxxx-xxxx"
 									onInput={formatCreditCard}
 									required={page === 2}
+									autoComplete="cc-number"
 								/>
 								<div className="Register-CardSecrets">
 									<input
@@ -181,6 +184,7 @@ function RegisterTest() {
 										placeholder="04/20"
 										onInput={formatDate}
 										required={page === 2}
+										autoComplete="cc-exp"
 									/>
 									<input
 										id="Register-CardSecret"
@@ -190,6 +194,7 @@ function RegisterTest() {
 										placeholder="123"
 										onInput={formatSecret}
 										required={page === 2}
+										autoComplete="cc-csc"
 									/>
 								</div>
 							</div>
