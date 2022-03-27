@@ -1,45 +1,20 @@
-const path = require("path");
 const express = require("express");
 const app = express();
+
+// please try keep this as clean as possible
+
 const cors = require("cors");
-const port = process.env.PORT || 5000;
-const os = require('os');
-
-const jwt = require('./common/jwt');
-
 app.use(cors());
 
-app.get("/api/v1/test", (req, res) => {
-	const test = {
-		jwtverify:false
-	};
-	// verify jwt internally
-	const tok = jwt.createJWT({
-		iss: "WeU Token Authoriser",
-		sub: "Steve or something idk",
-		iat: 1234567890,
-		jti: 1,
-	})
-	if(jwt.verifyJWT(tok)) test.jwtverify = true;
-
-	res.send(test)
-});
-
-let ip;
-const interfaces = os.networkInterfaces();
-for (const i in interfaces) {
-	ip = interfaces[i].find(interface => interface.family === "IPv4" && !interface.internal);
-	if (ip) break;
-}
-
-app.get("/api/v1/ip", (req, res) => {
-	res.send({ ip: ip?.address });
-});
+const v1 = require('./v1/api');
+app.use('/api/v1', v1);
 
 // serve the static files for the react app
+const path = require("path");
 app.use(express.static(path.resolve(__dirname, "../frontend/build")));
 app.get("*", (req, res) => {
 	res.sendFile(path.resolve(__dirname, "../frontend/build", "index.html"));
 });
 
+const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Listening on port ${port}`));
