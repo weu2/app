@@ -42,12 +42,9 @@ class JSONDB {
     find(key) {
         const keys = Object.keys(key);
         return this._internal.filter(e => {
-            const r = keys.reduce((p, c) => {
-                p = e[c] === key[c];
-                console.log(p);
+            return keys.reduce((p, c) => {
+                return p && e[c] === key[c];
             }, true);
-            console.log(r);
-            return r;
         })
     }
 
