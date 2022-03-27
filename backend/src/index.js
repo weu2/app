@@ -1,9 +1,9 @@
-const express = require("express");
+const express = require('express');
 const app = express();
 
 // please try keep this as clean as possible
 
-const cors = require("cors");
+const cors = require('cors');
 app.use(cors());
 
 const v1 = require('./v1/api');

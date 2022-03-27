@@ -7,7 +7,7 @@ function objectToBase64URL(obj) {
 
 function makeSignature(encodedHeader, encodedPayload) {
     const data = `${encodedHeader}.${encodedPayload}`;
-    return base64url.fromBase64(crypto.createHmac('sha256', "yesverygoodsecret").update(data).digest('base64'));
+    return base64url.fromBase64(crypto.createHmac('sha256', 'yesverygoodsecret').update(data).digest('base64'));
 }
 
 module.exports.createJWT = function(payload) {
@@ -21,8 +21,7 @@ module.exports.createJWT = function(payload) {
     return `${encodedHeader}.${encodedPayload}.${encodedSignature}`;
 }
 
-function verifyInternalHeader(header)
-{
+function verifyInternalHeader(header) {
     return header.typ === 'jwt' && header.alg === 'HS256';
 }
 

@@ -1,7 +1,6 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const path = require("path");
-const fs = require('fs')
+const path = require('path');
 
 // this is the catch all express router that sinks all files 
 // to either a static request or the index.html
