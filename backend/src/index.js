@@ -5,7 +5,7 @@ const cors = require("cors");
 const port = process.env.PORT || 5000;
 const os = require('os');
 
-const jwt = require('./jwt');
+const jwt = require('./common/jwt');
 
 app.use(cors());
 
