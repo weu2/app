@@ -59,7 +59,6 @@ class Login extends React.Component {
 						</div>
 						<button className="Register-NextButton" type="submit">Login</button>
 					</form>
-					<p>Check the console to see if this page works.</p>
 				</div>
 			</div>
 		)

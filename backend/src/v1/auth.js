@@ -25,7 +25,7 @@ function makeFakeUser(username, password) {
 
 function createClaim(username) {
     const logins = new JsonDB('data/logins.json');
-    var iat = new Date().getSeconds();
+    var iat = Date.now().getSeconds();
     var exp = iat + (60*60); // + 1 hour
     const payload = {
         sub: username,
