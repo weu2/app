@@ -1,15 +1,7 @@
 import React from "react";
 import "./RegisterTest.css";
 import recaptcha from "../Meme/recaptcha.png";
-import square0 from "../Meme/square0.jpg";
-import square1 from "../Meme/square1.jpg";
-import square2 from "../Meme/square2.jpg";
-import square3 from "../Meme/square3.jpg";
-import square4 from "../Meme/square4.jpg";
-import square5 from "../Meme/square5.jpg";
-import square6 from "../Meme/square6.jpg";
-import square7 from "../Meme/square7.jpg";
-import square8 from "../Meme/square8.jpg";
+import grid from "../Meme/grid.png"
 
 function formatCreditCard(e) {
 	const cardNumber = e.target.value;
@@ -216,19 +208,19 @@ function RegisterTest() {
 								<table id="Register-Test-Table">
 									<tbody>
 										<tr>
-											<td><img src={square0} id="Register-Square0" alt="square0" onMouseDown={clickSquare} /></td>
-											<td><img src={square1} id="Register-Square1" alt="square1" onMouseDown={clickSquare} /></td>
-											<td><img src={square2} id="Register-Square2" alt="square2" onMouseDown={clickSquare} /></td>
+											<td><div id="Register-Square0" alt="square0" style={{backgroundImage: `url(${grid})`}} onMouseDown={clickSquare} /></td>
+											<td><div id="Register-Square1" alt="square1" style={{backgroundImage: `url(${grid})`}} onMouseDown={clickSquare} /></td>
+											<td><div id="Register-Square2" alt="square2" style={{backgroundImage: `url(${grid})`}} onMouseDown={clickSquare} /></td>
 										</tr>
 										<tr>
-											<td><img src={square3} id="Register-Square3" alt="square3" onMouseDown={clickSquare} /></td>
-											<td><img src={square4} id="Register-Square4" alt="square4" onMouseDown={clickSquare} /></td>
-											<td><img src={square5} id="Register-Square5" alt="square5" onMouseDown={clickSquare} /></td>
+											<td><div id="Register-Square3" alt="square3" style={{backgroundImage: `url(${grid})`}} onMouseDown={clickSquare} /></td>
+											<td><div id="Register-Square4" alt="square4" style={{backgroundImage: `url(${grid})`}} onMouseDown={clickSquare} /></td>
+											<td><div id="Register-Square5" alt="square5" style={{backgroundImage: `url(${grid})`}} onMouseDown={clickSquare} /></td>
 										</tr>
 										<tr>
-											<td><img src={square6} id="Register-Square6" alt="square6" onMouseDown={clickSquare} /></td>
-											<td><img src={square7} id="Register-Square7" alt="square7" onMouseDown={clickSquare} /></td>
-											<td><img src={square8} id="Register-Square8" alt="square8" onMouseDown={clickSquare} /></td>
+											<td><div id="Register-Square6" alt="square6" style={{backgroundImage: `url(${grid})`}} onMouseDown={clickSquare} /></td>
+											<td><div id="Register-Square7" alt="square7" style={{backgroundImage: `url(${grid})`}} onMouseDown={clickSquare} /></td>
+											<td><div id="Register-Square8" alt="square8" style={{backgroundImage: `url(${grid})`}} onMouseDown={clickSquare} /></td>
 										</tr>
 									</tbody>
 								</table>
