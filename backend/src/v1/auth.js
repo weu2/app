@@ -1,12 +1,12 @@
 // the auth file is for AUTHorisation and AUTHentication
-const jwt = require("../common/jwt");
-const JsonDB = require("../common/jsondb");
-const bcrypt = require("bcrypt");
+const jwt = require('../common/jwt');
+const JsonDB = require('../common/jsondb');
+const bcrypt = require('bcrypt');
 
 
 // these need to go in their own file for now they can live here
 // and synced as they change
-const jwtSecret = "very good secret"; 
+const jwtSecret = 'very good secret'; 
 let jwtID = 0; 
 
 function verifyClaim(claim) {
@@ -14,7 +14,7 @@ function verifyClaim(claim) {
 }
 
 function makeFakeUser(username, password) {
-	const users = new JsonDB("data/users.json");
+	const users = new JsonDB('data/users.json');
 	bcrypt.hash(password, 10).then(hash => { // idk 10 rounds of salt?
 		users.add({
 			id: username,
@@ -24,7 +24,7 @@ function makeFakeUser(username, password) {
 }
 
 function createUser(username, password, category, firstname, lastname) {
-	const users = new JsonDB("data/users.json");
+	const users = new JsonDB('data/users.json');
 	bcrypt.hash(password, 10).then(hash => { // idk 10 rounds of salt?
 		users.add({
 			id: username,
@@ -50,22 +50,22 @@ function createClaim(username) {
 }
 
 function authenticate(username, password) {
-	const users = new JsonDB("data/users.json");
+	const users = new JsonDB('data/users.json');
 	return new Promise((res, rej) => {    
 		const user = users.find({id:username});
 		if (user.length === 0) {
-			rej("No users match"); 
+			rej('No users match'); 
 			return;
 		}
 		bcrypt.compare(password, user[0].pwdhash, (err, result) => {
 			if (err) {
 				console.log(err);
-				// cant really give a specific since thats a security flaw 
-				rej("Authentication failed");
+				// cant really give a specific reason since thats a security flaw 
+				rej('Authentication failed');
 			} else if (result) {
 				res(createClaim(username));
 			} else {
-				rej("Authentication failed");
+				rej('Authentication failed');
 			}
 		});
 	});
