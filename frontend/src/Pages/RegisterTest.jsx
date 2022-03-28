@@ -1,8 +1,8 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft, faChevronRight, faFaceGrinWide } from "@fortawesome/free-solid-svg-icons";
-import "./RegisterTest.css";
+import { faChevronLeft, faChevronRight, faFaceGrinWide, faLockOpen } from "@fortawesome/free-solid-svg-icons";
 
+import "./RegisterTest.css";
 import recaptcha from "../Meme/recaptcha.png";
 import cross from "../Meme/cross.png"
 import grid from "../Meme/grid.png"
@@ -162,17 +162,20 @@ function RegisterTest() {
 						<div className="Register-CreditCard">
 							<div className="Register-CardStrip" />
 							<div className="Register-CardInputs">
-								<input
-									className="form-input"
-									id="Register-CardNumber"
-									type="tel"
-									pattern="[-\d]{19}"
-									maxLength="19"
-									placeholder="xxxx-xxxx-xxxx-xxxx"
-									onInput={formatCreditCard}
-									required={page === 2}
-									autoComplete="cc-number"
-								/>
+								<div className="Register-CardNumberContainer">
+									<input
+										className="form-input"
+										id="Register-CardNumber"
+										type="tel"
+										pattern="[-\d]{19}"
+										maxLength="19"
+										placeholder="xxxx-xxxx-xxxx-xxxx"
+										onInput={formatCreditCard}
+										required={page === 2}
+										autoComplete="cc-number"
+									/>
+									<FontAwesomeIcon className="Register-CardLock" icon={faLockOpen} />
+								</div>
 								<div className="Register-CardSecrets">
 									<input
 										className="form-input"

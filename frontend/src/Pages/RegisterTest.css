@@ -92,6 +92,18 @@
 	margin-right: calc(6px + 1vmin);
 }
 
+.Register-CardNumberContainer {
+	align-items: center;
+	display: flex;
+	position: relative;
+}
+
+.Register-CardLock {
+	position: absolute;
+	right: 0.7em;
+	font-size: calc(0.5vmin + 12px);
+}
+
 .Register-Captcha {
 	align-items: center;
 	background-color: #f9f9f9;
