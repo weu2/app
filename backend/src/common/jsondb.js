@@ -35,18 +35,14 @@ class JSONDB {
     find(key) {
         const keys = Object.keys(key);
         return this._internal.filter(e => {
-            return keys.reduce((p, c) => {
-                return p && e[c] === key[c];
-            }, true);
+            return keys.reduce((p, c) => p && e[c] === key[c], true);
         });
     }
 
     update(key, val) {
         const valkeys = Object.keys(val);
         this.find(key).forEach(e => {
-            valkeys.forEach(k => {
-                e[k] = val[k];
-            });
+            valkeys.forEach(k => e[k] = val[k] );
         });
         this.asyncUpdate();
     }
