@@ -1,6 +1,11 @@
+import Header from "../Components/Header";
+
 function Dashboard() {
 	return (
-		<div>dashboard lol</div>
+		<Header 
+			text="dashboard lol" 
+			center="true"
+		/>
 	);
 }
 
