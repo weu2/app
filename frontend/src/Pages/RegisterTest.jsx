@@ -225,7 +225,7 @@ function RegisterTest() {
 								<div className="Register-Test-Header">{
 									(state === "crossed") ?
 									<div>Your credit card has been charged <FontAwesomeIcon icon={faFaceGrinWide} /></div> :
-									"Select all squares with good teaching practice."
+									"Select all images with good teaching practice."
 								}</div>
 								<table id="Register-Test-Table">
 									<tbody>
