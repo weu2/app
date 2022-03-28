@@ -22,8 +22,11 @@ router.get('/maketestlogin', (req, res) => {
 
 router.post('/register', (req, res) => {
     if(!req.body.email && !req.body.pwd && !req.body.firstname && !req.body.lastname && !req.body.iama)
-    auth.createUser(req.body.email, req.body.pwd, req.body.firstname, req.body.lastname, req.body.iama);
-	res.send({ status : 'ok' });
+        res.send({status:'invalid api parameters'});
+    else {
+        auth.createUser(req.body.email, req.body.pwd, req.body.firstname, req.body.lastname, req.body.iama);
+        res.send({ status : 'ok' });
+    }
 });
 
 module.exports = router;
