@@ -20,8 +20,8 @@ function LocationTest() {
 		setStatus("Error: Geolocation is not supported on your browser!");
 	}
 	
-	navigator.geolocation.getCurrentPosition(pos => {
-		setStatus("Got your location! (Roughly)");
+	navigator.geolocation.watchPosition(pos => {
+		setStatus("Got your location!");
 		setCenter({ lat: pos.coords.latitude, lng: pos.coords.longitude });
 	}, error => {
 		setStatus(`Error: ${error.message}`);
@@ -36,6 +36,7 @@ function LocationTest() {
 	return (
 		<div className="LocationTest">
 			<h1>{status}</h1>
+			<p>This is way more accurate on devices with a GPS (like a phone)</p>
 			<p>Latitude: {center ? center.lat : "Unknown"}</p>
 			<p>Longitude: {center ? center.lng : "Unknown"}</p>
 			{(isLoaded && center) ?
@@ -49,7 +50,7 @@ function LocationTest() {
 				</GoogleMap> :
 				<p>Loading map...</p>
 			}
-			<p>Eventually this page needs a URL which can be opened on other devices</p>
+			<p>Eventually this page needs a public URL so multiple devices can be tracked at once</p>
 			<p><a href={url} target="_blank" rel="noreferrer noopener">{url}</a> doesn't work yet</p>
 		</div>
 	);
