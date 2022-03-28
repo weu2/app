@@ -23,6 +23,19 @@ function makeFakeUser(username, password) {
     });
 }
 
+function createUser(username, password, iama, firstname, lastname) {
+    const users = new JsonDB('data/users.json');
+    bcrypt.hash(password, 10).then(hash => { // idk 10 rounds of salt?
+        users.add({
+            id:username,
+            pwdhash:hash,
+            iama: iama,
+            firstname: firstname,
+            lastname: lastname
+        });
+    });
+}
+
 function createClaim(username) {
     var iat = Math.floor(Date.now()/1000);
     var exp = iat + (60*60); // + 1 hour
@@ -62,3 +75,4 @@ function authenticate(username, password) {
 module.exports.verifyClaim = verifyClaim;
 module.exports.authenticate = authenticate;
 module.exports.makeFakeUser = makeFakeUser;
+module.exports.createUser = createUser;
