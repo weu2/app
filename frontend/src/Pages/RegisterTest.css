@@ -35,9 +35,9 @@
 	width: 100%;
 }
 
-.Register label, .form-input {
+.Register label {
 	display: block;
-	margin-bottom: 1vmin;
+	margin: 1vmin 0;
 }
 
 .Register input {
