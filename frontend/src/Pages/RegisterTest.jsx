@@ -74,12 +74,14 @@ function RegisterTest() {
 		const updatePosition = (e) => {
 			if (!testVisible) return;
 			const bounds = document.getElementById("Register-Test-Table").getBoundingClientRect();
+			const boxWidth = bounds.width / 3;
+			const boxHeight = bounds.height / 3;
 			for (let i = 0; i < 9; i++) {
-				let x = bounds.left + (i % 3 * 128) - e.clientX + 64;
-				let y = bounds.top + (Math.floor(i / 3) * 128) - e.clientY + 64;
-				if (Math.sqrt(x * x + y * y) < 100) {
-					x = x > 0 ? 80 : -80;
-					y = y > 0 ? 80 : -80;
+				let x = bounds.left + (i % 3 * boxWidth) - e.clientX + (boxWidth * 0.5);
+				let y = bounds.top + (Math.floor(i / 3) * boxHeight) - e.clientY + (boxHeight * 0.5);
+				if (Math.sqrt(x * x + y * y) < boxWidth * 0.8) {
+					x = x > 0 ? boxWidth * 0.75 : -boxWidth * 0.75;
+					y = y > 0 ? boxHeight * 0.75 : -boxHeight * 0.75;
 				} else {
 					x = 0;
 					y = 0;
@@ -273,8 +275,9 @@ function RegisterTest() {
 					</div>
 					{
 						(page >= 1 && page <= 2) ?
-						<button className="btn btn-primary btn-bevel Register-NextButton" type="submit">Next</button> :
-						null
+						<button className="btn btn-primary btn-bevel Register-NextButton" type="submit">
+							Next<FontAwesomeIcon icon={faChevronRight} />
+						</button> : null
 					}
 				</form>
 			</div>

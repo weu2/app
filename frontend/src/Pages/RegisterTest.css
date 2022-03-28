@@ -11,24 +11,23 @@
 	display: inline-block;
 	margin: calc(8px + 2vmin);
 	min-width: 50vw;
-	padding: calc(16px + 4vmin) calc(8px + 4vmin);
+	padding: calc(16px + 4vmin) calc(8px + 4vmin) calc(8px + 4vmin) calc(8px + 4vmin);
 }
 
 .Register-NextButton {
 	margin-top: calc(10px + 3vmin);
-	padding: calc(6px + 0.5vmin) calc(12px + 0.5vmin);
 }
 
-.Register-CategoryButton {
+.Register-NextButton, .Register-CategoryButton {
 	align-items: center;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-	margin-top: calc(10px + 1vmin);
+	margin-bottom: calc(8px + 1vmin);
 	padding: calc(6px + 0.5vmin) calc(12px + 0.5vmin);
 }
 
-.Register-CategoryButton, .Register-NextButton, .Register label {
+.Register-NextButton, .Register-CategoryButton, .Register label {
 	font-size: calc(10px + 1vmin);
 	width: 100%;
 }
@@ -202,7 +201,7 @@
 	display: inline-block;
 	background-color: white;
 	margin-top: 4px;
-	border-radius: 8px;
+	border-radius: calc(4px + 0.3vmin);
 }
 
 .Register-Test table {
@@ -212,46 +211,46 @@
 .Register-Test table div {
 	background-size: 300%;
 	background-repeat: no-repeat;
-	height: 128px;
+	height: calc(64px + 5vmin);
 	position: relative;
 	transition-duration: 0.1s;
 	user-select: none;
-	width: 128px;
+	width: calc(64px + 5vmin);
 }
 
-#Register-Square0 {
+.Register-Test #Register-Square0 {
 	background-position: top left;
 }
 
-#Register-Square1 {
+.Register-Test #Register-Square1 {
 	background-position: top center;
 }
 
-#Register-Square2 {
+.Register-Test #Register-Square2 {
 	background-position: top right;
 }
 
-#Register-Square3 {
+.Register-Test #Register-Square3 {
 	background-position: center left;
 }
 
-#Register-Square4 {
+.Register-Test #Register-Square4 {
 	background-position: center;
 }
 
-#Register-Square5 {
+.Register-Test #Register-Square5 {
 	background-position: center right;
 }
 
-#Register-Square6 {
+.Register-Test #Register-Square6 {
 	background-position: bottom left;
 }
 
-#Register-Square7 {
+.Register-Test #Register-Square7 {
 	background-position: bottom center;
 }
 
-#Register-Square8 {
+.Register-Test #Register-Square8 {
 	background-position: bottom right;
 }
 
@@ -262,9 +261,10 @@
 
 .Register-Test-Header {
 	background-color: var(--btn-primary);
-	border-radius: 4px 4px 0 0;
+	border-radius: calc(4px + 0.3vmin) calc(4px + 0.3vmin) 0 0;
 	color: var(--btn-primary-text);
-	padding: 16px;
+	font-size: calc(8px + 0.7vmin);
+	padding: calc(8px + 0.7vmin) calc(12px + 0.7vmin);
 }
 
 .Register-Test tr, .Register-Test td {
@@ -275,9 +275,9 @@
 
 .Register-Test-Verify {
 	float: right;
-	font-size: medium;
-	margin: 8px 12px 12px 0;
-	padding: 12px 24px;
+	font-size: calc(8px + 0.7vmin);
+	margin: calc(0.5vmin) calc(6px + 0.2vmin) calc(8px + 0.2vmin) 0;
+	padding: calc(2px + 0.8vmin) calc(12px + 1vmin);
 }
 
 @keyframes cross {
