@@ -32,7 +32,7 @@ class Home extends React.Component {
 					</div>
 					<p>
 						{!this.state.data ? "Backend is not working!" : "Backend is working!"}
-						<br/>
+						<br />
 						Edit <code>src/Pages/Home.jsx</code> and save to reload.
 					</p>
 					<a className="Home-Link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">Learn React</a>

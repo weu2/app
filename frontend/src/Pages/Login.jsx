@@ -66,6 +66,9 @@ class Login extends React.Component {
 							Login<FontAwesomeIcon icon={faArrowRight} />
 						</button>
 					</form>
+					<p>Test with the following login details:</p>
+					<p><code>test@example.com</code></p>
+					<p><code>test</code></p>
 				</div>
 			</div>
 		)
