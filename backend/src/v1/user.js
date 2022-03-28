@@ -21,7 +21,7 @@ router.get('/maketestlogin', (req, res) => {
 });
 
 router.post('/register', (req, res) => {
-	res.send({message:'how about no'});
+	res.send({message:'not yet buddy'});
 });
 
 module.exports = router;

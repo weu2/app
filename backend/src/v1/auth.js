@@ -48,12 +48,12 @@ function authenticate(username, password) {
             if(err) {
                 console.log(err);
                 // cant really give a specific since thats a securuity flaw 
-                rej("Authentication failed a"); return;
+                rej("Authentication failed"); return;
             }
             if(result) {
                 res(createClaim(username));
             } else {
-                rej("Authentication failed b");
+                rej("Authentication failed");
             }
         });
     });
