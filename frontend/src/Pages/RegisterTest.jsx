@@ -1,6 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft, faChevronRight, faFaceGrinWide, faLockOpen } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faArrowRight, faFaceGrinWide, faLockOpen } from "@fortawesome/free-solid-svg-icons";
 
 import "./RegisterTest.css";
 import recaptcha from "../Meme/recaptcha.png";
@@ -111,10 +111,10 @@ function RegisterTest() {
 				<div className={page === 0 ? null : "Register-Page-Offscreen"}>
 					<h2>I am a...</h2>
 					<button onClick={customClick} className="btn btn-primary btn-bevel Register-CategoryButton">
-						Customer<FontAwesomeIcon icon={faChevronRight} />
+						Customer<FontAwesomeIcon icon={faArrowRight} />
 					</button>
 					<button onClick={customClick} className="btn btn-primary btn-bevel Register-CategoryButton">
-						Service Professional<FontAwesomeIcon icon={faChevronRight} />
+						Service Professional<FontAwesomeIcon icon={faArrowRight} />
 					</button>
 				</div>
 				<form onSubmit={customClick}>
@@ -276,7 +276,7 @@ function RegisterTest() {
 					{
 						(page >= 1 && page <= 2) ?
 						<button className="btn btn-primary btn-bevel Register-NextButton" type="submit">
-							Next<FontAwesomeIcon icon={faChevronRight} />
+							Next<FontAwesomeIcon icon={faArrowRight} />
 						</button> : null
 					}
 				</form>
