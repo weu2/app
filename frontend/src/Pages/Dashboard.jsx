@@ -1,12 +1,15 @@
+import React from "react";
 import Header from "../Components/Header";
 
-function Dashboard() {
-	return (
-		<Header 
-			text="dashboard lol" 
-			center="true"
-		/>
-	);
+class Dashboard extends React.Component {
+	render() {
+		return (
+			<Header 
+				text="dashboard lol" 
+				center="true"
+			/>
+		);
+	}
 }
 
 export default Dashboard;
