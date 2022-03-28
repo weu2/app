@@ -1,5 +1,7 @@
 import React from "react";
 import { useJsApiLoader, GoogleMap, Marker } from "@react-google-maps/api";
+
+import { getBackendURL } from "../api.jsx";
 import "./LocationTest.css";
 
 const containerStyle = { width: "720px", height: "540px" };
@@ -11,9 +13,9 @@ function LocationTest() {
 
 	React.useEffect(() => {
 		
-		fetch("/api/v1/ip")
-			.then(res => res.json())
-			.then(data => setURL(`${window.location.protocol}//${data.ip}:${window.location.port}${window.location.pathname}`));
+		getBackendURL().then(res => setURL(
+			`${window.location.protocol}//${res.ip}:${window.location.port}${window.location.pathname}`
+		));
 
 		// Ensure geolocation API exists
 		if (!("geolocation" in navigator)) {

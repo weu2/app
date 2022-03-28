@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faArrowRight, faFaceGrinWide, faLockOpen } from "@fortawesome/free-solid-svg-icons";
 import NumberFormat from "react-number-format";
 
+import { backendRegister } from "../api.jsx";
 import "./RegisterTest.css";
 import recaptcha from "../Meme/recaptcha.png";
 import wrong from "../Meme/wrong.png"
@@ -67,24 +68,6 @@ class RegisterTest extends React.Component {
 		}
 	}
 
-	submitForm() {
-		fetch("/api/v1/register", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify({
-				email: this.state.email,
-				pwd: this.state.password,
-				iscustomer: this.state.isCustomer,
-				firstname: this.state.firstName,
-				lastname: this.state.lastName
-			})
-		})
-		.then(r => r.text())
-		.then(console.log);
-	}
-
 	clickQuizSquare(e) {
 		e.preventDefault();
 		e.target.className = "Register-SquareActive";
@@ -104,7 +87,16 @@ class RegisterTest extends React.Component {
 	verifyQuiz(e) {
 		e.preventDefault();
 		if (this.state.quizDoneTimeout || this.state.captchaState !== "spinning") return;
-		this.submitForm();
+
+		/* Send backend request */
+		backendRegister(
+			this.state.email,
+			this.state.password,
+			this.state.isCustomer,
+			this.state.firstName,
+			this.state.lastName
+		).then(console.log);
+
 		this.setState({
 			captchaState: "waiting",
 			quizDoneTimeout: setTimeout(() => {

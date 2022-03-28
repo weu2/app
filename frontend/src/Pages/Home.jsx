@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import { backendTest } from "../api.jsx";
 import logo from "../logo.svg";
 import wii from "../Meme/wii.png";
 import "./Home.css";
@@ -15,9 +16,7 @@ class Home extends React.Component {
 	}
 
 	componentDidMount() {
-		fetch("/api/v1/test")
-		.then(res => res.json())
-		.then(res => this.setState({
+		backendTest().then(res => this.setState({
 			data: res.jwtverify
 		}));
 	}

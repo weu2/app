@@ -2,6 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
+import { backendLogin } from "../api.jsx";
 import "./RegisterTest.css";
 
 class Login extends React.Component {
@@ -16,18 +17,10 @@ class Login extends React.Component {
 
 	submitForm(e) {
 		e.preventDefault();
-		fetch("/api/v1/login", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify({
-				email: this.state.email,
-				pwd: this.state.password
-			})
-		})
-		.then(r => r.text())
-		.then(alert);
+		backendLogin(
+			this.state.email,
+			this.state.password
+		).then(json => alert(JSON.stringify(json)));
 	}
 
 	render() {
