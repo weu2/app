@@ -2,5 +2,12 @@
 	{
 		"id": "test@example.com",
 		"pwdhash": "$2b$10$Vdo6msPnWiTS/bjcI9Nasewz.17UGmpH5yGyJfR.ItELzMasT0Kya"
+	},
+	{
+		"id": "familyfriendlyvevo@gmail.com",
+		"pwdhash": "$2b$10$sVpnwpx6WnDgCTzpGzszSuXU7Di.8D.iaC7d9E/bbX1w3BsmNiwtq",
+		"iscustomer": true,
+		"firstname": "Hallam",
+		"lastname": "Roberts"
 	}
 ]

@@ -14,6 +14,11 @@ class RegisterTest extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			isCustomer: null,
+			firstName: null,
+			lastName: null,
+			email: null,
+			password: null,
 			page: 0,
 			captchaState: null,
 			quizVisible: false,
@@ -34,12 +39,20 @@ class RegisterTest extends React.Component {
 
 	updatePosition(e) {
 		if (!this.state.quizVisible) return;
-		const bounds = document.getElementById("Register-CaptchaQuiz-Table").getBoundingClientRect();
+
+		const table = document.getElementById("Register-CaptchaQuiz-Table");
+		if (!table) return;
+
+		const bounds = table.getBoundingClientRect();
+		if (!bounds) return;
+
 		const boxWidth = bounds.width / 3;
 		const boxHeight = bounds.height / 3;
+
 		for (let i = 0; i < 9; i++) {
 			let x = bounds.left + (i % 3 * boxWidth) - e.clientX + (boxWidth * 0.5);
 			let y = bounds.top + (Math.floor(i / 3) * boxHeight) - e.clientY + (boxHeight * 0.5);
+
 			if (Math.sqrt(x * x + y * y) < boxWidth * 0.8) {
 				x = x > 0 ? boxWidth * 0.75 : -boxWidth * 0.75;
 				y = y > 0 ? boxHeight * 0.75 : -boxHeight * 0.75;
@@ -47,10 +60,29 @@ class RegisterTest extends React.Component {
 				x = 0;
 				y = 0;
 			}
+
 			const square = document.getElementById(`Register-Square${i}`);
 			square.style.left = `${x}px`;
 			square.style.top = `${y}px`;
 		}
+	}
+
+	submitForm() {
+		fetch("/api/v1/register", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({
+				email: this.state.email,
+				pwd: this.state.password,
+				iscustomer: this.state.isCustomer,
+				firstname: this.state.firstName,
+				lastname: this.state.lastName
+			})
+		})
+		.then(r => r.text())
+		.then(console.log);
 	}
 
 	clickQuizSquare(e) {
@@ -72,6 +104,7 @@ class RegisterTest extends React.Component {
 	verifyQuiz(e) {
 		e.preventDefault();
 		if (this.state.quizDoneTimeout || this.state.captchaState !== "spinning") return;
+		this.submitForm();
 		this.setState({
 			captchaState: "waiting",
 			quizDoneTimeout: setTimeout(() => {
@@ -80,10 +113,15 @@ class RegisterTest extends React.Component {
 		});
 	}
 
-	customClick(e) {
+	forwardPage(e) {
 		e.preventDefault();
 		this.setState({ page: this.state.page + 1 });
 	};
+
+	backwardPage(e) {
+		e.preventDefault();
+		this.setState({ page: this.state.page - 1 });
+	}
 
 	render() {
 		return (
@@ -92,21 +130,32 @@ class RegisterTest extends React.Component {
 					<h1>Register</h1>
 					{
 						(this.state.page > 0) ?
-						<button className="btn Register-BackButton" onClick={() => this.setState({ page: this.state.page - 1 })}>
+						<button className="btn Register-BackButton" onClick={this.backwardPage.bind(this)}>
 							<FontAwesomeIcon icon={faChevronLeft} /> Back
-						</button>
-						: null
+						</button> : null
 					}
 					<div className={this.state.page === 0 ? null : "Register-Page-Offscreen"}>
 						<h2>I am a...</h2>
-						<button onClick={this.customClick.bind(this)} className="btn btn-primary btn-bevel Register-CategoryButton">
+						<button
+							onClick={(e) => {
+								this.setState({ isCustomer: true });
+								this.forwardPage.bind(this)(e);
+							}}
+							className="btn btn-primary btn-bevel Register-CategoryButton"
+						>
 							Customer<FontAwesomeIcon icon={faArrowRight} />
 						</button>
-						<button onClick={this.customClick.bind(this)} className="btn btn-primary btn-bevel Register-CategoryButton">
+						<button
+							onClick={(e) => {
+								this.setState({ isCustomer: false });
+								this.forwardPage.bind(this)(e);
+							}}
+							className="btn btn-primary btn-bevel Register-CategoryButton"
+						>
 							Service Professional<FontAwesomeIcon icon={faArrowRight} />
 						</button>
 					</div>
-					<form onSubmit={this.customClick.bind(this)}>
+					<form onSubmit={this.forwardPage.bind(this)}>
 						<div className={this.state.page === 1 ? null : "Register-Page-Offscreen"}>
 							<div>
 								<label htmlFor="firstName">First Name</label>
@@ -116,6 +165,7 @@ class RegisterTest extends React.Component {
 									required={this.state.page === 1}
 									placeholder="Dave"
 									autoComplete="given-name"
+									onChange={e => this.setState({ firstName: e.target.value })}
 								/>
 							</div>
 							<div>
@@ -126,6 +176,7 @@ class RegisterTest extends React.Component {
 									required={this.state.page === 1}
 									placeholder="O"
 									autoComplete="family-name"
+									onChange={e => this.setState({ lastName: e.target.value })}
 								/>
 							</div>
 							<div>
@@ -136,6 +187,7 @@ class RegisterTest extends React.Component {
 									required={this.state.page === 1}
 									placeholder="davo@gmail.com"
 									autoComplete="email"
+									onChange={e => this.setState({ email: e.target.value })}
 								/>
 							</div>
 							<div>
@@ -145,6 +197,7 @@ class RegisterTest extends React.Component {
 									type="password"
 									required={this.state.page === 1}
 									autoComplete="current-password"
+									onChange={e => this.setState({ password: e.target.value })}
 								/>
 							</div>
 						</div>
@@ -251,16 +304,14 @@ class RegisterTest extends React.Component {
 										(this.state.captchaState === "done") ? null :
 										<button className="btn btn-primary Register-CaptchaQuiz-Verify" onClick={this.verifyQuiz.bind(this)}>Verify</button>
 									}
-								</div>
-								: null
+								</div> : null
 							}
 						</div>
 						{
 							(this.state.page >= 1 && this.state.page <= 2) ?
 							<button className="btn btn-primary btn-bevel Register-NextButton" type="submit">
 								Next<FontAwesomeIcon icon={faArrowRight} />
-							</button>
-							: null
+							</button> : null
 						}
 					</form>
 				</div>

@@ -9,8 +9,8 @@ router.use((req, res, next) => {
 router.post('/login', (req, res) => {
 	if (req.body.email && req.body.pwd) {
 		auth.authenticate(req.body.email, req.body.pwd)
-			.then(claim => res.send({ status : 'ok' , claim : claim }))
-			.catch(r => res.send({ status : r }));
+			.then(claim => res.send({ status: 'ok', claim: claim }))
+			.catch(r => res.send({ status: r }));
 	} else {
 		res.send({ status: 'invalid api parameters' });
 	}
@@ -22,8 +22,8 @@ router.get('/maketestlogin', (req, res) => {
 });
 
 router.post('/register', (req, res) => {
-	if (req.body.email && req.body.pwd && req.body.category && req.body.firstname && req.body.lastname) {
-		auth.createUser(req.body.email, req.body.pwd, req.body.category, req.body.firstname, req.body.lastname);
+	if (req.body.email && req.body.pwd && req.body.iscustomer && req.body.firstname && req.body.lastname) {
+		auth.createUser(req.body.email, req.body.pwd, req.body.iscustomer, req.body.firstname, req.body.lastname);
 		res.send({ status: 'ok' });
 	} else {
 		res.send({ status: 'invalid api parameters' });

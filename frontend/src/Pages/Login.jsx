@@ -16,16 +16,15 @@ class Login extends React.Component {
 
 	submitForm(e) {
 		e.preventDefault();
-		const details = {
-			email: this.state.email,
-			pwd: this.state.password
-		};
 		fetch("/api/v1/login", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json"
 			},
-			body: JSON.stringify(details)
+			body: JSON.stringify({
+				email: this.state.email,
+				pwd: this.state.password
+			})
 		})
 		.then(r => r.text())
 		.then(alert);
