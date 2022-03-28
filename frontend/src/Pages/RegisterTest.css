@@ -143,8 +143,8 @@
 	transition-duration: 1s;
 }
 
-.Register-Captcha-Cross {
-	animation: cross 0.7s steps(20) forwards;
+.Register-Captcha-Wrong {
+	animation: wrong 0.7s steps(20) forwards;
 	background-position: top;
 	background-repeat: no-repeat;
 	background-size: 100%;
@@ -281,7 +281,7 @@
 	padding: calc(2px + 0.8vmin) calc(12px + 1vmin);
 }
 
-@keyframes cross {
+@keyframes wrong {
 	from {
 		background-position: top;
 	}

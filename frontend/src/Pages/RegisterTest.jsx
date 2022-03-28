@@ -26,17 +26,22 @@ function RegisterTest() {
 
 	let timeout;
 	const toggleForm = (e) => {
-		if (timeout || state) return;
 		e.preventDefault();
+		if (timeout || state) return;
 		setState("spinning");
 		timeout = setTimeout(() => {
 			setQuizVisible(true);
 		}, 500);
 	}
 
+	let timeout2;
 	const tickForm = (e) => {
 		e.preventDefault();
-		setState("crossed");
+		if (timeout2 || state !== "spinning") return;
+		setState("waiting");
+		timeout2 = setTimeout(() => {
+			setState("done");
+		}, 500);
 	}
 
 	React.useEffect(() => {
@@ -171,19 +176,19 @@ function RegisterTest() {
 								(state === "spinning") ?
 								<div className="Register-Captcha-Spinner" /> :
 								(
-									(state === "crossed") ?
-									<div className="Register-Captcha-Cross" style={{backgroundImage: `url(${wrong})`}}/> :
+									(state === "waiting" || state === "done") ?
+									<div className="Register-Captcha-Wrong" style={{backgroundImage: `url(${wrong})`}}/> :
 									<div className="Register-Captcha-Checkbox" />
 								)
 							}
-							<span>{state === "crossed" ? "WRONG" : "I'm a robot"}</span>
+							<span>{state === "done" ? "WRONG" : "I'm a robot"}</span>
 							<img src={recaptcha} className="Register-Captcha-Icon" alt="captcha" />
 						</div>
 						{
 							quizVisible ?
 							<div className="Register-CaptchaQuiz">
 								<div className="Register-CaptchaQuiz-Header">{
-									(state === "crossed") ?
+									(state === "done") ?
 									<div>Your credit card has been charged <FontAwesomeIcon icon={faFaceGrinWide} /></div> :
 									"Select all images with good teaching practice."
 								}</div>
@@ -191,41 +196,41 @@ function RegisterTest() {
 									<tbody>
 										<tr>
 											<td><div id="Register-Square0" alt="square0" style={{
-												backgroundImage: `url(${state === "crossed" ? rick : grid})`
+												backgroundImage: `url(${state === "done" ? rick : grid})`
 											}} onMouseDown={clickSquare} /></td>
 											<td><div id="Register-Square1" alt="square1" style={{
-												backgroundImage: `url(${state === "crossed" ? rick : grid})`
+												backgroundImage: `url(${state === "done" ? rick : grid})`
 											}} onMouseDown={clickSquare} /></td>
 											<td><div id="Register-Square2" alt="square2" style={{
-												backgroundImage: `url(${state === "crossed" ? rick : grid})`
+												backgroundImage: `url(${state === "done" ? rick : grid})`
 											}} onMouseDown={clickSquare} /></td>
 										</tr>
 										<tr>
 											<td><div id="Register-Square3" alt="square3" style={{
-												backgroundImage: `url(${state === "crossed" ? rick : grid})`
+												backgroundImage: `url(${state === "done" ? rick : grid})`
 											}} onMouseDown={clickSquare} /></td>
 											<td><div id="Register-Square4" alt="square4" style={{
-												backgroundImage: `url(${state === "crossed" ? rick : grid})`
+												backgroundImage: `url(${state === "done" ? rick : grid})`
 											}} onMouseDown={clickSquare} /></td>
 											<td><div id="Register-Square5" alt="square5" style={{
-												backgroundImage: `url(${state === "crossed" ? rick : grid})`
+												backgroundImage: `url(${state === "done" ? rick : grid})`
 											}} onMouseDown={clickSquare} /></td>
 										</tr>
 										<tr>
 											<td><div id="Register-Square6" alt="square6" style={{
-												backgroundImage: `url(${state === "crossed" ? rick : grid})`
+												backgroundImage: `url(${state === "done" ? rick : grid})`
 											}} onMouseDown={clickSquare} /></td>
 											<td><div id="Register-Square7" alt="square7" style={{
-												backgroundImage: `url(${state === "crossed" ? rick : grid})`
+												backgroundImage: `url(${state === "done" ? rick : grid})`
 											}} onMouseDown={clickSquare} /></td>
 											<td><div id="Register-Square8" alt="square8" style={{
-												backgroundImage: `url(${state === "crossed" ? rick : grid})`
+												backgroundImage: `url(${state === "done" ? rick : grid})`
 											}} onMouseDown={clickSquare} /></td>
 										</tr>
 									</tbody>
 								</table>
 								{
-									(state === "crossed") ?
+									(state === "done") ?
 									null :
 									<button className="btn btn-primary Register-CaptchaQuiz-Verify" onClick={tickForm}>Verify</button>
 								}
