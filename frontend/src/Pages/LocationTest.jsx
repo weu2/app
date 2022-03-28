@@ -21,7 +21,7 @@ function LocationTest() {
 	}
 	
 	navigator.geolocation.watchPosition(pos => {
-		setStatus("Got your location!");
+		setStatus("Got your location! (Roughly)");
 		setCenter({ lat: pos.coords.latitude, lng: pos.coords.longitude });
 	}, error => {
 		setStatus(`Error: ${error.message}`);
