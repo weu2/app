@@ -11,13 +11,13 @@ import rick from "../Meme/rick.gif"
 
 function clickSquare(e) {
 	e.preventDefault();
-	e.target.className = "Register-Test-Clicked";
+	e.target.className = "Register-SquareActive";
 }
 
 function RegisterTest() {
 	const [page, setPage] = React.useState(0);
 	const [state, setState] = React.useState(null);
-	const [testVisible, setTestVisible] = React.useState(false);
+	const [quizVisible, setQuizVisible] = React.useState(false);
 	
 	const customClick = (e) => {
 		e.preventDefault();
@@ -30,7 +30,7 @@ function RegisterTest() {
 		e.preventDefault();
 		setState("spinning");
 		timeout = setTimeout(function() {
-			setTestVisible(true);
+			setQuizVisible(true);
 		}, 500);
 	}
 
@@ -41,8 +41,8 @@ function RegisterTest() {
 
 	React.useEffect(() => {
 		const updatePosition = (e) => {
-			if (!testVisible) return;
-			const bounds = document.getElementById("Register-Test-Table").getBoundingClientRect();
+			if (!quizVisible) return;
+			const bounds = document.getElementById("Register-CaptchaQuiz-Table").getBoundingClientRect();
 			const boxWidth = bounds.width / 3;
 			const boxHeight = bounds.height / 3;
 			for (let i = 0; i < 9; i++) {
@@ -64,12 +64,12 @@ function RegisterTest() {
 		return () => {
 			document.removeEventListener("mousemove", updatePosition);
 		}
-	}, [testVisible]);
+	}, [quizVisible]);
 
 	return (
 		<div className="Register">
 			<div className="Register-Content">
-				<h1>Register Test</h1>
+				<h1>Register</h1>
 				{
 					(page > 0) ?
 					<button className="btn Register-BackButton" onClick={() => setPage(page - 1)}>
@@ -180,14 +180,14 @@ function RegisterTest() {
 							<img src={recaptcha} className="Register-Captcha-Icon" alt="captcha" />
 						</div>
 						{
-							testVisible ?
-							<div className="Register-Test">
-								<div className="Register-Test-Header">{
+							quizVisible ?
+							<div className="Register-CaptchaQuiz">
+								<div className="Register-CaptchaQuiz-Header">{
 									(state === "crossed") ?
 									<div>Your credit card has been charged <FontAwesomeIcon icon={faFaceGrinWide} /></div> :
 									"Select all images with good teaching practice."
 								}</div>
-								<table id="Register-Test-Table">
+								<table id="Register-CaptchaQuiz-Table">
 									<tbody>
 										<tr>
 											<td><div id="Register-Square0" alt="square0" style={{
@@ -227,7 +227,7 @@ function RegisterTest() {
 								{
 									(state === "crossed") ?
 									null :
-									<button className="btn btn-primary Register-Test-Verify" onClick={tickForm}>Verify</button>
+									<button className="btn btn-primary Register-CaptchaQuiz-Verify" onClick={tickForm}>Verify</button>
 								}
 							</div>
 							: null

@@ -198,7 +198,7 @@
 	}
 }
 
-.Register-Test {
+.Register-CaptchaQuiz {
 	animation: fadeIn linear 0.5s;
 	box-shadow: 0 0 8px gray;
 	display: inline-block;
@@ -207,11 +207,11 @@
 	border-radius: calc(4px + 0.3vmin);
 }
 
-.Register-Test table {
+.Register-CaptchaQuiz table {
 	padding: 4px;
 }
 
-.Register-Test table div {
+.Register-CaptchaQuiz table div {
 	background-size: 300%;
 	background-repeat: no-repeat;
 	height: calc(64px + 5vmin);
@@ -221,48 +221,48 @@
 	width: calc(64px + 5vmin);
 }
 
-.Register-Test #Register-Square0 {
+.Register-CaptchaQuiz #Register-Square0 {
 	background-position: top left;
 }
 
-.Register-Test #Register-Square1 {
+.Register-CaptchaQuiz #Register-Square1 {
 	background-position: top center;
 }
 
-.Register-Test #Register-Square2 {
+.Register-CaptchaQuiz #Register-Square2 {
 	background-position: top right;
 }
 
-.Register-Test #Register-Square3 {
+.Register-CaptchaQuiz #Register-Square3 {
 	background-position: center left;
 }
 
-.Register-Test #Register-Square4 {
+.Register-CaptchaQuiz #Register-Square4 {
 	background-position: center;
 }
 
-.Register-Test #Register-Square5 {
+.Register-CaptchaQuiz #Register-Square5 {
 	background-position: center right;
 }
 
-.Register-Test #Register-Square6 {
+.Register-CaptchaQuiz #Register-Square6 {
 	background-position: bottom left;
 }
 
-.Register-Test #Register-Square7 {
+.Register-CaptchaQuiz #Register-Square7 {
 	background-position: bottom center;
 }
 
-.Register-Test #Register-Square8 {
+.Register-CaptchaQuiz #Register-Square8 {
 	background-position: bottom right;
 }
 
-.Register-Test-Clicked {
+.Register-SquareActive {
 	border: 5px solid var(--pink);
 	box-sizing: border-box;
 }
 
-.Register-Test-Header {
+.Register-CaptchaQuiz-Header {
 	background-color: var(--btn-primary);
 	border-radius: calc(4px + 0.3vmin) calc(4px + 0.3vmin) 0 0;
 	color: var(--btn-primary-text);
@@ -270,13 +270,13 @@
 	padding: calc(8px + 0.7vmin) calc(12px + 0.7vmin);
 }
 
-.Register-Test tr, .Register-Test td {
+.Register-CaptchaQuiz tr, .Register-CaptchaQuiz td {
 	margin: 0;
 	padding: 0;
 	line-height: 0;
 }
 
-.Register-Test-Verify {
+.Register-CaptchaQuiz-Verify {
 	float: right;
 	font-size: calc(8px + 0.7vmin);
 	margin: calc(0.5vmin) calc(6px + 0.2vmin) calc(8px + 0.2vmin) 0;
