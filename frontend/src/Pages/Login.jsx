@@ -1,4 +1,7 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
+
 import "./RegisterTest.css";
 
 class Login extends React.Component {
@@ -59,7 +62,9 @@ class Login extends React.Component {
 								onChange={e => this.setState({ password: e.target.value })}
 							/>
 						</div>
-						<button className="btn btn-primary btn-bevel Register-NextButton" type="submit">Login</button>
+						<button className="btn btn-primary btn-bevel Register-NextButton" type="submit">
+							Login<FontAwesomeIcon icon={faChevronRight} />
+						</button>
 					</form>
 				</div>
 			</div>
