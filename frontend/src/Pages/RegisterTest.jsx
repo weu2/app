@@ -1,44 +1,13 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faArrowRight, faFaceGrinWide, faLockOpen } from "@fortawesome/free-solid-svg-icons";
+import InputMask from "react-input-mask";
 
 import "./RegisterTest.css";
 import recaptcha from "../Meme/recaptcha.png";
 import cross from "../Meme/cross.png"
 import grid from "../Meme/grid.png"
 import rick from "../Meme/rick.gif"
-
-function formatCreditCard(e) {
-	const cardNumber = e.target.value;
-	let formattedCardNumber = cardNumber.replace(/[^\d]/g, "");
-	const cardNumberSections = formattedCardNumber.match(/\d{1,4}/g);
-	if (cardNumberSections) {
-		formattedCardNumber = cardNumberSections.join("-"); 
-	}
-	if (cardNumber !== formattedCardNumber) {
-		e.target.value = formattedCardNumber;
-	}
-}
-
-function formatDate(e) {
-	const date = e.target.value;
-	let formattedDate = date.replace(/[^\d]/g, "");
-	const dateSections = formattedDate.match(/\d{1,2}/g);
-	if (dateSections) {
-		formattedDate = dateSections.join("/"); 
-	}
-	if (date !== formattedDate) {
-		e.target.value = formattedDate;
-	}
-}
-
-function formatSecret(e) {
-	const secret = e.target.value;
-	let formattedSecret = secret.replace(/[^\d]/g, "");
-	if (secret !== formattedSecret) {
-		e.target.value = formattedSecret;
-	}
-}
 
 function clickSquare(e) {
 	e.preventDefault();
@@ -125,8 +94,8 @@ function RegisterTest() {
 								className="form-input"
 								type="text"
 								required={page === 1}
+								placeholder="Dave"
 								autoComplete="given-name"
-								placeholder="John"
 							/>
 						</div>
 						<div>
@@ -135,8 +104,8 @@ function RegisterTest() {
 								className="form-input"
 								type="text"
 								required={page === 1}
+								placeholder="O"
 								autoComplete="family-name"
-								placeholder="Doe"
 							/>
 						</div>
 						<div>
@@ -145,8 +114,8 @@ function RegisterTest() {
 								className="form-input"
 								type="email"
 								required={page === 1}
+								placeholder="davo@gmail.com"
 								autoComplete="email"
-								placeholder="jdoe@gmail.com"
 							/>
 						</div>
 						<div>
@@ -165,39 +134,30 @@ function RegisterTest() {
 							<div className="Register-CardStrip" />
 							<div className="Register-CardInputs">
 								<div className="Register-CardNumberContainer">
-									<input
+									<InputMask
 										className="form-input"
 										id="Register-CardNumber"
-										type="tel"
-										pattern="[-\d]{19}"
-										maxLength="19"
+										mask="9999-9999-9999-9999"
 										placeholder="xxxx-xxxx-xxxx-xxxx"
-										onInput={formatCreditCard}
 										required={page === 2}
 										autoComplete="cc-number"
 									/>
 									<FontAwesomeIcon className="Register-CardLock" icon={faLockOpen} />
 								</div>
 								<div className="Register-CardSecrets">
-									<input
+									<InputMask
 										className="form-input"
 										id="Register-CardDate"
-										type="tel"
-										pattern="[\/\d]{5}"
-										maxLength="5"
-										placeholder="04/20"
-										onInput={formatDate}
+										mask="99/99"
+										placeholder="MM/YY"
 										required={page === 2}
 										autoComplete="cc-exp"
 									/>
-									<input
+									<InputMask
 										className="form-input"
 										id="Register-CardSecret"
-										type="tel"
-										pattern="[\d]{3}"
-										maxLength="3"
-										placeholder="123"
-										onInput={formatSecret}
+										mask="999"
+										placeholder="CVC"
 										required={page === 2}
 										autoComplete="cc-csc"
 									/>
