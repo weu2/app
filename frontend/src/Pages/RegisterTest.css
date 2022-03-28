@@ -144,14 +144,12 @@
 }
 
 .Register-Captcha-Cross {
-	animation: cross 0.4s steps(10) forwards;
+	animation: cross 0.7s steps(20) forwards;
 	background-position: top;
 	background-repeat: no-repeat;
 	background-size: 100%;
-	color: red;
-	height: 36px;
-	margin: 0 12px;
-	width: 36px;
+	height: 64px;
+	width: 64px;
 }
 
 .Register-Captcha:hover .Register-Captcha-Checkbox {

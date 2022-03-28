@@ -5,7 +5,7 @@ import InputMask from "react-input-mask";
 
 import "./RegisterTest.css";
 import recaptcha from "../Meme/recaptcha.png";
-import cross from "../Meme/cross.png"
+import wrong from "../Meme/wrong.png"
 import grid from "../Meme/grid.png"
 import rick from "../Meme/rick.gif"
 
@@ -29,7 +29,7 @@ function RegisterTest() {
 		if (timeout || state) return;
 		e.preventDefault();
 		setState("spinning");
-		timeout = setTimeout(function() {
+		timeout = setTimeout(() => {
 			setQuizVisible(true);
 		}, 500);
 	}
@@ -172,7 +172,7 @@ function RegisterTest() {
 								<div className="Register-Captcha-Spinner" /> :
 								(
 									(state === "crossed") ?
-									<div className="Register-Captcha-Cross" style={{backgroundImage: `url(${cross})`}}/> :
+									<div className="Register-Captcha-Cross" style={{backgroundImage: `url(${wrong})`}}/> :
 									<div className="Register-Captcha-Checkbox" />
 								)
 							}
