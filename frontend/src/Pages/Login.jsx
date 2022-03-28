@@ -71,7 +71,7 @@ class Login extends React.Component {
 					<p><code>test</code></p>
 				</div>
 			</div>
-		)
+		);
 	}
 }
 

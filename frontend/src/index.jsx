@@ -5,20 +5,22 @@ import reportWebVitals from "./reportWebVitals";
 import "./index.css";
 
 import Home from "./Pages/Home";
+import Login from "./Pages/Login";
 import RegisterTest from "./Pages/RegisterTest";
 import LocationTest from "./Pages/LocationTest";
+import Dashboard from "./Pages/Dashboard";
 import NoPage from "./Pages/404";
-import Login from "./Pages/Login";
 
 render(
 	<React.StrictMode>
 		<BrowserRouter>
 			<Routes>
 				<Route path="/" element={<Home />} />
+				<Route path="login" element={<Login />} />
 				<Route path="register" element={<RegisterTest />} />
 				<Route path="location" element={<LocationTest />} />
+				<Route path="dashboard" element={<Dashboard />} />
 				<Route path="*" element={<NoPage />} />
-				<Route path="login" element={<Login />} />
 			</Routes>
 		</BrowserRouter>
 	</React.StrictMode>,
