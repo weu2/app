@@ -10,7 +10,7 @@ function makeSignature(encodedHeader, encodedPayload, secret) {
     return base64url.fromBase64(crypto.createHmac('sha256', secret).update(data).digest('base64'));
 }
 
-module.exports.createJWT = function(payload, secret = 'yesverygoodsecret') {
+module.exports.createJWT = function(payload, secret) {
     const header = {
         typ:'jwt',
         alg:'HS256'
@@ -25,7 +25,7 @@ function verifyInternalHeader(header) {
     return header.typ === 'jwt' && header.alg === 'HS256';
 }
 
-module.exports.verifyJWT = function(jwt) {
+module.exports.verifyJWT = function(jwt, secret) {
     const sections = jwt.split('.');
     const header = JSON.parse(base64url.decode(sections[0]));
     const payload = JSON.parse(base64url.decode(sections[1]));
@@ -35,10 +35,10 @@ module.exports.verifyJWT = function(jwt) {
 
     // reconstruct jwt internally to get signature
     // and compare it to the signature given to us
-    return this.createJWT(payload).split('.')[2].localeCompare(signature) == 0;
+    return this.createJWT(payload, secret).split('.')[2].localeCompare(signature) == 0;
 }
 
-// WARNING: this function does not verify the jwt singature you must verify
+// WARNING: this function does not verify the jwt singature you must verify it first
 module.exports.extractPayload = function(jwt) {
     return JSON.parse(base64url.decode(jwt.split('.')[1]));
 }

@@ -28,13 +28,14 @@ router.get('/test', (req, res) => {
 		jwtverify:false
 	};
 	// verify jwt internally
+	const secret = "sjdbflkikhsbdfilgubhasdilofbguilasdjfbgihsdbfgkhbsdfkilbghbsdlkifhjbg";
 	const tok = jwt.createJWT({
 		iss: 'WeU Token Authoriser',
 		sub: 'Steve or something idk',
 		iat: 1234567890,
 		jti: 1,
-	})
-	if(jwt.verifyJWT(tok)) test.jwtverify = true;
+	}, secret)
+	if(jwt.verifyJWT(tok, secret)) test.jwtverify = true;
 
 	res.send(test);
 });
