@@ -10,24 +10,25 @@ function LocationTest() {
 	const [url, setURL] = React.useState(window.location.href);
 
 	React.useEffect(() => {
+		
 		fetch("/api/v1/ip")
 			.then(res => res.json())
 			.then(data => setURL(`${window.location.protocol}//${data.ip}:${window.location.port}${window.location.pathname}`));
-	}, []);
 
-	// Ensure geolocation API exists
-	if (!("geolocation" in navigator)) {
-		setStatus("Error: Geolocation is not supported on your browser!");
-	}
-	
-	navigator.geolocation.watchPosition(pos => {
-		setStatus("Got your location! (Roughly)");
-		setCenter({ lat: pos.coords.latitude, lng: pos.coords.longitude });
-	}, error => {
-		setStatus(`Error: ${error.message}`);
-	}, {
-		enableHighAccuracy: true
-	});
+		// Ensure geolocation API exists
+		if (!("geolocation" in navigator)) {
+			setStatus("Error: Geolocation is not supported on your browser!");
+		}
+		
+		navigator.geolocation.watchPosition(pos => {
+			setStatus("Got your location! (Roughly)");
+			setCenter({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+		}, error => {
+			setStatus(`Error: ${error.message}`);
+		}, {
+			enableHighAccuracy: true
+		});
+	}, []);
 
 	const { isLoaded } = useJsApiLoader({
 		googleMapsApiKey: "AIzaSyC9KNOh8CqX4VnjJ94hrB26PFlzTKCwNH8"
