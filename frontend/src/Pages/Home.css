@@ -7,7 +7,7 @@
 .Home-Content {
 	align-items: center;
 	background-image: linear-gradient(var(--bg-green), var(--bg-pink) 20%, var(--bg-pink) 80%, var(--bg-green));
-	box-shadow: inset 0 0 64px 16px var(--green);
+	box-shadow: inset 0 0 3vmin 1.5vmin var(--green);
 	color: var(--pink);
 	display: flex;
 	flex-direction: column;
@@ -17,9 +17,9 @@
 }
 
 .Home-Logo {
-	filter: drop-shadow(8px 8px var(--green));
+	filter: drop-shadow(calc(5px + 0.4vmin) calc(5px + 0.4vmin) var(--green));
 	margin-bottom: 2vmin;
-	width: calc(10px + 20vmin);
+	width: calc(5px + 25vmin);
 }
 
 .Home-Link {
@@ -27,7 +27,7 @@
 }
 
 .Home-LogoContainer {
-	filter: drop-shadow(8px 8px var(--green));
+	filter: drop-shadow(calc(5px + 0.4vmin) calc(5px + 0.4vmin) var(--green));
 }
 
 .Home-Link, .Home-Logo, .Home p, .Home-Button {
@@ -45,9 +45,9 @@
 .Home-Button {
 	display: inline-block;
 	font-size: calc(5px + 2vmin);
-	margin: 8px;
-	padding: 16px;
-	box-shadow: 0 4px white;
+	margin: 1vmin;
+	padding: calc(2px + 1.5vmin) calc(6px + 2vmin);
+	box-shadow: 0 calc(2px + 0.2vmin) white;
 }
 
 @keyframes App-wii-spin {

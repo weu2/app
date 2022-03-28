@@ -27,7 +27,7 @@ code {
 }
 
 .Header {
-	font-size: 1vw;
+	font-size: 3vmin;
 	font-weight: bold;
 	margin: 0;
 	padding: 0;
@@ -38,7 +38,7 @@ code {
 }
 
 .btn {
-	border-radius: 8px;
+	border-radius: calc(4px + 0.3vmin);
 	border: none;
 	box-sizing: border-box;
 	cursor: pointer;
@@ -56,11 +56,11 @@ code {
 }
 
 .btn-primary.btn-bevel {
-	box-shadow: 6px 6px var(--green);
+	box-shadow: calc(3px + 0.1vmin) calc(3px + 0.1vmin) var(--green);
 }
 
 .btn-primary.btn-bevel:active {
-	transform: translate(3px, 3px);
+	transform: translate(calc(3px + 0.1vmin), calc(3px + 0.1vmin));
 	box-shadow: 0 0 var(--green);
 }
 
@@ -74,16 +74,16 @@ code {
 }
 
 .btn-secondary.btn-bevel {
-	box-shadow: 6px 6px var(--pink);
+	box-shadow: calc(3px + 0.1vmin) calc(3px + 0.1vmin) var(--pink);
 }
 
 .btn-secondary.btn-bevel:active {
-	transform: translate(3px, 3px);
+	transform: translate(calc(3px + 0.1vmin), calc(3px + 0.1vmin));
 	box-shadow: 0 0 var(--pink);
 }
 
 .form-input {
-	border-radius: 8px;
+	border-radius: calc(4px + 0.3vmin);
 	border: 2px solid lightgray;
 	box-sizing: border-box;
 	display: block;

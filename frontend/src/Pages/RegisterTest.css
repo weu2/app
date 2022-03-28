@@ -3,21 +3,20 @@
 	display: flex;
 	justify-content: center;
 	min-height: 100vh;
-	min-width: 100vw;
 }
 
 .Register-Content {
 	background-color: white;
-	border-radius: 16px;
+	border-radius: calc(8px + 0.5vmin);
 	display: inline-block;
-	margin: 64px;
-	min-width: 50%;
-	padding: 64px 32px;
+	margin: calc(8px + 2vmin);
+	min-width: 50vw;
+	padding: calc(16px + 4vmin) calc(8px + 4vmin);
 }
 
 .Register-NextButton {
-	margin-top: 48px;
-	padding: 12px 20px;
+	margin-top: calc(10px + 3vmin);
+	padding: calc(6px + 0.5vmin) calc(12px + 0.5vmin);
 }
 
 .Register-CategoryButton {
@@ -25,34 +24,39 @@
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-	margin-top: 24px;
-	padding: 12px 20px;
+	margin-top: calc(10px + 1vmin);
+	padding: calc(6px + 0.5vmin) calc(12px + 0.5vmin);
 }
 
 .Register-CategoryButton, .Register-NextButton, .Register label {
-	font-size: x-large;
+	font-size: calc(10px + 1vmin);
 	width: 100%;
 }
 
 .Register label {
 	display: block;
-	margin: 8px 0;
+	margin: 1vmin 0;
 }
 
 .Register input {
-	font-size: large;
+	font-size: calc(8px + 0.8vmin);
 }
 
 .Register h1 {
-	margin-bottom: 32px;
+	font-size: calc(14px + 1.5vmin);
+	margin-bottom: calc(14px + 2vmin);
 	margin-top: 0;
+}
+
+.Register h2 {
+	font-size: calc(10px + 1vmin);
 }
 
 .Register-BackButton {
 	background: none;
 	display: block;
-	font-size: large;
-	margin-bottom: 32px;
+	font-size: calc(8px + 1vmin);
+	margin-bottom: calc(10px + 3vmin);
 	padding: 0;
 }
 
@@ -62,30 +66,30 @@
 
 .Register-CreditCard {
 	background-color: #edecb0;
-	border-radius: 16px;
+	border-radius: calc(6px + 1vmin);
 	box-shadow: 0 0 4px grey;
 	display: flex;
 	flex-flow: column;
-	padding: 32px 0 64px 0;
+	padding: calc(6px + 3vmin) 0 calc(2px + 3vmin) 0;
 }
 
 .Register-CardInputs {
-	padding: 16px 16px;
+	padding: calc(6px + 1vmin);
 }
 
 .Register-CardStrip {
 	background-color: black;
-	height: 32px;
+	height: calc(16px + 2vmin);
 	width: 100%;
 }
 
 .Register-CardSecrets {
 	display: flex;
-	margin-top: 16px;
+	margin-top: calc(6px + 1vmin);
 }
 
 .Register-CreditCard #Register-CardDate {
-	margin-right: 16px;
+	margin-right: calc(6px + 1vmin);
 }
 
 .Register-Captcha {
