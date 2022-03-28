@@ -43,7 +43,7 @@ code {
 	box-sizing: border-box;
 	cursor: pointer;
 	text-decoration: none;
-	transition-duration: .07s;
+	transition-duration: .05s;
 }
 
 .btn-primary {
@@ -60,7 +60,7 @@ code {
 }
 
 .btn-primary.btn-bevel:active {
-	transform: translate(calc(3px + 0.1vmin), calc(3px + 0.1vmin));
+	transform: scale(1.01);
 	box-shadow: 0 0 var(--green);
 }
 
@@ -78,7 +78,7 @@ code {
 }
 
 .btn-secondary.btn-bevel:active {
-	transform: translate(calc(3px + 0.1vmin), calc(3px + 0.1vmin));
+	transform: scale(1.01);
 	box-shadow: 0 0 var(--pink);
 }
 
