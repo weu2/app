@@ -18,7 +18,7 @@ class JSONDB {
             // make the folder just in case
             fs.mkdir(path.dirname(this._filepath), { recursive: true }, (err) => {
                 if (err) throw err; // not sure why this would happen, no perms maybe fucking unix moment, get fucked mac os users
-              });
+            });
             // if the file doesnt exist just make an empty array
             return []; 
         }
