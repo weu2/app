@@ -1,33 +1,34 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import { backendGetInfo } from "../api";
+import { backendGetUserInfo } from "../api";
 import Header from "../Components/Header";
 
 class Dashboard extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			loggedin : true,
-			info : ""
+			loggedIn: true,
+			category: ""
 		}
 	}
 
 	componentDidMount() {
-		backendGetInfo()
-			.then( info => this.setState({info : info.category }))
-			.catch(() => this.setState({loggedin:false}) ); 
+		// Redirect to /login if user isn't logged in yet
+		backendGetUserInfo()
+			.then(info => this.setState({ category: info.category }))
+			.catch(() => this.setState({ loggedIn: false })); 
 	}
 
 	render() {
 		return (
 			<div>
-				<div>{this.state.loggedin ? "" : <Navigate to="/"/>}</div>
+				{this.state.loggedIn ? null : <Navigate to="/login"/>}
 				<Header 
 					text="dashboard lol" 
 					center="true"
 				/>
 				<Header 
-					text={!this.state.info ?  "Loading" : "Your user category is: " + this.state.info}
+					text={this.state.category ? `Your user category is: ${this.state.category}` : "Loading..."}
 					center="true"
 				/>
 			</div>

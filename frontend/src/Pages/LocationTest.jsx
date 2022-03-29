@@ -1,7 +1,7 @@
 import React from "react";
 import { useJsApiLoader, GoogleMap, Marker } from "@react-google-maps/api";
 
-import { getBackendURL } from "../api.jsx";
+import { backendGetURL } from "../api.jsx";
 import "./LocationTest.css";
 
 const containerStyle = { width: "720px", height: "540px" };
@@ -13,7 +13,7 @@ function LocationTest() {
 
 	React.useEffect(() => {
 		
-		getBackendURL().then(res => setURL(
+		backendGetURL().then(res => setURL(
 			`${window.location.protocol}//${res.ip}:${window.location.port}${window.location.pathname}`
 		));
 

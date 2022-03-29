@@ -31,7 +31,7 @@ export function backendTest() {
 	return fetch("/api/v1/test").then(res => res.json());
 }
 
-export function getBackendURL() {
+export function backendGetURL() {
 	return fetch("/api/v1/ip").then(res => res.json());
 }
 
@@ -57,6 +57,6 @@ function wrapAuthorisedEndpoint(endpoint, data = undefined) {
 	});
 }
 
-export function backendGetInfo() {
+export function backendGetUserInfo() {
 	return wrapAuthorisedEndpoint("/api/v1/getinfo");
 }
