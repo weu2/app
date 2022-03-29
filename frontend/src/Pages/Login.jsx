@@ -1,4 +1,5 @@
 import React from "react";
+import {Navigate} from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
@@ -11,7 +12,8 @@ class Login extends React.Component {
 		super(props);
 		this.state = {
 			email: "",
-			password: ""
+			password: "",
+			status:""
 		};
 	}
 
@@ -20,7 +22,7 @@ class Login extends React.Component {
 		backendLogin(
 			this.state.email,
 			this.state.password
-		).then(json => alert(JSON.stringify(json)));
+		).then(json => this.setState({status:json.status}));
 	}
 
 	render() {
@@ -28,6 +30,7 @@ class Login extends React.Component {
 			<div className="Register">
 				<div className="Register-Content">
 					<h1>Login</h1>
+					<div>{this.state.status === "ok" ? (<Navigate to="/dashboard"/>) : this.state.status}</div>
 					<form onSubmit={this.submitForm.bind(this)}>
 						<div>
 							<label htmlFor="email">Email</label>

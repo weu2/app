@@ -10,7 +10,17 @@ const jwtSecret = 'very good secret';
 let jwtID = 0; 
 
 function verifyClaim(claim) {
-	// nah
+	if(!claim)
+		return;
+	if(jwt.verifyJWT(claim, jwtSecret)) {
+		const payload = jwt.extractPayload(claim);
+		const time = Math.floor(Date.now() / 1000);
+		if(payload.exp < time) {
+			return;
+		}
+		// check if the jwt id is valid somehow
+		return payload.sub;
+	}
 }
 
 function makeFakeUser(username, password) {
