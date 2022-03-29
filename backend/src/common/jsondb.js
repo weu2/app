@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 // probably a terrible idea
 
 class JSONDB {
@@ -13,7 +14,11 @@ class JSONDB {
         let filecontent = "";
         try {
             filecontent = fs.readFileSync(this._filepath);
-        } catch(e) { 
+        } catch(e) {
+            // make the folder just in case
+            fs.mkdir(path.dirname(this._filepath), { recursive: true }, (err) => {
+                if (err) throw err; // not sure why this would happen, no perms maybe fucking unix moment, get fucked mac os users
+              });
             // if the file doesnt exist just make an empty array
             return []; 
         }
@@ -28,7 +33,7 @@ class JSONDB {
     asyncUpdate() {
         fs.writeFile(this._filepath, JSON.stringify(this._internal, null, '\t'), (err) => {
             if(err)
-                console.error(`${this._filepath} doesnt exist`);
+                console.error(`path ${this._filepath}, doesnt exist!`);
         });
     }
 
