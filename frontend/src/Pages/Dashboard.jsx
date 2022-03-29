@@ -24,7 +24,7 @@ class Dashboard extends React.Component {
 			<div>
 				{this.state.loggedIn ? null : <Navigate to="/login"/>}
 				<Header 
-					text="dashboard lol" 
+					text="dashboard test page" 
 					center="true"
 				/>
 				<Header 
