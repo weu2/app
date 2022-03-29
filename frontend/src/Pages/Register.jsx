@@ -5,7 +5,7 @@ import { faChevronLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { backendRegister } from "../api.jsx";
 import "./Register.css";
 
-class RegisterTest extends React.Component {
+class Register extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -105,4 +105,4 @@ class RegisterTest extends React.Component {
 	}
 }
 
-export default RegisterTest;
+export default Register;
