@@ -13,7 +13,7 @@ class Login extends React.Component {
 		this.state = {
 			email: "",
 			password: "",
-			status:""
+			status: ""
 		};
 	}
 
@@ -22,7 +22,7 @@ class Login extends React.Component {
 		backendLogin(
 			this.state.email,
 			this.state.password
-		).then(json => this.setState({status:json.status}));
+		).then(json => this.setState({ status: json.status }));
 	}
 
 	render() {
