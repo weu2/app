@@ -12,8 +12,8 @@ function makeSignature(encodedHeader, encodedPayload, secret) {
 
 module.exports.createJWT = function(payload, secret) {
     const header = {
-        typ:'jwt',
-        alg:'HS256'
+        typ: 'jwt',
+        alg: 'HS256'
     };
     const encodedHeader = objectToBase64URL(header);
     const encodedPayload = objectToBase64URL(payload);
@@ -31,14 +31,14 @@ module.exports.verifyJWT = function(jwt, secret) {
     const payload = JSON.parse(base64url.decode(sections[1]));
     const signature = sections[2];
 
-    if(!verifyInternalHeader(header)) return false;
+    if (!verifyInternalHeader(header)) return false;
 
     // reconstruct jwt internally to get signature
     // and compare it to the signature given to us
     return this.createJWT(payload, secret).split('.')[2].localeCompare(signature) == 0;
 }
 
-// WARNING: this function does not verify the jwt singature you must verify it first
+// WARNING: this function does not verify the jwt singature, you must verify it first
 module.exports.extractPayload = function(jwt) {
     return JSON.parse(base64url.decode(jwt.split('.')[1]));
 }

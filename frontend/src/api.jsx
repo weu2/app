@@ -38,7 +38,7 @@ export function backendGetURL() {
 // the backend will respond with code "401 - Unauthorized" if the user does not 
 // posses a valid claim or if there is no claim, the claim is stored in a 
 // cookie set by the server and the frontend never has to worry about passing the claim back and forth
-// only ever deal with "oh shit your not valid" state
+// only ever deal with "you're not valid" state
 function wrapAuthorisedEndpoint(endpoint, data = undefined) {
 	return new Promise((resolve, reject) => {
 		fetch(endpoint, {

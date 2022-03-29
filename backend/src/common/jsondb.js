@@ -17,7 +17,7 @@ class JSONDB {
         } catch(e) {
             // make the folder just in case
             fs.mkdir(path.dirname(this._filepath), { recursive: true }, (err) => {
-                if (err) throw err; // not sure why this would happen, no perms maybe fucking unix moment, get fucked mac os users
+                if (err) throw err; // not sure why this would happen, no perms maybe unix moment
             });
             // if the file doesnt exist just make an empty array
             return []; 
@@ -32,8 +32,9 @@ class JSONDB {
 
     asyncUpdate() {
         fs.writeFile(this._filepath, JSON.stringify(this._internal, null, '\t'), (err) => {
-            if(err)
+            if (err) {
                 console.error(`path ${this._filepath}, doesnt exist!`);
+            }
         });
     }
 

@@ -11,7 +11,7 @@ const os = require('os');
 let ip;
 const interfaces = os.networkInterfaces();
 for (const i in interfaces) {
-	ip = interfaces[i].find(interface => interface.family === 'IPv4' && !interface.internal);
+	ip = interfaces[i].find(info => info.family === 'IPv4' && !info.internal);
 	if (ip) break;
 }
 

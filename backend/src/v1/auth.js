@@ -70,7 +70,7 @@ function authenticate(username, password) {
 		bcrypt.compare(password, user[0].pwdhash, (err, result) => {
 			if (err) {
 				console.log(err);
-				// cant really give a specific reason since thats a security flaw 
+				// can't really give a specific reason since that's a security flaw 
 				rej('Authentication failed');
 			} else if (result) {
 				res(createClaim(username));
