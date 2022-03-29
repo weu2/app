@@ -41,21 +41,22 @@ export function getBackendURL() {
 // only ever deal with "oh shit your not valid" state
 function wrapAuthorisedEndpoint(endpoint, data = undefined) {
 	return new Promise((resolve, reject) => {
-		fetch("/api/v1/getinfo", {
+		fetch(endpoint, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json"
 			},
 			body: data ? JSON.stringify(data) : "{}"
 		}).then(response => {
-			if(response.status === 200)
+			if (response.status === 200) {
 				resolve(response.json());
-			else
+			} else {
 				reject();
-		});
+			}
+		}).catch(reject);
 	});
 }
 
 export function backendGetInfo() {
-	return wrapAuthorisedEndpoint('/api/v1/getinfo')
+	return wrapAuthorisedEndpoint("/api/v1/getinfo");
 }
