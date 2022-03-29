@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 import { backendLogin } from "../api.jsx";
-import "./RegisterTest.css";
+import "./Register.css";
 
 class Login extends React.Component {
 
@@ -57,7 +57,7 @@ class Login extends React.Component {
 								onChange={e => this.setState({ password: e.target.value })}
 							/>
 						</div>
-						<button className="btn btn-primary btn-bevel Register-NextButton" type="submit">
+						<button className="btn btn-primary btn-bevel Register-SubmitButton" type="submit">
 							Login<FontAwesomeIcon icon={faArrowRight} />
 						</button>
 					</form>

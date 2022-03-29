@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faArrowRight, faFaceGrinWide, faLockOpen } from "@fortawesome/free-solid-svg-icons";
 import NumberFormat from "react-number-format";
 
-import { backendRegister } from "../api.jsx";
+import "./Register.css";
 import "./RegisterTest.css";
 import recaptcha from "../Meme/recaptcha.png";
 import wrong from "../Meme/wrong.png"
@@ -87,16 +87,6 @@ class RegisterTest extends React.Component {
 	verifyQuiz(e) {
 		e.preventDefault();
 		if (this.state.quizDoneTimeout || this.state.captchaState !== "spinning") return;
-
-		/* Send backend request */
-		backendRegister(
-			this.state.email,
-			this.state.password,
-			this.state.category,
-			this.state.firstName,
-			this.state.lastName
-		).then(console.log);
-
 		this.setState({
 			captchaState: "waiting",
 			quizDoneTimeout: setTimeout(() => {
@@ -126,7 +116,7 @@ class RegisterTest extends React.Component {
 							<FontAwesomeIcon icon={faChevronLeft} /> Back
 						</button> : null
 					}
-					<div className={this.state.page === 0 ? null : "Register-Page-Offscreen"}>
+					<div style={this.state.page === 0 ? null : { display: "none" }}>
 						<h2>I am a...</h2>
 						<button
 							onClick={(e) => {
@@ -148,7 +138,7 @@ class RegisterTest extends React.Component {
 						</button>
 					</div>
 					<form onSubmit={this.forwardPage.bind(this)}>
-						<div className={this.state.page === 1 ? null : "Register-Page-Offscreen"}>
+						<div style={this.state.page === 1 ? null : { display: "none" }}>
 							<div>
 								<label htmlFor="firstName">First Name</label>
 								<input
@@ -193,7 +183,7 @@ class RegisterTest extends React.Component {
 								/>
 							</div>
 						</div>
-						<div className={this.state.page === 2 ? null : "Register-Page-Offscreen"}>
+						<div style={this.state.page === 2 ? null : { display: "none" }}>
 							<label htmlFor="cardNumber">Mother's credit card number</label>
 							<div className="Register-CreditCard">
 								<div className="Register-CardStrip" />
@@ -233,7 +223,7 @@ class RegisterTest extends React.Component {
 								</div>
 							</div>
 						</div>
-						<div className={this.state.page === 3 ? null : "Register-Page-Offscreen"}>
+						<div style={this.state.page === 3 ? null : { display: "none" }}>
 							<div className="Register-Captcha" onClick={this.showQuiz.bind(this)}>
 								{
 									(this.state.captchaState === "spinning") ?
@@ -300,8 +290,8 @@ class RegisterTest extends React.Component {
 							}
 						</div>
 						{
-							(this.state.page >= 1 && this.state.page <= 2) ?
-							<button className="btn btn-primary btn-bevel Register-NextButton" type="submit">
+							(this.state.page === 1 || this.state.page === 2) ?
+							<button className="btn btn-primary btn-bevel Register-SubmitButton" type="submit">
 								Next<FontAwesomeIcon icon={faArrowRight} />
 							</button> : null
 						}
