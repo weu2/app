@@ -40,7 +40,6 @@ class Login extends React.Component {
 								type="email"
 								required={true}
 								autoComplete="email"
-								placeholder="davo@gmail.com"
 								value={this.state.email}
 								onChange={e => this.setState({ email: e.target.value })}
 							/>

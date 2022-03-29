@@ -63,7 +63,6 @@ class RegisterTest extends React.Component {
 								<input
 									className="form-input"
 									type="text"
-									placeholder="Dave"
 									autoComplete="given-name"
 									onChange={e => this.setState({ firstName: e.target.value })}
 								/>
@@ -73,7 +72,6 @@ class RegisterTest extends React.Component {
 								<input
 									className="form-input"
 									type="text"
-									placeholder="O"
 									autoComplete="family-name"
 									onChange={e => this.setState({ lastName: e.target.value })}
 								/>
@@ -83,7 +81,6 @@ class RegisterTest extends React.Component {
 								<input
 									className="form-input"
 									type="email"
-									placeholder="davo@gmail.com"
 									autoComplete="email"
 									onChange={e => this.setState({ email: e.target.value })}
 								/>
