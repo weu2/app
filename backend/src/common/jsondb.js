@@ -11,7 +11,7 @@ class JSONDB {
 
     // sync load the json file
     initialLoad() {
-        let filecontent = "";
+        let filecontent;
         try {
             filecontent = fs.readFileSync(this._filepath);
         } catch(e) {
