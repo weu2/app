@@ -28,7 +28,8 @@ function makeFakeUser(username, password) {
 	bcrypt.hash(password, 10).then(hash => { // idk 10 rounds of salt?
 		users.add({
 			id: username,
-			pwdhash: hash
+			pwdhash: hash,
+			type: "test"
 		});
 	});
 }
