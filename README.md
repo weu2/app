@@ -1,5 +1,9 @@
 # Welcome to WeU
-The world's greatest NRMA clone
+We are students of the University of Wollongong.
+
+This repository contains code for our CSIT314 assignment.
+
+This assignment uses external packages, listed in the `package.json` files within the `frontend/` and `backend/` folders.
 
 ## Things to install
 - [GitHub Desktop](https://desktop.github.com/), for downloading or uploading changes here.
