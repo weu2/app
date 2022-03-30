@@ -5,6 +5,12 @@ This repository contains code for our CSIT314 assignment.
 
 This assignment uses external packages, listed in the `package.json` files within the `frontend/` and `backend/` folders.
 
+## Academic Integrity and Credit
+NOTE: This program uses open source libraries, frameworks and APIs developed by other people not involved with this group, nor are 
+enrolled in this subject and univesity. 
+**All work in this assignment is developed outside of this assignment by non-participating organisations, UNLESS otherwise specified 
+in the file header.**
+
 ## Things to install
 - [GitHub Desktop](https://desktop.github.com/), for downloading or uploading changes here.
 - [Node version >16](https://nodejs.org/en/download/), for running the servers.
