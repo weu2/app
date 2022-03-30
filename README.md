@@ -1,7 +1,6 @@
 # Welcome to WeU
 We are students of the University of Wollongong. This repository contains code for our CSIT314 assignment.
 
-This assignment uses external packages, listed in the `package.json` files within the `frontend/` and `backend/` folders.
 External packages are listed in the `package.json` files within the `frontend/` and `backend/` folders.
 
 ## Academic Integrity and Credit
