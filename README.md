@@ -4,6 +4,7 @@ The world's greatest NRMA clone
 ## Things to install
 - [GitHub Desktop](https://desktop.github.com/), for downloading or uploading changes here.
 - [Node version >16](https://nodejs.org/en/download/), for running the servers.
+- [Git](https://git-scm.com/downloads), for OpenSSL (used for HTTPS)
 
 ## To download files from here
 1. Open GitHub Desktop.
