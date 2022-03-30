@@ -1,2 +1,2 @@
-cd $(dirname "$0")/frontend
+cd "$(dirname "$0")/frontend"
 npm run build
