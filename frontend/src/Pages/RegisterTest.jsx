@@ -15,7 +15,7 @@ class RegisterTest extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			category: null,
+			type: null,
 			firstName: null,
 			lastName: null,
 			email: null,
@@ -120,7 +120,7 @@ class RegisterTest extends React.Component {
 						<h2>I am a...</h2>
 						<button
 							onClick={(e) => {
-								this.setState({ category: "customer" });
+								this.setState({ type: "customer" });
 								this.forwardPage.bind(this)(e);
 							}}
 							className="btn btn-primary btn-bevel Register-CategoryButton"
@@ -129,7 +129,7 @@ class RegisterTest extends React.Component {
 						</button>
 						<button
 							onClick={(e) => {
-								this.setState({ category: "professional" });
+								this.setState({ type: "professional" });
 								this.forwardPage.bind(this)(e);
 							}}
 							className="btn btn-primary btn-bevel Register-CategoryButton"

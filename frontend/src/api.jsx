@@ -11,7 +11,7 @@ export function backendLogin(email, password) {
 	}).then(res => res.json());
 }
 
-export function backendRegister(email, password, category, firstName, lastName) {
+export function backendRegister(email, password, type, firstName, lastName) {
 	return fetch("/api/v1/register", {
 		method: "POST",
 		headers: {
@@ -20,7 +20,7 @@ export function backendRegister(email, password, category, firstName, lastName) 
 		body: JSON.stringify({
 			email: email,
 			pwd: password,
-			category: category,
+			type: type,
 			firstname: firstName,
 			lastname: lastName
 		})

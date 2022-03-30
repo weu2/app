@@ -33,13 +33,13 @@ function makeFakeUser(username, password) {
 	});
 }
 
-function createUser(username, password, category, firstname, lastname) {
+function createUser(username, password, type, firstname, lastname) {
 	const users = new JsonDB('data/users.json');
 	bcrypt.hash(password, 10).then(hash => { // idk 10 rounds of salt?
 		users.add({
 			id: username,
 			pwdhash: hash,
-			category: category,
+			type: type,
 			firstname: firstname,
 			lastname: lastname
 		});

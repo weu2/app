@@ -10,7 +10,7 @@ class Register extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			category: null,
+			type: null,
 			firstName: null,
 			lastName: null,
 			email: null,
@@ -24,7 +24,7 @@ class Register extends React.Component {
 		backendRegister(
 			this.state.email,
 			this.state.password,
-			this.state.category,
+			this.state.type,
 			this.state.firstName,
 			this.state.lastName
 		).then(json => alert(JSON.stringify(json)));
@@ -44,13 +44,13 @@ class Register extends React.Component {
 					<div style={this.state.page === 0 ? null : { display: "none" }}>
 						<h2>I am a...</h2>
 						<button
-							onClick={() => this.setState({ category: "customer", page: this.state.page + 1 })}
+							onClick={() => this.setState({ type: "customer", page: this.state.page + 1 })}
 							className="btn btn-primary btn-bevel Register-CategoryButton"
 						>
 							Customer<FontAwesomeIcon icon={faArrowRight} />
 						</button>
 						<button
-							onClick={() => this.setState({ category: "professional", page: this.state.page + 1 })}
+							onClick={() => this.setState({ type: "professional", page: this.state.page + 1 })}
 							className="btn btn-primary btn-bevel Register-CategoryButton"
 						>
 							Service Professional<FontAwesomeIcon icon={faArrowRight} />

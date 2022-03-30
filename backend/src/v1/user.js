@@ -24,8 +24,8 @@ router.get('/maketestlogin', (req, res) => {
 });
 
 router.post('/register', (req, res) => {
-	if (req.body.email && req.body.pwd && req.body.category && req.body.firstname && req.body.lastname) {
-		auth.createUser(req.body.email, req.body.pwd, req.body.category, req.body.firstname, req.body.lastname);
+	if (req.body.email && req.body.pwd && req.body.type && req.body.firstname && req.body.lastname) {
+		auth.createUser(req.body.email, req.body.pwd, req.body.type, req.body.firstname, req.body.lastname);
 		res.send({ status: 'ok' });
 	} else {
 		res.send({ status: 'invalid api parameters' });
@@ -36,8 +36,8 @@ router.post('/getinfo', (req, res) => {
 	const id = auth.verifyClaim(req.cookies.claim);
 	if(id) {
 		const users = new JsonDB('data/users.json');
-		const user = users.find({id:id})[0];
-		res.send({category:user.category});
+		const user = users.find({ id: id })[0];
+		res.send({ type: user.type });
 	} else {
 		res.status(401);
 		res.send();
