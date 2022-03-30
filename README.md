@@ -8,6 +8,7 @@ This assignment uses external packages, listed in the `package.json` files withi
 ## Academic Integrity and Credit
 NOTE: This program uses open source libraries, frameworks and APIs developed by other people not involved with this group, nor are 
 enrolled in this subject and univesity. 
+
 **All work in this assignment is developed outside of this assignment by non-participating organisations, UNLESS otherwise specified 
 in the file header.**
 
