@@ -6,8 +6,8 @@
 }
 
 .Register-Content {
-	background-color: white;
-	border-radius: calc(8px + 0.5vmin);
+	background-color: var(--stock-standard);
+	border-radius: calc(4px + 0.5vmin);
 	display: inline-block;
 	margin: calc(8px + 2vmin);
 	min-width: 50vw;

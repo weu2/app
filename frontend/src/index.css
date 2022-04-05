@@ -1,18 +1,21 @@
-/* Global website colors, access with var(--pink) */
+/* Global website colors, access with var(--aggressive-pink) */
 :root {
-	--pink: #ff00ff;
-	--green: #b4ff00;
+	--aggressive-pink: #FF449E;
+	--gamer-green: #3DEC00;
+	--stock-standard: #FFFFFF;
+	--bussin-black: #000000;
 
-	--bg-pink: #380034;
-	--bg-green: #4d6e00;
+	--logo-shadow: #CCFF00;
+	--bg-pink: #38001B;
+	--bg-green: #1E7000;
 	
-	--btn-primary: #e000e0;
-	--btn-primary-hover: #ff00ff;
-	--btn-primary-text: white;
+	--btn-primary: #F43C94;
+	--btn-primary-hover: var(--aggressive-pink);
+	--btn-primary-text: var(--stock-standard);
 
-	--btn-secondary: #b4ff00;
-	--btn-secondary-hover: #daff80;
-	--btn-secondary-text: black;
+	--btn-secondary: var(--gamer-green);
+	--btn-secondary-hover: var(--logo-shadow);
+	--btn-secondary-text: var(--bussin-black);
 }
 
 body {
@@ -38,7 +41,7 @@ code {
 }
 
 .btn {
-	border-radius: calc(4px + 0.3vmin);
+	border-radius: calc(2px + 0.2vmin);
 	border: none;
 	box-sizing: border-box;
 	cursor: pointer;
@@ -56,12 +59,12 @@ code {
 }
 
 .btn-primary.btn-bevel {
-	box-shadow: calc(3px + 0.1vmin) calc(3px + 0.1vmin) var(--green);
+	box-shadow: calc(3px + 0.1vmin) calc(3px + 0.1vmin) var(--logo-shadow);
 }
 
 .btn-primary.btn-bevel:active {
 	transform: scale(1.01);
-	box-shadow: 0 0 var(--green);
+	box-shadow: 0 0 var(--gamer-green);
 }
 
 .btn-secondary {
@@ -74,16 +77,16 @@ code {
 }
 
 .btn-secondary.btn-bevel {
-	box-shadow: calc(3px + 0.1vmin) calc(3px + 0.1vmin) var(--pink);
+	box-shadow: calc(3px + 0.1vmin) calc(3px + 0.1vmin) var(--aggressive-pink);
 }
 
 .btn-secondary.btn-bevel:active {
 	transform: scale(1.01);
-	box-shadow: 0 0 var(--pink);
+	box-shadow: 0 0 var(--aggressive-pink);
 }
 
 .form-input {
-	border-radius: calc(4px + 0.3vmin);
+	border-radius: calc(2px + 0.2vmin);
 	border: 2px solid lightgray;
 	box-sizing: border-box;
 	display: block;
