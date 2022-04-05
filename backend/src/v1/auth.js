@@ -63,9 +63,9 @@ function createClaim(username) {
 function authenticate(username, password) {
 	const users = new JsonDB('data/users.json');
 	return new Promise((res, rej) => {    
-		const user = users.find({id:username});
+		const user = users.find({ id: username });
 		if (user.length === 0) {
-			rej('No users match'); 
+			rej('No users exist'); 
 			return;
 		}
 		bcrypt.compare(password, user[0].pwdhash, (err, result) => {

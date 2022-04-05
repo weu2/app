@@ -15,7 +15,7 @@ class Dashboard extends React.Component {
 	componentDidMount() {
 		// Redirect to /login if user isn't logged in yet
 		backendGetUserInfo()
-			.then(info => this.setState({ type: info.type }))
+			.then(res => this.setState({ type: res.type }))
 			.catch(() => this.setState({ loggedIn: false })); 
 	}
 
