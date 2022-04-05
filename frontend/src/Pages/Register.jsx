@@ -15,7 +15,8 @@ class Register extends React.Component {
 			lastName: null,
 			email: null,
 			password: null,
-			page: 0
+			page: 0,
+			status: null
 		};
 	}
 
@@ -27,7 +28,8 @@ class Register extends React.Component {
 			this.state.type,
 			this.state.firstName,
 			this.state.lastName
-		).then(json => alert(JSON.stringify(json)));
+		).then(res => this.setState({ status: res }))
+		.catch(res => this.setState({ status: `Error: ${res}` }));
 	}
 
 	render() {
@@ -58,6 +60,7 @@ class Register extends React.Component {
 					</div>
 					<form onSubmit={this.submitForm.bind(this)}>
 						<div style={this.state.page === 1 ? null : { display: "none" }}>
+							<div>{this.state.status}</div>
 							<div>
 								<label htmlFor="firstName">First Name</label>
 								<input

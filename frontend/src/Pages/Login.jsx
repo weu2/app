@@ -1,5 +1,5 @@
 import React from "react";
-import {Navigate} from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
@@ -13,16 +13,16 @@ class Login extends React.Component {
 		this.state = {
 			email: null,
 			password: null,
+			loggedIn: false,
 			status: null
 		};
 	}
 
 	submitForm(e) {
 		e.preventDefault();
-		backendLogin(
-			this.state.email,
-			this.state.password
-		).then(json => this.setState({ status: json.status }));
+		backendLogin(this.state.email, this.state.password)
+			.then(() => this.setState({ loggedIn: true }))
+			.catch(res => this.setState({ status: `Error: ${res}` }));
 	}
 
 	render() {
@@ -30,8 +30,8 @@ class Login extends React.Component {
 			<div className="Register">
 				<div className="Register-Content">
 					<h1>Login</h1>
-					<div>{this.state.status === "ok" ? (<Navigate to="/dashboard"/>) : this.state.status}</div>
 					<form onSubmit={this.submitForm.bind(this)}>
+						<div>{this.state.loggedIn ? <Navigate to="/dashboard"/> : this.state.status}</div>
 						<div>
 							<label htmlFor="email">Email</label>
 							<input
@@ -40,7 +40,6 @@ class Login extends React.Component {
 								type="email"
 								required={true}
 								autoComplete="email"
-								value={this.state.email}
 								onChange={e => this.setState({ email: e.target.value })}
 							/>
 						</div>
@@ -52,7 +51,6 @@ class Login extends React.Component {
 								type="password"
 								required={true}
 								autoComplete="current-password"
-								value={this.state.password}
 								onChange={e => this.setState({ password: e.target.value })}
 							/>
 						</div>

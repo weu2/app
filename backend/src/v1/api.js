@@ -6,7 +6,8 @@ router.use((req, res, next) => {
     next();
 });
 
-// some weird code hallam added thats for the html
+// some weird code hallam added
+// gets a publically accessible IP for the server (maybe)
 const os = require('os');
 let ip;
 const interfaces = os.networkInterfaces();
@@ -19,13 +20,17 @@ const user = require('./user');
 router.use('/', user);
 
 router.get('/ip', (req, res) => {
-	res.send({ ip: ip?.address });
+	if (ip && ip.address) {
+		res.send({ ip: ip.address });
+	} else {
+		res.status(503).send('No IP available');
+	}
 });
 
 router.get('/test', (req, res) => {
     const jwt = require('../common/jwt');
 	const test = {
-		jwtverify:false
+		jwtverify: false
 	};
 	// verify jwt internally
 	const secret = 'sjdbflkikhsbdfilgubhasdilofbguilasdjfbgihsdbfgkhbsdfkilbghbsdlkifhjbg';
@@ -35,7 +40,7 @@ router.get('/test', (req, res) => {
 		iat: 1234567890,
 		jti: 1,
 	}, secret)
-	if(jwt.verifyJWT(tok, secret)) test.jwtverify = true;
+	if (jwt.verifyJWT(tok, secret)) test.jwtverify = true;
 
 	res.send(test);
 });

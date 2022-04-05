@@ -16,9 +16,9 @@ class Home extends React.Component {
 	}
 
 	componentDidMount() {
-		backendTest().then(res => this.setState({
-			data: res.jwtverify
-		}));
+		backendTest().then(res =>
+			this.setState({ data: res.jwtverify })
+		);
 	}
 
 	render() {

@@ -27,7 +27,7 @@ function LocationTest() {
 		
 		backendGetURL().then(res => setURL(
 			`${window.location.protocol}//${res.ip}:${window.location.port}${window.location.pathname}`
-		));
+		)).catch(console.error);
 
 		// Ensure geolocation API exists
 		if (!("geolocation" in navigator)) {

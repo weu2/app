@@ -16,7 +16,7 @@ class Dashboard extends React.Component {
 		// Redirect to /login if user isn't logged in yet
 		backendGetUserInfo()
 			.then(res => this.setState({ type: res.type }))
-			.catch(() => this.setState({ loggedIn: false })); 
+			.catch(() => this.setState({ loggedIn: false }));
 	}
 
 	render() {
@@ -24,7 +24,7 @@ class Dashboard extends React.Component {
 			<div>
 				{this.state.loggedIn ? null : <Navigate to="/login"/>}
 				<Header 
-					text="dashboard test page" 
+					text="dashboard test page"
 					center="true"
 				/>
 				<Header 
