@@ -8,7 +8,6 @@ import Home from "./Pages/Home";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import Dashboard from "./Pages/Dashboard";
-import RegisterTest from "./Pages/RegisterTest";
 import LocationTest from "./Pages/LocationTest";
 import NoPage from "./Pages/404";
 
@@ -21,7 +20,6 @@ render(
 				<Route path="register" element={<Register />} />
 				<Route path="dashboard" element={<Dashboard />} />
 				<Route path="locationtest" element={<LocationTest />} />
-				<Route path="registertest" element={<RegisterTest />} />
 				<Route path="*" element={<NoPage />} />
 			</Routes>
 		</BrowserRouter>

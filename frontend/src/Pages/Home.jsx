@@ -36,10 +36,9 @@ class Home extends React.Component {
 					</p>
 					<a className="Home-Link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">Learn React</a>
 					<div>
-						<Link className="btn btn-secondary Home-Button" to="/registertest">Register test</Link>
-						<Link className="btn btn-secondary Home-Button" to="/locationtest">Location test</Link>
 						<Link className="btn btn-secondary Home-Button" to="/login">Login</Link>
 						<Link className="btn btn-secondary Home-Button" to="/register">Register</Link>
+						<Link className="btn btn-secondary Home-Button" to="/locationtest">Location test</Link>
 					</div>
 				</div>
 			</div>
