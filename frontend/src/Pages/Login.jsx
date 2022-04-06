@@ -54,7 +54,7 @@ class Login extends React.Component {
 								onChange={e => this.setState({ password: e.target.value })}
 							/>
 						</div>
-						<button className="btn btn-primary btn-bevel Register-SubmitButton" type="submit">
+						<button className="btn btn-primary btn-shadow Register-SubmitButton" type="submit">
 							Login<FontAwesomeIcon icon={faArrowRight} />
 						</button>
 					</form>

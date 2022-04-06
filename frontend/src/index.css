@@ -1,26 +1,27 @@
 /* Global website colors, access with var(--aggressive-pink) */
 :root {
 	--aggressive-pink: #FF449E;
+	--bonk-pink: #C13779;
 	--gamer-green: #3DEC00;
+	--hi-vis: #CCFF00;
 	--stock-standard: #FFFFFF;
 	--bussin-black: #000000;
 
-	--logo-shadow: #CCFF00;
 	--bg-pink: #38001B;
 	--bg-green: #1E7000;
 	
-	--btn-primary: #F43C94;
-	--btn-primary-hover: var(--aggressive-pink);
+	--btn-primary: var(--aggressive-pink);
+	--btn-primary-active: var(--bonk-pink);
 	--btn-primary-text: var(--stock-standard);
 
 	--btn-secondary: var(--gamer-green);
-	--btn-secondary-hover: var(--logo-shadow);
+	--btn-secondary-active: var(--hi-vis);
 	--btn-secondary-text: var(--bussin-black);
 }
 
 body {
 	margin: 0;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+	font-family: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
@@ -54,17 +55,13 @@ code {
 	color: var(--btn-primary-text);
 }
 
-.btn-primary:hover {
-	background-color: var(--btn-primary-hover);
+.btn-primary.btn-shadow {
+	box-shadow: calc(3px + 0.1vmin) calc(3px + 0.1vmin) calc(3px + 0.1vmin) gray;
 }
 
-.btn-primary.btn-bevel {
-	box-shadow: calc(3px + 0.1vmin) calc(3px + 0.1vmin) var(--logo-shadow);
-}
-
-.btn-primary.btn-bevel:active {
-	transform: scale(1.01);
-	box-shadow: 0 0 var(--gamer-green);
+.btn-primary.btn-shadow:active {
+	background-color: var(--btn-primary-active);
+	box-shadow: 0 0 gray;
 }
 
 .btn-secondary {
@@ -72,16 +69,12 @@ code {
 	color: var(--btn-secondary-text);
 }
 
-.btn-secondary:hover {
-	background-color: var(--btn-secondary-hover);
+.btn-secondary.btn-shadow {
+	box-shadow: calc(3px + 0.1vmin) calc(3px + 0.1vmin) calc(3px + 0.1vmin) gray;
 }
 
-.btn-secondary.btn-bevel {
-	box-shadow: calc(3px + 0.1vmin) calc(3px + 0.1vmin) var(--aggressive-pink);
-}
-
-.btn-secondary.btn-bevel:active {
-	transform: scale(1.01);
+.btn-secondary.btn-shadow:active {
+	background-color: var(--btn-secondary-active);
 	box-shadow: 0 0 var(--aggressive-pink);
 }
 

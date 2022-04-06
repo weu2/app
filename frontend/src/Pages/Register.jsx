@@ -47,13 +47,13 @@ class Register extends React.Component {
 						<h2>I am a...</h2>
 						<button
 							onClick={() => this.setState({ type: "customer", page: this.state.page + 1 })}
-							className="btn btn-primary btn-bevel Register-CategoryButton"
+							className="btn btn-primary btn-shadow Register-CategoryButton"
 						>
 							Customer<FontAwesomeIcon icon={faArrowRight} />
 						</button>
 						<button
 							onClick={() => this.setState({ type: "professional", page: this.state.page + 1 })}
-							className="btn btn-primary btn-bevel Register-CategoryButton"
+							className="btn btn-primary btn-shadow Register-CategoryButton"
 						>
 							Service Professional<FontAwesomeIcon icon={faArrowRight} />
 						</button>
@@ -97,7 +97,7 @@ class Register extends React.Component {
 									onChange={e => this.setState({ password: e.target.value })}
 								/>
 							</div>
-							<button className="btn btn-primary btn-bevel Register-SubmitButton" type="submit">
+							<button className="btn btn-primary btn-shadow Register-SubmitButton" type="submit">
 								Submit<FontAwesomeIcon icon={faArrowRight} />
 							</button>
 						</div>
