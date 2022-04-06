@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import { backendTest } from "../api.jsx";
-import logo from "../logo.svg";
+import logo from "../Logo/logo_nobevel.svg";
 import wii from "../Meme/wii.png";
 import "./Home.css";
 
