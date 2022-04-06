@@ -2,8 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import { backendTest } from "../api.jsx";
-import logo from "../Logo/logo_nobevel.svg";
-import wii from "../Meme/wii.png";
 import "./Home.css";
 
 class Home extends React.Component {
@@ -25,9 +23,9 @@ class Home extends React.Component {
 		return (
 			<div className="Home text-center">
 				<div className="Home-Content">
-					<img src={logo} className="Home-Logo" alt="logo" />
+					<img src="/logo_nobevel.svg" className="Home-Logo" alt="logo" />
 					<div className="Home-LogoContainer">
-						<img src={wii} className="Home-Wii" alt="wii" />
+						<img src="/wii.png" className="Home-Wii" alt="wii" />
 					</div>
 					<p>
 						{!this.state.data ? "Backend is not working!" : "Backend is working!"}
