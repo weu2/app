@@ -35,7 +35,7 @@ class Register extends React.Component {
 			this.state.license,
 			this.state.password,
 			this.state.type
-		).then(res => this.setState({ status: res }))
+		).then(() => this.setState({ status: "OK" }))
 		.catch(res => this.setState({ status: `Error: ${res}` }));
 	}
 
