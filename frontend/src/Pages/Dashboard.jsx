@@ -8,14 +8,14 @@ class Dashboard extends React.Component {
 		super(props);
 		this.state = {
 			loggedIn: true,
-			type: null
+			info: null
 		}
 	}
 
 	componentDidMount() {
 		// Redirect to /login if user isn't logged in yet
 		backendGetUserInfo()
-			.then(res => this.setState({ type: res.type }))
+			.then(res => this.setState({ info: JSON.stringify(res, null, "\t") }))
 			.catch(() => this.setState({ loggedIn: false }));
 	}
 
@@ -27,10 +27,7 @@ class Dashboard extends React.Component {
 					text="dashboard test page"
 					center="true"
 				/>
-				<Header 
-					text={this.state.type ? `Your user type is: ${this.state.type}` : "Loading..."}
-					center="true"
-				/>
+				{this.state.info ? <p>{this.state.info}</p> : null}
 			</div>
 		);
 	}

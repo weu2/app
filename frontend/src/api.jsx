@@ -22,12 +22,12 @@ export function backendLogin(email, password) {
 		},
 		body: JSON.stringify({
 			email: email,
-			pwd: password
+			password: password
 		})
 	}).then(res => res.text());
 }
 
-export function backendRegister(email, password, type, firstName, lastName) {
+export function backendRegister(email, firstName, lastName, address, phoneNumber, license, password, type) {
 	return fetchStrict("/api/v1/register", {
 		method: "POST",
 		headers: {
@@ -35,10 +35,13 @@ export function backendRegister(email, password, type, firstName, lastName) {
 		},
 		body: JSON.stringify({
 			email: email,
-			pwd: password,
-			type: type,
-			firstname: firstName,
-			lastname: lastName
+			firstName: firstName,
+			lastName: lastName,
+			address: address,
+			phoneNumber: phoneNumber,
+			license: license,
+			password: password,
+			type: type
 		})
 	}).then(res => res.text());
 }

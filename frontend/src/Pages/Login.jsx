@@ -35,8 +35,8 @@ class Login extends React.Component {
 						<div>
 							<label htmlFor="email">Email</label>
 							<input
+								id="email"
 								className="form-input"
-								name="email"
 								type="email"
 								required={true}
 								autoComplete="email"
@@ -46,8 +46,8 @@ class Login extends React.Component {
 						<div>
 							<label htmlFor="password">Password</label>
 							<input
+								id="password"
 								className="form-input"
-								name="pwd"
 								type="password"
 								required={true}
 								autoComplete="current-password"

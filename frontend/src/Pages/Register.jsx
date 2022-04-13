@@ -1,4 +1,5 @@
 import React from "react";
+import { Navigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
@@ -10,11 +11,14 @@ class Register extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			type: null,
+			email: null,
 			firstName: null,
 			lastName: null,
-			email: null,
+			address: null,
+			phoneNumber: null,
+			license: null,
 			password: null,
+			type: null,
 			page: 0,
 			status: null
 		};
@@ -24,10 +28,13 @@ class Register extends React.Component {
 		e.preventDefault();
 		backendRegister(
 			this.state.email,
+			this.state.firstName, 
+			this.state.lastName,
+			this.state.address,
+			this.state.phoneNumber,
+			this.state.license,
 			this.state.password,
-			this.state.type,
-			this.state.firstName,
-			this.state.lastName
+			this.state.type
 		).then(res => this.setState({ status: res }))
 		.catch(res => this.setState({ status: `Error: ${res}` }));
 	}
@@ -46,13 +53,13 @@ class Register extends React.Component {
 					<div style={this.state.page === 0 ? null : { display: "none" }}>
 						<h2>I am a...</h2>
 						<button
-							onClick={() => this.setState({ type: "customer", page: this.state.page + 1 })}
+							onClick={() => this.setState({ type: "CUSTOMER", page: this.state.page + 1 })}
 							className="btn btn-primary btn-shadow Register-CategoryButton"
 						>
 							Customer<FontAwesomeIcon icon={faArrowRight} />
 						</button>
 						<button
-							onClick={() => this.setState({ type: "professional", page: this.state.page + 1 })}
+							onClick={() => this.setState({ type: "PROFESSIONAL", page: this.state.page + 1 })}
 							className="btn btn-primary btn-shadow Register-CategoryButton"
 						>
 							Service Professional<FontAwesomeIcon icon={faArrowRight} />
@@ -60,10 +67,11 @@ class Register extends React.Component {
 					</div>
 					<form onSubmit={this.submitForm.bind(this)}>
 						<div style={this.state.page === 1 ? null : { display: "none" }}>
-							<div>{this.state.status}</div>
+							{this.state.status === "OK" ? <Navigate to="/login"/> : <div>{this.state.status}</div>}
 							<div>
 								<label htmlFor="firstName">First Name</label>
 								<input
+									id="firstName"
 									className="form-input"
 									type="text"
 									autoComplete="given-name"
@@ -73,6 +81,7 @@ class Register extends React.Component {
 							<div>
 								<label htmlFor="lastName">Last Name</label>
 								<input
+									id="lastName"
 									className="form-input"
 									type="text"
 									autoComplete="family-name"
@@ -80,8 +89,39 @@ class Register extends React.Component {
 								/>
 							</div>
 							<div>
+								<label htmlFor="address">Address</label>
+								<input
+									id="address"
+									className="form-input"
+									type="text"
+									autoComplete="street-address"
+									onChange={e => this.setState({ address: e.target.value })}
+								/>
+							</div>
+							<div>
+								<label htmlFor="phone">Phone Number</label>
+								<input
+									id="phone"
+									className="form-input"
+									type="tel"
+									autoComplete="tel"
+									onChange={e => this.setState({ phoneNumber: e.target.value })}
+								/>
+							</div>
+							<div>
+								<label htmlFor="license">License Number</label>
+								<input
+									id="license"
+									className="form-input"
+									type="number"
+									autoComplete="license"
+									onChange={e => this.setState({ license: e.target.value })}
+								/>
+							</div>
+							<div>
 								<label htmlFor="email">Email</label>
 								<input
+									id="email"
 									className="form-input"
 									type="email"
 									autoComplete="email"
@@ -91,6 +131,7 @@ class Register extends React.Component {
 							<div>
 								<label htmlFor="password">Password</label>
 								<input
+									id="password"
 									className="form-input"
 									type="password"
 									autoComplete="current-password"
