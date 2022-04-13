@@ -37,6 +37,29 @@ router.post('/register', (req, res) => {
 	}
 });
 
+router.post('/update', (req, res) => {
+	const uuid = auth.verifyClaim(req.cookies.claim);
+	if (uuid) {
+		const validUpdateKeys = ['email', 'firstName', 'lastName', 'address', 'phoneNumber', 'license'];
+		const users = new JsonDB('data/users.json');
+
+		const updateObject = {};
+
+		Object.keys(req.body).forEach(key => {
+			if(validUpdateKeys.includes(key))
+			{
+				updateObject[key] = req.body[key];
+			}
+		});
+
+		users.update({uuid:uuid}, updateObject);
+
+		res.status(200).send();
+	} else {
+		res.status(401);
+	}
+});
+
 router.get('/getinfo', (req, res) => {
 	const uuid = auth.verifyClaim(req.cookies.claim);
 	if (uuid) {
@@ -48,7 +71,7 @@ router.get('/getinfo', (req, res) => {
 		delete user.uuid;
 		res.send(user);
 	} else {
-		res.status(401).send('Unauthorized');
+		res.status(401);
 	}
 });
 
