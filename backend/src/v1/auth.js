@@ -49,10 +49,13 @@ function makeFakeUser(email, password) {
 */
 
 function createUser(email, firstName, lastName, address, phoneNumber, license, password, type) {
+	const userTypes = ["CUSTOMER", "PROFESSIONAL"];
 	return new Promise((res, rej) => {	
 		const users = new JsonDB('data/users.json');
 		if(users.find({email:enail}).length() > 0) // same email registered twice
-			return rej();
+			return rej('Email already registered');
+		if (!userTypes.includes(req.body.type))
+			return rej('Bad API');
 		bcrypt.hash(password, 10).then(hash => { // idk 10 rounds of salt?
 			users.add({
 				email: email,
