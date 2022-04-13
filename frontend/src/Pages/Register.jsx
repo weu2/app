@@ -69,6 +69,26 @@ class Register extends React.Component {
 						<div style={this.state.page === 1 ? null : { display: "none" }}>
 							{this.state.status === "OK" ? <Navigate to="/login"/> : <div>{this.state.status}</div>}
 							<div>
+								<label htmlFor="email">Email</label>
+								<input
+									id="email"
+									className="form-input"
+									type="email"
+									autoComplete="email"
+									onChange={e => this.setState({ email: e.target.value })}
+								/>
+							</div>
+							<div>
+								<label htmlFor="password">Password</label>
+								<input
+									id="password"
+									className="form-input"
+									type="password"
+									autoComplete="current-password"
+									onChange={e => this.setState({ password: e.target.value })}
+								/>
+							</div>
+							<div>
 								<label htmlFor="firstName">First Name</label>
 								<input
 									id="firstName"
@@ -116,26 +136,6 @@ class Register extends React.Component {
 									type="number"
 									autoComplete="license"
 									onChange={e => this.setState({ license: e.target.value })}
-								/>
-							</div>
-							<div>
-								<label htmlFor="email">Email</label>
-								<input
-									id="email"
-									className="form-input"
-									type="email"
-									autoComplete="email"
-									onChange={e => this.setState({ email: e.target.value })}
-								/>
-							</div>
-							<div>
-								<label htmlFor="password">Password</label>
-								<input
-									id="password"
-									className="form-input"
-									type="password"
-									autoComplete="current-password"
-									onChange={e => this.setState({ password: e.target.value })}
 								/>
 							</div>
 							<button className="btn btn-primary btn-shadow Register-SubmitButton" type="submit">
