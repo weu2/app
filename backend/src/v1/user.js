@@ -13,16 +13,11 @@ router.post('/login', (req, res) => {
 			.then(claim => {
 				res.cookie('claim', claim, { sameSite: 'Strict' }).send('OK');
 			}).catch(err => {
-				res.status(401).send('Unauthorized')
+				res.status(401).send(err)
 			});
 	} else {
 		res.status(400).send('Missing API parameters');
 	}
-});
-
-router.get('/maketestlogin', (req, res) => {
-	auth.makeFakeUser('test@example.com', 'test');
-	res.send('OK');
 });
 
 router.post('/register', (req, res) => {
@@ -42,17 +37,15 @@ router.post('/register', (req, res) => {
 	}
 });
 
-router.post('/update', (req, res) => {
-
-});
-
 router.get('/getinfo', (req, res) => {
-	const email = auth.verifyClaim(req.cookies.claim);
-	if (email) {
+	const uuid = auth.verifyClaim(req.cookies.claim);
+	if (uuid) {
 		const users = new JsonDB('data/users.json');
-		const user = users.find({ email: email })[0];
+		const user = users.find({ uuid: uuid })[0];
 		// For security, send everything except the password hash
 		delete user.passwordHash;
+		// this is stored in the cookie so its not needed
+		delete user.uuid;
 		res.send(user);
 	} else {
 		res.status(401).send('Unauthorized');

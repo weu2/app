@@ -2,6 +2,7 @@
 const jwt = require('../common/jwt');
 const JsonDB = require('../common/jsondb');
 const bcrypt = require('bcrypt');
+const uuid = require('uuid');
 
 
 // these need to go in their own file for now they can live here
@@ -22,19 +23,9 @@ function verifyClaim(claim) {
 	}
 }
 
-function makeFakeUser(email, password) {
-	const users = new JsonDB('data/users.json');
-	bcrypt.hash(password, 10).then(hash => { // idk 10 rounds of salt?
-		users.add({
-			email: email,
-			passwordHash: hash,
-			TEST: {}
-		});
-	});
-}
-
 /* User format currently:
 {
+	uuid: string
 	email: string
 	firstName: string
 	lastName: string
@@ -52,12 +43,17 @@ function createUser(email, firstName, lastName, address, phoneNumber, license, p
 	const userTypes = ["CUSTOMER", "PROFESSIONAL"];
 	return new Promise((res, rej) => {	
 		const users = new JsonDB('data/users.json');
-		if(users.find({email:enail}).length() > 0) // same email registered twice
+		if(users.find({email:email}).length() > 0) // same email registered twice
+		{
 			return rej('Email already registered');
-		if (!userTypes.includes(req.body.type))
+		}	
+		if (!userTypes.includes(type))
+		{
 			return rej('Bad API');
+		}
 		bcrypt.hash(password, 10).then(hash => { // idk 10 rounds of salt?
 			users.add({
+				uuid: uuid.v4(),
 				email: email,
 				firstName: firstName,
 				lastName: lastName,
@@ -73,11 +69,11 @@ function createUser(email, firstName, lastName, address, phoneNumber, license, p
 	});
 }
 
-function createClaim(email) {
+function createClaim(uuid) {
 	const iat = Math.floor(Date.now() / 1000);
 	const exp = iat + 3600; // + 1 hour
 	const payload = {
-		sub: email,
+		sub: uuid,
 		iat: iat,
 		exp: exp,
 		jti: jwtID
@@ -89,18 +85,19 @@ function createClaim(email) {
 function authenticate(email, password) {
 	const users = new JsonDB('data/users.json');
 	return new Promise((res, rej) => {    
-		const user = users.find({ email: email });
-		if (user.length === 0) {
+		const ruser = users.find({ email: email });
+		if (ruser.length != 1) {
 			rej('No users exist'); 
 			return;
 		}
-		bcrypt.compare(password, user[0].passwordHash, (err, result) => {
+		const user = ruser[0]; 
+		bcrypt.compare(password, user.passwordHash, (err, result) => {
 			if (err) {
 				console.log(err);
 				// can't really give a specific reason since that's a security flaw 
 				rej('Authentication failed');
 			} else if (result) {
-				res(createClaim(email));
+				res(createClaim(user.uuid));
 			} else {
 				rej('Authentication failed');
 			}
@@ -110,5 +107,4 @@ function authenticate(email, password) {
 
 module.exports.verifyClaim = verifyClaim;
 module.exports.authenticate = authenticate;
-module.exports.makeFakeUser = makeFakeUser;
 module.exports.createUser = createUser;
