@@ -30,8 +30,16 @@ const userTypes = ["CUSTOMER", "PROFESSIONAL"];
 router.post('/register', (req, res) => {
 	if (req.body.email && req.body.firstName && req.body.lastName && req.body.address && req.body.phoneNumber && req.body.license && req.body.password && req.body.type) {
 		if (userTypes.includes(req.body.type)) {
-			auth.createUser(req.body.email, req.body.firstName, req.body.lastName, req.body.address, req.body.phoneNumber, req.body.license, req.body.password, req.body.type);
-			res.send('OK');
+			auth.createUser(req.body.email, 
+				req.body.firstName, 
+				req.body.lastName, 
+				req.body.address, 
+				req.body.phoneNumber, 
+				req.body.license, 
+				req.body.password, 
+				req.body.type)
+				.then(() => res.status(200).send() )
+				.catch(() => res.status(400).send('Information already registered') );
 		} else {
 			res.status(400).send('Invalid user type');
 		}
