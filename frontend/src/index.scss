@@ -1,0 +1,46 @@
+/* Global website colors */
+$aggressive-pink: #FF449E;
+$bonk-pink: #C13779;
+$gamer-green: #3DEC00;
+$hi-vis: #CCFF00;
+
+$stock-standard: #FFFFFF;
+$bussin-black: #000000;
+
+$bg-primary: #38001B;
+$bg-secondary: #1E7000;
+
+/* Override default Bootstrap theme */
+$font-family-sans-serif: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+
+$primary: $aggressive-pink;
+$secondary: $gamer-green;
+
+$enable-shadows: true;
+
+$btn-transition: 0.05s;
+$btn-box-shadow: 3px 3px 3px gray !important;
+
+/* Import Bootstrap SASS stylesheet for overriding */
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+/* Override Bootstrap-generated styles */
+.btn:active {
+	box-shadow: none !important;
+}
+
+.btn-primary {
+	color: $stock-standard !important;
+}
+
+.btn-primary:active {
+	background-color: $bonk-pink;
+}
+
+.btn-secondary {
+	color: $bussin-black !important;
+}
+
+.btn-secondary:active {
+	background-color: $hi-vis;
+}

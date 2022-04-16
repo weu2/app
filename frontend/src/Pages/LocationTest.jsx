@@ -2,8 +2,11 @@ import React from "react";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
+import Alert from "react-bootstrap/Alert";
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
+
 import { backendGetURL } from "../api.jsx";
-import "./LocationTest.css";
 
 // Fix marker icon not loading (see github.com/PaulLeCam/react-leaflet/issues/808)
 import L from "leaflet";
@@ -18,52 +21,72 @@ L.Icon.Default.mergeOptions({
 	shadowUrl: markerShadow,
 });
 
-function LocationTest() {
-	const [status, setStatus] = React.useState("Waiting for location...");
-	const [position, setPosition] = React.useState(null);
-	const [url, setURL] = React.useState(window.location.href);
+class LocationTest extends React.Component {
 
-	React.useEffect(() => {
-		
-		backendGetURL().then(res => setURL(
-			`${window.location.protocol}//${res.ip}:${window.location.port}${window.location.pathname}`
-		)).catch(console.error);
+	constructor(props) {
+		super(props);
+		this.state = {
+			position: null,
+			url: window.location.href,
+			status: "Waiting for location...",
+			error: null
+		};
+	}
 
+	componentDidMount() {
+		backendGetURL().then(res => this.setState({
+			url: `${window.location.protocol}//${res.ip}:${window.location.port}${window.location.pathname}`
+		})).catch(console.error);
+	}
+
+	getLocation = () => {
 		// Ensure geolocation API exists
 		if (!("geolocation" in navigator)) {
-			setStatus("Error: Geolocation is not supported on your browser!");
+			this.setState({
+				error: "Error: Geolocation is not supported on your browser!"
+			});
+			return;
 		}
 		
-		navigator.geolocation.watchPosition(pos => {
-			setStatus("Got your location! (Roughly)");
-			setPosition([pos.coords.latitude, pos.coords.longitude]);
-		}, error => {
-			setStatus(`Error: ${error.message}`);
-		}, {
+		// Use watchPosition() to update the position every few seconds
+		navigator.geolocation.getCurrentPosition(pos => this.setState({
+			status: "Got your location! (Roughly)",
+			position: [pos.coords.latitude, pos.coords.longitude]
+		}), error => this.setState({
+			error: `Error: ${error.message}`
+		}), {
 			enableHighAccuracy: true
 		});
-	}, []);
+	}
 
-	return (
-		<div className="LocationTest">
-			<h1>{status}</h1>
-			<p>This is way more accurate on devices with a GPS (like a phone)</p>
-			<p>Latitude: {position ? position[0] : "Unknown"}</p>
-			<p>Longitude: {position ? position[1] : "Unknown"}</p>
-			{position ?
-				<MapContainer className="LocationTest-MapContainer" center={position} zoom={20}>
-					<TileLayer
-						attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-						url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-					/>
-					<Marker position={position} />
-				</MapContainer>
-				: <p>Waiting for location...</p>
-			}
-			<p>Eventually this page needs a public URL so multiple devices can be tracked at once</p>
-			<p><a href={url} target="_blank" rel="noreferrer noopener">{url}</a> doesn't work yet</p>
-		</div>
-	);
+	render() {
+		return (
+			<Container>
+				<h2 className="mb-4">Location Test</h2>
+				<Button className="mb-3" onClick={this.getLocation} size="med">Get my location</Button>
+				<p>This is way more accurate on devices with a GPS (like a phone)</p>
+				<p>
+					Latitude: {this.state.position ? this.state.position[0] : "Unknown"}
+					<br/>
+					Longitude: {this.state.position ? this.state.position[1] : "Unknown"}
+				</p>
+				<Alert variant={this.state.error ? "warning" : "info"}>
+					{this.state.error ? this.state.error : this.state.status}
+				</Alert>
+				{this.state.position ?
+					<MapContainer style={{ width: "720px", height: "540px" }} center={this.state.position} zoom={20}>
+						<TileLayer
+							attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+							url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+						/>
+						<Marker position={this.state.position} />
+					</MapContainer> : null
+				}
+				<p>Eventually this page needs a public URL so multiple devices can be tracked at once</p>
+				<p><a href={this.state.url} target="_blank" rel="noreferrer noopener">{this.state.url}</a> doesn't work yet</p>
+			</Container>
+		)
+	}
 }
 
-export default React.memo(LocationTest);
+export default LocationTest;

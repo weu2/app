@@ -1,10 +1,12 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+
+import Alert from "react-bootstrap/Alert";
+import Form from "react-bootstrap/Form";
+import Container from "react-bootstrap/Container";
+import LargeButton from "../Components/LargeButton";
 
 import { backendLogin } from "../api.jsx";
-import "./Register.css";
 
 class Login extends React.Component {
 
@@ -14,52 +16,67 @@ class Login extends React.Component {
 			email: null,
 			password: null,
 			loggedIn: false,
-			status: null
+			error: null
 		};
 	}
 
-	submitForm(e) {
-		e.preventDefault();
-		backendLogin(this.state.email, this.state.password)
-			.then(() => this.setState({ loggedIn: true }))
-			.catch(res => this.setState({ status: `Error: ${res}` }));
+	submitForm = (event) => {
+		event.preventDefault();
+		const form = event.currentTarget;
+		if (form.checkValidity()) {
+			backendLogin(
+				this.state.email,
+				this.state.password
+			).then(() => this.setState({
+				loggedIn: true
+			})).catch(async(res) => this.setState({
+				error: `Error: ${res.status} (${res.statusText}) ${await res.text()}`
+			}));
+		}
+	}
+
+	changeHandler = (event) => {
+		this.setState({ [event.target.name]: event.target.value });
 	}
 
 	render() {
 		return (
-			<div className="Register">
-				<div className="Register-Content">
-					<h1>Login</h1>
-					<form onSubmit={this.submitForm.bind(this)}>
-						<div>{this.state.loggedIn ? <Navigate to="/dashboard"/> : this.state.status}</div>
-						<div>
-							<label htmlFor="email">Email</label>
-							<input
-								id="email"
-								className="form-input"
-								type="email"
-								required={true}
-								autoComplete="email"
-								onChange={e => this.setState({ email: e.target.value })}
-							/>
-						</div>
-						<div>
-							<label htmlFor="password">Password</label>
-							<input
-								id="password"
-								className="form-input"
-								type="password"
-								required={true}
-								autoComplete="current-password"
-								onChange={e => this.setState({ password: e.target.value })}
-							/>
-						</div>
-						<button className="btn btn-primary btn-shadow Register-SubmitButton" type="submit">
-							Login<FontAwesomeIcon icon={faArrowRight} />
-						</button>
-					</form>
-				</div>
-			</div>
+			<Container>
+				<h2 className="mb-4">Login</h2>
+				{this.state.loggedIn ? <Navigate to="/dashboard"/> : null}
+				{this.state.error ? <Alert variant="danger">{this.state.error}</Alert> : null}
+				<Form noValidate onSubmit={this.submitForm}>
+					<Form.Group className="mb-3" controlId="formEmail">
+						<Form.Label>Email</Form.Label>
+						<Form.Control
+							name="email"
+							type="email"
+							autoComplete="email"
+							onChange={this.changeHandler}
+							required
+						/>
+						<Form.Control.Feedback type="invalid">
+							Please provide an email.
+						</Form.Control.Feedback>
+					</Form.Group>
+					<Form.Group className="mb-4" controlId="formPassword">
+						<Form.Label>Password</Form.Label>
+						<Form.Control
+							name="password"
+							type="password"
+							autoComplete="current-password"
+							onChange={this.changeHandler}
+							required
+						/>
+						<Form.Control.Feedback type="invalid">
+							Please choose a password.
+						</Form.Control.Feedback>
+					</Form.Group>
+					<LargeButton variant="primary" type="submit" icon="arrow-right">
+						Login
+					</LargeButton>
+				</Form>
+			</Container>
 		);
 	}
 }

@@ -10,11 +10,11 @@ router.use((req, res, next) => {
 router.post('/login', (req, res) => {
 	if (req.body.email && req.body.password) {
 		auth.authenticate(req.body.email, req.body.password)
-			.then(claim => {
-				res.cookie('claim', claim, { sameSite: 'Strict' }).send('OK');
-			}).catch(err => {
+			.then(claim =>
+				res.cookie('claim', claim, { sameSite: 'Strict' }).send('OK')
+			).catch(err =>
 				res.status(401).send(err)
-			});
+			);
 	} else {
 		res.status(400).send('Missing API parameters');
 	}
@@ -30,8 +30,11 @@ router.post('/register', (req, res) => {
 			req.body.license, 
 			req.body.password, 
 			req.body.type)
-			.then(() => res.status(200).send() )
-			.catch((a) => res.status(400).send(a) );
+			.then(() =>
+				res.status(200).send()
+			).catch(err =>
+				res.status(400).send(err)
+			);
 	} else {
 		res.status(400).send('Missing API parameters');
 	}

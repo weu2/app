@@ -2,7 +2,11 @@ import React from "react";
 import { render } from "react-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
-import "./index.css";
+
+import NavigationBar from "./Components/NavigationBar";
+
+/* SASS file includes and modifies Bootstrap stylesheet */
+import "./index.scss";
 
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
@@ -14,6 +18,7 @@ import NoPage from "./Pages/404";
 render(
 	<React.StrictMode>
 		<BrowserRouter>
+			<NavigationBar />
 			<Routes>
 				<Route path="/" element={<Home />} />
 				<Route path="login" element={<Login />} />

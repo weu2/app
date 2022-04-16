@@ -41,16 +41,18 @@ function verifyClaim(claim) {
 
 function createUser(email, firstName, lastName, address, phoneNumber, license, password, type) {
 	const userTypes = ["CUSTOMER", "PROFESSIONAL"];
-	return new Promise((res, rej) => {	
+	return new Promise((res, rej) => {
 		const users = new JsonDB('data/users.json');
-		if(users.find({email:email}).length() > 0) // same email registered twice
-		{
+
+		// Check for same email registered twice
+		if (users.find({ email: email }).length > 0) {
 			return rej('Email already registered');
-		}	
-		if (!userTypes.includes(type))
-		{
-			return rej('Bad API');
 		}
+
+		if (!userTypes.includes(type)) {
+			return rej('Invalid user type');
+		}
+
 		bcrypt.hash(password, 10).then(hash => { // idk 10 rounds of salt?
 			users.add({
 				uuid: uuid.v4(),
@@ -86,8 +88,8 @@ function authenticate(email, password) {
 	const users = new JsonDB('data/users.json');
 	return new Promise((res, rej) => {    
 		const ruser = users.find({ email: email });
-		if (ruser.length != 1) {
-			rej('No users exist'); 
+		if (ruser.length === 0) {
+			rej('No matching users'); 
 			return;
 		}
 		const user = ruser[0]; 

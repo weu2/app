@@ -4,11 +4,11 @@
 
 function fetchStrict(endpoint, options) {
 	return new Promise((resolve, reject) => {
-		fetch(endpoint, options).then(async(response) => {
+		fetch(endpoint, options).then(response => {
 			if (response.ok) {
-				resolve(response); // Allow handlers to choose json() or text()
+				resolve(response);
 			} else {
-				reject(await response.text()); // Assume errors are text()
+				reject(response);
 			}
 		}).catch(reject);
 	});
