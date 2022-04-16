@@ -16,7 +16,8 @@ class Login extends React.Component {
 			email: null,
 			password: null,
 			loggedIn: false,
-			error: null
+			error: null,
+			validated: false
 		};
 	}
 
@@ -33,6 +34,8 @@ class Login extends React.Component {
 				error: `Error: ${res.status} (${res.statusText}) ${await res.text()}`
 			}));
 		}
+		// Show validation messages if required
+		this.setState({ validated: true });
 	}
 
 	changeHandler = (event) => {
@@ -45,7 +48,7 @@ class Login extends React.Component {
 				<h2 className="mb-4">Login</h2>
 				{this.state.loggedIn ? <Navigate to="/dashboard"/> : null}
 				{this.state.error ? <Alert variant="danger">{this.state.error}</Alert> : null}
-				<Form noValidate onSubmit={this.submitForm}>
+				<Form noValidate validated={this.state.validated} onSubmit={this.submitForm}>
 					<Form.Group className="mb-3" controlId="formEmail">
 						<Form.Label>Email</Form.Label>
 						<Form.Control

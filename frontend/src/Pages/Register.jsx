@@ -22,7 +22,8 @@ class Register extends React.Component {
 			password: null,
 			type: null,
 			registered: false,
-			error: null
+			error: null,
+			validated: false
 		};
 	}
 
@@ -45,6 +46,8 @@ class Register extends React.Component {
 				error: `Error: ${res.status} (${res.statusText}) ${await res.text()}`
 			}));
 		}
+		// Show validation messages if required
+		this.setState({ validated: true });
 	}
 
 	changeHandler = (event) => {
@@ -57,7 +60,7 @@ class Register extends React.Component {
 				<h2 className="mb-4">Register</h2>
 				{this.state.registered ? <Navigate to="/login"/> : null}
 				{this.state.error ? <Alert variant="danger">{this.state.error}</Alert> : null}
-				<Form noValidate onSubmit={this.submitForm}>
+				<Form noValidate validated={this.state.validated} onSubmit={this.submitForm}>
 					<Form.Group className="mb-3" key="inline-radio">
 						<Form.Label>I am a:</Form.Label>
 						<Form.Check
