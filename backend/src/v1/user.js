@@ -59,7 +59,7 @@ router.post('/update', (req, res) => {
 
 		res.status(200).send();
 	} else {
-		res.status(401);
+		res.status(401).send();
 	}
 });
 
@@ -74,7 +74,7 @@ router.get('/getinfo', (req, res) => {
 		delete user.uuid;
 		res.send(user);
 	} else {
-		res.status(401);
+		res.status(401).send();
 	}
 });
 
