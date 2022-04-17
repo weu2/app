@@ -37,10 +37,9 @@ class NavigationBar extends React.Component {
 								title={<FontAwesomeIcon icon={faCircleUser} size="2x" />}
 								id="basic-nav-dropdown"
 							>
-								<NavDropdown.Item href="./dashboard">View profile</NavDropdown.Item>
-								<NavDropdown.Item href="./editprofile">Edit profile</NavDropdown.Item>
+								<NavDropdown.Item href="./profile">My Profile</NavDropdown.Item>
 								<NavDropdown.Divider/>
-								<NavDropdown.Item href="./signout">Sign out</NavDropdown.Item>
+								<NavDropdown.Item href="./signout">Sign Out</NavDropdown.Item>
 							</NavDropdown>
 						</Nav>
 					</Navbar.Collapse>

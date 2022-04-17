@@ -13,6 +13,7 @@ import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import Dashboard from "./Pages/Dashboard";
 import LocationTest from "./Pages/LocationTest";
+import Profile from "./Pages/Profile";
 import NoPage from "./Pages/404";
 
 render(
@@ -24,6 +25,7 @@ render(
 				<Route path="login" element={<Login />} />
 				<Route path="register" element={<Register />} />
 				<Route path="dashboard" element={<Dashboard />} />
+				<Route path="profile" element={<Profile />} />
 				<Route path="locationtest" element={<LocationTest />} />
 				<Route path="*" element={<NoPage />} />
 			</Routes>

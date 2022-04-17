@@ -24,7 +24,7 @@ export function backendLogin(email, password) {
 			email: email,
 			password: password
 		})
-	}).then(res => res.text());
+	});
 }
 
 export function backendRegister(email, firstName, lastName, address, phoneNumber, license, password, type) {
@@ -43,7 +43,24 @@ export function backendRegister(email, firstName, lastName, address, phoneNumber
 			password: password,
 			type: type
 		})
-	}).then(res => res.text());
+	});
+}
+
+export function backendUpdate(email, firstName, lastName, address, phoneNumber, license) {
+	return fetchStrict("/api/v1/update", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify({
+			email: email,
+			firstName: firstName,
+			lastName: lastName,
+			address: address,
+			phoneNumber: phoneNumber,
+			license: license
+		})
+	});
 }
 
 export function backendTest() {
