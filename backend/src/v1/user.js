@@ -78,4 +78,8 @@ router.get('/getinfo', (req, res) => {
 	}
 });
 
+router.get('/isauthorized', (req, res) => {
+	res.status(auth.verifyClaim(req.cookies.claim) ? 200 : 401).send();
+});
+
 module.exports = router;
