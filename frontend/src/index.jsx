@@ -15,6 +15,7 @@ import Dashboard from "./Pages/Dashboard";
 import LocationTest from "./Pages/LocationTest";
 import Profile from "./Pages/Profile";
 import NoPage from "./Pages/404";
+import RequestCallout from "./Pages/RequestCallout";
 
 render(
 	<React.StrictMode>
@@ -27,6 +28,7 @@ render(
 				<Route path="dashboard" element={<Dashboard />} />
 				<Route path="profile" element={<Profile />} />
 				<Route path="locationtest" element={<LocationTest />} />
+				<Route path="requestcallout" element={<RequestCallout />} />
 				<Route path="*" element={<NoPage />} />
 			</Routes>
 		</BrowserRouter>
