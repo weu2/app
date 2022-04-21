@@ -1,50 +1,45 @@
 import React from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 
-import Button from "react-bootstrap/Button";
-
+// <Container> adds padding to the sides of the page content, makes it look nicer
 import Container from "react-bootstrap/Container";
 
-import { backendGetUserInfo } from "../api.jsx";
+// <Button> is a general purpose button with many different styles, see react-bootstrap.github.io/components/buttons/
+import Button from "react-bootstrap/Button";
 
-
+// api.jsx contains utility functions for getting or sending data from the frontend to the backend
+// For example, sending form data or getting user info
+import { backendIsAuthorized } from "../api.jsx";
 
 class Dashboard extends React.Component {
 
 	constructor(props) {
-		super(props);
-		this.state = {
-			loggedIn: true,
-			data: null
+		super(props); // Call React.Component's constructor as well as our own constructor
+		this.state = { // "this.state" variables automatically update the website whenever they get changed
+			loggedIn: true // Assume user is logged in to avoid redirecting them early
 		}
 	}
 
 	componentDidMount() {
-		// Redirect to /login if user isn't logged in yet
-		backendGetUserInfo()
-			.then(res => this.setState({
-				data: res
-			})).catch(() => this.setState({
-				loggedIn: false
-			}));
-	}
-
-	openRequestCallout(){
-		
-		console.log("ADD NAVIGATION HERE KALEB");
+		backendIsAuthorized().catch(() => this.setState({
+			// Redirect to /login if user isn't logged in yet
+			loggedIn: false
+		}));
 	}
 
 	render() {
 		return (
+			// <Container> adds padding around the website content, makes it look nicer
 			<Container>
+				{/* Navigate to /login if user isn't logged in yet */}
 				{this.state.loggedIn ? null : <Navigate to="/login"/>}
+				{/* "mb-4" is a Bootstrap CSS class for setting margin-bottom, see getbootstrap.com/docs/5.1/utilities/spacing/ */}
 				<h1 className="mb-4">Dashboard Test</h1>
-
-				<div className="mb-3">
-					<Button variant="primary" 
-					onClick={this.openRequestCallout}>Request Callout</Button>
-				</div>
-
+				{/* <Link> redirects to a different page when clicked */}
+				<Link to="/requestcallout">
+					{/* variant="primary" makes the button pink, see react-bootstrap.github.io/components/buttons/ for more colours */}
+					<Button variant="primary">Request Callout</Button>
+				</Link>
 			</Container>
 		);
 	}
