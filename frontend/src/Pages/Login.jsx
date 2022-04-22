@@ -20,8 +20,6 @@ class Login extends React.Component {
 	constructor(props) {
 		super(props); // Call React.Component's constructor as well as our own constructor
 		this.state = { // "this.state" variables automatically update the website whenever they get changed
-			email: null, // Updated to match the value of the input <Form.Control name="email">
-			password: null, // Updated to match the value of the input <Form.Control name="password">
 			loggedIn: false, // Assume the user is not logged in yet
 			error: null, // Display failure message if an error occurs
 			validated: false // Shows feedback messages to show the user if they screwed up the form, see react-bootstrap.github.io/forms/validation/
@@ -36,28 +34,17 @@ class Login extends React.Component {
 		const form = event.currentTarget;
 		if (form.checkValidity()) {
 			// Manually send form data to backend
-			backendLogin(
-				// State variables are updated to match their relevant input
-				this.state.email,
-				this.state.password
-			).then(() => this.setState({
-				// Redirect to /dashboard
-				loggedIn: true
-			})).catch(async(res) => this.setState({
-				// Show error message
-				error: `Error: ${res.status} (${res.statusText}) ${await res.text()}`
-			}));
+			backendLogin(new FormData(form))
+				.then(() => this.setState({
+					// Redirect to /dashboard
+					loggedIn: true
+				})).catch(async(res) => this.setState({
+					// Show error message
+					error: `Error: ${res.status} (${res.statusText}) ${await res.text()}`
+				}));
 		}
 		// Show feedback messages if required, see react-bootstrap.github.io/forms/validation/
 		this.setState({ validated: true });
-	}
-
-	changeHandler = (event) => {
-		// Updates the relevant "this.state" variable to match its input
-		// For example, <Form.Control name="email"> runs this.setState({ email: event.target.value });
-		// This means the value of "this.state.email" will correctly match the input named "email"
-		// This generalises for all inputs, as long as the their "name" matches a "this.state" variable
-		this.setState({ [event.target.name]: event.target.value });
 	}
 
 	render() {
@@ -80,10 +67,9 @@ class Login extends React.Component {
 					<Form.Group className="mb-3" controlId="formEmail">
 						<Form.Label>Email</Form.Label>
 						<Form.Control
-							name="email" // Name must correspond to a value in the "this.state" object for the change handler to work
+							name="email"
 							type="email" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
 							autoComplete="email" // autocomplete is not essential, but for suggested values check developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
-							onChange={this.changeHandler} // Change handler takes the control's name and sets it to the matching variable in the "this.state" object
 							required
 						/>
 						{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
@@ -95,10 +81,9 @@ class Login extends React.Component {
 					<Form.Group className="mb-4" controlId="formPassword">
 						<Form.Label>Password</Form.Label>
 						<Form.Control
-							name="password" // Name must correspond to a value in the "this.state" object for the change handler to work
+							name="password"
 							type="password" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
 							autoComplete="current-password" // autocomplete is not essential, but for suggested values check developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
-							onChange={this.changeHandler} // Change handler takes the control's name and sets it to the matching variable in the "this.state" object
 							required
 						/>
 						{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}

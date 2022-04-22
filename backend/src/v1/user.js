@@ -2,12 +2,14 @@ const express = require('express');
 const router = express.Router();
 const auth = require('./auth');
 const JsonDB = require('../common/jsondb');
+const multer = require('multer');
+const upload = multer();
 
 router.use((req, res, next) => {
 	next();
 });
 
-router.post('/login', (req, res) => {
+router.post('/login', upload.none(), (req, res) => {
 	if (req.body.email && req.body.password) {
 		auth.authenticate(req.body.email, req.body.password)
 			.then(claim =>
@@ -20,7 +22,7 @@ router.post('/login', (req, res) => {
 	}
 });
 
-router.post('/register', (req, res) => {
+router.post('/register', upload.none(), (req, res) => {
 	if (req.body.email && req.body.firstName && req.body.lastName && req.body.address && req.body.phoneNumber && req.body.license && req.body.password && req.body.type) {
 		auth.createUser(req.body.email, 
 			req.body.firstName, 
@@ -40,7 +42,7 @@ router.post('/register', (req, res) => {
 	}
 });
 
-router.post('/update', (req, res) => {
+router.post('/update', upload.none(), (req, res) => {
 	const uuid = auth.verifyClaim(req.cookies.claim);
 	if (uuid) {
 		const validUpdateKeys = ['email', 'firstName', 'lastName', 'address', 'phoneNumber', 'license'];

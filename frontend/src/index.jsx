@@ -14,6 +14,7 @@ import Register from "./Pages/Register";
 import Dashboard from "./Pages/Dashboard";
 import LocationTest from "./Pages/LocationTest";
 import Profile from "./Pages/Profile";
+import UploadTest from "./Pages/UploadTest";
 import NoPage from "./Pages/404";
 
 render(
@@ -27,6 +28,7 @@ render(
 				<Route path="dashboard" element={<Dashboard />} />
 				<Route path="profile" element={<Profile />} />
 				<Route path="locationtest" element={<LocationTest />} />
+				<Route path="uploadtest" element={<UploadTest />} />
 				<Route path="*" element={<NoPage />} />
 			</Routes>
 		</BrowserRouter>

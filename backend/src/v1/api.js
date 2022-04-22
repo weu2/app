@@ -16,8 +16,8 @@ for (const i in interfaces) {
 	if (ip) break;
 }
 
-const user = require('./user');
-router.use('/', user);
+router.use('/', require('./user'));
+router.use('/', require('./image'));
 
 router.get('/ip', (req, res) => {
 	if (ip && ip.address) {
