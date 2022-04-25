@@ -21,7 +21,7 @@ router.post('/create', (req, res) => {
 		dateTime: req.body.dateTime,
 		locationLat: req.body.locationLat,
 		locationLong: req.body.locationLong,
-		vehicleRegistrationNumber: req.body.vehicleRegistrationNumber,
+		numberPlate: req.body.numberPlate,
 		images: [],
 		status: "new" // new - hasnt been confirmed
 					  // waiting - waiting for service professional
