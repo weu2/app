@@ -59,7 +59,7 @@ export function backendGetUserInfo() {
 
 // Upload an image to the backend, returns the UUID
 export function backendUploadImage(image) {
-	return fetchStrict("/api/v1/image/upload", {
+	return fetchStrict("/api/v1/callout/uploadimage", {
 		method: "POST",
 		body: image
 	});

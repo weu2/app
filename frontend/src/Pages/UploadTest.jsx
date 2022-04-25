@@ -54,6 +54,7 @@ class Login extends React.Component {
 						<Form.Label>Select images below, automatically uploaded to the backend</Form.Label>
 						{/* "capture" opens a camera input for mobile users */}
 						<Form.Control name="image" type="file" accept="image/jpeg" capture onChange={this.loadImage} />
+						<Form.Control name="calloutid" type="hidden" value="123" />
 						{ // Display image preview from database
 							this.state.imageId
 							? <Image src={`/api/v1/uploads/${this.state.imageId}`} thumbnail width={256}/>
