@@ -4,11 +4,10 @@ const path = require('path');
 const uuid = require('uuid');
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
 
 // store all images in data/uploads
 const imageDir = 'data/uploads/';
-
-const multer = require('multer');
 const upload = multer({
 	storage: multer.diskStorage({
 		destination: (req, file, cb) => {

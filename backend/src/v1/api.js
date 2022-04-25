@@ -33,7 +33,7 @@ router.get('/test', (req, res) => {
 		jwtverify: false
 	};
 	// verify jwt internally
-	const secret = 'sjdbflkikhsbdfilgubhasdilofbguilasdjfbgihsdbfgkhbsdfkilbghbsdlkifhjbg';
+	const secret = 'calebwashere';
 	const tok = jwt.createJWT({
 		iss: 'WeU Token Authoriser',
 		sub: 'Steve or something idk',
