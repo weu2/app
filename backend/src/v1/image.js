@@ -37,6 +37,7 @@ router.use((req, res, next) => {
 // assume image is stored in an input named "image" in the multiform data
 router.post('/uploadimage', upload.single('image'), (req, res) => {
 	if (req.file) {
+		// need associate the image with a callout.
 		// send back the generated UUID, have to remove the file extension
 		res.status(200).send(req.file.filename.split('.')[0]);
 	} else {
