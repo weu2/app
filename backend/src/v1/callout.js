@@ -18,10 +18,11 @@ router.post('/create', (req, res) => {
 		uuid: uuid.v4(), 
 		customer: userUuid,
 		assignedTo: "",
+		dateTime: req.body.dateTime,
 		locationLat: req.body.locationLat,
 		locationLong: req.body.locationLong,
 		vehicleRegistrationNumber: req.body.vehicleRegistrationNumber,
-		images: []
+		images: [],
 		status: "new" // new - hasnt been confirmed
 					  // waiting - waiting for service professional
 					  // accepted - service professional has accepted the callout and is on their way
