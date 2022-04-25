@@ -10,8 +10,7 @@ module.exports.imageDir = _imageDir;
 module.exports.upload = multer({
 	storage: multer.diskStorage({
 		destination: (req, file, cb) => {
-            console.log(req.cookies);
-			// ensure directory exists
+            // ensure directory exists
 			fs.mkdir(_imageDir, { recursive: true }, (err) => {
 				// if the folder exists don't bother, otherwise error
 				if (err && err.code !== 'EEXIST') {
