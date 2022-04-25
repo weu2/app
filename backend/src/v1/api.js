@@ -17,6 +17,7 @@ for (const i in interfaces) {
 }
 
 router.use('/', require('./user'));
+router.use('/', require('./callout'));
 router.use('/', require('./image'));
 
 router.get('/ip', (req, res) => {

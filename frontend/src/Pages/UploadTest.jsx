@@ -2,9 +2,6 @@ import React from "react";
 
 // <Alert> is useful for displaying success or error messages, see react-bootstrap.github.io/components/alerts/
 import Alert from "react-bootstrap/Alert";
-
-// <Button> is a general purpose button with many different styles, see react-bootstrap.github.io/components/buttons/
-import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Image from "react-bootstrap/Image";
 

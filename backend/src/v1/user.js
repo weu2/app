@@ -65,6 +65,12 @@ router.post('/update', upload.none(), (req, res) => {
 	}
 });
 
+function getType(user) {
+	if (user.CUSTOMER) return "CUSTOMER";
+	if (user.PROFESSIONAL) return "PROFESSIONAL";
+	return null;
+}
+
 router.get('/getinfo', (req, res) => {
 	const uuid = auth.verifyClaim(req.cookies.claim);
 	if (uuid) {
@@ -74,7 +80,20 @@ router.get('/getinfo', (req, res) => {
 		delete user.passwordHash;
 		// this is stored in the cookie so its not needed
 		delete user.uuid;
+		// add user type for ease of use
+		user.type = getType(user);
 		res.send(user);
+	} else {
+		res.status(401).send();
+	}
+});
+
+router.get('/gettype', (req, res) => {
+	const uuid = auth.verifyClaim(req.cookies.claim);
+	if (uuid) {
+		const users = new JsonDB('data/users.json');
+		const user = users.find({ uuid: uuid })[0];
+		res.send({ type: getType(user) });
 	} else {
 		res.status(401).send();
 	}
