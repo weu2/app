@@ -23,7 +23,7 @@ export function backendLogin(formData) {
 	});
 }
 
-// Attempts to register an account, adding a new entry to "backend/data/users.json"
+// Attempts to register an account, adding a new entry to /data/users.json
 export function backendRegister(formData) {
 	return fetchStrict("/api/v1/user/register", {
 		method: "POST",
@@ -62,5 +62,18 @@ export function backendUploadImage(image) {
 	return fetchStrict("/api/v1/callout/uploadimage", {
 		method: "POST",
 		body: image
+	}).then(res => res.json());
+}
+
+// Attempts to open a new callout, adding a new entry to /data/callouts.json
+export function backendCreateCallout(formData) {
+	return fetchStrict("/api/v1/callout/create", {
+		method: "POST",
+		body: formData
 	});
+}
+
+// Gets a list of filtered callouts
+export function backendGetCallouts() {
+	return fetchStrict("/api/v1/callout/list").then(res => res.json());
 }

@@ -2,8 +2,6 @@ import React from "react";
 
 // <Alert> is useful for displaying success or error messages, see react-bootstrap.github.io/components/alerts/
 import Alert from "react-bootstrap/Alert";
-
-// <Button> is a general purpose button with many different styles, see react-bootstrap.github.io/components/buttons/
 import Button from "react-bootstrap/Button";
 
 // <Container> adds padding to the sides of the page content, makes it look nicer
@@ -19,9 +17,9 @@ import { backendTest } from "../api.jsx";
 class Home extends React.Component {
 
 	constructor(props) {
-		super(props); // Call React.Component's constructor as well as our own constructor
-		this.state = { // "this.state" variables automatically update the website whenever they get changed
-			data: null // "this.state.data" holds a variable only when backendTest() succeeds
+		super(props);
+		this.state = {
+			data: null // Holds a variable only when backendTest() succeeds
 		};
 	}
 

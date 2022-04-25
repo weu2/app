@@ -18,16 +18,15 @@ import { backendRegister } from "../api.jsx";
 class Register extends React.Component {
 
 	constructor(props) {
-		super(props); // Call React.Component's constructor as well as our own constructor
-		this.state = { // "this.state" variables automatically update the website whenever they get changed
-			registered: false, // Assume the user has not registered yet
+		super(props);
+		this.state = {
+			submitted: false, // Redirect to /login on submit
 			error: null, // Display failure message if an error occurs
 			validated: false // Shows feedback messages to show the user if they screwed up the form, see react-bootstrap.github.io/forms/validation/
 		};
 	}
 
 	submitForm = (event) => {
-
 		// Prevent form submission from refreshing the page, since we send the data manually
 		event.preventDefault();
 
@@ -37,7 +36,7 @@ class Register extends React.Component {
 			backendRegister(new FormData(form))
 				.then(() => this.setState({
 					// Redirect to /login
-					registered: true
+					submitted: true
 				})).catch(async(res) => this.setState({
 					// Show error message
 					error: `Error: ${res.status} (${res.statusText}) ${await res.text()}`
@@ -54,8 +53,8 @@ class Register extends React.Component {
 				{/* "mb-4" is a Bootstrap CSS class for setting margin-bottom, see getbootstrap.com/docs/5.1/utilities/spacing/ */}
 				<h2 className="mb-4">Register</h2>
 
-				{/* Redirect to /login once the user has registered */}
-				{this.state.registered ? <Navigate to="/login"/> : null}
+				{/* Redirect to /login once the user submits */}
+				{this.state.submitted ? <Navigate to="/login"/> : null}
 
 				{/* Display an error message if required */}
 				{this.state.error ? <Alert variant="danger">{this.state.error}</Alert> : null}

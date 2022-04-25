@@ -31,12 +31,12 @@ router.post('/register', upload.none(), (req, res) => {
 			req.body.phoneNumber, 
 			req.body.license, 
 			req.body.password, 
-			req.body.type)
-			.then(() =>
-				res.status(200).send()
-			).catch(err =>
-				res.status(400).send(err)
-			);
+			req.body.type
+		).then(() =>
+			res.status(200).send()
+		).catch(err =>
+			res.status(400).send(err)
+		);
 	} else {
 		res.status(400).send('Missing API parameters');
 	}
@@ -49,15 +49,13 @@ router.post('/update', upload.none(), (req, res) => {
 		const users = new JsonDB('data/users.json');
 
 		const updateObject = {};
-
 		Object.keys(req.body).forEach(key => {
-			if(validUpdateKeys.includes(key))
-			{
+			if (validUpdateKeys.includes(key)) {
 				updateObject[key] = req.body[key];
 			}
 		});
 
-		users.update({uuid:uuid}, updateObject);
+		users.update({ uuid: uuid }, updateObject);
 
 		res.status(200).send();
 	} else {

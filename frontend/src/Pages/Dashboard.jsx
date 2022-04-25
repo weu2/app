@@ -3,65 +3,65 @@ import { Navigate, Link } from "react-router-dom";
 
 // <Container> adds padding to the sides of the page content, makes it look nicer
 import Container from "react-bootstrap/Container";
-
-// <Button> is a general purpose button with many different styles, see react-bootstrap.github.io/components/buttons/
 import Button from "react-bootstrap/Button";
+import Callout from "../Components/Callout";
 
 // api.jsx contains utility functions for getting or sending data from the frontend to the backend
 // For example, sending form data or getting user info
-import { backendGetUserInfo, backendGetUserType } from "../api.jsx";
+import { backendGetCallouts } from "../api.jsx";
 
 class Dashboard extends React.Component {
 
 	constructor(props) {
-		super(props); // Call React.Component's constructor as well as our own constructor
-		this.state = { // "this.state" variables automatically update the website whenever they get changed
-			loggedIn: true, // Assume user is logged in to avoid redirecting them early
-			userType: null // "CUSTOMER" or "PROFESSIONAL"
+		super(props);
+		this.state = {
+			loggedIn: true, // Assume user can view page to avoid redirecting early
+			callouts: null // Store all listed callouts
 		}
 	}
 
 	componentDidMount() {
-		backendGetUserInfo()
+		backendGetCallouts()
 			.then(res => this.setState({
-				// Show different buttons depending whether the user is logged in
-				userType: res.type
+				callouts: res
 			})).catch(() => this.setState({
 				// Redirect to /login if user isn't logged in yet
 				loggedIn: false
 			}));
 	}
 
+	generateCallouts() {
+		// Create a <Callout> component to display each callout
+		return this.state.callouts.map((callout, index) =>
+			<Callout className="mb-3" callout={callout} key={callout.uuid} index={index + 1} />
+		);
+	}
+
 	render() {
 		return (
 			// <Container> adds padding around the website content, makes it look nicer
 			<Container>
+				{/* "mb-4" is a Bootstrap CSS class for setting margin-bottom, see getbootstrap.com/docs/5.1/utilities/spacing/ */}
+				<h1 className="mb-4">
+					{/* Logos are stored as vector art for the best possible quality
+					"/logo.svg" is the shorthand for "/public/logo.svg" */}
+					Welcome to <img src="/logo.svg" width="128" alt="WeU"/>
+				</h1>
+
 				{/* Redirect to /login if the user is not logged in yet */}
 				{this.state.loggedIn ? null : <Navigate to="/login"/>}
 
-				{/* "mb-4" is a Bootstrap CSS class for setting margin-bottom, see getbootstrap.com/docs/5.1/utilities/spacing/ */}
-				<h1 className="mb-4">Dashboard</h1>
-				
-				{/* Show "Request Callout" button if the user is a customer */}
+				{/* Display callouts if they exist */}
 				{
-					this.state.userType === "CUSTOMER"
-					? <Link to="/requestcallout">
-						<Button variant="primary">
-							Request Callout
-						</Button>
-					</Link>
-					: null
+					this.state.callouts
+					? this.generateCallouts()
+					: <p>Callouts will be listed here.</p>
 				}
-				{/* Show "View Callouts" button if the user is a service professional */}
-				{
-					this.state.userType === "PROFESSIONAL"
-					? <Link to="/viewcallouts">
-						<Button variant="primary">
-							View Callouts
-						</Button>
-					</Link>
-					: null
-				}
+				<Link to="/requestcallout">
+					<Button variant="primary">
+						Request Callout
+					</Button>
+				</Link>
 			</Container>
 		);
 	}

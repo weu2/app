@@ -18,8 +18,8 @@ import { backendGetUserInfo, backendUpdate } from "../api.jsx";
 class Profile extends React.Component {
 
 	constructor(props) {
-		super(props); // Call React.Component's constructor as well as our own constructor
-		this.state = { // "this.state" variables automatically update the website whenever they get changed
+		super(props);
+		this.state = {
 			type: "Unknown", // To autofill inputs from existing user info
 			email: "",
 			firstName: "",
@@ -51,7 +51,6 @@ class Profile extends React.Component {
 	}
 
 	submitForm = (event) => {
-
 		// Prevent form submission from refreshing the page, since we send the data manually
 		event.preventDefault();
 

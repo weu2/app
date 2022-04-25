@@ -31,9 +31,10 @@ class NavigationBar extends React.Component {
 					<Navbar.Collapse id="basic-navbar-nav">
 						<Nav className="me-auto">
 							{/* React Router's <NavLink> changes pages much faster */}
+							<Nav.Link as={NavLink} to="./dashboard">Dashboard</Nav.Link>
+							<Nav.Link as={NavLink} to="./requestcallout">Request Callout</Nav.Link>
 							<Nav.Link as={NavLink} to="./login">Login</Nav.Link>
 							<Nav.Link as={NavLink} to="./register">Register</Nav.Link>
-							<Nav.Link as={NavLink} to="./locationtest">Location Test</Nav.Link>
 						</Nav>
 						<Nav>
 							<NavDropdown

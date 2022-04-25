@@ -18,16 +18,15 @@ import { backendLogin } from "../api.jsx";
 class Login extends React.Component {
 
 	constructor(props) {
-		super(props); // Call React.Component's constructor as well as our own constructor
-		this.state = { // "this.state" variables automatically update the website whenever they get changed
-			loggedIn: false, // Assume the user is not logged in yet
+		super(props);
+		this.state = {
+			loggedIn: false, // Assume the user is not logged in yet, redirect later
 			error: null, // Display failure message if an error occurs
 			validated: false // Shows feedback messages to show the user if they screwed up the form, see react-bootstrap.github.io/forms/validation/
 		};
 	}
 
 	submitForm = (event) => {
-
 		// Prevent form submission from refreshing the page, since we send the data manually
 		event.preventDefault();
 
