@@ -15,6 +15,7 @@ import Dashboard from "./Pages/Dashboard";
 import LocationTest from "./Pages/LocationTest";
 import Profile from "./Pages/Profile";
 import UploadTest from "./Pages/UploadTest";
+import RequestCallout from "./Pages/RequestCallout";
 import NoPage from "./Pages/404";
 
 render(
@@ -29,6 +30,7 @@ render(
 				<Route path="profile" element={<Profile />} />
 				<Route path="locationtest" element={<LocationTest />} />
 				<Route path="uploadtest" element={<UploadTest />} />
+				<Route path="requestcallout" element={<RequestCallout />} />
 				<Route path="*" element={<NoPage />} />
 			</Routes>
 		</BrowserRouter>

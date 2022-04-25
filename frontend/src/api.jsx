@@ -57,6 +57,11 @@ export function backendGetUserInfo() {
 	return fetchStrict("/api/v1/getinfo").then(res => res.json());
 }
 
+// Gets only the type of a user ("CUSTOMER" or "PROFESSIONAL")
+export function backendGetUserType() {
+	return fetchStrict("/api/v1/gettype").then(res => res.json());
+}
+
 // Checks whether the user is logged in, backendGetUserInfo() does this too
 export function backendIsAuthorized() {
 	return fetchStrict("/api/v1/isauthorized");

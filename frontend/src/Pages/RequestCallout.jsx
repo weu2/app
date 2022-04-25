@@ -1,44 +1,41 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
+
+// <Container> adds padding to the sides of the page content, makes it look nicer
+import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
+
+// <LargeButton> is a subclass of React Bootstrap's <Button> with an icon added to the right side
 import LargeButton from "../Components/LargeButton";
 
-import Container from "react-bootstrap/Container";
+// api.jsx contains utility functions for getting or sending data from the frontend to the backend
+// For example, sending form data or getting user info
+import { backendGetUserType } from "../api.jsx";
 
-import { backendGetUserInfo } from "../api.jsx";
-
-class Dashboard extends React.Component {
+class RequestCallout extends React.Component {
 
 	constructor(props) {
-		super(props);
-		this.state = {
-			loggedIn: true,
-			data: null,
-			registrationNum : null,
-			date: null
+		super(props); // Call React.Component's constructor as well as our own constructor
+		this.state = { // "this.state" variables automatically update the website whenever they get changed
+			canView: true // Assume user can view page to avoid redirecting early
 		}
 	}
 
 	componentDidMount() {
-		// Redirect to /login if user isn't logged in yet
-		backendGetUserInfo()
+		backendGetUserType()
 			.then(res => this.setState({
-				data: res
+				// Redirect to /login if user isn't a customer
+				canView: res.type === "CUSTOMER"
 			})).catch(() => this.setState({
-				loggedIn: false
+				// Redirect to /login if user isn't logged in yet
+				canView: false
 			}));
-	}
-
-	changeHandler = (event) =>{
-		this.setState({date: new Date()})
-		this.setState({ [event.target.name]: event.target.value });
 	}
 
 	render() {
 		return (
 			<Container>
-				{this.state.loggedIn ? null : <Navigate to="/login"/>}
+				{this.state.canView ? null : <Navigate to="/login"/>}
 				<h1 className="mb-4">Request Callout</h1>
 				{/* From class diagram we need these variables
 					id - get from backend
@@ -83,4 +80,4 @@ class Dashboard extends React.Component {
 	}
 }
 
-export default Dashboard;
+export default RequestCallout;

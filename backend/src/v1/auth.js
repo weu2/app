@@ -4,7 +4,6 @@ const JsonDB = require('../common/jsondb');
 const bcrypt = require('bcrypt');
 const uuid = require('uuid');
 
-
 // these need to go in their own file for now they can live here
 // and synced as they change
 const jwtSecret = 'very good secret'; 

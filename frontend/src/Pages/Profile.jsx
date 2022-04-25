@@ -20,7 +20,8 @@ class Profile extends React.Component {
 	constructor(props) {
 		super(props); // Call React.Component's constructor as well as our own constructor
 		this.state = { // "this.state" variables automatically update the website whenever they get changed
-			email: "", // To autofill inputs from existing user info
+			type: "Unknown", // To autofill inputs from existing user info
+			email: "",
 			firstName: "",
 			lastName: "",
 			address: "",
@@ -36,7 +37,8 @@ class Profile extends React.Component {
 	componentDidMount() {
 		backendGetUserInfo()
 			.then(res => this.setState({
-				email: res.email, // Autofill inputs from existing user info
+				type: res.type, // Autofill inputs from existing user info
+				email: res.email,
 				firstName: res.firstName,
 				lastName: res.lastName,
 				address: res.address,
@@ -84,6 +86,9 @@ class Profile extends React.Component {
 
 				{/* Display an error message if required */}
 				{this.state.error ? <Alert variant="danger">{this.state.error}</Alert> : null}
+
+				{/* Show account type for debugging purposes */}
+				<p>Type: {this.state.type}</p>
 
 				{/* Form validation and submission is done manually, see react-bootstrap.github.io/forms/validation/ */}
 				<Form noValidate validated={this.state.validated} onSubmit={this.submitForm}>
