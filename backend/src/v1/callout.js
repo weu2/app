@@ -36,7 +36,7 @@ router.post('/create', (req, res) => {
 router.post('/status', (req, res) => {
 	const callouts = new JsonDB('data/callouts.json');
 	if(req.body.calloutid) {
-		const callout = users.find({ uuid: req.body.calloutid });
+		const callout = callouts.find({ uuid: req.body.calloutid });
 		// check there is a callout
 		if(callout.length != 1) {
 			res.status(400).send();
@@ -57,7 +57,7 @@ router.post('/status', (req, res) => {
 router.post('/list', (req, res) => {
 	const callouts = new JsonDB('data/callouts.json');
 	const userUuid = auth.verifyClaim(req.cookies.claim);
-	const callout = users.find({ customer: userUuid });
+	const callout = callouts.find({ customer: userUuid });
 	const filtered = callout.filter(co => co.status != "finished");
 	res.status(200).send(filtered);
 });
