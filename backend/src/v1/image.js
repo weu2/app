@@ -35,7 +35,7 @@ router.use((req, res, next) => {
 });
 
 // assume image is stored in an input named "image" in the multiform data
-router.post('/uploadimage', upload.single('image'), (req, res) => {
+router.post('/upload', upload.single('image'), (req, res) => {
 	if (req.file) {
 		// need associate the image with a callout.
 		// send back the generated UUID, have to remove the file extension
@@ -46,7 +46,7 @@ router.post('/uploadimage', upload.single('image'), (req, res) => {
 	}
 });
 
-router.get('/uploads/:id', (req, res) => {
+router.get('/:id', (req, res) => {
 	// image files are named and identified by a uuid
 	if (req.params.id) {
 		// ensure image exists, otherwise send 404

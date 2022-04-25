@@ -16,9 +16,9 @@ for (const i in interfaces) {
 	if (ip) break;
 }
 
-router.use('/', require('./user'));
-router.use('/', require('./callout'));
-router.use('/', require('./image'));
+router.use('/user', require('./user'));
+router.use('/callout', require('./callout'));
+router.use('/image', require('./image'));
 
 router.get('/ip', (req, res) => {
 	if (ip && ip.address) {

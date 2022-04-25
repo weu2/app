@@ -17,7 +17,7 @@ function fetchStrict(endpoint, options) {
 
 // Attempts to log into the backend, compares password to stored password hash
 export function backendLogin(formData) {
-	return fetchStrict("/api/v1/login", {
+	return fetchStrict("/api/v1/user/login", {
 		method: "POST",
 		body: formData
 	});
@@ -25,7 +25,7 @@ export function backendLogin(formData) {
 
 // Attempts to register an account, adding a new entry to "backend/data/users.json"
 export function backendRegister(formData) {
-	return fetchStrict("/api/v1/register", {
+	return fetchStrict("/api/v1/user/register", {
 		method: "POST",
 		body: formData
 	});
@@ -33,7 +33,7 @@ export function backendRegister(formData) {
 
 // Attempts to update account details, currently only certain details can be updated
 export function backendUpdate(formData) {
-	return fetchStrict("/api/v1/update", {
+	return fetchStrict("/api/v1/user/update", {
 		method: "POST",
 		body: formData
 	});
@@ -54,22 +54,12 @@ export function backendGetURL() {
 // cookie set by the server and the frontend never has to worry about passing the claim back and forth
 // only ever deal with "you're not valid" state
 export function backendGetUserInfo() {
-	return fetchStrict("/api/v1/getinfo").then(res => res.json());
-}
-
-// Gets only the type of a user ("CUSTOMER" or "PROFESSIONAL")
-export function backendGetUserType() {
-	return fetchStrict("/api/v1/gettype").then(res => res.json());
-}
-
-// Checks whether the user is logged in, backendGetUserInfo() does this too
-export function backendIsAuthorized() {
-	return fetchStrict("/api/v1/isauthorized");
+	return fetchStrict("/api/v1/user/getinfo").then(res => res.json());
 }
 
 // Upload an image to the backend, returns the UUID
 export function backendUploadImage(image) {
-	return fetchStrict("/api/v1/uploadimage", {
+	return fetchStrict("/api/v1/image/upload", {
 		method: "POST",
 		body: image
 	});

@@ -9,7 +9,7 @@ import Button from "react-bootstrap/Button";
 
 // api.jsx contains utility functions for getting or sending data from the frontend to the backend
 // For example, sending form data or getting user info
-import { backendGetUserType } from "../api.jsx";
+import { backendGetUserInfo, backendGetUserType } from "../api.jsx";
 
 class Dashboard extends React.Component {
 
@@ -22,7 +22,7 @@ class Dashboard extends React.Component {
 	}
 
 	componentDidMount() {
-		backendGetUserType()
+		backendGetUserInfo()
 			.then(res => this.setState({
 				// Show different buttons depending whether the user is logged in
 				userType: res.type

@@ -13,7 +13,7 @@ router.post('/login', upload.none(), (req, res) => {
 	if (req.body.email && req.body.password) {
 		auth.authenticate(req.body.email, req.body.password)
 			.then(claim =>
-				res.cookie('claim', claim, { sameSite: 'Strict' }).send('OK')
+				res.cookie('claim', claim, { sameSite: 'Strict' }).send()
 			).catch(err =>
 				res.status(401).send(err)
 			);
@@ -86,21 +86,6 @@ router.get('/getinfo', (req, res) => {
 	} else {
 		res.status(401).send();
 	}
-});
-
-router.get('/gettype', (req, res) => {
-	const uuid = auth.verifyClaim(req.cookies.claim);
-	if (uuid) {
-		const users = new JsonDB('data/users.json');
-		const user = users.find({ uuid: uuid })[0];
-		res.send({ type: getType(user) });
-	} else {
-		res.status(401).send();
-	}
-});
-
-router.get('/isauthorized', (req, res) => {
-	res.status(auth.verifyClaim(req.cookies.claim) ? 200 : 401).send();
 });
 
 module.exports = router;

@@ -10,7 +10,7 @@ import LargeButton from "../Components/LargeButton";
 
 // api.jsx contains utility functions for getting or sending data from the frontend to the backend
 // For example, sending form data or getting user info
-import { backendGetUserType } from "../api.jsx";
+import { backendGetUserInfo, backendGetUserType } from "../api.jsx";
 
 class RequestCallout extends React.Component {
 
@@ -22,7 +22,7 @@ class RequestCallout extends React.Component {
 	}
 
 	componentDidMount() {
-		backendGetUserType()
+		backendGetUserInfo()
 			.then(res => this.setState({
 				// Redirect to /login if user isn't a customer
 				canView: res.type === "CUSTOMER"

@@ -14,11 +14,11 @@ router.post('/status', (req, res) => {
 	// todo: callout status
 });
 
-router.post('/calloutview', (req, res) => {
+router.post('/list', (req, res) => {
 	// todo: return list of callouts
 });
 
-router.post('/calloutdetails', (req, res) => {
+router.post('/details', (req, res) => {
 	// todo: return detail on one specific callout
 });
 
