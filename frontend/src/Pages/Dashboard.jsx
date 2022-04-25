@@ -42,11 +42,7 @@ class Dashboard extends React.Component {
 			// <Container> adds padding around the website content, makes it look nicer
 			<Container>
 				{/* "mb-4" is a Bootstrap CSS class for setting margin-bottom, see getbootstrap.com/docs/5.1/utilities/spacing/ */}
-				<h1 className="mb-4">
-					{/* Logos are stored as vector art for the best possible quality
-					"/logo.svg" is the shorthand for "/public/logo.svg" */}
-					Welcome to <img src="/logo.svg" width="128" alt="WeU"/>
-				</h1>
+				<h2 className="mb-4">Dashboard</h2>
 
 				{/* Redirect to /login if the user is not logged in yet */}
 				{this.state.loggedIn ? null : <Navigate to="/login"/>}

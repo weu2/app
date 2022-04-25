@@ -82,7 +82,10 @@ router.post('/uploadimage', image.upload.single('image'), (req, res) => {
 		const filtered = callouts.find({ customer: userUuid, uuid: req.body.calloutid })[0];
 		// add image uuid to array
 		const imageUuid = req.file.filename.split('.')[0];
-		filtered.images.push(imageUuid);
+		// make sure it doesn't already exist
+		if (!filtered.images.includes(imageUuid)) {
+			filtered.images.push(imageUuid);
+		}
 		// update callout json
 		callouts.asyncUpdate();
 		// send image uuid

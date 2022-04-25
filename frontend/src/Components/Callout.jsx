@@ -19,12 +19,13 @@ class Callout extends React.Component {
 	}
 
 	loadImage = (event) => {
+		// ensure at least one image was attached
+		if (event.target.files.length === 0) return;
 		// Get form element manually
 		const form = document.getElementById("imageForm");
-		// Upload image to backend
 		backendUploadImage(new FormData(form))
 			.then(res => this.setState({
-				// Preview uploaded image
+				// Add preview for uploaded image
 				images: [...this.state.images, res.uuid]
 			})).catch(res => this.setState({
 				// Show error message
@@ -67,7 +68,7 @@ class Callout extends React.Component {
 					{this.state.error ? <Alert variant="danger">{this.state.error}</Alert> : null}
 
 					{/* Allow user to attach images to each callout */}
-					<Form id="imageForm">
+					<Form noValidate id="imageForm">
 						<Form.Group controlId="formImage">
 							<Form.Label>Attach photos below:</Form.Label>
 							<Form.Control name="image" type="file" accept="image/jpeg" capture onChange={this.loadImage} />
