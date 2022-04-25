@@ -20,12 +20,12 @@ class Profile extends React.Component {
 	constructor(props) {
 		super(props); // Call React.Component's constructor as well as our own constructor
 		this.state = { // "this.state" variables automatically update the website whenever they get changed
-			email: "", // Updated to match the value of the input <Form.Control name="email">
-			firstName: "", // Updated to match the value of the input <Form.Control name="firstName">
-			lastName: "", // Updated to match the value of the input <Form.Control name="lastName">
-			address: "", // Updated to match the value of the input <Form.Control name="address">
-			phoneNumber: "", // Updated to match the value of the input <Form.Control name="phoneNumber">
-			license: "", // Updated to match the value of the input <Form.Control name="license">
+			email: "", // To autofill inputs from existing user info
+			firstName: "",
+			lastName: "",
+			address: "",
+			phoneNumber: "",
+			license: "",
 			error: null, // Display failure message if an error occurs
 			loggedIn: true, // Assume the user is not logged in yet
 			updated: false, // Displays an "updated" alert when the details are updated successfully
@@ -56,32 +56,17 @@ class Profile extends React.Component {
 		const form = event.currentTarget;
 		if (form.checkValidity()) {
 			// Manually send form data to backend
-			backendUpdate(
-				// State variables are updated to match their relevant input
-				this.state.email,
-				this.state.firstName, 
-				this.state.lastName,
-				this.state.address,
-				this.state.phoneNumber,
-				this.state.license
-			).then(() => this.setState({
-				// Show "updated" alert
-				updated: true
-			})).catch(async(res) => this.setState({
-				// Show error message
-				error: `Error: ${res.status} (${res.statusText}) ${await res.text()}`
-			}));
+			backendUpdate(new FormData(form))
+				.then(() => this.setState({
+					// Show "updated" alert
+					updated: true
+				})).catch(async(res) => this.setState({
+					// Show error message
+					error: `Error: ${res.status} (${res.statusText}) ${await res.text()}`
+				}));
 		}
 		// Show validation messages if required
 		this.setState({ validated: true });
-	}
-
-	changeHandler = (event) => {
-		// Updates the relevant "this.state" variable to match its input
-		// For example, <Form.Control name="email"> runs this.setState({ email: event.target.value });
-		// This means the value of "this.state.email" will correctly match the input named "email"
-		// This generalises for all inputs, as long as the their "name" matches a "this.state" variable
-		this.setState({ [event.target.name]: event.target.value });
 	}
 
 	render() {
@@ -107,11 +92,10 @@ class Profile extends React.Component {
 					<Form.Group className="mb-3" controlId="formEmail">
 						<Form.Label>Email</Form.Label>
 						<Form.Control
-							name="email" // Name must correspond to a value in the "this.state" object for the change handler to work
+							name="email"
 							type="email" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
 							autoComplete="email"
-							onChange={this.changeHandler} // Change handler takes the control's name and sets it to the matching variable in the "this.state" object
-							value={this.state.email}
+							defaultValue={this.state.email}
 							required
 						/>
 						{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
@@ -123,11 +107,10 @@ class Profile extends React.Component {
 					<Form.Group className="mb-3" controlId="formFirstName">
 						<Form.Label>First Name</Form.Label>
 						<Form.Control
-							name="firstName" // Name must correspond to a value in the "this.state" object for the change handler to work
+							name="firstName"
 							type="text" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
 							autoComplete="given-name"
-							onChange={this.changeHandler} // Change handler takes the control's name and sets it to the matching variable in the "this.state" object
-							value={this.state.firstName}
+							defaultValue={this.state.firstName}
 							required
 						/>
 						{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
@@ -139,11 +122,10 @@ class Profile extends React.Component {
 					<Form.Group className="mb-3" controlId="formLastName">
 						<Form.Label>Last Name</Form.Label>
 						<Form.Control
-							name="lastName" // Name must correspond to a value in the "this.state" object for the change handler to work
+							name="lastName"
 							type="text" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
 							autoComplete="family-name"
-							onChange={this.changeHandler} // Change handler takes the control's name and sets it to the matching variable in the "this.state" object
-							value={this.state.lastName}
+							defaultValue={this.state.lastName}
 							required
 						/>
 						{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
@@ -155,11 +137,10 @@ class Profile extends React.Component {
 					<Form.Group className="mb-3" controlId="formAddress">
 						<Form.Label>Address</Form.Label>
 						<Form.Control
-							name="address" // Name must correspond to a value in the "this.state" object for the change handler to work
+							name="address"
 							type="text" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
 							autoComplete="street-address"
-							onChange={this.changeHandler} // Change handler takes the control's name and sets it to the matching variable in the "this.state" object
-							value={this.state.address}
+							defaultValue={this.state.address}
 							required
 						/>
 						{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
@@ -171,11 +152,10 @@ class Profile extends React.Component {
 					<Form.Group className="mb-3" controlId="formPhoneNumber">
 						<Form.Label>Phone Number</Form.Label>
 						<Form.Control
-							name="phoneNumber" // Name must correspond to a value in the "this.state" object for the change handler to work
+							name="phoneNumber"
 							type="tel" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
 							autoComplete="tel"
-							onChange={this.changeHandler} // Change handler takes the control's name and sets it to the matching variable in the "this.state" object
-							value={this.state.phoneNumber}
+							defaultValue={this.state.phoneNumber}
 							required
 						/>
 						{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
@@ -187,11 +167,10 @@ class Profile extends React.Component {
 					<Form.Group className="mb-4" controlId="formLicense">
 						<Form.Label>License Number</Form.Label>
 						<Form.Control
-							name="license" // Name must correspond to a value in the "this.state" object for the change handler to work
+							name="license"
 							type="number" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
 							autoComplete="license"
-							onChange={this.changeHandler} // Change handler takes the control's name and sets it to the matching variable in the "this.state" object
-							value={this.state.license}
+							defaultValue={this.state.license}
 							required
 						/>
 						{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}

@@ -16,54 +16,26 @@ function fetchStrict(endpoint, options) {
 }
 
 // Attempts to log into the backend, compares password to stored password hash
-export function backendLogin(email, password) {
+export function backendLogin(formData) {
 	return fetchStrict("/api/v1/login", {
 		method: "POST",
-		headers: {
-			"Content-Type": "application/json"
-		},
-		body: JSON.stringify({
-			email: email,
-			password: password
-		})
+		body: formData
 	});
 }
 
 // Attempts to register an account, adding a new entry to "backend/data/users.json"
-export function backendRegister(email, firstName, lastName, address, phoneNumber, license, password, type) {
+export function backendRegister(formData) {
 	return fetchStrict("/api/v1/register", {
 		method: "POST",
-		headers: {
-			"Content-Type": "application/json"
-		},
-		body: JSON.stringify({
-			email: email,
-			firstName: firstName,
-			lastName: lastName,
-			address: address,
-			phoneNumber: phoneNumber,
-			license: license,
-			password: password,
-			type: type
-		})
+		body: formData
 	});
 }
 
 // Attempts to update account details, currently only certain details can be updated
-export function backendUpdate(email, firstName, lastName, address, phoneNumber, license) {
+export function backendUpdate(formData) {
 	return fetchStrict("/api/v1/update", {
 		method: "POST",
-		headers: {
-			"Content-Type": "application/json"
-		},
-		body: JSON.stringify({
-			email: email,
-			firstName: firstName,
-			lastName: lastName,
-			address: address,
-			phoneNumber: phoneNumber,
-			license: license
-		})
+		body: formData
 	});
 }
 
@@ -88,4 +60,12 @@ export function backendGetUserInfo() {
 // Checks whether the user is logged in, backendGetUserInfo() does this too
 export function backendIsAuthorized() {
 	return fetchStrict("/api/v1/isauthorized");
+}
+
+// Upload an image to the backend, returns the UUID
+export function backendUploadImage(image) {
+	return fetchStrict("/api/v1/uploadimage", {
+		method: "POST",
+		body: image
+	});
 }
