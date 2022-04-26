@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
@@ -11,6 +11,11 @@ import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 
 // Top navigation bar is included on every page, included in index.jsx
 class NavigationBar extends React.Component {
+
+	signOut() {
+		// Clear claim cookie, signing out the user
+		document.cookie = "claim=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+	}
 
 	render() {
 		return (
@@ -40,9 +45,9 @@ class NavigationBar extends React.Component {
 							<NavDropdown
 								title={<FontAwesomeIcon icon={faCircleUser} size="2x" />}
 							>
-								<NavDropdown.Item href="/profile">My Profile</NavDropdown.Item>
+								<NavDropdown.Item as={Link} to="/profile">My Profile</NavDropdown.Item>
 								<NavDropdown.Divider/>
-								<NavDropdown.Item href="/signout">Sign Out</NavDropdown.Item>
+								<NavDropdown.Item as={Link} to="/login" onClick={this.signOut}>Sign Out</NavDropdown.Item>
 							</NavDropdown>
 						</Nav>
 					</Navbar.Collapse>
