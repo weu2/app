@@ -1,7 +1,5 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import { MapContainer, TileLayer, Marker } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
 
 // <Container> adds padding to the sides of the page content, makes it look nicer
 import Container from "react-bootstrap/Container";
@@ -15,22 +13,11 @@ import Col from "react-bootstrap/Col";
 
 // <LargeButton> is a subclass of React Bootstrap's <Button> with an icon added to the right side
 import LargeButton from "../Components/LargeButton";
+import SingleMarkerMap from "../Components/SingleMarkerMap";
 
 // api.jsx contains utility functions for getting or sending data from the frontend to the backend
 // For example, sending form data or getting user info
 import { backendGetUserInfo, backendCreateCallout } from "../api.jsx";
-
-// Fix marker icon not loading (see github.com/PaulLeCam/react-leaflet/issues/808)
-import L from "leaflet";
-import markerIcon from "leaflet/dist/images/marker-icon.png";
-import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
-import markerShadow from "leaflet/dist/images/marker-shadow.png";
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-	iconUrl: markerIcon,
-	iconRetinaUrl: markerIcon2x,
-	shadowUrl: markerShadow,
-});
 
 class RequestCallout extends React.Component {
 
@@ -179,18 +166,14 @@ class RequestCallout extends React.Component {
 					</Row>
 					{
 						this.state.position
-						? <MapContainer className="mb-3" style={{ width: "100%", height: "270px" }} center={this.state.position} zoom={20}>
-							<TileLayer
-								attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-								url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-							/>
-							{/* Place a marker on the position to make it clearer */}
-							<Marker position={this.state.position} />
-						</MapContainer>
-						: <Button variant="secondary" onClick={this.getLocation}>Get position</Button>
+						? <SingleMarkerMap
+							className="mb-4"
+							position={this.state.position}
+							style={{ width: "100%", height: "270px" }}
+						/> : <Button variant="secondary" onClick={this.getLocation}>Get position</Button>
 					}
 					{/* Include date automatically */}
-					<Form.Control name="dateTime" type="hidden" value={new Date()} />
+					<Form.Control name="dateTime" type="hidden" value={Date.now()} />
 
 					{/* type="submit" automatically runs onSubmit, which runs this.submitForm */}
 					<LargeButton variant="primary" type="submit" icon="arrow-right">
