@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import Card from "react-bootstrap/Card";
 import Table from "react-bootstrap/Table";
@@ -7,6 +8,7 @@ import Col from "react-bootstrap/Col";
 
 import SingleMarkerMap from "./SingleMarkerMap";
 import CalloutImageInput from "./CalloutImageInput";
+import LargeButton from "./LargeButton";
 
 // Card for rendering each callout along with basic details
 class Callout extends React.Component {
@@ -18,7 +20,7 @@ class Callout extends React.Component {
 					Callout on {new Date(parseInt(this.props.callout.dateTime)).toLocaleString("en-US")}
 				</Card.Header>
 				<Card.Body>
-					<Row className="mb-3">
+					<Row>
 						<Col sm={7}>
 							<Table borderless>
 								<tbody>
@@ -38,10 +40,10 @@ class Callout extends React.Component {
 										<th>Location</th>
 										<td>
 											<a
+												className="text-body"
 												href={`https://www.google.com/maps?q=${this.props.callout.locationLat},${this.props.callout.locationLong}`}
 												target="_blank"
 												rel="noopener noreferrer"
-												className="text-decoration-none"
 											>
 												{this.props.callout.locationLat}, {this.props.callout.locationLong}
 											</a>
@@ -49,9 +51,13 @@ class Callout extends React.Component {
 									</tr>
 								</tbody>
 							</Table>
-
-							{/* Allow user to attach images to each callout */}
-							<CalloutImageInput callout={this.props.callout} />
+							{
+								this.props.customer
+								? <CalloutImageInput callout={this.props.callout} />
+								: <Link to={`/callout/${this.props.callout.uuid}`}>
+									<LargeButton variant="primary" icon="arrow-right">More info</LargeButton>
+								</Link>
+							}
 						</Col>
 						<Col sm>
 							<SingleMarkerMap
