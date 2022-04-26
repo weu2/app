@@ -34,7 +34,6 @@ class MechanicLocation extends React.Component {
    
     mechanicPosition = [-34.3990938, 150.2983736];
 
-
     polyLine =[this.customerPosition, this.mechanicPosition]
 
     //KALEBS A BIT OF AN IDIOT HE'LL PROBABLY FIGURE OUT HOW TO DO THIS PROPERLY LATER LOL OMG
