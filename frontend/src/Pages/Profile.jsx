@@ -52,13 +52,6 @@ class Profile extends React.Component {
 				// Redirect to /login if user isn't logged in yet
 				loggedIn: false
 			}));
-
-		// backendGetNotifStatus()
-		// 	.then((res => this.setState({
-		// 		notifs: res
-		// 	})));
-
-		console.log(this.state);
 	}
 
 	submitForm = (event) => {
@@ -82,9 +75,7 @@ class Profile extends React.Component {
 	}
 
 	updateNotifs = (event) => {
-		console.log(event.target.checked);
 		this.setState({notifs: event.target.checked});
-
 
 		if (event.target.checked === true) {
 			Notification.requestPermission().then((status) => {
