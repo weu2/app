@@ -20,7 +20,8 @@ router.use((req, res, next) => {
 
 router.post('/create', upload.none(), (req, res) => {
 	
-	if(!apiValidator.validate(req, {
+	if (!apiValidator.validate(req, {
+		description: {type:"string", required:true},
 		dateTime: {type:"string", required:true},
 		locationLat: {type:"string", required:true},
 		locationLong: {type:"string", required:true},
@@ -38,6 +39,7 @@ router.post('/create', upload.none(), (req, res) => {
 		uuid: calloutUuid, 
 		customer: userUuid,
 		assignedTo: null,
+		description: req.body.description,
 		dateTime: req.body.dateTime,
 		locationLat: req.body.locationLat,
 		locationLong: req.body.locationLong,
@@ -52,9 +54,9 @@ router.post('/create', upload.none(), (req, res) => {
 
 });
 
-router.get('/status', (req, res) => {
+router.post('/status', (req, res) => {
 
-	if(!apiValidator.validate(req, {
+	if (!apiValidator.validate(req, {
 		calloutid: {type:"string", required:true},
 	})) {
 		res.status(400).send('Missing API parameters');
@@ -69,17 +71,18 @@ router.get('/status', (req, res) => {
 		return;
 	}
 	// validate user owns callout
-	const userUuid = auth.verifyClaim(req.cookies.claim);
+	// commented this code because it rejects service professionals
+	/*const userUuid = auth.verifyClaim(req.cookies.claim);
 	if (callout.customer !== userUuid) {
 		res.status(400).send();
 		return;
-	}
+	}*/
 	res.status(200).send(callout);
 });
 
-router.get('/nearby', (req, res) => {
+router.post('/nearby', (req, res) => {
 	
-	if(!apiValidator.validate(req, {
+	if (!apiValidator.validate(req, {
 		calloutid: {type:"string", required:true}
 	})) {
 		res.status(400).send('Missing API parameters');
@@ -119,11 +122,11 @@ router.get('/nearby', (req, res) => {
 	}
 });
 
-router.get('/update', (req, res) => {
+router.post('/update', (req, res) => {
 
-	if(!apiValidator.validate(req, {
+	if (!apiValidator.validate(req, {
 		calloutid: {type:"string", required:true},
-		action: {type:"string", required:true},
+		status: {type:"string", required:true},
 	})) {
 		res.status(400).send('Missing API parameters');
 		return;
@@ -136,32 +139,33 @@ router.get('/update', (req, res) => {
 		const callouts = new JsonDB('data/callouts.json');
 		const callout = callouts.find({ uuid: req.body.calloutid })[0];
 
-		switch(req.body.action) {
-			case "accept":
-				if(callout.status !== "new") {
+		switch (req.body.status) {
+			case "accepted":
+				if (callout.status !== "new") {
 					res.status(400).send();
 					return;
 				}
-				callouts.update({ uuid: req.body.calloutid }, {assignedTo:userUuid, status:"accepted"});
+				callouts.update({ uuid: req.body.calloutid }, { assignedTo: userUuid, status: req.body.status });
 				break;
-			case "arrived":
-				if(callout.status !== "accepted") {
+			case "inprogress":
+				if (callout.status !== "accepted") {
 					res.status(400).send();
 					return;
 				}
-				callouts.update({ uuid: req.body.calloutid }, {status:"inprogress"});
+				callouts.update({ uuid: req.body.calloutid }, { status: req.body.status });
 				break;
 			case "finished":
-				if(callout.status !== "inprogress") {
+				if (callout.status !== "inprogress") {
 					res.status(400).send();
 					return;
 				}
-				callouts.update({ uuid: req.body.calloutid }, {status:"finished"});
+				callouts.update({ uuid: req.body.calloutid }, { status: req.body.status });
 				break;
 			default:
 				res.status(400).send();
 				return;
 		}
+		res.status(200).send();
 	} else {
 		res.status(400).send();
 	}
@@ -180,24 +184,26 @@ router.get('/list', (req, res) => {
 		const user = users.find({ uuid: userUuid })[0]; // user uuid should be checked already so no need to check it again
 		const callout = calloutdb.find({ customer: userUuid }); // te
 		const filtered = callout.filter(co => co.status !== "finished");
-		res.status(200).send(filtered);	
+		res.status(200).send({ type: "CUSTOMER", callouts: filtered });	
 	} else if (user.PROFESSIONAL) {
-		let servProLat = parseFloat(user.PROFESSIONAL.locationLat);
-		let servProLong = parseFloat(user.PROFESSIONAL.locationLong);
+		const servProLat = parseFloat(user.PROFESSIONAL.locationLat);
+		const servProLong = parseFloat(user.PROFESSIONAL.locationLong);
 		
 		const calloutdb = new JsonDB('data/callouts.json');
 		const callouts = calloutdb.find({ status: "new" }).filter(callout => {
-			let calloutLat = parseFloat(callout.locationLat, 10);
-			let calloutLong = parseFloat(callout.locationLong, 10);
+			const calloutLat = parseFloat(callout.locationLat, 10);
+			const calloutLong = parseFloat(callout.locationLong, 10);
 			
-			let dLat = servProLat - calloutLat;
-			let dLong = servProLong - calloutLong;
+			const dLat = servProLat - calloutLat;
+			const dLong = servProLong - calloutLong;
 			
-			let degrees = Math.sqrt((dLat * dLat) + (dLong * dLong));
-			let kms = degrees * 110.574; // this is the constant to turn lat and long degrees into kms
+			const degrees = Math.sqrt((dLat * dLat) + (dLong * dLong));
+			const kms = degrees * 110.574; // this is the constant to turn lat and long degrees into kms
 			return (kms <= 50.0);
         });
-		res.status(200).send(callouts);	
+		res.status(200).send({ type: "PROFESSIONAL", callouts: callouts });
+	} else {
+		res.status(401).send();
 	}
 });
 

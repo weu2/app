@@ -77,3 +77,30 @@ export function backendCreateCallout(formData) {
 export function backendGetCallouts() {
 	return fetchStrict("/api/v1/callout/list").then(res => res.json());
 }
+
+// Gets detail on one specific callout
+export function backendGetCallout(calloutId) {
+	return fetchStrict("/api/v1/callout/status", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify({
+			calloutid: calloutId
+		})
+	}).then(res => res.json());
+}
+
+// Changes the status of a callout
+export function backendUpdateCallout(calloutId, status) {
+	return fetchStrict("/api/v1/callout/update", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify({
+			calloutid: calloutId,
+			status: status
+		})
+	});
+}

@@ -20,14 +20,16 @@ class Dashboard extends React.Component {
 		this.state = {
 			loggedIn: true, // Assume user can view page to avoid redirecting early
 			sortBy: "newest", // Sort order defaults to newest first
-			callouts: null // Store all listed callouts
+			callouts: null, // Store all listed callouts
+			userType: null // Affects the display of callouts
 		}
 	}
 
 	componentDidMount() {
 		backendGetCallouts()
 			.then(res => this.setState({
-				callouts: res
+				userType: res.type,
+				callouts: res.callouts
 			})).catch(() => this.setState({
 				// Redirect to /login if user isn't logged in yet
 				loggedIn: false
@@ -52,7 +54,7 @@ class Dashboard extends React.Component {
 		this.sortCallouts();
 		// Create a <Callout> component to display each callout
 		return this.state.callouts.map((callout, index) =>
-			<Callout className="mb-3" callout={callout} key={callout.uuid} index={index + 1} />
+			<Callout customer={this.state.userType === "CUSTOMER" ? 1 : 0} className="mb-3" callout={callout} key={callout.uuid} index={index + 1} />
 		);
 	}
 
@@ -95,14 +97,14 @@ class Dashboard extends React.Component {
 				{
 					this.state.callouts && this.state.callouts.length
 					? this.generateCallouts()
-					: <div>
+					: <>
 						<p>
 							Callouts will be listed here.
 						</p>
 						<p>
 							Use the top menu to <Link to="/requestcallout" className="text-decoration-none">request a callout.</Link>
 						</p>
-					</div>
+					</>
 				}
 			</Container>
 		);

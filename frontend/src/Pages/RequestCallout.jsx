@@ -124,6 +124,18 @@ class RequestCallout extends React.Component {
 							Please provide your number plate.
 						</Form.Control.Feedback>
 					</Form.Group>
+
+					<Form.Group className="mb-3" controlId="formDescription">
+						<Form.Label>Description</Form.Label>
+						<Form.Control
+							name="description"
+							type="text" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
+							as="textarea"
+							rows={4}
+							required
+						/>
+					</Form.Group>
+
 					<Row>
 						<Col>
 							<Form.Group className="mb-3" controlId="formLatitude">

@@ -17,7 +17,7 @@ class NavigationBar extends React.Component {
 			<Navbar bg="primary" variant="light" expand="lg" className="mb-5">
 				{/* Use <Container fluid> to make it take up the whole width */}
 				<Container>
-					<Navbar.Brand href="./">
+					<Navbar.Brand href="/">
 						{/* Special logo variant with larger outline to contrast against the background */}
 						<img
 							src="/logo_navbar.svg"
@@ -31,18 +31,18 @@ class NavigationBar extends React.Component {
 					<Navbar.Collapse>
 						<Nav className="me-auto">
 							{/* React Router's <NavLink> changes pages much faster */}
-							<Nav.Link as={NavLink} to="./login">Login</Nav.Link>
-							<Nav.Link as={NavLink} to="./register">Register</Nav.Link>
-							<Nav.Link as={NavLink} to="./dashboard">Dashboard</Nav.Link>
-							<Nav.Link as={NavLink} to="./requestcallout">Request Callout</Nav.Link>
+							<Nav.Link as={NavLink} to="/login">Login</Nav.Link>
+							<Nav.Link as={NavLink} to="/register">Register</Nav.Link>
+							<Nav.Link as={NavLink} to="/dashboard">Dashboard</Nav.Link>
+							<Nav.Link as={NavLink} to="/requestcallout">Request Callout</Nav.Link>
 						</Nav>
 						<Nav>
 							<NavDropdown
 								title={<FontAwesomeIcon icon={faCircleUser} size="2x" />}
 							>
-								<NavDropdown.Item href="./profile">My Profile</NavDropdown.Item>
+								<NavDropdown.Item href="/profile">My Profile</NavDropdown.Item>
 								<NavDropdown.Divider/>
-								<NavDropdown.Item href="./signout">Sign Out</NavDropdown.Item>
+								<NavDropdown.Item href="/signout">Sign Out</NavDropdown.Item>
 							</NavDropdown>
 						</Nav>
 					</Navbar.Collapse>

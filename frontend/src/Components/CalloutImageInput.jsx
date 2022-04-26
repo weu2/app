@@ -35,39 +35,40 @@ class CalloutImageInput extends React.Component {
 		return (
 			// Using a standard form since it's invisible anyway
 			<form ref={input => this.form = input}>
-				{/* Customize appearance of file input */}
-				<div>
-					<LargeButton
-						icon="plus"
-						variant="light"
-						onClick={() => this.imageInput.click()}
-					>
-						Attach photos
-						{/* Display preview of attached images */}
-						<div>
-						{
-							this.state.images.map((image, index) =>
-								<Image
-									className="mt-2 mb-1"
-									src={`/api/v1/image/${image}`}
-									key={index}
-									thumbnail
-									width={128}
-								/>
-							)
-						}
-						</div>
-					</LargeButton>
-					<input
-						ref={input => this.imageInput = input}
-						className="d-none"
-						name="image"
-						type="file"
-						accept="image/jpeg"
-						capture
-						onChange={this.loadImage}
-					/>
-				</div>
+			
+				{/* Fake new appearance of file input */}
+				<LargeButton
+					icon="plus"
+					variant="light"
+					onClick={() => this.imageInput.click()}
+				>
+					Attach photos
+					{/* Display preview of attached images */}
+					<div>
+					{
+						this.state.images.map((image, index) =>
+							<Image
+								className="mt-2 mb-1"
+								src={`/api/v1/image/${image}`}
+								key={index}
+								thumbnail
+								width={128}
+							/>
+						)
+					}
+					</div>
+				</LargeButton>
+
+				{/* Hide actual file input */}
+				<input
+					ref={input => this.imageInput = input}
+					className="d-none"
+					name="image"
+					type="file"
+					accept="image/jpeg"
+					capture
+					onChange={this.loadImage}
+				/>
 
 				{/* Include callout ID in form submission automatically */}
 				<input name="calloutid" type="hidden" value={this.props.callout.uuid} />
