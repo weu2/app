@@ -199,9 +199,14 @@ router.get('/list', (req, res) => {
 			
 			const degrees = Math.sqrt((dLat * dLat) + (dLong * dLong));
 			const kms = degrees * 110.574; // this is the constant to turn lat and long degrees into kms
+			callout.distance = kms; // store distance for display and sorting on frontend
 			return (kms <= 50.0);
         });
-		res.status(200).send({ type: "PROFESSIONAL", callouts: callouts });
+		res.status(200).send({
+			type: "PROFESSIONAL",
+			callouts: callouts,
+			position: [servProLat, servProLong] // for easier frontend display
+		});
 	} else {
 		res.status(401).send();
 	}

@@ -36,19 +36,29 @@ class CalloutListed extends React.Component {
 										<th>Number Plate</th>
 										<td>{this.props.callout.numberPlate}</td>
 									</tr>
-									<tr>
-										<th>Location</th>
-										<td>
-											<a
-												className="text-body"
-												href={`https://www.google.com/maps?q=${this.props.callout.locationLat},${this.props.callout.locationLong}`}
-												target="_blank"
-												rel="noopener noreferrer"
-											>
-												{this.props.callout.locationLat}, {this.props.callout.locationLong}
-											</a>
-										</td>
-									</tr>
+									{
+										this.props.customer
+										? <tr>
+											<th>Location</th>
+											<td>
+												<a
+													className="text-body"
+													href={`https://www.google.com/maps?q=${this.props.callout.locationLat},${this.props.callout.locationLong}`}
+													target="_blank"
+													rel="noopener noreferrer"
+												>
+													{this.props.callout.locationLat}, {this.props.callout.locationLong}
+												</a>
+											</td>
+										</tr>
+										: <tr>
+											<th>Distance</th>
+											<td>
+												{this.props.callout.distance.toFixed(3)} km
+											</td>
+										</tr>
+									}
+									
 								</tbody>
 							</Table>
 							{

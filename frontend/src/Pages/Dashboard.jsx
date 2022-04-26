@@ -19,7 +19,7 @@ class Dashboard extends React.Component {
 		super(props);
 		this.state = {
 			loggedIn: true, // Assume user can view page to avoid redirecting early
-			sortBy: "newest", // Sort order defaults to newest first
+			sortBy: null, // Sort order defaults to newest first
 			callouts: null, // Store all listed callouts
 			userType: null // Affects the display of callouts
 		}
@@ -29,6 +29,7 @@ class Dashboard extends React.Component {
 		backendGetCallouts()
 			.then(res => this.setState({
 				userType: res.type,
+				sortBy: res.type === "PROFESSIONAL" ? "closest" : "newest",
 				callouts: res.callouts
 			})).catch(() => this.setState({
 				// Redirect to /login if user isn't logged in yet
@@ -37,8 +38,13 @@ class Dashboard extends React.Component {
 	}
 
 	sortCallouts() {
-		// Currently only two sorting modes, both operate on strings
 		switch (this.state.sortBy) {
+			case "closest":
+				this.state.callouts.sort((a, b) => a.distance - b.distance);
+				break;
+			case "furthest":
+				this.state.callouts.sort((a, b) => b.distance - a.distance);
+				break;
 			case "oldest":
 				this.state.callouts.sort((a, b) => a.dateTime.localeCompare(b.dateTime));
 				break;
@@ -88,7 +94,13 @@ class Dashboard extends React.Component {
 								<Form.Label column sm={2}>Sort by</Form.Label>
 								<Col>
 									<Form.Select onChange={this.updateSort}>
-										<option defaultValue value="newest">Newest to oldest</option>
+										{ // Professionals have distance sorting abilities
+											this.state.userType === "PROFESSIONAL" ? <>
+												<option value="closest">Closest to furthest</option>
+												<option value="furthest">Furthest to closest</option>
+											</> : null
+										}
+										<option value="newest">Newest to oldest</option>
 										<option value="oldest">Oldest to newest</option>
 									</Form.Select>
 								</Col>
