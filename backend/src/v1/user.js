@@ -74,6 +74,10 @@ router.get('/getinfo', (req, res) => {
 	if (uuid) {
 		const users = new JsonDB('data/users.json');
 		const user = users.find({ uuid: uuid })[0];
+		if (!user) {
+			res.status(400).send();
+			return;
+		}
 		// For security, send everything except the password hash
 		delete user.passwordHash;
 		// this is stored in the cookie so its not needed

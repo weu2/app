@@ -46,19 +46,19 @@ router.post('/create', upload.none(), (req, res) => {
 router.get('/status', (req, res) => {
 	const callouts = new JsonDB('data/callouts.json');
 	if (req.body.calloutid) {
-		const callout = callouts.find({ uuid: req.body.calloutid });
+		const callout = callouts.find({ uuid: req.body.calloutid })[0];
 		// check there is a callout
-		if (callout.length === 0) {
+		if (!callout) {
 			res.status(400).send();
 			return;
 		}
 		// validate user owns callout
 		const userUuid = auth.verifyClaim(req.cookies.claim);
-		if (callout[0].customer !== userUuid) {
+		if (callout.customer !== userUuid) {
 			res.status(400).send();
 			return;
 		}
-		res.status(200).send(callout[0]);
+		res.status(200).send(callout);
 	} else {
 		res.status(400).send();
 	}
@@ -76,13 +76,17 @@ router.get('/list', (req, res) => {
 const image = require('../common/image');
 router.post('/uploadimage', image.upload.single('image'), (req, res) => {
 	if (req.file && req.body.calloutid) {
-		// need to associate the image with a callout
 		const callouts = new JsonDB('data/callouts.json');
 		const userUuid = auth.verifyClaim(req.cookies.claim);
 		const filtered = callouts.find({ customer: userUuid, uuid: req.body.calloutid })[0];
-		// add image uuid to array
+		// ensure callout exists
+		if (!filtered) {
+			res.status(400).send();
+			return;
+		}
+		// associate the image with a callout
 		const imageUuid = req.file.filename.split('.')[0];
-		// make sure it doesn't already exist
+		// make sure image doesn't already exist
 		if (!filtered.images.includes(imageUuid)) {
 			filtered.images.push(imageUuid);
 		}

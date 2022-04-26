@@ -86,12 +86,11 @@ function createClaim(uuid) {
 function authenticate(email, password) {
 	const users = new JsonDB('data/users.json');
 	return new Promise((res, rej) => {    
-		const ruser = users.find({ email: email });
-		if (ruser.length === 0) {
+		const user = users.find({ email: email })[0];
+		if (!user) {
 			rej('No matching users'); 
 			return;
 		}
-		const user = ruser[0]; 
 		bcrypt.compare(password, user.passwordHash, (err, result) => {
 			if (err) {
 				console.log(err);
