@@ -77,6 +77,48 @@ router.get('/status', (req, res) => {
 	res.status(200).send(callout);
 });
 
+router.get('/nearby', (req, res) => {
+	
+	if(!apiValidator.validate(req, {
+		calloutid: {type:"string", required:true}
+	})) {
+		res.status(400).send('Missing API parameters');
+		return;
+	}
+
+	const userUuid = auth.verifyClaim(req.cookies.claim);
+	const users = new JsonDB('data/users.json');
+	const user = users.find({ uuid: userUuid })[0]; // user uuid should be checked already so no need to check it again
+	if (user.CUSTOMER) {
+		
+		const callouts = new JsonDB('data/callouts.json');
+		const callout = callouts.find({ uuid: req.body.calloutid })[0];
+		let calloutLat = parseFloat(callout.locationLat, 10);
+		let calloutLong = parseFloat(callout.locationLong, 10);
+		let returnlist = [];
+		const professionals = users.hasKeys(["PROFESSIONAL"]);
+		professionals.forEach(user => {
+			
+			let servProLat = parseFloat(user.PROFESSIONAL.locationLat);
+			let servProLong = parseFloat(user.PROFESSIONAL.locationLong);
+
+			let dLat = servProLat - calloutLat;
+			let dLong = servProLong - calloutLong;
+
+			let degrees = Math.sqrt((dLat * dLat) + (dLong * dLong));
+			let kms = degrees * 110.574; // this is the constant to turn lat and long degrees into kms
+
+			if(kms <= 50.0) {
+				returnlist.push({
+					distance: kms,
+					name: user.firstName + " " + user.lastName
+				});
+			}
+		});
+		res.status(200).send(returnlist);
+	}
+});
+
 router.get('/update', (req, res) => {
 
 	if(!apiValidator.validate(req, {
@@ -142,7 +184,7 @@ router.get('/list', (req, res) => {
 	} else if (user.PROFESSIONAL) {
 		let servProLat = parseFloat(user.PROFESSIONAL.locationLat);
 		let servProLong = parseFloat(user.PROFESSIONAL.locationLong);
-
+		
 		const calloutdb = new JsonDB('data/callouts.json');
 		const callouts = calloutdb.find({ status: "new" }).filter(callout => {
 			let calloutLat = parseFloat(callout.locationLat, 10);
