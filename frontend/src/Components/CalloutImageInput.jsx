@@ -20,9 +20,8 @@ class CalloutImageInput extends React.Component {
 	loadImage = (event) => {
 		// ensure at least one image was attached
 		if (event.target.files.length === 0) return;
-		// Get form element manually
-		const form = document.getElementById("imageForm");
-		backendUploadImage(new FormData(form))
+		// Manually send form data to backend
+		backendUploadImage(new FormData(this.form))
 			.then(res => this.setState({
 				// Add preview for uploaded image
 				images: [...this.state.images, res.uuid]
@@ -35,18 +34,32 @@ class CalloutImageInput extends React.Component {
 	render() {
 		return (
 			// Using a standard form since it's invisible anyway
-			<form id="imageForm">
+			<form ref={input => this.form = input}>
 				{/* Customize appearance of file input */}
 				<div>
 					<LargeButton
 						icon="plus"
-						variant="primary"
-						onClick={() => document.getElementById("imageInput").click()}
+						variant="light"
+						onClick={() => this.imageInput.click()}
 					>
-						Attach photo
+						Attach photos
+						{/* Display preview of attached images */}
+						<div>
+						{
+							this.state.images.map((image, index) =>
+								<Image
+									className="mt-2 mb-1"
+									src={`/api/v1/image/${image}`}
+									key={index}
+									thumbnail
+									width={128}
+								/>
+							)
+						}
+						</div>
 					</LargeButton>
 					<input
-						id="imageInput"
+						ref={input => this.imageInput = input}
 						className="d-none"
 						name="image"
 						type="file"
@@ -55,18 +68,6 @@ class CalloutImageInput extends React.Component {
 						onChange={this.loadImage}
 					/>
 				</div>
-				{/* Display preview of attached images */}
-				{
-					this.state.images.map((image, index) =>
-						<Image
-							className="mt-3"
-							src={`/api/v1/image/${image}`}
-							key={index}
-							thumbnail
-							width={128}
-						/>
-					)
-				}
 
 				{/* Include callout ID in form submission automatically */}
 				<input name="calloutid" type="hidden" value={this.props.callout.uuid} />

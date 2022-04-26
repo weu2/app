@@ -28,7 +28,7 @@ class NavigationBar extends React.Component {
 						/>
 					</Navbar.Brand>
 					<Navbar.Toggle aria-controls="basic-navbar-nav" />
-					<Navbar.Collapse id="basic-navbar-nav">
+					<Navbar.Collapse>
 						<Nav className="me-auto">
 							{/* React Router's <NavLink> changes pages much faster */}
 							<Nav.Link as={NavLink} to="./login">Login</Nav.Link>
@@ -39,7 +39,6 @@ class NavigationBar extends React.Component {
 						<Nav>
 							<NavDropdown
 								title={<FontAwesomeIcon icon={faCircleUser} size="2x" />}
-								id="basic-nav-dropdown"
 							>
 								<NavDropdown.Item href="./profile">My Profile</NavDropdown.Item>
 								<NavDropdown.Divider/>

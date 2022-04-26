@@ -12,9 +12,9 @@ class LargeButton extends React.Component {
 	getIcon(icon) {
 		switch (icon) {
 			case "arrow-right":
-				return <FontAwesomeIcon icon={faArrowRight} />
+				return <FontAwesomeIcon icon={faArrowRight} className="float-end mt-1" />
 			case "plus":
-				return <FontAwesomeIcon icon={faPlus} />;
+				return <FontAwesomeIcon icon={faPlus} className="float-end mt-1" />;
 			default:
 				return null;
 		}
@@ -22,9 +22,9 @@ class LargeButton extends React.Component {
 
 	render() {
 		return (
-			<Button {...this.props} className="d-flex w-100 align-items-center flex-row justify-content-between">
-				{this.props.children}
+			<Button {...this.props} className="w-100 text-start">
 				{this.getIcon(this.props.icon)}
+				{this.props.children}
 			</Button>
 		);
 	}

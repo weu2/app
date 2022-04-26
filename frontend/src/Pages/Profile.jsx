@@ -4,6 +4,8 @@ import { Navigate } from "react-router-dom";
 // <Alert> is useful for displaying success or error messages, see react-bootstrap.github.io/components/alerts/
 import Alert from "react-bootstrap/Alert";
 import Form from "react-bootstrap/Form";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 // <Container> adds padding to the sides of the page content, makes it look nicer
 import Container from "react-bootstrap/Container";
@@ -108,35 +110,37 @@ class Profile extends React.Component {
 						</Form.Control.Feedback>
 					</Form.Group>
 
-					<Form.Group className="mb-3" controlId="formFirstName">
-						<Form.Label>First Name</Form.Label>
-						<Form.Control
-							name="firstName"
-							type="text" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
-							autoComplete="given-name"
-							defaultValue={this.state.firstName}
-							required
-						/>
-						{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
-						<Form.Control.Feedback type="invalid">
-							Please provide your first name.
-						</Form.Control.Feedback>
-					</Form.Group>
+					<Row>
+						<Form.Group as={Col} className="mb-3" controlId="formFirstName">
+							<Form.Label>First Name</Form.Label>
+							<Form.Control
+								name="firstName"
+								type="text" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
+								autoComplete="given-name"
+								defaultValue={this.state.firstName}
+								required
+							/>
+							{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
+							<Form.Control.Feedback type="invalid">
+								Please provide your first name.
+							</Form.Control.Feedback>
+						</Form.Group>
 
-					<Form.Group className="mb-3" controlId="formLastName">
-						<Form.Label>Last Name</Form.Label>
-						<Form.Control
-							name="lastName"
-							type="text" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
-							autoComplete="family-name"
-							defaultValue={this.state.lastName}
-							required
-						/>
-						{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
-						<Form.Control.Feedback type="invalid">
-							Please provide your last name.
-						</Form.Control.Feedback>
-					</Form.Group>
+						<Form.Group as={Col} className="mb-3" controlId="formLastName">
+							<Form.Label>Last Name</Form.Label>
+							<Form.Control
+								name="lastName"
+								type="text" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
+								autoComplete="family-name"
+								defaultValue={this.state.lastName}
+								required
+							/>
+							{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
+							<Form.Control.Feedback type="invalid">
+								Please provide your last name.
+							</Form.Control.Feedback>
+						</Form.Group>
+					</Row>
 
 					<Form.Group className="mb-3" controlId="formAddress">
 						<Form.Label>Address</Form.Label>
