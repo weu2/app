@@ -77,6 +77,54 @@ router.get('/status', (req, res) => {
 	res.status(200).send(callout);
 });
 
+router.get('/update', (req, res) => {
+
+	if(!apiValidator.validate(req, {
+		calloutid: {type:"string", required:true},
+		action: {type:"string", required:true},
+	})) {
+		res.status(400).send('Missing API parameters');
+		return;
+	}
+
+	const userUuid = auth.verifyClaim(req.cookies.claim);
+	const users = new JsonDB('data/users.json');
+	const user = users.find({ uuid: userUuid })[0]; // user uuid should be checked already so no need to check it again
+	if (user.PROFESSIONAL) {
+		const callouts = new JsonDB('data/callouts.json');
+		const callout = callouts.find({ uuid: req.body.calloutid })[0];
+
+		switch(req.body.action) {
+			case "accept":
+				if(callout.status !== "new") {
+					res.status(400).send();
+					return;
+				}
+				callouts.update({ uuid: req.body.calloutid }, {assignedTo:userUuid, status:"accepted"});
+				break;
+			case "arrived":
+				if(callout.status !== "accepted") {
+					res.status(400).send();
+					return;
+				}
+				callouts.update({ uuid: req.body.calloutid }, {status:"inprogress"});
+				break;
+			case "finished":
+				if(callout.status !== "inprogress") {
+					res.status(400).send();
+					return;
+				}
+				callouts.update({ uuid: req.body.calloutid }, {status:"finished"});
+				break;
+			default:
+				res.status(400).send();
+				return;
+		}
+	} else {
+		res.status(400).send();
+	}
+});
+
 router.get('/list', (req, res) => {
 	
 	const userUuid = auth.verifyClaim(req.cookies.claim);
