@@ -20,7 +20,7 @@ router.use((req, res, next) => {
 
 router.post('/create', upload.none(), (req, res) => {
 	
-	if(apiValidator.validate(req, {
+	if(!apiValidator.validate(req, {
 		dateTime: {type:"string", required:true},
 		locationLat: {type:"string", required:true},
 		locationLong: {type:"string", required:true},
@@ -44,7 +44,6 @@ router.post('/create', upload.none(), (req, res) => {
 		numberPlate: req.body.numberPlate,
 		images: [],
 		status: "new" // new - hasnt been confirmed
-						// waiting - waiting for service professional
 						// accepted - service professional has accepted the callout and is on their way
 						// inprogress - service professional arrived and is fixing car
 						// finished - callout complete
@@ -55,7 +54,7 @@ router.post('/create', upload.none(), (req, res) => {
 
 router.get('/status', (req, res) => {
 
-	if(apiValidator.validate(req, {
+	if(!apiValidator.validate(req, {
 		calloutid: {type:"string", required:true},
 	})) {
 		res.status(400).send('Missing API parameters');
@@ -79,11 +78,37 @@ router.get('/status', (req, res) => {
 });
 
 router.get('/list', (req, res) => {
-	const callouts = new JsonDB('data/callouts.json');
+	
 	const userUuid = auth.verifyClaim(req.cookies.claim);
-	const callout = callouts.find({ customer: userUuid });
-	const filtered = callout.filter(co => co.status !== "finished");
-	res.status(200).send(filtered);
+	const users = new JsonDB('data/users.json');
+	const user = users.find({ uuid: userUuid })[0]; // user uuid should be checked already so no need to check it again
+	
+	if (user.CUSTOMER) {
+		const calloutdb = new JsonDB('data/callouts.json');
+		const userUuid = auth.verifyClaim(req.cookies.claim);
+		const users = new JsonDB('data/users.json');
+		const user = users.find({ uuid: userUuid })[0]; // user uuid should be checked already so no need to check it again
+		const callout = calloutdb.find({ customer: userUuid }); // te
+		const filtered = callout.filter(co => co.status !== "finished");
+		res.status(200).send(filtered);	
+	} else if (user.PROFESSIONAL) {
+		let servProLat = parseFloat(user.PROFESSIONAL.locationLat);
+		let servProLong = parseFloat(user.PROFESSIONAL.locationLong);
+
+		const calloutdb = new JsonDB('data/callouts.json');
+		const callouts = calloutdb.find({ status: "new" }).filter(callout => {
+			let calloutLat = parseFloat(callout.locationLat, 10);
+			let calloutLong = parseFloat(callout.locationLong, 10);
+			
+			let dLat = servProLat - calloutLat;
+			let dLong = servProLong - calloutLong;
+			
+			let degrees = Math.sqrt((dLat * dLat) + (dLong * dLong));
+			let kms = degrees * 110.574; // this is the constant to turn lat and long degrees into kms
+			return (kms <= 50.0);
+        });
+		res.status(200).send(callouts);	
+	}
 });
 
 const image = require('../common/image');
