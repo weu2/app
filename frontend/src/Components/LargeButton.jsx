@@ -2,14 +2,12 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-// Currently this only has one icon option "arrow-right", more could be added later
 import { faArrowRight, faPlus } from "@fortawesome/free-solid-svg-icons";
 
 // Regular Bootstrap button, except with 100% width and an icon on the right
 class LargeButton extends React.Component {
 
-	getIcon(icon) {
+	getIcon(icon) { // More icons could be added later
 		switch (icon) {
 			case "arrow-right":
 				return <FontAwesomeIcon icon={faArrowRight} className="float-end mt-1" />
@@ -22,7 +20,10 @@ class LargeButton extends React.Component {
 
 	render() {
 		return (
-			<Button {...this.props} className="w-100 text-start">
+			<Button {...this.props} className={
+				// Ensure className can be overwritten manually
+				`w-100 text-start ${this.props.className ? this.props.className : ""}`
+			}>
 				{this.getIcon(this.props.icon)}
 				{this.props.children}
 			</Button>

@@ -32,7 +32,7 @@ router.post('/login', upload.none(), (req, res) => {
 
 router.post('/register', upload.none(), (req, res) => {
 
-	if(!apiValidator.validate(req, {
+	const params = {
 		email: {type:"string", required:true},
 		firstName: {type:"string", required:true},
 		lastName: {type:"string", required:true},
@@ -41,9 +41,23 @@ router.post('/register', upload.none(), (req, res) => {
 		license: {type:"string", required:true},
 		password: {type:"string", required:true},
 		type: {type:"string", required:true}
-	})) {
+	};
+
+	// professionals must provide a location
+	if (req.body.type === "PROFESSIONAL") {
+		params.locationLat = {type:"string", required:true};
+		params.locationLong = {type:"string", required:true};
+	}
+
+	if(!apiValidator.validate(req, params)) {
 		res.status(400).send('Missing API parameters');
 		return;
+	}
+
+	const userData = {};
+	if (req.body.type === "PROFESSIONAL") {
+		userData.locationLat = req.body.locationLat;
+		userData.locationLong = req.body.locationLong;
 	}
 
 	auth.createUser(req.body.email, 
@@ -53,7 +67,8 @@ router.post('/register', upload.none(), (req, res) => {
 		req.body.phoneNumber, 
 		req.body.license, 
 		req.body.password, 
-		req.body.type
+		req.body.type,
+		userData
 	).then(() =>
 		res.status(200).send()
 	).catch(err =>
