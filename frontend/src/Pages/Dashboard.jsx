@@ -7,7 +7,7 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import Callout from "../Components/Callout";
+import CalloutListed from "../Components/CalloutListed";
 
 // api.jsx contains utility functions for getting or sending data from the frontend to the backend
 // For example, sending form data or getting user info
@@ -52,9 +52,14 @@ class Dashboard extends React.Component {
 	generateCallouts() {
 		// Ensure callouts are sorted before rendering
 		this.sortCallouts();
-		// Create a <Callout> component to display each callout
-		return this.state.callouts.map((callout, index) =>
-			<Callout customer={this.state.userType === "CUSTOMER" ? 1 : 0} className="mb-3" callout={callout} key={callout.uuid} index={index + 1} />
+		// Create a <CalloutListed> component to display each callout
+		return this.state.callouts.map(callout =>
+			<CalloutListed
+				customer={this.state.userType === "CUSTOMER" ? 1 : 0}
+				className="mb-3"
+				callout={callout}
+				key={callout.uuid}
+			/>
 		);
 	}
 

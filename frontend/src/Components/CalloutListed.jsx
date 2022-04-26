@@ -11,7 +11,7 @@ import CalloutImageInput from "./CalloutImageInput";
 import LargeButton from "./LargeButton";
 
 // Card for rendering each callout along with basic details
-class Callout extends React.Component {
+class CalloutListed extends React.Component {
 
 	render() {
 		return (
@@ -75,4 +75,4 @@ class Callout extends React.Component {
 	}
 }
 
-export default Callout;
+export default CalloutListed;
