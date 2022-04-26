@@ -15,6 +15,10 @@ function verifyClaim(claim) {
 	if (jwt.verifyJWT(claim, jwtSecret)) {
 		const payload = jwt.extractPayload(claim);
 		const time = Math.floor(Date.now() / 1000);
+		
+		const users = new JsonDB('data/users.json');
+		if(users.find({uuid:payload.sub}).length !== 1)
+			return;
 
 		if (payload.exp < time) return;
 		// check if the jwt id is valid somehow

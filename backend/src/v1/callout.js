@@ -64,7 +64,6 @@ router.get('/status', (req, res) => {
 	}
 });
 
-// list callouts a customer submitted
 router.get('/list', (req, res) => {
 	const callouts = new JsonDB('data/callouts.json');
 	const userUuid = auth.verifyClaim(req.cookies.claim);
@@ -76,23 +75,17 @@ router.get('/list', (req, res) => {
 const image = require('../common/image');
 router.post('/uploadimage', image.upload.single('image'), (req, res) => {
 	if (req.file && req.body.calloutid) {
+		const calloutid = req.body.calloutid;
 		const callouts = new JsonDB('data/callouts.json');
 		const userUuid = auth.verifyClaim(req.cookies.claim);
-		const filtered = callouts.find({ customer: userUuid, uuid: req.body.calloutid })[0];
-		// ensure callout exists
+		const filtered = callouts.find({ customer: userUuid, uuid: calloutid })[0];
 		if (!filtered) {
 			res.status(400).send();
 			return;
 		}
-		// associate the image with a callout
+		// get the image name from the multr upload
 		const imageUuid = req.file.filename.split('.')[0];
-		// make sure image doesn't already exist
-		if (!filtered.images.includes(imageUuid)) {
-			filtered.images.push(imageUuid);
-		}
-		// update callout json
-		callouts.asyncUpdate();
-		// send image uuid
+		callouts.update({ customer: userUuid, uuid: calloutid }, {images:{append:[imageUuid]}});
 		res.status(200).send({ uuid: imageUuid });
 	} else {
 		// bad api - missing file or non-jpeg filetype

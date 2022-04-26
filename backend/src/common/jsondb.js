@@ -44,11 +44,22 @@ class JSONDB {
             return keys.reduce((p, c) => p && e[c] === key[c], true);
         });
     }
-
+    
+    // to update arrays you have two options, new or append
+    // update(keyValues, {array: {append : ['another value', 'another one']}});
+    // update(keyValues, {array: {new : ['new array', 'thats right']}});
     update(key, val) {
         const valkeys = Object.keys(val);
         this.find(key).forEach(e => {
-            valkeys.forEach(k => e[k] = val[k] );
+            valkeys.forEach(k => {
+                if(val[k].append){
+                    if(Array.isArray(e[k]) && Array.isArray(val[k].append))
+                        val[k].append.forEach(p => e[k].push(p));
+                } else if (val[k].new) {
+                    e[k] = val[k].new;
+                } else 
+                    e[k] = val[k]
+            } );
         });
         this.asyncUpdate();
     }
