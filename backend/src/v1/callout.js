@@ -114,7 +114,7 @@ router.get('/list', (req, res) => {
 const image = require('../common/image');
 router.post('/uploadimage', image.upload.single('image'), (req, res) => {
 
-	if(apiValidator.validate(req, {
+	if(!apiValidator.validate(req, {
 		calloutid: {type:"string", required:true},
 	})) {
 		res.status(400).send('Missing API parameters');
