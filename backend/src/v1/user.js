@@ -1,8 +1,11 @@
 const express = require('express');
-const router = express.Router();
+const multer = require('multer');
+
 const auth = require('./auth');
 const JsonDB = require('../common/jsondb');
-const multer = require('multer');
+const apiValidator = require('../common/apiValidator');
+
+const router = express.Router();
 const upload = multer();
 
 router.use((req, res, next) => {
@@ -10,36 +13,52 @@ router.use((req, res, next) => {
 });
 
 router.post('/login', upload.none(), (req, res) => {
-	if (req.body.email && req.body.password) {
-		auth.authenticate(req.body.email, req.body.password)
-			.then(claim =>
-				res.cookie('claim', claim, { sameSite: 'Strict' }).send()
-			).catch(err =>
-				res.status(401).send(err)
-			);
-	} else {
+	
+	if(!apiValidator.validate(req, {
+		email: {type:"string", required:true},
+		password: {type:"string", required:true}
+	})) {
 		res.status(400).send('Missing API parameters');
+		return;
 	}
+
+	auth.authenticate(req.body.email, req.body.password)
+		.then(claim =>
+			res.cookie('claim', claim, { sameSite: 'Strict' }).send()
+		).catch(err =>
+			res.status(401).send(err)
+		);
 });
 
 router.post('/register', upload.none(), (req, res) => {
-	if (req.body.email && req.body.firstName && req.body.lastName && req.body.address && req.body.phoneNumber && req.body.license && req.body.password && req.body.type) {
-		auth.createUser(req.body.email, 
-			req.body.firstName, 
-			req.body.lastName, 
-			req.body.address, 
-			req.body.phoneNumber, 
-			req.body.license, 
-			req.body.password, 
-			req.body.type
-		).then(() =>
-			res.status(200).send()
-		).catch(err =>
-			res.status(400).send(err)
-		);
-	} else {
+
+	if(!apiValidator.validate(req, {
+		email: {type:"string", required:true},
+		firstName: {type:"string", required:true},
+		lastName: {type:"string", required:true},
+		address: {type:"string", required:true},
+		phoneNumber: {type:"string", required:true},
+		license: {type:"string", required:true},
+		password: {type:"string", required:true},
+		type: {type:"string", required:true}
+	})) {
 		res.status(400).send('Missing API parameters');
+		return;
 	}
+
+	auth.createUser(req.body.email, 
+		req.body.firstName, 
+		req.body.lastName, 
+		req.body.address, 
+		req.body.phoneNumber, 
+		req.body.license, 
+		req.body.password, 
+		req.body.type
+	).then(() =>
+		res.status(200).send()
+	).catch(err =>
+		res.status(400).send(err)
+	);
 });
 
 router.post('/update', upload.none(), (req, res) => {
