@@ -32,7 +32,8 @@ class Profile extends React.Component {
 			error: null, // Display failure message if an error occurs
 			loggedIn: true, // Assume the user is not logged in yet
 			updated: false, // Displays an "updated" alert when the details are updated successfully
-			validated: false // Shows feedback messages to show the user if they screwed up the form, see react-bootstrap.github.io/forms/validation/
+			validated: false, // Shows feedback messages to show the user if they screwed up the form, see react-bootstrap.github.io/forms/validation/
+			notifs: false
 		};
 	}
 
@@ -45,11 +46,19 @@ class Profile extends React.Component {
 				lastName: res.lastName,
 				address: res.address,
 				phoneNumber: res.phoneNumber,
-				license: res.license
+				license: res.license,
+				notifs: res.pushNotif
 			})).catch(() => this.setState({
 				// Redirect to /login if user isn't logged in yet
 				loggedIn: false
 			}));
+
+		// backendGetNotifStatus()
+		// 	.then((res => this.setState({
+		// 		notifs: res
+		// 	})));
+
+		console.log(this.state);
 	}
 
 	submitForm = (event) => {
@@ -72,10 +81,29 @@ class Profile extends React.Component {
 		this.setState({ validated: true });
 	}
 
+	updateNotifs = (event) => {
+		console.log(event.target.checked);
+		this.setState({notifs: event.target.checked});
+
+
+		if (event.target.checked === true) {
+			Notification.requestPermission().then((status) => {
+				if (Notification.permission !== "granted") {
+					this.setState({
+						notifs: false,
+						error: "Cannot enable notifications, please check your browser permissions."
+					});
+				}
+			})
+			
+		}
+	}
+
 	render() {
 		return (
 			// <Container> adds padding around the website content, makes it look nicer
 			<Container>
+				<Container>
 				{/* "mb-4" is a Bootstrap CSS class for setting margin-bottom, see getbootstrap.com/docs/5.1/utilities/spacing/ */}
 				<h2 className="mb-4">My Profile</h2>
 
@@ -192,6 +220,13 @@ class Profile extends React.Component {
 						Update
 					</LargeButton>
 				</Form>
+				</Container>
+				{'Notification' in window && navigator.serviceWorker ?
+					<Container>
+						<h2 className="mb-4 mt-5">Notification Settings</h2>
+						<Form.Check type="switch" name="notifs" checked={this.state.notifs} label="Push Notifications" onChange={this.updateNotifs} />
+					</Container>
+				: null}
 			</Container>
 		);
 	}

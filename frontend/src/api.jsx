@@ -39,6 +39,10 @@ export function backendUpdate(formData) {
 	});
 }
 
+export function backendGetNotifStatus() {
+	return fetchStrict("/api/v1/user/pushnotif").then(res => res.json());
+}
+
 // Basic test to check if the backend is broken
 export function backendTest() {
 	return fetchStrict("/api/v1/test").then(res => res.json());
