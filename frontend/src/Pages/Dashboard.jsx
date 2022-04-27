@@ -128,14 +128,19 @@ class Dashboard extends React.Component {
 				{
 					this.state.callouts && this.state.callouts.length
 					? this.generateCallouts()
-					: <>
-						<p>
-							Callouts will be listed here.
-						</p>
-						<p>
-							Use the top menu to <Link to="/requestcallout" className="text-decoration-none">request a callout.</Link>
-						</p>
-					</>
+					: (
+						this.state.userType === "CUSTOMER"
+						? <>
+							<p>Callouts you opened will be listed here.</p>
+							<p>
+								Use the top menu to <Link to="/requestcallout" className="text-decoration-none">request a callout.</Link>
+							</p>
+						</>
+						: <>
+							<p>Callouts you accepted will be listed here.</p>
+							<p>TODO: Make separate page to list all open callouts</p>
+						</>
+					)
 				}
 			</Container>
 		);
