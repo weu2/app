@@ -22,9 +22,11 @@
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "express": "^4.17.3",
-    "jest": "^28.0.2",
     "multer": "^1.4.4",
     "supertest": "^6.2.3",
     "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "jest": "^28.0.2"
   }
 }
