@@ -70,7 +70,7 @@ router.post('/status', (req, res) => {
 		res.status(400).send();
 		return;
 	}
-	// validate user owns callout
+	// validate user is associated with a callout
 	// commented this code because it rejects service professionals
 	/*const userUuid = auth.verifyClaim(req.cookies.claim);
 	if (callout.customer !== userUuid) {
