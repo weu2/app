@@ -34,10 +34,13 @@ class Login extends React.Component {
 		if (form.checkValidity()) {
 			// Manually send form data to backend
 			backendLogin(new FormData(form))
-				.then(() => this.setState({
-					// Redirect to /dashboard
-					loggedIn: true
-				})).catch(async(res) => this.setState({
+				.then(() => {
+					this.setState({
+						// Redirect to /dashboard
+						loggedIn: true
+					})
+					document.dispatchEvent(new Event("updateNavBar"));
+				}).catch(async(res) => this.setState({
 					// Show error message
 					error: `Error: ${res.status} (${res.statusText}) ${await res.text()}`
 				}));
