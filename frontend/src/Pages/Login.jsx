@@ -39,7 +39,8 @@ class Login extends React.Component {
 						// Redirect to /dashboard
 						loggedIn: true
 					})
-					document.dispatchEvent(new Event("updateNavBar"));
+					// Send user info to the navigation bar
+					document.dispatchEvent(new Event("loggedIn"));
 				}).catch(async(res) => this.setState({
 					// Show error message
 					error: `Error: ${res.status} (${res.statusText}) ${await res.text()}`

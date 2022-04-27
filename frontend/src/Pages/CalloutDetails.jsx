@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useParams } from "react-router-dom";
+import { Navigate, Link, useParams } from "react-router-dom";
 
 // <Container> adds padding to the sides of the page content, makes it look nicer
 import Container from "react-bootstrap/Container";
@@ -19,15 +19,15 @@ import SingleMarkerMap from "../Components/SingleMarkerMap";
 import { backendGetCallout, backendUpdateCallout } from "../api.jsx";
 
 // This is a React function instead of a React class because useParams() requires it
-function CalloutView() {
+function CalloutDetails() {
 	const { id } = useParams();
 	const [error, setError] = React.useState(null);
 	const [callout, setCallout] = React.useState(null);
-	const [popup, setPopup] = React.useState(false);
+	const [accepted, setAccepted] = React.useState(false);
 
 	const acceptCallout = () => {
 		backendUpdateCallout(id, "accepted")
-			.then(() => setPopup(true))
+			.then(() => setAccepted(true))
 			.catch(res => {
 				setError(`Error: ${res.status} (${res.statusText})`);
 			})
@@ -111,18 +111,14 @@ function CalloutView() {
 						</Button>
 					</Col>
 					<Col>
-						<Link to="/dashboard">
+						<Link to="/findcallouts">
 							<Button variant="danger" style={{ width: "100%" }}>
 								Deny
 							</Button>
 						</Link>
 					</Col>
-					{/* Display popup if required */}
-					{
-						popup
-						? <Alert variant="success" className="mt-3">Callout accepted!</Alert>
-						: null
-					}
+					{/* Redirect to /findcallouts once callout was accepted */}
+					{accepted ? <Navigate to="/findcallouts"/> : null}
 				</Row>
 			</div>
 			: <Alert variant="info">Loading callout details...</Alert>}
@@ -130,4 +126,4 @@ function CalloutView() {
 	);
 }
 
-export default CalloutView;
+export default CalloutDetails;

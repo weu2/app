@@ -9,23 +9,41 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 
+// api.jsx contains utility functions for getting or sending data from the frontend to the backend
+// For example, sending form data or getting user info
+import { backendGetUserInfo } from "../api.jsx";
+
 // Top navigation bar is included on every page, included in index.jsx
 class NavigationBar extends React.Component {
 
+	constructor(props) {
+		super(props);
+		this.state = {
+			loggedIn: document.cookie.includes("claim"),
+			userInfo: null
+		};
+	}
+
 	componentDidMount() {
 		// Use custom event to navigation bar from login page
-		document.addEventListener("updateNavBar", () => this.forceUpdate());
+		document.addEventListener("loggedIn", () => {
+			this.setState({ loggedIn: true });
+			this.fetchUserInfo();
+		});
+		this.fetchUserInfo();
+	}
+
+	fetchUserInfo = () => {
+		backendGetUserInfo()
+			.then(res => this.setState({ userInfo: res }))
+			.catch(console.error);
 	}
 
 	signOut = () => {
 		// Clear claim cookie, signing out the user
 		document.cookie = "claim=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 		// Force navigation bar to refresh
-		this.forceUpdate();
-	}
-
-	loggedIn() {
-		return document.cookie.includes("claim");
+		this.setState({ loggedIn: false, userInfo: null });
 	}
 
 	render() {
@@ -48,10 +66,19 @@ class NavigationBar extends React.Component {
 						<Nav className="me-auto">
 							{/* React Router's <NavLink> changes pages much faster */}
 							{
-								this.loggedIn()
+								this.state.loggedIn
 								? <>
 									<Nav.Link as={NavLink} to="/dashboard">Dashboard</Nav.Link>
-									<Nav.Link as={NavLink} to="/requestcallout">Request Callout</Nav.Link>
+									{
+										this.state.userInfo && this.state.userInfo.CUSTOMER
+										? <Nav.Link as={NavLink} to="/requestcallout">Request Callout</Nav.Link>
+										: null
+									}
+									{
+										this.state.userInfo && this.state.userInfo.PROFESSIONAL
+										? <Nav.Link as={NavLink} to="/findcallouts">Find Callouts</Nav.Link>
+										: null
+									}
 								</>
 								: <>
 									<Nav.Link as={NavLink} to="/login">Login</Nav.Link>
@@ -60,7 +87,7 @@ class NavigationBar extends React.Component {
 							}
 						</Nav>
 						{
-							this.loggedIn()
+							this.state.loggedIn
 							? <Nav>
 								<NavDropdown title={<FontAwesomeIcon icon={faCircleUser} size="2x" />}>
 									<NavDropdown.Item as={Link} to="/profile">My Profile</NavDropdown.Item>
