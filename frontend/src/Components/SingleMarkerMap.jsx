@@ -17,6 +17,7 @@ L.Icon.Default.mergeOptions({
 });
 
 class SingleMarkerMap extends React.Component {
+	
 	render() {
 		return (
 			<MapContainer {...this.props} center={this.props.position} zoom={20}>

@@ -21,7 +21,8 @@ class Dashboard extends React.Component {
 			loggedIn: true, // Assume user can view page to avoid redirecting early
 			sortBy: null, // Sort order defaults to newest first
 			callouts: null, // Store all listed callouts
-			userType: null // Affects the display of callouts
+			userType: null, // Affects the display of callouts
+			mechanicPos: null // Only provided if the user is a professional
 		}
 	}
 
@@ -30,7 +31,8 @@ class Dashboard extends React.Component {
 			.then(res => this.setState({
 				userType: res.type,
 				sortBy: res.type === "PROFESSIONAL" ? "closest" : "newest",
-				callouts: res.callouts
+				callouts: res.callouts,
+				mechanicPos: res.position
 			})).catch(() => this.setState({
 				// Redirect to /login if user isn't logged in yet
 				loggedIn: false
@@ -65,6 +67,7 @@ class Dashboard extends React.Component {
 				className="mb-3"
 				callout={callout}
 				key={callout.uuid}
+				mechanicpos={this.state.mechanicPos}
 			/>
 		);
 	}
