@@ -63,27 +63,10 @@ class Register extends React.Component {
 				{/* Display an error message if required */}
 				{this.state.error ? <Alert variant="danger">{this.state.error}</Alert> : null}
 
-				<div className={this.state.userType ? "d-none" : null}>
-					<p>I am a...</p>
-					<LargeButton
-						variant="primary"
-						icon="arrow-right"
-						className="mb-3"
-						onClick={() => this.setState({ userType: "CUSTOMER" })}
-					>
-						Customer
-					</LargeButton>
-					<LargeButton
-						variant="primary"
-						icon="arrow-right"
-						onClick={() => this.setState({ userType: "PROFESSIONAL" })}
-					>
-						Service Professional
-					</LargeButton>
-				</div>
+				{this.state.userType
 
-				{/* Form validation and submission is done manually, see react-bootstrap.github.io/forms/validation/ */}
-				<Form className={this.state.userType ? null : "d-none"} noValidate validated={this.state.validated} onSubmit={this.submitForm}>
+				// Form validation and submission is done manually, see react-bootstrap.github.io/forms/validation/ */}
+				? <Form noValidate validated={this.state.validated} onSubmit={this.submitForm}>
 
 					{/* Each form group typically contains one label and one input, see react-bootstrap.github.io/forms/overview/ */}
 					<Form.Group className="mb-3" controlId="formEmail">
@@ -197,10 +180,30 @@ class Register extends React.Component {
 					<Form.Control name="type" type="hidden" value={this.state.userType} />
 
 					{/* type="submit" automatically runs onSubmit, which runs this.submitForm */}
-					<LargeButton variant="primary" type="submit" icon="arrow-right">
+					<LargeButton className="mb-3" variant="primary" type="submit" icon="arrow-right">
 						Submit
 					</LargeButton>
 				</Form>
+				: <div>
+					<p>I am a...</p>
+					<LargeButton
+						variant="primary"
+						icon="arrow-right"
+						className="mb-3"
+						onClick={() => this.setState({ userType: "CUSTOMER" })}
+					>
+						Customer
+					</LargeButton>
+					<LargeButton
+						variant="primary"
+						icon="arrow-right"
+						className="mb-3"
+						onClick={() => this.setState({ userType: "PROFESSIONAL" })}
+					>
+						Service Professional
+					</LargeButton>
+				</div>}
+
 			</Container>
 		);
 	}

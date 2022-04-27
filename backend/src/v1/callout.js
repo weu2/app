@@ -70,7 +70,7 @@ router.post('/status', (req, res) => {
 		res.status(400).send();
 		return;
 	}
-	// validate user owns callout
+	// validate user is associated with a callout
 	// commented this code because it rejects service professionals
 	/*const userUuid = auth.verifyClaim(req.cookies.claim);
 	if (callout.customer !== userUuid) {
@@ -190,6 +190,28 @@ router.get('/list', (req, res) => {
 		const servProLong = parseFloat(user.PROFESSIONAL.locationLong);
 		
 		const calloutdb = new JsonDB('data/callouts.json');
+		const callouts = calloutdb.find({ status: {has:["inprogress","accepted"]},  assignedTo: userUuid  });
+		res.status(200).send({
+			type: "PROFESSIONAL",
+			callouts: callouts,
+			position: [servProLat, servProLong] // for easier frontend display
+		});
+	} else {
+		res.status(401).send();
+	}
+});
+
+router.get('/newcallouts', (req, res) => {
+	
+	const userUuid = auth.verifyClaim(req.cookies.claim);
+	const users = new JsonDB('data/users.json');
+	const user = users.find({ uuid: userUuid })[0]; // user uuid should be checked already so no need to check it again
+	
+	if (user.PROFESSIONAL) {
+		const servProLat = parseFloat(user.PROFESSIONAL.locationLat);
+		const servProLong = parseFloat(user.PROFESSIONAL.locationLong);
+		
+		const calloutdb = new JsonDB('data/callouts.json');
 		const callouts = calloutdb.find({ status: "new" }).filter(callout => {
 			const calloutLat = parseFloat(callout.locationLat, 10);
 			const calloutLong = parseFloat(callout.locationLong, 10);
@@ -199,7 +221,6 @@ router.get('/list', (req, res) => {
 			
 			const degrees = Math.sqrt((dLat * dLat) + (dLong * dLong));
 			const kms = degrees * 110.574; // this is the constant to turn lat and long degrees into kms
-			callout.distance = kms; // store distance for display and sorting on frontend
 			return (kms <= 50.0);
         });
 		res.status(200).send({

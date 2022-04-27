@@ -5,7 +5,7 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import SingleMarkerMap from "../Components/SingleMarkerMap";
+import MapSingleMarker from "../Components/MapSingleMarker";
 
 class LocationInput extends React.Component {
 
@@ -89,7 +89,7 @@ class LocationInput extends React.Component {
 			</Row>
 			{
 				this.state.position
-				? <SingleMarkerMap
+				? <MapSingleMarker
 					position={this.state.position}
 					style={{ width: "100%", height: "192px" }}
 				/> : <Button variant="secondary" onClick={this.getLocation}>Get position</Button>
