@@ -2,6 +2,7 @@ import React from "react";
 
 import Alert from "react-bootstrap/Alert";
 import Image from "react-bootstrap/Image";
+import Form from "react-bootstrap/Form";
 
 import LargeButton from "./LargeButton";
 
@@ -33,48 +34,48 @@ class CalloutImageInput extends React.Component {
 
 	render() {
 		return (
-			// Using a standard form since it's invisible anyway
-			<form ref={input => this.form = input}>
-				{/* Customize appearance of file input */}
-				<div>
-					<LargeButton
-						icon="plus"
-						variant="light"
-						onClick={() => this.imageInput.click()}
-					>
-						Attach photos
-						{/* Display preview of attached images */}
-						<div>
-						{
-							this.state.images.map((image, index) =>
-								<Image
-									className="mt-2 mb-1"
-									src={`/api/v1/image/${image}`}
-									key={index}
-									thumbnail
-									width={128}
-								/>
-							)
-						}
-						</div>
-					</LargeButton>
-					<input
-						ref={input => this.imageInput = input}
-						className="d-none"
-						name="image"
-						type="file"
-						accept="image/jpeg"
-						capture
-						onChange={this.loadImage}
-					/>
-				</div>
+			<Form ref={input => this.form = input}>
+			
+				{/* Fake new appearance of file input */}
+				<LargeButton
+					icon="plus"
+					variant="light"
+					onClick={() => this.imageInput.click()}
+				>
+					Attach photos
+					{/* Display preview of attached images */}
+					<div>
+					{
+						this.state.images.map((image, index) =>
+							<Image
+								className="mt-2 mb-1"
+								src={`/api/v1/image/${image}`}
+								key={index}
+								thumbnail
+								width={128}
+							/>
+						)
+					}
+					</div>
+				</LargeButton>
+
+				{/* Hide actual file input */}
+				<Form.Control
+					ref={input => this.imageInput = input}
+					className="d-none"
+					name="image"
+					type="file"
+					accept="image/jpeg"
+					capture
+					onChange={this.loadImage}
+				/>
 
 				{/* Include callout ID in form submission automatically */}
-				<input name="calloutid" type="hidden" value={this.props.callout.uuid} />
+				<Form.Control name="calloutid" type="hidden" value={this.props.callout.uuid} />
 
 				{/* Display an error message if required */}
 				{this.state.error ? <Alert variant="danger">{this.state.error}</Alert> : null}
-			</form>
+			</Form>
 		);
 	}
 }

@@ -42,7 +42,7 @@ function verifyClaim(claim) {
 }
 */
 
-function createUser(email, firstName, lastName, address, phoneNumber, license, password, type) {
+function createUser(email, firstName, lastName, address, phoneNumber, license, password, type, userData) {
 	const userTypes = ["CUSTOMER", "PROFESSIONAL"];
 	return new Promise((res, rej) => {
 		const users = new JsonDB('data/users.json');
@@ -67,7 +67,7 @@ function createUser(email, firstName, lastName, address, phoneNumber, license, p
 				license: license,
 				passwordHash: hash,
 				userDetail: {},
-				[type]: {}
+				[type]: userData
 			});
 			res();
 		});
