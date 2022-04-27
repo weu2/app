@@ -31,6 +31,6 @@ jobs:
     
     - name: Run Backend Tests
       run: dir && cd backend
-    - run: npm ci
+    - run: cd backend && npm ci
     - run: dir
     
