@@ -69,7 +69,7 @@ class JSONDB {
                 } else if (val[k].new) {
                     e[k] = val[k].new;
                 } else 
-                    e[k] = val[k]
+                    e[k] = val[k];
             } );
         });
         this.asyncUpdate();
