@@ -101,6 +101,8 @@ router.get('/getinfo', (req, res) => {
 		delete user.passwordHash;
 		// this is stored in the cookie so its not needed
 		delete user.uuid;
+		// Change notif information to just true or false
+		user.pushNotif = user.pushNotif ? true : false;
 		// add user type for ease of use
 		user.type = getType(user);
 		res.send(user);
@@ -108,5 +110,50 @@ router.get('/getinfo', (req, res) => {
 		res.status(401).send();
 	}
 });
+
+router.get('/pushnotif', (req, res) => { // This might not be needed since the site recieves info via above getinfo get
+	// Returns true or false depending on if the user has notif details on their account
+	const uuid = auth.verifyClaim(req.cookies.claim);
+	
+	if (uuid) {
+		const users = new JsonDB('data/users.json');
+		const user = users.find({ uuid: uuid })[0];
+		if (!user) {
+			res.status(400).send();
+			return;
+		}
+		if (user.pushNotif) {
+			res.send(true);
+		}
+		else {
+			res.send(false);
+		}
+	} else {
+		res.status(401).send();
+	}
+	
+});
+
+// TO BE COMPLETED WHEN NEEDED
+// router.post('/pushnotif', (req, res) => {
+// 	const uuid = auth.verifyClaim(req.cookies.claim);
+
+// 	if (uuid) {
+// 		const users = new JsonDB('data/users.json');
+
+// 		const updateObject = {};
+// 		Object.keys(req.body).forEach(key => {
+// 			if (validUpdateKeys.includes(key)) {
+// 				updateObject[key] = req.body[key];
+// 			}
+// 		});
+
+// 		users.update({ uuid: uuid }, updateObject);
+
+// 		res.status(200).send();
+// 	} else {
+// 		res.status(401).send();
+// 	}
+// });
 
 module.exports = router;
