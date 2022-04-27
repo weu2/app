@@ -34,10 +34,14 @@ class Login extends React.Component {
 		if (form.checkValidity()) {
 			// Manually send form data to backend
 			backendLogin(new FormData(form))
-				.then(() => this.setState({
-					// Redirect to /dashboard
-					loggedIn: true
-				})).catch(async(res) => this.setState({
+				.then(() => {
+					this.setState({
+						// Redirect to /dashboard
+						loggedIn: true
+					})
+					// Send user info to the navigation bar
+					document.dispatchEvent(new Event("loggedIn"));
+				}).catch(async(res) => this.setState({
 					// Show error message
 					error: `Error: ${res.status} (${res.statusText}) ${await res.text()}`
 				}));
@@ -92,7 +96,7 @@ class Login extends React.Component {
 					</Form.Group>
 
 					{/* type="submit" automatically runs onSubmit, which runs this.submitForm */}
-					<LargeButton variant="primary" type="submit" icon="arrow-right">
+					<LargeButton variant="primary" type="submit" icon="arrow-right" className="mb-3">
 						Login
 					</LargeButton>
 				</Form>

@@ -77,9 +77,14 @@ export function backendCreateCallout(formData) {
 	});
 }
 
-// Gets a list of filtered callouts
-export function backendGetCallouts() {
+// Gets a list of callouts, either all opened by a customer or accepted by a service professional
+export function backendGetMyCallouts() {
 	return fetchStrict("/api/v1/callout/list").then(res => res.json());
+}
+
+// Gets a list of new callouts
+export function backendGetNewCallouts() {
+	return fetchStrict("/api/v1/callout/newcallouts").then(res => res.json());
 }
 
 // Gets detail on one specific callout

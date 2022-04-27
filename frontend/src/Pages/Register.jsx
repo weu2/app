@@ -12,6 +12,7 @@ import Container from "react-bootstrap/Container";
 
 // <LargeButton> is a subclass of React Bootstrap's <Button> with an icon added to the right side
 import LargeButton from "../Components/LargeButton";
+import LocationInput from "../Components/LocationInput";
 
 // api.jsx contains utility functions for getting or sending data from the frontend to the backend
 // For example, sending form data or getting user info
@@ -24,7 +25,8 @@ class Register extends React.Component {
 		this.state = {
 			submitted: false, // Redirect to /login on submit
 			error: null, // Display failure message if an error occurs
-			validated: false // Shows feedback messages to show the user if they screwed up the form, see react-bootstrap.github.io/forms/validation/
+			validated: false, // Shows feedback messages to show the user if they screwed up the form, see react-bootstrap.github.io/forms/validation/
+			userType: "", // Form is shown after selecting a user type
 		};
 	}
 
@@ -61,30 +63,12 @@ class Register extends React.Component {
 				{/* Display an error message if required */}
 				{this.state.error ? <Alert variant="danger">{this.state.error}</Alert> : null}
 
-				{/* Form validation and submission is done manually, see react-bootstrap.github.io/forms/validation/ */}
-				<Form noValidate validated={this.state.validated} onSubmit={this.submitForm}>
+				{this.state.userType
+
+				// Form validation and submission is done manually, see react-bootstrap.github.io/forms/validation/ */}
+				? <Form noValidate validated={this.state.validated} onSubmit={this.submitForm}>
 
 					{/* Each form group typically contains one label and one input, see react-bootstrap.github.io/forms/overview/ */}
-					<Form.Group className="mb-3" key="inline-radio">
-						<Form.Label>I am a:</Form.Label>
-						<Form.Check
-							name="type"
-							type="radio" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
-							label="Customer"
-							value="CUSTOMER" // Valid account types are "CUSTOMER" and "PROFESSIONAL"
-							id="inline-radio-1" // Ensure clicking the label toggles the input
-							required
-						/>
-						<Form.Check
-							name="type"
-							type="radio" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
-							label="Service Professional"
-							value="PROFESSIONAL" // Valid account types are "CUSTOMER" and "PROFESSIONAL"
-							id="inline-radio-2" // Ensure clicking the label toggles the input
-							required
-						/>
-					</Form.Group>
-
 					<Form.Group className="mb-3" controlId="formEmail">
 						<Form.Label>Email</Form.Label>
 						<Form.Control
@@ -185,11 +169,41 @@ class Register extends React.Component {
 						</Form.Control.Feedback>
 					</Form.Group>
 
+					{/* Force service professionals to provide a location */}
+					{
+						this.state.userType === "PROFESSIONAL"
+						? <LocationInput className="mb-3" />
+						: null
+					}
+
+					{/* Include user type automatically */}
+					<Form.Control name="type" type="hidden" value={this.state.userType} />
+
 					{/* type="submit" automatically runs onSubmit, which runs this.submitForm */}
-					<LargeButton variant="primary" type="submit" icon="arrow-right">
+					<LargeButton className="mb-3" variant="primary" type="submit" icon="arrow-right">
 						Submit
 					</LargeButton>
 				</Form>
+				: <div>
+					<p>I am a...</p>
+					<LargeButton
+						variant="primary"
+						icon="arrow-right"
+						className="mb-3"
+						onClick={() => this.setState({ userType: "CUSTOMER" })}
+					>
+						Customer
+					</LargeButton>
+					<LargeButton
+						variant="primary"
+						icon="arrow-right"
+						className="mb-3"
+						onClick={() => this.setState({ userType: "PROFESSIONAL" })}
+					>
+						Service Professional
+					</LargeButton>
+				</div>}
+
 			</Container>
 		);
 	}

@@ -12,31 +12,34 @@ import Col from "react-bootstrap/Col";
 import Table from "react-bootstrap/Table";
 import Image from "react-bootstrap/Image";
 
-import SingleMarkerMap from "../Components/SingleMarkerMap";
+import MapSingleMarker from "../Components/MapSingleMarker";
 
 // api.jsx contains utility functions for getting or sending data from the frontend to the backend
 // For example, sending form data or getting user info
 import { backendGetCallout, backendUpdateCallout } from "../api.jsx";
 
 // This is a React function instead of a React class because useParams() requires it
-function CalloutView() {
+function CalloutDetails() {
 	const { id } = useParams();
 	const [error, setError] = React.useState(null);
 	const [callout, setCallout] = React.useState(null);
-	const [popup, setPopup] = React.useState(false);
+	const [status, setStatus] = React.useState(null);
 
-	const acceptCallout = () => {
-		backendUpdateCallout(id, "accepted")
-			.then(() => setPopup(true))
-			.catch(res => {
+	const updateCallout = (_status) => {
+		backendUpdateCallout(id, _status)
+			.then(() => {
+				setStatus(_status);
+			}).catch(res => {
 				setError(`Error: ${res.status} (${res.statusText})`);
 			})
 	};
 
 	React.useEffect(() => {
 		backendGetCallout(id)
-			.then(setCallout)
-			.catch(res => {
+			.then(res => {
+				setStatus(res.status);
+				setCallout(res);
+			}).catch(res => {
 				setError(`Error: ${res.status} (${res.statusText})`);
 			});
 	}, [id, setCallout]);
@@ -48,7 +51,7 @@ function CalloutView() {
 			{callout ?
 			<div>
 				<h2 className="mb-4">Callout on {new Date(parseInt(callout.dateTime)).toLocaleString("en-US")}</h2>
-				<SingleMarkerMap
+				<MapSingleMarker
 					position={[
 						callout.locationLat,
 						callout.locationLong
@@ -72,7 +75,7 @@ function CalloutView() {
 						</tr>
 						<tr>
 							<th>Status</th>
-							<td>{callout.status.toUpperCase()}</td>
+							<td>{status.toUpperCase()}</td>
 						</tr>
 						<tr>
 							<th>Assigned To</th>
@@ -105,23 +108,38 @@ function CalloutView() {
 					</tbody>
 				</Table>
 				<Row>
-					<Col>
-						<Button variant="success" style={{ width: "100%" }} onClick={acceptCallout}>
-							Accept
-						</Button>
-					</Col>
-					<Col>
-						<Link to="/dashboard">
-							<Button variant="danger" style={{ width: "100%" }}>
-								Deny
-							</Button>
-						</Link>
-					</Col>
-					{/* Display popup if required */}
-					{
-						popup
-						? <Alert variant="success" className="mt-3">Callout accepted!</Alert>
-						: null
+					{ // New callouts can be accepted or denied
+						status === "new"
+						? <>
+							<Col>
+								<Button variant="success" style={{ width: "100%" }} className="mb-3" onClick={() => updateCallout("accepted")}>
+									Accept
+								</Button>
+							</Col>
+							<Col>
+								<Link to="/findcallouts">
+									<Button
+										variant="danger"
+										style={{ width: "100%" }}
+										className="mb-3"
+									>
+										Deny
+									</Button>
+								</Link>
+							</Col>
+						</> : null
+					}
+					{ // Accepted callouts can be marked as in progress
+						status === "accepted"
+						? <Button variant="success" className="mb-3" onClick={() => updateCallout("inprogress")}>
+							Arrived on site
+						</Button> : null
+					}
+					{ // In progress callouts can be marked as finished
+						status === "inprogress"
+						? <Button variant="success" className="mb-3" onClick={() => updateCallout("finished")}>
+							Finished working
+						</Button> : null
 					}
 				</Row>
 			</div>
@@ -130,4 +148,4 @@ function CalloutView() {
 	);
 }
 
-export default CalloutView;
+export default CalloutDetails;

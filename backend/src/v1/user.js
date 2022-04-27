@@ -32,7 +32,7 @@ router.post('/login', upload.none(), (req, res) => {
 
 router.post('/register', upload.none(), (req, res) => {
 
-	if(!apiValidator.validate(req, {
+	const params = {
 		email: {type:"string", required:true},
 		firstName: {type:"string", required:true},
 		lastName: {type:"string", required:true},
@@ -41,9 +41,23 @@ router.post('/register', upload.none(), (req, res) => {
 		license: {type:"string", required:true},
 		password: {type:"string", required:true},
 		type: {type:"string", required:true}
-	})) {
+	};
+
+	// professionals must provide a location
+	if (req.body.type === "PROFESSIONAL") {
+		params.locationLat = {type:"string", required:true};
+		params.locationLong = {type:"string", required:true};
+	}
+
+	if(!apiValidator.validate(req, params)) {
 		res.status(400).send('Missing API parameters');
 		return;
+	}
+
+	const userData = {};
+	if (req.body.type === "PROFESSIONAL") {
+		userData.locationLat = req.body.locationLat;
+		userData.locationLong = req.body.locationLong;
 	}
 
 	auth.createUser(req.body.email, 
@@ -53,7 +67,8 @@ router.post('/register', upload.none(), (req, res) => {
 		req.body.phoneNumber, 
 		req.body.license, 
 		req.body.password, 
-		req.body.type
+		req.body.type,
+		userData
 	).then(() =>
 		res.status(200).send()
 	).catch(err =>
@@ -101,6 +116,8 @@ router.get('/getinfo', (req, res) => {
 		delete user.passwordHash;
 		// this is stored in the cookie so its not needed
 		delete user.uuid;
+		// Change notif information to just true or false
+		user.pushNotif = user.pushNotif ? true : false;
 		// add user type for ease of use
 		user.type = getType(user);
 		res.send(user);
@@ -108,5 +125,50 @@ router.get('/getinfo', (req, res) => {
 		res.status(401).send();
 	}
 });
+
+router.get('/pushnotif', (req, res) => { // This might not be needed since the site recieves info via above getinfo get
+	// Returns true or false depending on if the user has notif details on their account
+	const uuid = auth.verifyClaim(req.cookies.claim);
+	
+	if (uuid) {
+		const users = new JsonDB('data/users.json');
+		const user = users.find({ uuid: uuid })[0];
+		if (!user) {
+			res.status(400).send();
+			return;
+		}
+		if (user.pushNotif) {
+			res.send(true);
+		}
+		else {
+			res.send(false);
+		}
+	} else {
+		res.status(401).send();
+	}
+	
+});
+
+// TO BE COMPLETED WHEN NEEDED
+// router.post('/pushnotif', (req, res) => {
+// 	const uuid = auth.verifyClaim(req.cookies.claim);
+
+// 	if (uuid) {
+// 		const users = new JsonDB('data/users.json');
+
+// 		const updateObject = {};
+// 		Object.keys(req.body).forEach(key => {
+// 			if (validUpdateKeys.includes(key)) {
+// 				updateObject[key] = req.body[key];
+// 			}
+// 		});
+
+// 		users.update({ uuid: uuid }, updateObject);
+
+// 		res.status(200).send();
+// 	} else {
+// 		res.status(401).send();
+// 	}
+// });
 
 module.exports = router;
