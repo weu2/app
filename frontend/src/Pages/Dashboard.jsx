@@ -26,12 +26,23 @@ class Dashboard extends React.Component {
 		}
 	}
 
+	calculateDistances(callouts, mechanicPos) {
+		if (!mechanicPos) return callouts;
+		callouts.forEach(callout => {
+			const dLat = mechanicPos[0] - parseFloat(callout.locationLat);
+			const dLong = mechanicPos[1] - parseFloat(callout.locationLong);
+			const degrees = Math.sqrt((dLat * dLat) + (dLong * dLong));
+			callout.distance = degrees * 110.574; // store distance for display and sorting on frontend
+		});
+		return callouts;
+	}
+
 	componentDidMount() {
 		backendGetCallouts()
 			.then(res => this.setState({
 				userType: res.type,
 				sortBy: res.type === "PROFESSIONAL" ? "closest" : "newest",
-				callouts: res.callouts,
+				callouts: this.calculateDistances(res.callouts, res.position),
 				mechanicPos: res.position
 			})).catch(() => this.setState({
 				// Redirect to /login if user isn't logged in yet

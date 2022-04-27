@@ -221,7 +221,6 @@ router.get('/newcallouts', (req, res) => {
 			
 			const degrees = Math.sqrt((dLat * dLat) + (dLong * dLong));
 			const kms = degrees * 110.574; // this is the constant to turn lat and long degrees into kms
-			callout.distance = kms; // store distance for display and sorting on frontend
 			return (kms <= 50.0);
         });
 		res.status(200).send({
