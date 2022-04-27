@@ -6,8 +6,8 @@ import Table from "react-bootstrap/Table";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import SingleMarkerMap from "./SingleMarkerMap";
-import TwoMarkerMap from "./TwoMarkerMap";
+import MapSingleMarker from "./MapSingleMarker";
+import MapCustomerProfessional from "./MapCustomerProfessional";
 import CalloutImageInput from "./CalloutImageInput";
 import LargeButton from "./LargeButton";
 
@@ -73,19 +73,19 @@ class CalloutListed extends React.Component {
 						<Col sm>
 							{
 								this.props.customer
-								? <SingleMarkerMap
+								? <MapSingleMarker
 									position={[
 										this.props.callout.locationLat,
 										this.props.callout.locationLong
 									]}
 									style={{ width: "100%", height: "100%", minHeight: "128px" }}
 								/> // Display two markers for customers and mechanics
-								: <TwoMarkerMap
+								: <MapCustomerProfessional
 									customerpos={[
 										this.props.callout.locationLat,
 										this.props.callout.locationLong
 									]}
-									mechanicpos={this.props.mechanicpos}
+									professionalpos={this.props.professionalpos}
 									style={{ width: "100%", height: "100%", minHeight: "128px" }}
 								/>
 							}

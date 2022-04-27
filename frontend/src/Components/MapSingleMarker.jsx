@@ -16,7 +16,7 @@ L.Icon.Default.mergeOptions({
 	iconAnchor: [25, 50]
 });
 
-class SingleMarkerMap extends React.Component {
+class MapSingleMarker extends React.Component {
 	
 	render() {
 		return (
@@ -33,4 +33,4 @@ class SingleMarkerMap extends React.Component {
 	} 
 }
 
-export default SingleMarkerMap;
+export default MapSingleMarker;

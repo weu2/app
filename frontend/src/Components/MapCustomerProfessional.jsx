@@ -17,7 +17,7 @@ L.Icon.Default.mergeOptions({
 	iconAnchor: [25, 50]
 });
 
-class TwoMarkerMap extends React.Component {
+class MapCustomerProfessional extends React.Component {
 
 	render() {
 		return (
@@ -29,20 +29,20 @@ class TwoMarkerMap extends React.Component {
 				/>
 				{/* Customer Position Marker */}
 				<Marker position={this.props.customerpos}>
-					<Popup>Customer Position</Popup>
+					<Popup>Customer</Popup>
 				</Marker>
 
-				{/* Mechanic Position Marker */}
-				<Marker position={this.props.mechanicpos}>
-					<Popup>Mechanic Position</Popup>
+				{/* Service Professional Position Marker */}
+				<Marker position={this.props.professionalpos}>
+					<Popup>Service Professional</Popup>
 				</Marker>
 
 				{/* PolyLine draws a line between two points, feed in positions in array, Color can be changed with a hex value or default colors like red */}
-				<Polyline color="#FF449E" positions={[this.props.customerpos, this.props.mechanicpos]}/>
+				<Polyline color="#FF449E" positions={[this.props.customerpos, this.props.professionalpos]}/>
 
 			</MapContainer>
 		);
 	}
 }
 
-export default TwoMarkerMap;
+export default MapCustomerProfessional;

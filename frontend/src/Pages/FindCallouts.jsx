@@ -11,7 +11,14 @@ class FindCallouts extends React.Component {
 
 	render() {
 		return (
-			<CalloutList title="Find Callouts" endpoint={backendGetNewCallouts} />
+			<CalloutList
+				title="Find Callouts"
+				endpoint={backendGetNewCallouts}
+				professionalhelp={<>
+					<p>No callouts currently exist within 50 km.</p>
+					<p>Check back later!</p>
+				</>}
+			/>
 		);
 	}
 }

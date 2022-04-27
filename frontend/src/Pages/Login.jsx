@@ -96,7 +96,7 @@ class Login extends React.Component {
 					</Form.Group>
 
 					{/* type="submit" automatically runs onSubmit, which runs this.submitForm */}
-					<LargeButton variant="primary" type="submit" icon="arrow-right">
+					<LargeButton variant="primary" type="submit" icon="arrow-right" className="mb-3">
 						Login
 					</LargeButton>
 				</Form>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate, Link } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 // <Container> adds padding to the sides of the page content, makes it look nicer
 import Container from "react-bootstrap/Container";
@@ -18,15 +18,15 @@ class CalloutList extends React.Component {
 			sortBy: null, // Sort order defaults to newest first
 			callouts: null, // Store all listed callouts
 			userType: null, // Affects the display of callouts
-			mechanicPos: null // Only provided if the user is a professional
+			professionalPos: null // Only provided if the user is a professional
 		}
 	}
 
-	calculateDistances(callouts, mechanicPos) {
-		if (!mechanicPos) return callouts;
+	calculateDistances(callouts, professionalPos) {
+		if (!professionalPos) return callouts;
 		callouts.forEach(callout => {
-			const dLat = mechanicPos[0] - parseFloat(callout.locationLat);
-			const dLong = mechanicPos[1] - parseFloat(callout.locationLong);
+			const dLat = professionalPos[0] - parseFloat(callout.locationLat);
+			const dLong = professionalPos[1] - parseFloat(callout.locationLong);
 			const degrees = Math.sqrt((dLat * dLat) + (dLong * dLong));
 			callout.distance = degrees * 110.574; // store distance for display and sorting on frontend
 		});
@@ -39,7 +39,7 @@ class CalloutList extends React.Component {
 				userType: res.type,
 				sortBy: res.type === "PROFESSIONAL" ? "closest" : "newest",
 				callouts: this.calculateDistances(res.callouts, res.position),
-				mechanicPos: res.position
+				professionalPos: res.position
 			})).catch(() => this.setState({
 				// Redirect to /login if user isn't logged in yet
 				loggedIn: false
@@ -71,18 +71,12 @@ class CalloutList extends React.Component {
 		return this.state.callouts.map(callout =>
 			<CalloutListed
 				customer={this.state.userType === "CUSTOMER" ? 1 : 0}
+				professionalpos={this.state.professionalPos}
 				className="mb-3"
 				callout={callout}
 				key={callout.uuid}
-				mechanicpos={this.state.mechanicPos}
 			/>
 		);
-	}
-
-	updateSort = (event) => {
-		this.setState({
-			sortBy: event.target.value
-		});
 	}
 
 	render() {
@@ -103,7 +97,7 @@ class CalloutList extends React.Component {
 							<Form.Group as={Row} controlId="formSort">
 								<Form.Label column sm={2}>Sort by</Form.Label>
 								<Col>
-									<Form.Select onChange={this.updateSort}>
+									<Form.Select onChange={e => this.setState({ sortBy: e.target.value })}>
 										{ // Professionals have distance sorting abilities
 											this.state.userType === "PROFESSIONAL" ? <>
 												<option value="closest">Closest to furthest</option>
@@ -126,18 +120,8 @@ class CalloutList extends React.Component {
 					? this.generateCallouts()
 					: (
 						this.state.userType === "CUSTOMER"
-						? <>
-							<p>Callouts you opened will be listed here.</p>
-							<p>
-								Use the top menu to <Link to="/requestcallout" className="text-decoration-none">request a callout.</Link>
-							</p>
-						</>
-						: <>
-							<p>Callouts you accepted will be listed here.</p>
-							<p>
-								Use the top menu to <Link to="/findcallouts" className="text-decoration-none">find new callouts.</Link>
-							</p>
-						</>
+						? this.props.customerhelp
+						: this.props.professionalhelp
 					)
 				}
 			</Container>

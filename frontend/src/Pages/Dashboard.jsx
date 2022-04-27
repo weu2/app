@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import CalloutList from "../Components/CalloutList";
 
@@ -11,7 +12,22 @@ class Dashboard extends React.Component {
 
 	render() {
 		return (
-			<CalloutList title="Dashboard" endpoint={backendGetMyCallouts} />
+			<CalloutList
+				title="Dashboard"
+				endpoint={backendGetMyCallouts}
+				customerhelp={<>
+					<p>Callouts you opened will be listed here.</p>
+					<p>
+						Use the top menu to <Link to="/requestcallout" className="text-decoration-none">request a callout.</Link>
+					</p>
+				</>}
+				professionalhelp={<>
+					<p>Callouts you accepted will be listed here.</p>
+					<p>
+						Use the top menu to <Link to="/findcallouts" className="text-decoration-none">find new callouts.</Link>
+					</p>
+				</>}
+			/>
 		);
 	}
 }
