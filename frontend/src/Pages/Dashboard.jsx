@@ -11,7 +11,7 @@ import CalloutListed from "../Components/CalloutListed";
 
 // api.jsx contains utility functions for getting or sending data from the frontend to the backend
 // For example, sending form data or getting user info
-import { backendGetCallouts } from "../api.jsx";
+import { backendGetMyCallouts } from "../api.jsx";
 
 class Dashboard extends React.Component {
 
@@ -38,7 +38,7 @@ class Dashboard extends React.Component {
 	}
 
 	componentDidMount() {
-		backendGetCallouts()
+		backendGetMyCallouts()
 			.then(res => this.setState({
 				userType: res.type,
 				sortBy: res.type === "PROFESSIONAL" ? "closest" : "newest",
