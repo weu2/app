@@ -14,6 +14,7 @@ import Register from "./Pages/Register";
 import Dashboard from "./Pages/Dashboard";
 import Profile from "./Pages/Profile";
 import RequestCallout from "./Pages/RequestCallout";
+import CalloutView from "./Pages/CalloutView";
 import NoPage from "./Pages/404";
 
 render(
@@ -27,6 +28,7 @@ render(
 				<Route path="dashboard" element={<Dashboard />} />
 				<Route path="profile" element={<Profile />} />
 				<Route path="requestcallout" element={<RequestCallout />} />
+				<Route path="callout/:id" element={<CalloutView />} />
 				<Route path="*" element={<NoPage />} />
 			</Routes>
 		</BrowserRouter>

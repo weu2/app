@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
@@ -12,12 +12,17 @@ import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 // Top navigation bar is included on every page, included in index.jsx
 class NavigationBar extends React.Component {
 
+	signOut() {
+		// Clear claim cookie, signing out the user
+		document.cookie = "claim=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+	}
+
 	render() {
 		return (
 			<Navbar bg="primary" variant="light" expand="lg" className="mb-5">
 				{/* Use <Container fluid> to make it take up the whole width */}
 				<Container>
-					<Navbar.Brand href="./">
+					<Navbar.Brand href="/">
 						{/* Special logo variant with larger outline to contrast against the background */}
 						<img
 							src="/logo_navbar.svg"
@@ -31,18 +36,18 @@ class NavigationBar extends React.Component {
 					<Navbar.Collapse>
 						<Nav className="me-auto">
 							{/* React Router's <NavLink> changes pages much faster */}
-							<Nav.Link as={NavLink} to="./login">Login</Nav.Link>
-							<Nav.Link as={NavLink} to="./register">Register</Nav.Link>
-							<Nav.Link as={NavLink} to="./dashboard">Dashboard</Nav.Link>
-							<Nav.Link as={NavLink} to="./requestcallout">Request Callout</Nav.Link>
+							<Nav.Link as={NavLink} to="/login">Login</Nav.Link>
+							<Nav.Link as={NavLink} to="/register">Register</Nav.Link>
+							<Nav.Link as={NavLink} to="/dashboard">Dashboard</Nav.Link>
+							<Nav.Link as={NavLink} to="/requestcallout">Request Callout</Nav.Link>
 						</Nav>
 						<Nav>
 							<NavDropdown
 								title={<FontAwesomeIcon icon={faCircleUser} size="2x" />}
 							>
-								<NavDropdown.Item href="./profile">My Profile</NavDropdown.Item>
+								<NavDropdown.Item as={Link} to="/profile">My Profile</NavDropdown.Item>
 								<NavDropdown.Divider/>
-								<NavDropdown.Item href="./signout">Sign Out</NavDropdown.Item>
+								<NavDropdown.Item as={Link} to="/login" onClick={this.signOut}>Sign Out</NavDropdown.Item>
 							</NavDropdown>
 						</Nav>
 					</Navbar.Collapse>

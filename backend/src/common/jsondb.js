@@ -44,6 +44,12 @@ class JSONDB {
             return keys.reduce((p, c) => p && e[c] === key[c], true);
         });
     }
+
+    hasKeys(keys) {
+        return this._internal.filter(e => {
+            return keys.reduce((p, c) => p && e[c] !== undefined, true);
+        });
+    }
     
     // to update arrays you have two options, new or append
     // update(keyValues, {array: {append : ['another value', 'another one']}});
