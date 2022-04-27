@@ -30,7 +30,5 @@ jobs:
         cache: 'npm'
     
     - name: Run Backend Tests
-      run: dir && cd backend
-    - run: cd backend && npm ci
-    - run: dir
+      run: cd backend && npm ci && dir
     
