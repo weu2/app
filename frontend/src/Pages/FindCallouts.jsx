@@ -16,7 +16,7 @@ class FindCallouts extends React.Component {
 				endpoint={backendGetNewCallouts}
 				professionalhelp={<>
 					<p>No callouts currently exist within 50 km.</p>
-					<p>Check back later!</p>
+					<p>Check back later.</p>
 				</>}
 			/>
 		);
