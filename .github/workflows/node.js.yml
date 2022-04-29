@@ -10,7 +10,7 @@ on:
     branches: [ main ]
 
 jobs:
-  integrate-backend:
+  integrate-system:
 
     runs-on: windows-latest
 
