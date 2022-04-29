@@ -30,6 +30,7 @@ jobs:
         cache: 'npm'
     - name: install using script
       run: call ./install.bat
+      shell: cmd
     - name: Run Backend Tests
       # run: cd backend && npm ci && npm test
       run: cd backend && npm test
