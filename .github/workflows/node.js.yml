@@ -28,7 +28,9 @@ jobs:
         cache-dependency-path: ./backend/package-lock.json
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    
+    - name: install using script
+      run: install.bat
     - name: Run Backend Tests
-      run: cd backend && npm ci && npm test
+      # run: cd backend && npm ci && npm test
+      run: cd backend && npm test
     
