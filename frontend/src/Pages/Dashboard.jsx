@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 import CalloutList from "../Components/CalloutList";
 
@@ -18,13 +17,13 @@ class Dashboard extends React.Component {
 				customerhelp={<>
 					<p>Callouts you opened will be listed here.</p>
 					<p>
-						Use the top menu to <Link to="/requestcallout" className="text-decoration-none">request a callout.</Link>
+						Use the link in the top menu to request a callout.
 					</p>
 				</>}
 				professionalhelp={<>
 					<p>Callouts you accepted will be listed here.</p>
 					<p>
-						Use the top menu to <Link to="/findcallouts" className="text-decoration-none">find new callouts.</Link>
+						Use the link in the top menu to find new callouts.
 					</p>
 				</>}
 			/>

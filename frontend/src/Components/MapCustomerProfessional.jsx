@@ -21,7 +21,8 @@ class MapCustomerProfessional extends React.Component {
 
 	render() {
 		return (
-			<MapContainer {...this.props} center={this.props.customerpos} zoom={20}>
+			// Calculate bounding box to fit both markers
+			<MapContainer {...this.props} bounds={L.latLngBounds([this.props.customerpos, this.props.professionalpos]).pad(0.2)} zoom={20}>
 				{/* Use a free OpenStreetMap image server to avoid API costs */}
 				<TileLayer
 					attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

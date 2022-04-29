@@ -107,5 +107,5 @@ export function backendUpdateCallout(calloutId, status) {
 			calloutid: calloutId,
 			status: status
 		})
-	});
+	}).then(res => res.json());
 }

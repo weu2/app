@@ -39,6 +39,7 @@ router.post('/create', upload.none(), (req, res) => {
 		uuid: calloutUuid, 
 		customer: userUuid,
 		assignedTo: null,
+		assignedName: null,
 		description: req.body.description,
 		dateTime: req.body.dateTime,
 		locationLat: req.body.locationLat,
@@ -114,7 +115,7 @@ router.post('/nearby', (req, res) => {
 			if(kms <= 50.0) {
 				returnList.push({
 					distance: kms,
-					name: user.firstName + " " + user.lastName
+					name: `${user.firstName} ${user.lastName}`
 				});
 			}
 		});
@@ -145,7 +146,7 @@ router.post('/update', (req, res) => {
 					res.status(400).send();
 					return;
 				}
-				callouts.update({ uuid: req.body.calloutid }, { assignedTo: userUuid, status: req.body.status });
+				callouts.update({ uuid: req.body.calloutid }, { assignedTo: userUuid, assignedName: `${user.firstName} ${user.lastName}`, status: req.body.status });
 				break;
 			case "inprogress":
 				if (callout.status !== "accepted") {
@@ -165,7 +166,7 @@ router.post('/update', (req, res) => {
 				res.status(400).send();
 				return;
 		}
-		res.status(200).send();
+		res.status(200).send(callout);
 	} else {
 		res.status(400).send();
 	}

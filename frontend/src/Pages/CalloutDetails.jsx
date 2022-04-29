@@ -27,7 +27,8 @@ class CalloutDetails extends React.Component {
 			id: decodeURIComponent(document.location.pathname.split("/").pop()),
 			error: null,
 			callout: null,
-			status: null
+			status: null,
+			assignedName: null
 		};
 	}
 
@@ -35,6 +36,7 @@ class CalloutDetails extends React.Component {
 		backendGetCallout(this.state.id)
 			.then(res => this.setState({
 				status: res.status,
+				assignedName: res.assignedName,
 				callout: res
 			})).catch(res => this.setState({
 				error: `Error: ${res.status} (${res.statusText})`
@@ -43,8 +45,9 @@ class CalloutDetails extends React.Component {
 
 	updateCallout = (status) => {
 		backendUpdateCallout(this.state.id, status)
-			.then(() => this.setState({
-				status: status
+			.then(callout => this.setState({
+				status: status,
+				assignedName: callout.assignedName
 			})).catch(res => this.setState({
 				error: `Error: ${res.status} (${res.statusText})`
 			}));
@@ -86,7 +89,7 @@ class CalloutDetails extends React.Component {
 							</tr>
 							<tr>
 								<th>Assigned To</th>
-								<td>{this.state.callout.assignedTo ? this.state.callout.assignedTo : "None"}</td>
+								<td>{this.state.assignedName ? this.state.assignedName : "None"}</td>
 							</tr>
 							<tr>
 								<th>Number Plate</th>
