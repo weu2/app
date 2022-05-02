@@ -1,5 +1,7 @@
 import React from "react";
 
+// <Alert> is useful for displaying success or error messages, see react-bootstrap.github.io/components/alerts/
+import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
@@ -13,6 +15,7 @@ class LocationInput extends React.Component {
 		super(props);
 		this.state = {
 			position: null, // Array of [latitude, longitude]
+			error: null // Display failure message if an error occurs
 		};
 	}
 
@@ -31,22 +34,37 @@ class LocationInput extends React.Component {
 		}
 		
 		// This uses the Web Geolocation API, see www.w3schools.com/html/html5_geolocation.asp
-		navigator.geolocation.getCurrentPosition(pos => {
-			const coords = [pos.coords.latitude, pos.coords.longitude];
-			// Update state
-			this.setState({
-				status: "Got your location! (Roughly)", // More accurate on mobile
-				position: coords
-			});
-		}, error => this.setState({
+		navigator.geolocation.getCurrentPosition(pos => this.setState({
+			position: [pos.coords.latitude, pos.coords.longitude]
+		}), error => this.setState({
 			error: `Error: ${error.message}`
 		}), {
 			enableHighAccuracy: true // May improve the accuracy on mobile
 		});
 	}
 
+	setLatitude = (event) => {
+		this.setState({
+			position: [
+				event.target.value,
+				this.state.position ? this.state.position[1] : ""
+			]
+		});
+	}
+
+	setLongitude = (event) => {
+		this.setState({
+			position: [
+				this.state.position ? this.state.position[0] : "",
+				event.target.value
+			]
+		});
+	}
+
 	render() {
 		return <div {...this.props}>
+			{/* Display error message if required */}
+			{this.state.error ? <Alert variant="danger">{this.state.error}</Alert> : null}
 			<Row>
 				<Col>
 					<Form.Group className="mb-3" controlId="formLatitude">
@@ -55,9 +73,7 @@ class LocationInput extends React.Component {
 							name="locationLat"
 							type="number" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
 							value={this.state.position ? this.state.position[0] : ""}
-							onChange={e => this.setState({
-								position: [e.target.value, this.state.position[1]] // Ensure the marker changes position when this value is changed
-							})}
+							onChange={this.setLatitude} // Ensure the marker changes position when this value is changed
 							step="0.0001"
 							required
 						/>
@@ -74,9 +90,7 @@ class LocationInput extends React.Component {
 							name="locationLong"
 							type="number" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
 							value={this.state.position ? this.state.position[1] : ""}
-							onChange={e => this.setState({
-								position: [this.state.position[0], e.target.value]// Ensure the marker changes position when this value is changed
-							})}
+							onChange={this.setLongitude} // Ensure the marker changes position when this value is changed
 							step="0.0001"
 							required
 						/>
@@ -90,9 +104,11 @@ class LocationInput extends React.Component {
 			{
 				this.state.position
 				? <MapSingleMarker
-					position={this.state.position}
+					state={this.state}
+					setstate={pos => this.setState({ position: pos })}
 					style={{ width: "100%", height: "192px" }}
-				/> : <Button variant="secondary" onClick={this.getLocation}>Get position</Button>
+				/>
+				: <Button variant="secondary" onClick={this.getLocation}>Get position</Button>
 			}
 		</div>
 	}

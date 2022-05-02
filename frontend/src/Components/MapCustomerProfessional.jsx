@@ -1,21 +1,6 @@
 import React from "react";
-import { MapContainer, TileLayer, Marker, Polyline, Popup } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
-
-// Replace marker icon and fix icon not loading (see github.com/PaulLeCam/react-leaflet/issues/808)
-// todo later: give each marker a different color
 import L from "leaflet";
-import marker from "./marker.png";
-import marker2x from "./marker_2x.png";
-
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-	iconUrl: marker,
-	iconRetinaUrl: marker2x,
-	shadowUrl: null,
-	iconSize: [50, 50],
-	iconAnchor: [25, 50]
-});
+import { MapContainer, TileLayer, Marker, Polyline, Popup } from "react-leaflet";
 
 class MapCustomerProfessional extends React.Component {
 
