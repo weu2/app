@@ -35,8 +35,7 @@ class NavigationBar extends React.Component {
 
 	fetchUserInfo = () => {
 		backendGetUserInfo()
-			.then(res => this.setState({ userInfo: res }))
-			.catch(console.error);
+			.then(res => this.setState({ userInfo: res }));
 	}
 
 	signOut = () => {

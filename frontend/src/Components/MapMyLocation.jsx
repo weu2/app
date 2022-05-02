@@ -1,5 +1,7 @@
 import React from "react";
-import { MapContainer, TileLayer, Marker, useMapEvent } from "react-leaflet";
+import { MapContainer, TileLayer, useMapEvent } from "react-leaflet";
+
+import CustomMarker from "./CustomMarker";
 
 // Internal class for setting position when map is clicked
 function MapClickListener(props) {
@@ -27,7 +29,7 @@ class MapSingleMarker extends React.Component {
 				<MapClickListener onclick={this.props.setposition} position={this.props.position} />
 
 				{/* Place a marker on the position to make it clearer */}
-				<Marker position={this.props.position} />
+				<CustomMarker icon="self" position={this.props.position} />
 			</MapContainer>
 		);
 	}

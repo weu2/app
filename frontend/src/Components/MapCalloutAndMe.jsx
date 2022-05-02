@@ -1,7 +1,8 @@
 import React from "react";
 import L from "leaflet";
-import { MapContainer, TileLayer, Marker, Polyline, Popup, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, Polyline, Tooltip, useMap } from "react-leaflet";
 
+import CustomMarker from "./CustomMarker";
 import { getLocation } from "./LocationTracker";
 
 // Internal class for updating map bounds when the second position loads
@@ -38,14 +39,14 @@ class MapCalloutAndMe extends React.Component {
 				/>
 
 				{/* Position Marker */}
-				<Marker position={this.state.myPosition}>
-					<Popup>My Location</Popup>
-				</Marker>
+				<CustomMarker icon="self" position={this.state.myPosition}>
+					<Tooltip direction="top">Your Location</Tooltip>
+				</CustomMarker>
 
 				{/* Callout Marker */}
-				<Marker position={this.props.position}>
-					<Popup>Callout Location</Popup>
-				</Marker>
+				<CustomMarker icon="callout" position={this.props.position}>
+					<Tooltip direction="top">Callout Location</Tooltip>
+				</CustomMarker>
 
 				{/* PolyLine draws a line between two points, feed in positions in array, Color can be changed with a hex value or default colors like red */}
 				<Polyline color="#FF449E" positions={[this.props.position, this.state.myPosition]}/>

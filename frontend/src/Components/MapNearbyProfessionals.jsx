@@ -1,5 +1,7 @@
 import React from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Tooltip } from "react-leaflet";
+
+import CustomMarker from "./CustomMarker";
 
 // api.jsx contains utility functions for getting or sending data from the frontend to the backend
 // For example, sending form data or getting user info
@@ -30,17 +32,16 @@ class MapNearbyProfessionals extends React.Component {
 					url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 				/>
 
-				{/* Place a marker on the customer position */}
-				<Marker position={this.props.position}>
-					<Popup>Your Location</Popup>
-				</Marker>
+				{/* Place a marker on the callout position */}
+				<CustomMarker icon="self" position={this.props.position}>
+					<Tooltip direction="top">Callout Location</Tooltip>
+				</CustomMarker>
 
-				{/* Place a marker on each service professional */}
-				{
+				{ // Place a marker on each service professional
 					this.state.nearby.map((pro, index) =>
-						<Marker position={pro.position} key={index}>
-							<Popup>{pro.name}</Popup>
-						</Marker>
+						<CustomMarker icon="mechanic" position={pro.position} key={index}>
+							<Tooltip direction="top">{pro.name}</Tooltip>
+						</CustomMarker>
 					)
 				}
 			</MapContainer>
