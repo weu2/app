@@ -85,6 +85,19 @@ export function backendGetNewCallouts() {
 	return fetchStrict("/api/v1/callout/newcallouts").then(res => res.json());
 }
 
+// Gets a list of service professionals nearby a callout
+export function backendGetNearbyProfessionals(calloutId) {
+	return fetchStrict("/api/v1/callout/nearby", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify({
+			calloutid: calloutId
+		})
+	}).then(res => res.json());
+}
+
 // Gets detail on one specific callout
 export function backendGetCallout(calloutId) {
 	return fetchStrict("/api/v1/callout/status", {
