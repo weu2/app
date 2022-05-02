@@ -3,15 +3,13 @@ import { Navigate } from "react-router-dom";
 
 // <Alert> is useful for displaying success or error messages, see react-bootstrap.github.io/components/alerts/
 import Alert from "react-bootstrap/Alert";
+import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 // <Container> adds padding to the sides of the page content, makes it look nicer
 import Container from "react-bootstrap/Container";
-
-// <LargeButton> is a subclass of React Bootstrap's <Button> with an icon added to the right side
-import LargeButton from "../Components/LargeButton";
 
 // api.jsx contains utility functions for getting or sending data from the frontend to the backend
 // For example, sending form data or getting user info
@@ -29,11 +27,12 @@ class Profile extends React.Component {
 			address: "",
 			phoneNumber: "",
 			license: "",
+			pushNotif: false,
 			error: null, // Display failure message if an error occurs
 			loggedIn: true, // Assume the user is not logged in yet
 			updated: false, // Displays an "updated" alert when the details are updated successfully
 			validated: false, // Shows feedback messages to show the user if they screwed up the form, see react-bootstrap.github.io/forms/validation/
-			notifs: false
+			changedForm: false // Show update button only once user changes form
 		};
 	}
 
@@ -47,7 +46,7 @@ class Profile extends React.Component {
 				address: res.address,
 				phoneNumber: res.phoneNumber,
 				license: res.license,
-				notifs: res.pushNotif
+				pushNotif: res.pushNotif
 			})).catch(() => this.setState({
 				// Redirect to /login if user isn't logged in yet
 				loggedIn: false
@@ -63,10 +62,8 @@ class Profile extends React.Component {
 			// Manually send form data to backend
 			backendUpdate(new FormData(form))
 				.then(() => this.setState({
-					// Show "updated" alert
-					updated: true
+					updated: true // Show "updated" alert
 				})).catch(async(res) => this.setState({
-					// Show error message
 					error: `Error: ${res.status} (${res.statusText}) ${await res.text()}`
 				}));
 		}
@@ -74,19 +71,38 @@ class Profile extends React.Component {
 		this.setState({ validated: true });
 	}
 
-	updateNotifs = (event) => {
-		this.setState({notifs: event.target.checked});
+	submitNotifs = (event) => {
+		// Manually send form data to backend
+		const formData = new FormData();
+		formData.set(event.target.name, event.target.checked);
+		backendUpdate(formData)
+			.then(() => this.setState({
+				updated: true // Show "updated" alert
+			})).catch(async(res) => this.setState({
+				error: `Error: ${res.status} (${res.statusText}) ${await res.text()}`
+			}));
+	}
 
-		if (event.target.checked === true) {
+	changedForm = () => {
+		this.setState({ changedForm: true });
+	}
+
+	updateNotifs = (event) => {
+		this.setState({ pushNotif: event.target.checked });
+
+		if (event.target.checked) {
 			Notification.requestPermission().then((status) => {
-				if (Notification.permission !== "granted") {
+				if (Notification.permission === "granted") {
+					this.submitNotifs(event);
+				} else {
 					this.setState({
-						notifs: false,
-						error: "Cannot enable notifications, please check your browser permissions."
+						pushNotif: false,
+						error: "Error: Cannot enable notifications, please check your browser permissions"
 					});
 				}
-			})
-			
+			});
+		} else {
+			this.submitNotifs(event);
 		}
 	}
 
@@ -121,6 +137,7 @@ class Profile extends React.Component {
 								type="email" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
 								autoComplete="email"
 								defaultValue={this.state.email}
+								onChange={this.changedForm}
 								required
 							/>
 							{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
@@ -137,6 +154,7 @@ class Profile extends React.Component {
 									type="text" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
 									autoComplete="given-name"
 									defaultValue={this.state.firstName}
+									onChange={this.changedForm}
 									required
 								/>
 								{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
@@ -152,6 +170,7 @@ class Profile extends React.Component {
 									type="text" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
 									autoComplete="family-name"
 									defaultValue={this.state.lastName}
+									onChange={this.changedForm}
 									required
 								/>
 								{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
@@ -168,6 +187,7 @@ class Profile extends React.Component {
 								type="text" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
 								autoComplete="street-address"
 								defaultValue={this.state.address}
+								onChange={this.changedForm}
 								required
 							/>
 							{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
@@ -183,6 +203,7 @@ class Profile extends React.Component {
 								type="tel" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
 								autoComplete="tel"
 								defaultValue={this.state.phoneNumber}
+								onChange={this.changedForm}
 								required
 							/>
 							{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
@@ -198,6 +219,7 @@ class Profile extends React.Component {
 								type="number" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
 								autoComplete="license"
 								defaultValue={this.state.license}
+								onChange={this.changedForm}
 								required
 							/>
 							{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
@@ -206,16 +228,23 @@ class Profile extends React.Component {
 							</Form.Control.Feedback>
 						</Form.Group>
 
-						{/* type="submit" automatically runs onSubmit, which runs this.submitForm */}
-						<LargeButton variant="primary" type="submit" icon="arrow-right">
-							Update
-						</LargeButton>
+						{ // type="submit" automatically runs onSubmit, which runs this.submitForm
+							this.state.changedForm
+							? <Button variant="primary" type="submit">Update</Button>
+							: null
+						}
 					</Form>
 				</div>
 				{'Notification' in window && navigator.serviceWorker ?
 					<div>
 						<h2 className="mb-4 mt-5">Notification Settings</h2>
-						<Form.Check type="switch" name="notifs" checked={this.state.notifs} label="Push Notifications" onChange={this.updateNotifs} />
+						<Form.Check
+							type="switch" // Custom Bootstrap type, see react-bootstrap.github.io/forms/checks-radios/
+							name="pushNotif"
+							checked={this.state.pushNotif}
+							label="Push Notifications"
+							onChange={this.updateNotifs}
+						/>
 					</div>
 				: null}
 			</Container>
