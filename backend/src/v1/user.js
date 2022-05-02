@@ -79,12 +79,16 @@ router.post('/register', upload.none(), (req, res) => {
 router.post('/update', upload.none(), (req, res) => {
 	const uuid = auth.verifyClaim(req.cookies.claim);
 	if (uuid) {
-		const validUpdateKeys = ['email', 'firstName', 'lastName', 'address', 'phoneNumber', 'license'];
+		const validUpdateKeys = ['email', 'firstName', 'lastName', 'address', 'phoneNumber', 'license', 'pushNotif'];
 		const users = new JsonDB('data/users.json');
 
 		const updateObject = {};
 		Object.keys(req.body).forEach(key => {
 			if (validUpdateKeys.includes(key)) {
+				// convert pushNotif from string to boolean, ideally wouldn't be required
+				if (key === 'pushNotif') {
+					req.body[key] = req.body[key] === "true";
+				}
 				updateObject[key] = req.body[key];
 			}
 		});
