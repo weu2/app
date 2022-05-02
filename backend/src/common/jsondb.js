@@ -41,7 +41,12 @@ class JSONDB {
     find(key) {
         const keys = Object.keys(key);
         return this._internal.filter(e => {
-            return keys.reduce((p, c) => p && e[c] === key[c], true);
+            return keys.reduce((p, c) => {
+                if(key[c].has)
+                    return p && key[c].has.includes(e[c]);
+                else 
+                    return p && e[c] === key[c];
+            }, true);
         });
     }
 
@@ -64,7 +69,7 @@ class JSONDB {
                 } else if (val[k].new) {
                     e[k] = val[k].new;
                 } else 
-                    e[k] = val[k]
+                    e[k] = val[k];
             } );
         });
         this.asyncUpdate();

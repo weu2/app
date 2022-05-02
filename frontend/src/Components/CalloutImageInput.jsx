@@ -1,5 +1,6 @@
 import React from "react";
 
+// <Alert> is useful for displaying success or error messages, see react-bootstrap.github.io/components/alerts/
 import Alert from "react-bootstrap/Alert";
 import Image from "react-bootstrap/Image";
 import Form from "react-bootstrap/Form";

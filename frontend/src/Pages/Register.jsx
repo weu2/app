@@ -180,7 +180,7 @@ class Register extends React.Component {
 					<Form.Control name="type" type="hidden" value={this.state.userType} />
 
 					{/* type="submit" automatically runs onSubmit, which runs this.submitForm */}
-					<LargeButton variant="primary" type="submit" icon="arrow-right">
+					<LargeButton className="mb-3" variant="primary" type="submit" icon="arrow-right">
 						Submit
 					</LargeButton>
 				</Form>
@@ -197,6 +197,7 @@ class Register extends React.Component {
 					<LargeButton
 						variant="primary"
 						icon="arrow-right"
+						className="mb-3"
 						onClick={() => this.setState({ userType: "PROFESSIONAL" })}
 					>
 						Service Professional
