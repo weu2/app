@@ -18,6 +18,13 @@ router.use((req, res, next) => {
 	}
 });
 
+function getDistance(latitude1, longitude1, latitude2, longitude2) {
+	const dLat = latitude1 - latitude2;
+	const dLong = longitude1 - longitude2;
+	const degrees = Math.sqrt((dLat * dLat) + (dLong * dLong));
+	return degrees * 110.574; // this is the constant to turn lat and long degrees into kms
+}
+
 router.post('/create', upload.none(), (req, res) => {
 	
 	if (!apiValidator.validate(req, {
@@ -39,6 +46,7 @@ router.post('/create', upload.none(), (req, res) => {
 		uuid: calloutUuid, 
 		customer: userUuid,
 		assignedTo: null,
+		assignedName: null,
 		description: req.body.description,
 		dateTime: req.body.dateTime,
 		locationLat: req.body.locationLat,
@@ -96,25 +104,26 @@ router.post('/nearby', (req, res) => {
 		
 		const callouts = new JsonDB('data/callouts.json');
 		const callout = callouts.find({ uuid: req.body.calloutid })[0];
-		let calloutLat = parseFloat(callout.locationLat, 10);
-		let calloutLong = parseFloat(callout.locationLong, 10);
-		let returnList = [];
+		const calloutLat = parseFloat(callout.locationLat);
+		const calloutLong = parseFloat(callout.locationLong);
+
+		const returnList = [];
 		const professionals = users.hasKeys(["PROFESSIONAL"]);
 		professionals.forEach(user => {
-			
-			let servProLat = parseFloat(user.PROFESSIONAL.locationLat);
-			let servProLong = parseFloat(user.PROFESSIONAL.locationLong);
 
-			let dLat = servProLat - calloutLat;
-			let dLong = servProLong - calloutLong;
+			const servProLat = parseFloat(user.PROFESSIONAL.locationLat);
+			const servProLong = parseFloat(user.PROFESSIONAL.locationLong);
 
-			let degrees = Math.sqrt((dLat * dLat) + (dLong * dLong));
-			let kms = degrees * 110.574; // this is the constant to turn lat and long degrees into kms
-
-			if(kms <= 50.0) {
+			const kms = getDistance(
+				servProLat,
+				servProLong,
+				calloutLat,
+				calloutLong
+			);
+			if (kms <= 50.0) {
 				returnList.push({
-					distance: kms,
-					name: user.firstName + " " + user.lastName
+					name: `${user.firstName} ${user.lastName}`,
+					position: [servProLat, servProLong]
 				});
 			}
 		});
@@ -145,7 +154,7 @@ router.post('/update', (req, res) => {
 					res.status(400).send();
 					return;
 				}
-				callouts.update({ uuid: req.body.calloutid }, { assignedTo: userUuid, status: req.body.status });
+				callouts.update({ uuid: req.body.calloutid }, { assignedTo: userUuid, assignedName: `${user.firstName} ${user.lastName}`, status: req.body.status });
 				break;
 			case "inprogress":
 				if (callout.status !== "accepted") {
@@ -165,7 +174,7 @@ router.post('/update', (req, res) => {
 				res.status(400).send();
 				return;
 		}
-		res.status(200).send();
+		res.status(200).send(callout);
 	} else {
 		res.status(400).send();
 	}
@@ -213,20 +222,18 @@ router.get('/newcallouts', (req, res) => {
 		
 		const calloutdb = new JsonDB('data/callouts.json');
 		const callouts = calloutdb.find({ status: "new" }).filter(callout => {
-			const calloutLat = parseFloat(callout.locationLat, 10);
-			const calloutLong = parseFloat(callout.locationLong, 10);
-			
-			const dLat = servProLat - calloutLat;
-			const dLong = servProLong - calloutLong;
-			
-			const degrees = Math.sqrt((dLat * dLat) + (dLong * dLong));
-			const kms = degrees * 110.574; // this is the constant to turn lat and long degrees into kms
+
+			const kms = getDistance(
+				servProLat,
+				servProLong,
+				parseFloat(callout.locationLat),
+				parseFloat(callout.locationLong)
+			)
 			return (kms <= 50.0);
         });
 		res.status(200).send({
 			type: "PROFESSIONAL",
-			callouts: callouts,
-			position: [servProLat, servProLong] // for easier frontend display
+			callouts: callouts
 		});
 	} else {
 		res.status(401).send();

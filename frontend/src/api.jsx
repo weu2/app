@@ -1,6 +1,8 @@
 // This file contains utility functions for getting or sending data from the frontend to the backend.
 // To interact with any backend API on the frontend, it should be added in here.
 
+// This file can probably be deleted later since the calls are mostly one liners
+
 // fetchStrict() detours fetch() to reject when the request is not OK
 // Use .status(XXX) in the backend to cause a rejection
 function fetchStrict(endpoint, options) {
@@ -87,6 +89,19 @@ export function backendGetNewCallouts() {
 	return fetchStrict("/api/v1/callout/newcallouts").then(res => res.json());
 }
 
+// Gets a list of service professionals nearby a callout
+export function backendGetNearbyProfessionals(calloutId) {
+	return fetchStrict("/api/v1/callout/nearby", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify({
+			calloutid: calloutId
+		})
+	}).then(res => res.json());
+}
+
 // Gets detail on one specific callout
 export function backendGetCallout(calloutId) {
 	return fetchStrict("/api/v1/callout/status", {
@@ -111,5 +126,5 @@ export function backendUpdateCallout(calloutId, status) {
 			calloutid: calloutId,
 			status: status
 		})
-	});
+	}).then(res => res.json());
 }

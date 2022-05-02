@@ -6,8 +6,8 @@ import Table from "react-bootstrap/Table";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import MapSingleMarker from "./MapSingleMarker";
-import MapCustomerProfessional from "./MapCustomerProfessional";
+import MapNearbyProfessionals from "./MapNearbyProfessionals";
+import MapCalloutAndMe from "./MapCalloutAndMe";
 import CalloutImageInput from "./CalloutImageInput";
 import LargeButton from "./LargeButton";
 
@@ -31,7 +31,7 @@ class CalloutListed extends React.Component {
 									</tr>
 									<tr>
 										<th>Assigned To</th>
-										<td>{this.props.callout.assignedTo ? this.props.callout.assignedTo : "None"}</td>
+										<td>{this.props.callout.assignedName ? this.props.callout.assignedName : "None"}</td>
 									</tr>
 									<tr>
 										<th>Number Plate</th>
@@ -54,9 +54,11 @@ class CalloutListed extends React.Component {
 										</tr>
 										: <tr>
 											<th>Distance</th>
-											<td>
-												{this.props.callout.distance.toFixed(3)} km
-											</td>
+											<td>{
+												this.props.callout.distance === undefined
+												? "Unknown"
+												: `${this.props.callout.distance.toFixed(3)} km`
+											}</td>
 										</tr>
 									}
 									
@@ -73,19 +75,14 @@ class CalloutListed extends React.Component {
 						<Col sm>
 							{
 								this.props.customer
-								? <MapSingleMarker
-									position={[
-										this.props.callout.locationLat,
-										this.props.callout.locationLong
-									]}
+								? <MapNearbyProfessionals
+									uuid={this.props.callout.uuid}
+									position={[this.props.callout.locationLat, this.props.callout.locationLong]}
 									style={{ width: "100%", height: "100%", minHeight: "128px" }}
-								/> // Display two markers for customers and mechanics
-								: <MapCustomerProfessional
-									customerpos={[
-										this.props.callout.locationLat,
-										this.props.callout.locationLong
-									]}
-									professionalpos={this.props.professionalpos}
+								/>
+								// Display two markers for customers and mechanics
+								: <MapCalloutAndMe
+									position={[this.props.callout.locationLat, this.props.callout.locationLong]}
 									style={{ width: "100%", height: "100%", minHeight: "128px" }}
 								/>
 							}

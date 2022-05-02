@@ -3,8 +3,6 @@ import { render } from "react-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 
-import NavigationBar from "./Components/NavigationBar";
-
 /* SASS file includes and modifies Bootstrap stylesheet */
 import "./index.scss";
 
@@ -18,10 +16,17 @@ import CalloutDetails from "./Pages/CalloutDetails";
 import FindCallouts from "./Pages/FindCallouts";
 import NoPage from "./Pages/404";
 
+import NavigationBar from "./Components/NavigationBar";
+import LocationTracker from "./Components/LocationTracker";
+
+// Ensure React Leaflet maps work on all pages
+import "leaflet/dist/leaflet.css";
+
 render(
 	<React.StrictMode>
 		<BrowserRouter>
 			<NavigationBar />
+			<LocationTracker />
 			<Routes>
 				<Route path="/" element={<Home />} />
 				<Route path="login" element={<Login />} />

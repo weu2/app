@@ -12,7 +12,8 @@ import Col from "react-bootstrap/Col";
 import Table from "react-bootstrap/Table";
 import Image from "react-bootstrap/Image";
 
-import MapSingleMarker from "../Components/MapSingleMarker";
+import MapCalloutAndMe from "../Components/MapCalloutAndMe";
+import { getLocation, getDistance } from "../Components/LocationTracker";
 
 // api.jsx contains utility functions for getting or sending data from the frontend to the backend
 // For example, sending form data or getting user info
@@ -25,26 +26,42 @@ class CalloutDetails extends React.Component {
 		this.state = {
 			// useParams would be better, but doesn't work with React classes
 			id: decodeURIComponent(document.location.pathname.split("/").pop()),
-			error: null,
-			callout: null,
-			status: null
+			error: null, // Error message to display if required
+			callout: null, // Callout JSON data, may not trigger page update
+			status: null, // Status of the callout, e.g. "NEW", "INPROGRESS", "FINISHED"
+			assignedName: null, // Assigned service professional name, triggers page update
+			distance: null // Distance to callout in kilometers
 		};
 	}
 
 	componentDidMount() {
 		backendGetCallout(this.state.id)
-			.then(res => this.setState({
-				status: res.status,
-				callout: res
-			})).catch(res => this.setState({
+			.then(res => {
+				this.setState({
+					status: res.status,
+					assignedName: res.assignedName,
+					callout: res
+				});
+
+				// Attempt to get location on page load, may not work before user interaction but worth a try
+				getLocation(navigator).then(pos => this.setState({
+					distance: getDistance(
+						pos[0],
+						pos[1],
+						parseFloat(res.locationLat),
+						parseFloat(res.locationLong)
+					)
+				}));
+			}).catch(res => this.setState({
 				error: `Error: ${res.status} (${res.statusText})`
 			}));
 	}
 
 	updateCallout = (status) => {
 		backendUpdateCallout(this.state.id, status)
-			.then(() => this.setState({
-				status: status
+			.then(callout => this.setState({
+				status: status,
+				assignedName: callout.assignedName
 			})).catch(res => this.setState({
 				error: `Error: ${res.status} (${res.statusText})`
 			}));
@@ -58,11 +75,8 @@ class CalloutDetails extends React.Component {
 				{this.state.callout ?
 				<div>
 					<h2 className="mb-4">Callout on {new Date(parseInt(this.state.callout.dateTime)).toLocaleString("en-US")}</h2>
-					<MapSingleMarker
-						position={[
-							this.state.callout.locationLat,
-							this.state.callout.locationLong
-						]}
+					<MapCalloutAndMe
+						position={[this.state.callout.locationLat, this.state.callout.locationLong]}
 						style={{ width: "100%", height: "256px" }}
 					/>
 					<Table bordered striped>
@@ -81,12 +95,20 @@ class CalloutDetails extends React.Component {
 								</td>
 							</tr>
 							<tr>
+								<th>Distance</th>
+								<td>{
+									this.state.distance === null
+									? "Unknown"
+									: `${this.state.distance.toFixed(3)} km`
+								}</td>
+							</tr>
+							<tr>
 								<th>Status</th>
 								<td>{this.state.status.toUpperCase()}</td>
 							</tr>
 							<tr>
 								<th>Assigned To</th>
-								<td>{this.state.callout.assignedTo ? this.state.callout.assignedTo : "None"}</td>
+								<td>{this.state.assignedName ? this.state.assignedName : "None"}</td>
 							</tr>
 							<tr>
 								<th>Number Plate</th>

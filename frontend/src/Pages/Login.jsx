@@ -77,7 +77,7 @@ class Login extends React.Component {
 						/>
 						{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
 						<Form.Control.Feedback type="invalid">
-							Please provide an email.
+							Please enter your email.
 						</Form.Control.Feedback>
 					</Form.Group>
 
@@ -91,7 +91,7 @@ class Login extends React.Component {
 						/>
 						{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
 						<Form.Control.Feedback type="invalid">
-							Please choose a password.
+							Please enter your password.
 						</Form.Control.Feedback>
 					</Form.Group>
 
