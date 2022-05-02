@@ -6,7 +6,7 @@ import Table from "react-bootstrap/Table";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import MapStaticLocation from "./MapStaticLocation";
+import MapNearbyProfessionals from "./MapNearbyProfessionals";
 import MapCalloutAndMe from "./MapCalloutAndMe";
 import CalloutImageInput from "./CalloutImageInput";
 import LargeButton from "./LargeButton";
@@ -75,7 +75,8 @@ class CalloutListed extends React.Component {
 						<Col sm>
 							{
 								this.props.customer
-								? <MapStaticLocation
+								? <MapNearbyProfessionals
+									uuid={this.props.callout.uuid}
 									position={[this.props.callout.locationLat, this.props.callout.locationLong]}
 									style={{ width: "100%", height: "100%", minHeight: "128px" }}
 								/>
