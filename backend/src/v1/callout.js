@@ -226,8 +226,7 @@ router.get('/newcallouts', (req, res) => {
         });
 		res.status(200).send({
 			type: "PROFESSIONAL",
-			callouts: callouts,
-			position: [servProLat, servProLong] // for easier frontend display
+			callouts: callouts
 		});
 	} else {
 		res.status(401).send();

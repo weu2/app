@@ -7,7 +7,8 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import CalloutListed from "../Components/CalloutListed";
+import CalloutListed from "./CalloutListed";
+import { getLocation, getDistance } from "./LocationTracker";
 
 class CalloutList extends React.Component {
 
@@ -17,30 +18,36 @@ class CalloutList extends React.Component {
 			loggedIn: true, // Assume user can view page to avoid redirecting early
 			sortBy: null, // Sort order defaults to newest first
 			callouts: null, // Store all listed callouts
-			userType: null, // Affects the display of callouts
-			professionalPos: null // Only provided if the user is a professional
+			userType: null // Affects the display of callouts
 		}
 	}
 
-	calculateDistances(callouts, professionalPos) {
-		if (!professionalPos) return callouts;
+	calculateDistances(callouts, position) {
+		if (!position) return callouts;
 		callouts.forEach(callout => {
-			const dLat = professionalPos[0] - parseFloat(callout.locationLat);
-			const dLong = professionalPos[1] - parseFloat(callout.locationLong);
-			const degrees = Math.sqrt((dLat * dLat) + (dLong * dLong));
-			callout.distance = degrees * 110.574; // store distance for display and sorting on frontend
+			callout.distance = getDistance(
+				position[0],
+				position[1],
+				parseFloat(callout.locationLat),
+				parseFloat(callout.locationLong)
+			);
 		});
 		return callouts;
 	}
 
 	componentDidMount() {
 		this.props.endpoint()
-			.then(res => this.setState({
-				userType: res.type,
-				sortBy: res.type === "PROFESSIONAL" ? "closest" : "newest",
-				callouts: this.calculateDistances(res.callouts, res.position),
-				professionalPos: res.position
-			})).catch(() => this.setState({
+			.then(res => {
+				this.setState({
+					userType: res.type,
+					sortBy: res.type === "PROFESSIONAL" ? "closest" : "newest",
+					callouts: res.callouts,
+				});
+				// Attempt to get location on page load, may not work before user interaction but worth a try
+				getLocation(navigator).then(pos => this.setState({
+					callouts: this.calculateDistances(res.callouts, pos)
+				}));
+			}).catch(() => this.setState({
 				// Redirect to /login if user isn't logged in yet
 				loggedIn: false
 			}));
@@ -71,7 +78,6 @@ class CalloutList extends React.Component {
 		return this.state.callouts.map(callout =>
 			<CalloutListed
 				customer={this.state.userType === "CUSTOMER" ? 1 : 0}
-				professionalpos={this.state.professionalPos}
 				className="mb-3"
 				callout={callout}
 				key={callout.uuid}
