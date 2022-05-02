@@ -44,20 +44,18 @@ class LocationInput extends React.Component {
 	}
 
 	setLatitude = (event) => {
-		this.setState({
-			position: [
-				event.target.value,
-				this.state.position ? this.state.position[1] : ""
-			]
+		this.setState(state => {
+			return {
+				position: [event.target.value, state.position ? state.position[1] : ""]
+			}
 		});
 	}
 
 	setLongitude = (event) => {
-		this.setState({
-			position: [
-				this.state.position ? this.state.position[0] : "",
-				event.target.value
-			]
+		this.setState(state => {
+			return {
+				position: [state.position ? state.position[0] : "", event.target.value]
+			}
 		});
 	}
 
