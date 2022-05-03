@@ -11,6 +11,8 @@ import { backendTrackLocation } from "../api.jsx";
 let cachedLocation = null;
 
 function liveUpdate(latitude, longitude) {
+	// Only run once the user is logged in
+	if (!document.cookie.includes("claim")) return;
 	const formData = new FormData();
 	formData.set("locationLat", latitude);
 	formData.set("locationLong", longitude);
@@ -69,6 +71,7 @@ class LocationTracker extends React.Component {
 
 	fetchLocation = () => {
 		getLocation(navigator)
+			.then(() => this.setState({ error: null }))
 			.catch(err => this.setState({ error: err }));
 	}
 

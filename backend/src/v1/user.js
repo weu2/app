@@ -116,6 +116,10 @@ router.post('/track', upload.none(), (req, res) => {
 	if (uuid) {
 		const users = new JsonDB('data/users.json');
 		const user = users.find({ uuid: uuid })[0];
+		if (!user) {
+			res.status(400).send();
+			return;
+		}
 		if (user.PROFESSIONAL) {
 			// Warning: this overrides the entire object contents of PROFESSIONAL
 			// should really only changed the latitude/longitude and nothing else

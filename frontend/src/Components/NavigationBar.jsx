@@ -30,7 +30,9 @@ class NavigationBar extends React.Component {
 			this.setState({ loggedIn: true });
 			this.fetchUserInfo();
 		});
-		this.fetchUserInfo();
+		if (this.state.loggedIn) {
+			this.fetchUserInfo();
+		}
 	}
 
 	fetchUserInfo = () => {
