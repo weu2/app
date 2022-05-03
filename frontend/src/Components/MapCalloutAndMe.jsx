@@ -21,10 +21,9 @@ class MapCalloutAndMe extends React.Component {
 	}
 
 	componentDidMount() {
-		getLocation(navigator)
-			.then(pos => this.setState({
-				myPosition: pos
-			}));
+		getLocation().then(pos => this.setState({
+			myPosition: pos
+		}));
 	}
 
 	render() {

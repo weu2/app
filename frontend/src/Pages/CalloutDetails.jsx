@@ -44,7 +44,7 @@ class CalloutDetails extends React.Component {
 				});
 
 				// Attempt to get location on page load, may not work before user interaction but worth a try
-				getLocation(navigator).then(pos => this.setState({
+				getLocation().then(pos => this.setState({
 					distance: getDistance(
 						pos[0],
 						pos[1],

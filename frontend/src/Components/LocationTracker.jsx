@@ -19,7 +19,7 @@ function liveUpdate(latitude, longitude) {
 	backendTrackLocation(formData);
 }
 
-export function getLocation(navigator) {
+export function getLocation() {
 	return new Promise((res, rej) => {
 		// Return cached result since watchPosition updates it
 		if (cachedLocation) {
@@ -70,9 +70,11 @@ class LocationTracker extends React.Component {
 	}
 
 	fetchLocation = () => {
-		getLocation(navigator)
-			.then(() => this.setState({ error: null }))
-			.catch(err => this.setState({ error: err }));
+		getLocation().then(() => this.setState({
+			error: null
+		})).catch(err => this.setState({
+			error: err
+		}));
 	}
 
 	render() {
