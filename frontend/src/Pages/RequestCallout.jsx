@@ -111,7 +111,7 @@ class RequestCallout extends React.Component {
 					<LocationInput className="mb-3" />
 
 					{/* Include date automatically */}
-					<Form.Control name="dateTime" type="hidden" value={Date.now()} />
+					<Form.Control name="dateTime" type="hidden" required value={Date.now()} />
 
 					{/* type="submit" automatically runs onSubmit, which runs this.submitForm */}
 					<LargeButton className="mb-3" variant="primary" type="submit" icon="arrow-right">

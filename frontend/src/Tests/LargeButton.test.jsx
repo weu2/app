@@ -5,17 +5,17 @@ import LargeButton from "../Components/LargeButton";
 it("checks button arrow icon is rendered", () => {
 	render(<LargeButton icon="arrow-right">Hello</LargeButton>);
 	const button = screen.getByText("Hello");
-	expect(button.innerHTML).toMatch("fa-arrow-right");
+	expect(button.innerHTML).toEqual(expect.stringContaining("fa-arrow-right"));
 });
 
 it("checks button plus icon is rendered", () => {
 	render(<LargeButton icon="plus">Hello</LargeButton>);
 	const button = screen.getByText("Hello");
-	expect(button.innerHTML).toMatch("fa-plus");
+	expect(button.innerHTML).toEqual(expect.stringContaining("fa-plus"));
 });
 
 it("checks button width is large", () => {
 	render(<LargeButton>Hello</LargeButton>);
 	const button = screen.getByText("Hello");
-	expect(button.className).toMatch("w-100");
+	expect(button.className).toEqual(expect.stringContaining("w-100"));
 });

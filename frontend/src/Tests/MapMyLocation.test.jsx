@@ -16,5 +16,5 @@ it("checks map marker has correct icon", () => {
 		style={{ width: "128px", height: "128px" }}
 	/>);
 	const markerSrc = screen.getByRole("img").src;
-	expect(markerSrc.split("/").pop()).toEqual("markerself.png");
+	expect(markerSrc.split("/").pop()).toBe("markerself.png");
 });

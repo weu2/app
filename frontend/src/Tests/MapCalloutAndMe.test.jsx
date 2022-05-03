@@ -8,7 +8,7 @@ it("checks two map markers are rendered", () => {
 		style={{ width: "128px", height: "128px" }}
 	/>);
 	const markers = screen.getAllByRole("img");
-	expect(markers.length).toEqual(2);
+	expect(markers.length).toBe(2);
 });
 
 it("checks map markers have correct icons", () => {
