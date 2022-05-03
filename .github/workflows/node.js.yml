@@ -10,18 +10,34 @@ on:
     branches: [ main ]
 
 jobs:
-  integrate-system:
-
+  test-backend:
     runs-on: windows-latest
-
     strategy:
       matrix:
         node-version: [16.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
     - uses: actions/checkout@v3
-
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:      
+        cache-dependency-path: ./backend/package-lock.json
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - name: install using script
+      run: call ./install.bat
+      shell: cmd
+    - name: Run Backend Tests
+      # run: cd backend && npm ci && npm test
+      run: cd backend && npm test
+  test-frontend:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    steps:
+    - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:      
@@ -31,11 +47,27 @@ jobs:
     - name: install using script
       run: call ./install.bat
       shell: cmd
-    - name: Run Backend Tests
-      # run: cd backend && npm ci && npm test
-      run: cd backend && npm test
     - name: Run Front end tests
       run: cd frontend && npm test
+  compile-frontend:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:      
+        cache-dependency-path: ./frontend/package-lock.json
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - name: install using script
+      run: call ./install.bat
+      shell: cmd
     - name: Build front end
       run: cd frontend && npm run build
+  
+    
     
