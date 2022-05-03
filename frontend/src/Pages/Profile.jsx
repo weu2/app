@@ -239,6 +239,7 @@ class Profile extends React.Component {
 					<div>
 						<h2 className="mb-4 mt-5">Notification Settings</h2>
 						<Form.Check
+							id="pushNotif"
 							type="switch" // Custom Bootstrap type, see react-bootstrap.github.io/forms/checks-radios/
 							name="pushNotif"
 							checked={this.state.pushNotif}

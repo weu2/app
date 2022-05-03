@@ -10,6 +10,7 @@ it("checks profile input names match backend names", () => {
 	expect(screen.getByLabelText("Address").name).toBe("address");
 	expect(screen.getByLabelText("Phone Number").name).toBe("phoneNumber");
 	expect(screen.getByLabelText("License Number").name).toBe("license");
+	expect(screen.getByLabelText("Push Notifications").name).toBe("pushNotif");
 });
 
 it("checks profile input types are valid", () => {
@@ -20,6 +21,7 @@ it("checks profile input types are valid", () => {
 	expect(screen.getByLabelText("Address").type).toBe("text");
 	expect(screen.getByLabelText("Phone Number").type).toBe("tel");
 	expect(screen.getByLabelText("License Number").type).toBe("number");
+	expect(screen.getByLabelText("Push Notifications").type).toBe("checkbox");
 });
 
 it("checks profile inputs are required", () => {

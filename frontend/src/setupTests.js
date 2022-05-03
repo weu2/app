@@ -33,3 +33,7 @@ const createElementNSOrig = global.document.createElementNS
 	}
 	return createElementNSOrig.apply(this, arguments)
 }
+
+// Fake navigation API for notifications
+global.navigator.serviceWorker = jest.fn();
+global.Notification = jest.fn();
