@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import NoPage from "./404";
+import NoPage from "../Pages/404";
 
 it("renders 404 message", () => {
 	render(<NoPage />);
