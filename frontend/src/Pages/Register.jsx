@@ -170,6 +170,7 @@ class Register extends React.Component {
 					</Form.Group>
 
 					{/* Force service professionals to provide a location */}
+					{/* Not really required anymore since live location tracking is used */}
 					{
 						this.state.userType === "PROFESSIONAL"
 						? <LocationInput className="mb-3" />

@@ -101,6 +101,37 @@ router.post('/update', upload.none(), (req, res) => {
 	}
 });
 
+// For live location tracking, remove if not desired
+router.post('/track', upload.none(), (req, res) => {
+
+	if(!apiValidator.validate(req, {
+		locationLat: {type:"string", required:true},
+		locationLong: {type:"string", required:true}
+	})) {
+		res.status(400).send('Missing API parameters');
+		return;
+	}
+
+	const uuid = auth.verifyClaim(req.cookies.claim);
+	if (uuid) {
+		const users = new JsonDB('data/users.json');
+		const user = users.find({ uuid: uuid })[0];
+		if (user.PROFESSIONAL) {
+			// Warning: this overrides the entire object contents of PROFESSIONAL
+			// should really only changed the latitude/longitude and nothing else
+			users.update({ uuid: uuid }, {
+				PROFESSIONAL: {
+					locationLat: req.body.locationLat,
+					locationLong: req.body.locationLong
+				}
+			});
+		}
+		res.status(200).send();
+	} else {
+		res.status(401).send();
+	}
+});
+
 function getType(user) {
 	if (user.CUSTOMER) return "CUSTOMER";
 	if (user.PROFESSIONAL) return "PROFESSIONAL";

@@ -5,23 +5,18 @@
 import "@testing-library/jest-dom";
 
 // Fake geolocation API for tests, from stackoverflow.com/questions/43008925
-const mockGeolocation = {
+global.navigator.geolocation = {
 	watchPosition: jest.fn()
 		.mockImplementationOnce((success) => Promise.resolve(
-			success({
-				coords: { latitude: 12, longitude: 24 }
-			})
+			success({ coords: { latitude: 12, longitude: 24 }})
 		)
 	),
 	getCurrentPosition: jest.fn()
 		.mockImplementationOnce((success) => Promise.resolve(
-			success({
-				coords: { latitude: 12, longitude: 24 }
-			})
+			success({ coords: { latitude: 12, longitude: 24 }})
 		)
 	),
 };
-global.navigator.geolocation = mockGeolocation;
 
 // Fake SVG rendering for React Leaflet, from stackoverflow.com/questions/54382414
 const createElementNSOrig = global.document.createElementNS

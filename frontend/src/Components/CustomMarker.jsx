@@ -41,8 +41,8 @@ const iconCallout = new L.Icon({
 
 class CustomMarker extends React.Component {
 
-	getIcon(name) {
-		switch (name) {
+	getIcon() {
+		switch (this.props.icon) {
 			case "self":
 			default:
 				return iconSelf;
@@ -54,7 +54,7 @@ class CustomMarker extends React.Component {
 	}
 
 	render() {
-		return <Marker {...this.props} icon={this.getIcon(this.props.icon)}>
+		return <Marker {...this.props} icon={this.getIcon()}>
 			{this.props.children}
 		</Marker>
 	}

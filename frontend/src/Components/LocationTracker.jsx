@@ -3,8 +3,19 @@ import React from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
+// api.jsx contains utility functions for getting or sending data from the frontend to the backend
+// For example, sending form data or getting user info
+import { backendTrackLocation } from "../api.jsx";
+
 // Cached variable updates every few seconds
 let cachedLocation = null;
+
+function liveUpdate(latitude, longitude) {
+	const formData = new FormData();
+	formData.set("locationLat", latitude);
+	formData.set("locationLong", longitude);
+	backendTrackLocation(formData);
+}
 
 export function getLocation(navigator) {
 	return new Promise((res, rej) => {
@@ -24,6 +35,7 @@ export function getLocation(navigator) {
 		navigator.geolocation.watchPosition(pos => {
 			// Update cached location every few seconds
 			const coords = [pos.coords.latitude, pos.coords.longitude];
+			liveUpdate(pos.coords.latitude, pos.coords.longitude);
 			cachedLocation = coords;
 			res(coords);
 		}, error => {

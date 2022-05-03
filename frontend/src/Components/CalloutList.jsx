@@ -85,6 +85,17 @@ class CalloutList extends React.Component {
 		);
 	}
 
+	displayHelp() {
+		switch (this.state.userType) {
+			case "CUSTOMER":
+				return this.props.customerhelp;
+			case "PROFESSIONAL":
+				return this.props.professionalhelp;
+			default:
+				return "Loading user info...";
+		}
+	}
+
 	render() {
 		return (
 			// <Container> adds padding around the website content, makes it look nicer
@@ -120,15 +131,10 @@ class CalloutList extends React.Component {
 					}
 				</Row>
 
-				{/* Display callouts if they exist */}
-				{
+				{ // Display callouts if they exist
 					this.state.callouts && this.state.callouts.length
 					? this.generateCallouts()
-					: (
-						this.state.userType === "CUSTOMER"
-						? this.props.customerhelp
-						: this.props.professionalhelp
-					)
+					: this.displayHelp()
 				}
 			</Container>
 		);

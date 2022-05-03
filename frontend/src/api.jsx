@@ -41,6 +41,14 @@ export function backendUpdate(formData) {
 	});
 }
 
+// Attempts to update location live, remove if not desired
+export function backendTrackLocation(formData) {
+	return fetchStrict("/api/v1/user/track", {
+		method: "POST",
+		body: formData
+	});
+}
+
 // Basic test to check if the backend is broken
 export function backendTest() {
 	return fetchStrict("/api/v1/test").then(res => res.json());
