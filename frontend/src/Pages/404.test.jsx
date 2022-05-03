@@ -4,5 +4,6 @@ import NoPage from "./404";
 
 it("renders 404 message", () => {
 	render(<NoPage />);
-	expect(screen.toContain("404")).toBeInTheDocument();
+	const header = screen.getByRole("heading", { level: 1 });
+	expect(header.textContent).toMatch("404");
 });
