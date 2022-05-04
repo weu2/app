@@ -5,6 +5,7 @@ const multer = require('multer');
 const auth = require('./auth');
 const JsonDB = require('../common/jsondb');
 const apiValidator = require('../common/apiValidator');
+const geolocation = require('../common/geolocation');
 
 const upload = multer();
 const router = express.Router();
@@ -18,12 +19,7 @@ router.use((req, res, next) => {
 	}
 });
 
-function getDistance(latitude1, longitude1, latitude2, longitude2) {
-	const dLat = latitude1 - latitude2;
-	const dLong = longitude1 - longitude2;
-	const degrees = Math.sqrt((dLat * dLat) + (dLong * dLong));
-	return degrees * 110.574; // this is the constant to turn lat and long degrees into kms
-}
+
 
 router.post('/create', upload.none(), (req, res) => {
 	
@@ -114,7 +110,7 @@ router.post('/nearby', (req, res) => {
 			const servProLat = parseFloat(user.PROFESSIONAL.locationLat);
 			const servProLong = parseFloat(user.PROFESSIONAL.locationLong);
 
-			const kms = getDistance(
+			const kms = geolocation.getDistance(
 				servProLat,
 				servProLong,
 				calloutLat,
@@ -223,7 +219,7 @@ router.get('/newcallouts', (req, res) => {
 		const calloutdb = new JsonDB('data/callouts.json');
 		const callouts = calloutdb.find({ status: "new" }).filter(callout => {
 
-			const kms = getDistance(
+			const kms = geolocation.getDistance(
 				servProLat,
 				servProLong,
 				parseFloat(callout.locationLat),
