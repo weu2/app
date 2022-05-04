@@ -9,7 +9,13 @@ function getFile(filepath)
     if(!dbCache[filepath]) {
         let filecontent;
         try {
-            filecontent = fs.readFileSync(filepath);
+            filecontent = fs.readFileSync(filepath); 
+            try {
+                dbCache[filepath] = JSON.parse(filecontent);
+            } catch(e) {
+                console.error(`${filepath} has incorrect formatting!`);
+                process.exit(1);
+            }
         } catch(e) {
             // make the folder just in case
             fs.mkdir(path.dirname(filepath), { recursive: true }, (err) => {
@@ -17,12 +23,6 @@ function getFile(filepath)
             });
             // if the file doesnt exist just make an empty array
             dbCache[filepath] = [];
-        }
-        try {
-            dbCache[filepath] = JSON.parse(filecontent);
-        } catch(e) {
-            console.error(`${filepath} has incorrect formatting!`);
-            process.exit(1);
         }
     }
     return dbCache[filepath];
