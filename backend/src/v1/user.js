@@ -146,7 +146,7 @@ router.get('/getinfo', (req, res) => {
 	const uuid = auth.verifyClaim(req.cookies.claim);
 	if (uuid) {
 		const users = new JsonDB('data/users.json');
-		const user = users.find({ uuid: uuid })[0];
+		const user = Object.assign({}, users.find({ uuid: uuid })[0]);
 		if (!user) {
 			res.status(400).send();
 			return;

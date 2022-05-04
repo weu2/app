@@ -2,40 +2,50 @@ const fs = require('fs');
 const path = require('path');
 // probably a terrible idea
 
-class JSONDB {
-    constructor(filepath) {
-        //super();
-        this._filepath = filepath;
-        this._internal = this.initialLoad();
-    }
+let dbCache = {};
 
-    // sync load the json file
-    initialLoad() {
+function getFile(filepath)
+{
+    if(!dbCache[filepath]) {
         let filecontent;
         try {
-            filecontent = fs.readFileSync(this._filepath);
+            filecontent = fs.readFileSync(filepath);
         } catch(e) {
             // make the folder just in case
-            fs.mkdir(path.dirname(this._filepath), { recursive: true }, (err) => {
+            fs.mkdir(path.dirname(filepath), { recursive: true }, (err) => {
                 if (err) throw err; // not sure why this would happen, no perms maybe unix moment
             });
             // if the file doesnt exist just make an empty array
-            return []; 
+            dbCache[filepath] = [];
         }
         try {
-            return JSON.parse(filecontent);
+            dbCache[filepath] = JSON.parse(filecontent);
         } catch(e) {
             console.error(`${this._filepath} has incorrect formatting!`);
             process.exit(1);
         }
     }
+    return dbCache[filepath];
+}
+
+function updateFile(filepath)
+{
+    fs.writeFile(filepath, JSON.stringify(dbCache[filepath], null, '\t'), (err) => {
+        if (err) {
+            console.error(`path ${filepath}, doesnt exist!`);
+        }
+    });
+}
+
+class JSONDB {
+    constructor(filepath) {
+        //super();
+        this._filepath = filepath;
+        this._internal = getFile(filepath);
+    }
 
     asyncUpdate() {
-        fs.writeFile(this._filepath, JSON.stringify(this._internal, null, '\t'), (err) => {
-            if (err) {
-                console.error(`path ${this._filepath}, doesnt exist!`);
-            }
-        });
+        updateFile(this._filepath);
     }
 
     find(key) {
