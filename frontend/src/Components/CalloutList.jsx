@@ -58,7 +58,7 @@ class CalloutList extends React.Component {
 			case "closest":
 				this.state.callouts.sort((a, b) => a.distance - b.distance);
 				break;
-			case "furthest":
+			case "farthest":
 				this.state.callouts.sort((a, b) => b.distance - a.distance);
 				break;
 			case "oldest":
@@ -117,8 +117,8 @@ class CalloutList extends React.Component {
 									<Form.Select onChange={e => this.setState({ sortBy: e.target.value })}>
 										{ // Professionals have distance sorting abilities
 											this.state.userType === "PROFESSIONAL" ? <>
-												<option value="closest">Closest to furthest</option>
-												<option value="furthest">Furthest to closest</option>
+												<option value="closest">Closest to farthest</option>
+												<option value="farthest">Farthest to closest</option>
 											</> : null
 										}
 										<option value="newest">Newest to oldest</option>

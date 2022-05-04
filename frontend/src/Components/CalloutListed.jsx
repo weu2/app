@@ -31,7 +31,11 @@ class CalloutListed extends React.Component {
 									</tr>
 									<tr>
 										<th>Assigned To</th>
-										<td>{this.props.callout.assignedTo}</td>
+										<td>{
+											this.props.callout.assignedTo
+											? this.props.callout.assignedTo
+											: "None"
+										}</td>
 									</tr>
 									<tr>
 										<th>Number Plate</th>

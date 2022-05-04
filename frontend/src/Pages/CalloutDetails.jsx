@@ -193,7 +193,11 @@ class CalloutDetails extends React.Component {
 							</tr>
 							<tr>
 								<th>Assigned To</th>
-								<td>{this.state.assignedTo ? this.state.assignedTo : "None"}</td>
+								<td>{
+									this.state.assignedTo
+									? this.state.assignedTo
+									: "None"
+								}</td>
 							</tr>
 							<tr>
 								<th>Number Plate</th>
