@@ -12,6 +12,7 @@ import Col from "react-bootstrap/Col";
 import Table from "react-bootstrap/Table";
 import Image from "react-bootstrap/Image";
 
+import LocationLink from "../Components/LocationLink";
 import MapCalloutAndMe from "../Components/MapCalloutAndMe";
 import MapNearbyProfessionals from "../Components/MapNearbyProfessionals";
 import { getLocation, getDistance } from "../Components/LocationTracker";
@@ -168,14 +169,10 @@ class CalloutDetails extends React.Component {
 							<tr>
 								<th>Location</th>
 								<td>
-									<a
-										className="text-body"
-										href={`https://www.google.com/maps?q=${this.state.callout.locationLat},${this.state.callout.locationLong}`}
-										target="_blank"
-										rel="noopener noreferrer"
-									>
-										{this.state.callout.locationLat}, {this.state.callout.locationLong}
-									</a>
+									<LocationLink
+										latitude={this.state.callout.locationLat}
+										longitude={this.state.callout.locationLong}
+									/>
 								</td>
 							</tr>
 							{
@@ -246,14 +243,10 @@ class CalloutDetails extends React.Component {
 										<tr key={index}>
 											<td>{pro.name}</td>
 											<td>
-												<a
-													className="text-body"
-													href={`https://www.google.com/maps?q=${pro.position[0]},${pro.position[1]}`}
-													target="_blank"
-													rel="noopener noreferrer"
-												>
-													{pro.position[0]}, {pro.position[1]}
-												</a>
+												<LocationLink
+													latitude={pro.position[0]}
+													longitude={pro.position[1]}
+												/>
 											</td>
 											<td>{pro.distance.toFixed(3)} km</td>
 										</tr>
