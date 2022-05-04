@@ -21,7 +21,7 @@ function getFile(filepath)
         try {
             dbCache[filepath] = JSON.parse(filecontent);
         } catch(e) {
-            console.error(`${this._filepath} has incorrect formatting!`);
+            console.error(`${filepath} has incorrect formatting!`);
             process.exit(1);
         }
     }
