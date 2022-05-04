@@ -19,7 +19,10 @@ class MapNearbyProfessionals extends React.Component {
 	componentDidMount() {
 		backendGetNearbyProfessionals(this.props.uuid)
 			.then(res => {
-				this.props.ondata(res);
+				// Send data to parent class
+				if (this.props.ondata) {
+					this.props.ondata(res);
+				}
 				this.setState({ nearby: res });
 			});
 	}
