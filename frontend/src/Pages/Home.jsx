@@ -26,7 +26,7 @@ class Home extends React.Component {
 	componentDidMount() {
 		// Check whether the backend works
 		backendTest().then(res => this.setState({
-			data: res.jwtverify // Store something in "this.state.data" if it does
+			data: res.response // Store something in "this.state.data" if it does
 		}));
 	}
 
