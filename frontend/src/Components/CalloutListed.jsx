@@ -8,7 +8,6 @@ import Col from "react-bootstrap/Col";
 
 import MapNearbyProfessionals from "./MapNearbyProfessionals";
 import MapCalloutAndMe from "./MapCalloutAndMe";
-import CalloutImageInput from "./CalloutImageInput";
 import LargeButton from "./LargeButton";
 
 // Card for rendering each callout along with basic details
@@ -31,7 +30,7 @@ class CalloutListed extends React.Component {
 									</tr>
 									<tr>
 										<th>Assigned To</th>
-										<td>{this.props.callout.assignedName ? this.props.callout.assignedName : "None"}</td>
+										<td>{this.props.callout.assignedTo}</td>
 									</tr>
 									<tr>
 										<th>Number Plate</th>
@@ -64,13 +63,9 @@ class CalloutListed extends React.Component {
 									
 								</tbody>
 							</Table>
-							{
-								this.props.customer
-								? <CalloutImageInput callout={this.props.callout} />
-								: <Link to={`/callout/${this.props.callout.uuid}`}>
-									<LargeButton variant="primary" icon="arrow-right">More info</LargeButton>
-								</Link>
-							}
+							<Link to={`/callout/${this.props.callout.uuid}`}>
+								<LargeButton variant="primary" icon="arrow-right">More info</LargeButton>
+							</Link>
 						</Col>
 						<Col sm>
 							{

@@ -57,7 +57,6 @@ export function getDistance(latitude1, longitude1, latitude2, longitude2) {
 	const longKm = 111.320 * Math.cos(dLat) * dLong;
 	// year 8 math
 	const distance = Math.sqrt((latKm * latKm) + (longKm * longKm));
-	console.log(distance);
 	return distance;
 }
 

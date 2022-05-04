@@ -46,7 +46,7 @@ class Profile extends React.Component {
 				address: res.address,
 				phoneNumber: res.phoneNumber,
 				license: res.license,
-				pushNotif: res.pushNotif
+				pushNotif: res.pushNotif !== null
 			})).catch(() => this.setState({
 				// Redirect to /login if user isn't logged in yet
 				loggedIn: false

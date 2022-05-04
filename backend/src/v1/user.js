@@ -87,7 +87,7 @@ router.post('/update', upload.none(), (req, res) => {
 			if (validUpdateKeys.includes(key)) {
 				// convert pushNotif from string to boolean, ideally wouldn't be required
 				if (key === 'pushNotif') {
-					req.body[key] = req.body[key] === "true";
+					req.body[key] = req.body[key] === "true" ? {} : null;
 				}
 				updateObject[key] = req.body[key];
 			}
