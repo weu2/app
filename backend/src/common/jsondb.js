@@ -7,9 +7,8 @@ let dbCache = {};
 function getFile(filepath)
 {
     if(!dbCache[filepath]) {
-        let filecontent;
         try {
-            filecontent = fs.readFileSync(filepath); 
+            const filecontent = fs.readFileSync(filepath); 
             try {
                 dbCache[filepath] = JSON.parse(filecontent);
             } catch(e) {
