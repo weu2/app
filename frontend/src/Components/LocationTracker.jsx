@@ -3,10 +3,23 @@ import React from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
+// api.jsx contains utility functions for getting or sending data from the frontend to the backend
+// For example, sending form data or getting user info
+import { backendTrackLocation } from "../api.jsx";
+
 // Cached variable updates every few seconds
 let cachedLocation = null;
 
-export function getLocation(navigator) {
+function liveUpdate(latitude, longitude) {
+	// Only run once the user is logged in
+	if (!document.cookie.includes("claim")) return;
+	const formData = new FormData();
+	formData.set("locationLat", latitude);
+	formData.set("locationLong", longitude);
+	backendTrackLocation(formData);
+}
+
+export function getLocation() {
 	return new Promise((res, rej) => {
 		// Return cached result since watchPosition updates it
 		if (cachedLocation) {
@@ -24,6 +37,7 @@ export function getLocation(navigator) {
 		navigator.geolocation.watchPosition(pos => {
 			// Update cached location every few seconds
 			const coords = [pos.coords.latitude, pos.coords.longitude];
+			liveUpdate(pos.coords.latitude, pos.coords.longitude);
 			cachedLocation = coords;
 			res(coords);
 		}, error => {
@@ -35,10 +49,15 @@ export function getLocation(navigator) {
 }
 
 export function getDistance(latitude1, longitude1, latitude2, longitude2) {
+	// get delta
 	const dLat = latitude1 - latitude2;
 	const dLong = longitude1 - longitude2;
-	const degrees = Math.sqrt((dLat * dLat) + (dLong * dLong));
-	return degrees * 110.574; // this is the constant to turn lat and long degrees into kms
+	// convert to km
+	const latKm = dLat * 110.574;
+	const longKm = 111.320 * Math.cos(dLat) * dLong;
+	// year 8 math
+	const distance = Math.sqrt((latKm * latKm) + (longKm * longKm));
+	return distance;
 }
 
 class LocationTracker extends React.Component {
@@ -56,8 +75,11 @@ class LocationTracker extends React.Component {
 	}
 
 	fetchLocation = () => {
-		getLocation(navigator)
-			.catch(err => this.setState({ error: err }));
+		getLocation().then(() => this.setState({
+			error: null
+		})).catch(err => this.setState({
+			error: err
+		}));
 	}
 
 	render() {

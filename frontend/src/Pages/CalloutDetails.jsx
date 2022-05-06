@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 // <Container> adds padding to the sides of the page content, makes it look nicer
 import Container from "react-bootstrap/Container";
@@ -12,12 +12,14 @@ import Col from "react-bootstrap/Col";
 import Table from "react-bootstrap/Table";
 import Image from "react-bootstrap/Image";
 
+import LocationLink from "../Components/LocationLink";
 import MapCalloutAndMe from "../Components/MapCalloutAndMe";
+import MapNearbyProfessionals from "../Components/MapNearbyProfessionals";
 import { getLocation, getDistance } from "../Components/LocationTracker";
 
 // api.jsx contains utility functions for getting or sending data from the frontend to the backend
 // For example, sending form data or getting user info
-import { backendGetCallout, backendUpdateCallout } from "../api.jsx";
+import { backendGetCallout, backendUpdateCallout, backendGetUserInfo } from "../api.jsx";
 
 class CalloutDetails extends React.Component {
 
@@ -29,22 +31,34 @@ class CalloutDetails extends React.Component {
 			error: null, // Error message to display if required
 			callout: null, // Callout JSON data, may not trigger page update
 			status: null, // Status of the callout, e.g. "NEW", "INPROGRESS", "FINISHED"
-			assignedName: null, // Assigned service professional name, triggers page update
-			distance: null // Distance to callout in kilometers
+			assignedTo: null, // Assigned service professional name, triggers page update
+			distance: null, // Distance to callout in kilometers
+			loggedIn: true, // Assume user can view page to avoid redirecting early
+			userType: null, // CUSTOMER or PROFESSIONAL
+			nearby: null // Array of nearby service professionals
 		};
 	}
 
 	componentDidMount() {
+
+		backendGetUserInfo()
+			.then(res => this.setState({
+				userType: res.type
+			})).catch(() => this.setState({
+				// Redirect to /login if user isn't logged in yet
+				loggedIn: false
+			}));
+
 		backendGetCallout(this.state.id)
 			.then(res => {
 				this.setState({
 					status: res.status,
-					assignedName: res.assignedName,
+					assignedTo: res.assignedTo,
 					callout: res
 				});
 
 				// Attempt to get location on page load, may not work before user interaction but worth a try
-				getLocation(navigator).then(pos => this.setState({
+				getLocation().then(pos => this.setState({
 					distance: getDistance(
 						pos[0],
 						pos[1],
@@ -61,54 +75,129 @@ class CalloutDetails extends React.Component {
 		backendUpdateCallout(this.state.id, status)
 			.then(callout => this.setState({
 				status: status,
-				assignedName: callout.assignedName
+				assignedTo: callout.assignedTo
 			})).catch(res => this.setState({
 				error: `Error: ${res.status} (${res.statusText})`
 			}));
 	};
+
+	drawCalloutButtons() {
+		switch (this.state.status) {
+			case "new":
+				return (
+					<Row>
+						<Col>
+							<Button
+								variant="success"
+								style={{ width: "100%" }}
+								className="mb-3"
+								onClick={() => this.updateCallout("accepted")}
+							>
+								Accept
+							</Button>
+						</Col>
+						<Col>
+							<Link to="/findcallouts">
+								<Button
+									variant="danger"
+									style={{ width: "100%" }}
+									className="mb-3"
+								>
+									Deny
+								</Button>
+							</Link>
+						</Col>
+					</Row>
+				);
+			case "accepted":
+				return (
+					<Row>
+						<Button
+							variant="success"
+							className="mb-3"
+							onClick={() => this.updateCallout("inprogress")}
+						>
+							Arrived on site
+						</Button>
+					</Row>
+				);
+			case "inprogress":
+				return (
+					<Row>
+						<Button
+							variant="success"
+							className="mb-3"
+							onClick={() => this.updateCallout("finished")}
+						>
+							Finished working
+						</Button>
+					</Row>
+				);
+			case "finished":
+			default:
+				return null;
+		}
+	}
 	
 	render() {
 		return (
 			<Container>
 				{/* Show error message if required */}
 				{this.state.error ? <Alert variant="danger">{this.state.error}</Alert> : null}
+
+				{/* Redirect to /login if the user cannot view this page */}
+				{this.state.loggedIn ? null : <Navigate to="/login"/>}
+
 				{this.state.callout ?
-				<div>
+				<>
 					<h2 className="mb-4">Callout on {new Date(parseInt(this.state.callout.dateTime)).toLocaleString("en-US")}</h2>
-					<MapCalloutAndMe
-						position={[this.state.callout.locationLat, this.state.callout.locationLong]}
-						style={{ width: "100%", height: "256px" }}
-					/>
+					{
+						this.state.userType === "CUSTOMER"
+						? <MapNearbyProfessionals
+							uuid={this.state.id}
+							position={[this.state.callout.locationLat, this.state.callout.locationLong]}
+							style={{ width: "100%", height: "256px" }}
+							ondata={nearby => this.setState({ nearby: nearby })}
+						/>
+						: <MapCalloutAndMe
+							position={[this.state.callout.locationLat, this.state.callout.locationLong]}
+							style={{ width: "100%", height: "256px" }}
+						/>
+					}
 					<Table bordered striped>
 						<tbody>
 							<tr>
 								<th>Location</th>
 								<td>
-									<a
-										className="text-body"
-										href={`https://www.google.com/maps?q=${this.state.callout.locationLat},${this.state.callout.locationLong}`}
-										target="_blank"
-										rel="noopener noreferrer"
-									>
-										{this.state.callout.locationLat}, {this.state.callout.locationLong}
-									</a>
+									<LocationLink
+										latitude={this.state.callout.locationLat}
+										longitude={this.state.callout.locationLong}
+									/>
 								</td>
 							</tr>
-							<tr>
-								<th>Distance</th>
-								<td>{
-									this.state.distance === null
-									? "Unknown"
-									: `${this.state.distance.toFixed(3)} km`
-								}</td>
-							</tr>
+							{
+								this.state.userType === "PROFESSIONAL"
+								? <tr>
+									<th>Distance</th>
+									<td>{
+										this.state.distance === null
+										? "Unknown"
+										: `${this.state.distance.toFixed(3)} km`
+									}</td>
+								</tr>
+								: null
+							}
 							<tr>
 								<th>Status</th>
 								<td>{this.state.status.toUpperCase()}</td>
 							</tr>
 							<tr>
 								<th>Assigned To</th>
-								<td>{this.state.assignedName ? this.state.assignedName : "None"}</td>
+								<td>{
+									this.state.assignedTo
+									? this.state.assignedTo
+									: "None"
+								}</td>
 							</tr>
 							<tr>
 								<th>Number Plate</th>
@@ -136,55 +225,41 @@ class CalloutDetails extends React.Component {
 							}
 						</tbody>
 					</Table>
-					<Row>
-						{ // New callouts can be accepted or denied
-							this.state.status === "new"
-							? <>
-								<Col>
-									<Button
-										variant="success"
-										style={{ width: "100%" }}
-										className="mb-3"
-										onClick={() => this.updateCallout("accepted")}
-									>
-										Accept
-									</Button>
-								</Col>
-								<Col>
-									<Link to="/findcallouts">
-										<Button
-											variant="danger"
-											style={{ width: "100%" }}
-											className="mb-3"
-										>
-											Deny
-										</Button>
-									</Link>
-								</Col>
-							</> : null
-						}
-						{ // Accepted callouts can be marked as in progress
-							this.state.status === "accepted"
-							? <Button
-								variant="success"
-								className="mb-3"
-								onClick={() => this.updateCallout("inprogress")}
-							>
-								Arrived on site
-							</Button> : null
-						}
-						{ // In progress callouts can be marked as finished
-							this.state.status === "inprogress"
-							? <Button
-								variant="success"
-								className="mb-3"
-								onClick={() => this.updateCallout("finished")}
-							>
-								Finished working
-							</Button> : null
-						}
-					</Row>
-				</div>
+					{
+						this.state.userType === "PROFESSIONAL"
+						? this.drawCalloutButtons()
+						: null
+					}
+					{
+						this.state.nearby
+						? <>
+							<h4 className="mt-4 mb-3">Nearby Professionals</h4>
+							<Table striped bordered hover>
+								<thead>
+									<tr>
+										<th>Name</th>
+										<th>Location</th>
+										<th>Distance</th>
+									</tr>
+								</thead>
+								<tbody>{
+									this.state.nearby.map((pro, index) =>
+										<tr key={index}>
+											<td>{pro.name}</td>
+											<td>
+												<LocationLink
+													latitude={pro.position[0]}
+													longitude={pro.position[1]}
+												/>
+											</td>
+											<td>{pro.distance.toFixed(3)} km</td>
+										</tr>
+									)
+								}</tbody>
+							</Table>
+						</> : null
+					}
+				</>
 				: <Alert variant="info">Loading callout details...</Alert>}
 			</Container>
 		);

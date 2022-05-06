@@ -46,7 +46,7 @@ class Profile extends React.Component {
 				address: res.address,
 				phoneNumber: res.phoneNumber,
 				license: res.license,
-				pushNotif: res.pushNotif
+				pushNotif: res.pushNotif !== null
 			})).catch(() => this.setState({
 				// Redirect to /login if user isn't logged in yet
 				loggedIn: false
@@ -239,6 +239,7 @@ class Profile extends React.Component {
 					<div>
 						<h2 className="mb-4 mt-5">Notification Settings</h2>
 						<Form.Check
+							id="pushNotif"
 							type="switch" // Custom Bootstrap type, see react-bootstrap.github.io/forms/checks-radios/
 							name="pushNotif"
 							checked={this.state.pushNotif}

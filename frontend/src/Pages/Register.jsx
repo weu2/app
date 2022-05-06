@@ -170,6 +170,7 @@ class Register extends React.Component {
 					</Form.Group>
 
 					{/* Force service professionals to provide a location */}
+					{/* Not really required anymore since live location tracking is used */}
 					{
 						this.state.userType === "PROFESSIONAL"
 						? <LocationInput className="mb-3" />
@@ -177,7 +178,7 @@ class Register extends React.Component {
 					}
 
 					{/* Include user type automatically */}
-					<Form.Control name="type" type="hidden" value={this.state.userType} />
+					<Form.Control name="type" type="hidden" required value={this.state.userType} />
 
 					{/* type="submit" automatically runs onSubmit, which runs this.submitForm */}
 					<LargeButton className="mb-3" variant="primary" type="submit" icon="arrow-right">

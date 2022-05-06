@@ -66,7 +66,7 @@ function createUser(email, firstName, lastName, address, phoneNumber, license, p
 				phoneNumber: phoneNumber,
 				license: license,
 				passwordHash: hash,
-				pushNotif: false,
+				pushNotif: null,
 				userDetail: {},
 				[type]: userData
 			});

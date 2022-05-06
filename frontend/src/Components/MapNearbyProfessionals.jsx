@@ -18,9 +18,13 @@ class MapNearbyProfessionals extends React.Component {
 
 	componentDidMount() {
 		backendGetNearbyProfessionals(this.props.uuid)
-			.then(res => this.setState({
-				nearby: res
-			}));
+			.then(res => {
+				// Send data to parent class
+				if (this.props.ondata) {
+					this.props.ondata(res);
+				}
+				this.setState({ nearby: res });
+			});
 	}
 
 	render() {
@@ -40,7 +44,11 @@ class MapNearbyProfessionals extends React.Component {
 				{ // Place a marker on each service professional
 					this.state.nearby.map((pro, index) =>
 						<CustomMarker icon="mechanic" position={pro.position} key={index}>
-							<Tooltip direction="top">{pro.name}</Tooltip>
+							<Tooltip direction="top" className="text-center">
+								{pro.name}
+								<br/>
+								{pro.distance.toFixed(3)} km away
+							</Tooltip>
 						</CustomMarker>
 					)
 				}

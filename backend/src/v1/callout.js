@@ -5,6 +5,7 @@ const multer = require('multer');
 const auth = require('./auth');
 const JsonDB = require('../common/jsondb');
 const apiValidator = require('../common/apiValidator');
+const geolocation = require('../common/geolocation');
 
 const upload = multer();
 const router = express.Router();
@@ -18,12 +19,7 @@ router.use((req, res, next) => {
 	}
 });
 
-function getDistance(latitude1, longitude1, latitude2, longitude2) {
-	const dLat = latitude1 - latitude2;
-	const dLong = longitude1 - longitude2;
-	const degrees = Math.sqrt((dLat * dLat) + (dLong * dLong));
-	return degrees * 110.574; // this is the constant to turn lat and long degrees into kms
-}
+
 
 router.post('/create', upload.none(), (req, res) => {
 	
@@ -46,7 +42,6 @@ router.post('/create', upload.none(), (req, res) => {
 		uuid: calloutUuid, 
 		customer: userUuid,
 		assignedTo: null,
-		assignedName: null,
 		description: req.body.description,
 		dateTime: req.body.dateTime,
 		locationLat: req.body.locationLat,
@@ -78,13 +73,6 @@ router.post('/status', (req, res) => {
 		res.status(400).send();
 		return;
 	}
-	// validate user is associated with a callout
-	// commented this code because it rejects service professionals
-	/*const userUuid = auth.verifyClaim(req.cookies.claim);
-	if (callout.customer !== userUuid) {
-		res.status(400).send();
-		return;
-	}*/
 	res.status(200).send(callout);
 });
 
@@ -114,16 +102,17 @@ router.post('/nearby', (req, res) => {
 			const servProLat = parseFloat(user.PROFESSIONAL.locationLat);
 			const servProLong = parseFloat(user.PROFESSIONAL.locationLong);
 
-			const kms = getDistance(
+			const distance = geolocation.getDistance(
 				servProLat,
 				servProLong,
 				calloutLat,
 				calloutLong
 			);
-			if (kms <= 50.0) {
+			if (distance <= 50.0) {
 				returnList.push({
 					name: `${user.firstName} ${user.lastName}`,
-					position: [servProLat, servProLong]
+					position: [servProLat, servProLong],
+					distance: distance
 				});
 			}
 		});
@@ -154,7 +143,7 @@ router.post('/update', (req, res) => {
 					res.status(400).send();
 					return;
 				}
-				callouts.update({ uuid: req.body.calloutid }, { assignedTo: userUuid, assignedName: `${user.firstName} ${user.lastName}`, status: req.body.status });
+				callouts.update({ uuid: req.body.calloutid }, { assignedTo: userUuid, status: req.body.status });
 				break;
 			case "inprogress":
 				if (callout.status !== "accepted") {
@@ -193,7 +182,10 @@ router.get('/list', (req, res) => {
 		const user = users.find({ uuid: userUuid })[0]; // user uuid should be checked already so no need to check it again
 		const callout = calloutdb.find({ customer: userUuid }); // te
 		const filtered = callout.filter(co => co.status !== "finished");
-		res.status(200).send({ type: "CUSTOMER", callouts: filtered });	
+		res.status(200).send({
+			type: "CUSTOMER",
+			callouts: filtered
+		});	
 	} else if (user.PROFESSIONAL) {
 		const servProLat = parseFloat(user.PROFESSIONAL.locationLat);
 		const servProLong = parseFloat(user.PROFESSIONAL.locationLong);
@@ -222,14 +214,13 @@ router.get('/newcallouts', (req, res) => {
 		
 		const calloutdb = new JsonDB('data/callouts.json');
 		const callouts = calloutdb.find({ status: "new" }).filter(callout => {
-
-			const kms = getDistance(
+			const distance = geolocation.getDistance(
 				servProLat,
 				servProLong,
 				parseFloat(callout.locationLat),
 				parseFloat(callout.locationLong)
 			)
-			return (kms <= 50.0);
+			return distance <= 50.0;
         });
 		res.status(200).send({
 			type: "PROFESSIONAL",

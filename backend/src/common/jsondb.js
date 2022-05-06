@@ -2,40 +2,49 @@ const fs = require('fs');
 const path = require('path');
 // probably a terrible idea
 
+let dbCache = {};
+
+function getFile(filepath)
+{
+    if(!dbCache[filepath]) {
+        try {
+            const filecontent = fs.readFileSync(filepath); 
+            try {
+                dbCache[filepath] = JSON.parse(filecontent);
+            } catch(e) {
+                console.error(`${filepath} has incorrect formatting!`);
+                process.exit(1);
+            }
+        } catch(e) {
+            // make the folder just in case
+            fs.mkdir(path.dirname(filepath), { recursive: true }, (err) => {
+                if (err) throw err; // not sure why this would happen, no perms maybe unix moment
+            });
+            // if the file doesnt exist just make an empty array
+            dbCache[filepath] = [];
+        }
+    }
+    return dbCache[filepath];
+}
+
+function updateFile(filepath)
+{
+    fs.writeFile(filepath, JSON.stringify(dbCache[filepath], null, '\t'), (err) => {
+        if (err) {
+            console.error(`path ${filepath}, doesnt exist!`);
+        }
+    });
+}
+
 class JSONDB {
     constructor(filepath) {
         //super();
         this._filepath = filepath;
-        this._internal = this.initialLoad();
-    }
-
-    // sync load the json file
-    initialLoad() {
-        let filecontent;
-        try {
-            filecontent = fs.readFileSync(this._filepath);
-        } catch(e) {
-            // make the folder just in case
-            fs.mkdir(path.dirname(this._filepath), { recursive: true }, (err) => {
-                if (err) throw err; // not sure why this would happen, no perms maybe unix moment
-            });
-            // if the file doesnt exist just make an empty array
-            return []; 
-        }
-        try {
-            return JSON.parse(filecontent);
-        } catch(e) {
-            console.error(`${this._filepath} has incorrect formatting!`);
-            process.exit(1);
-        }
+        this._internal = getFile(filepath);
     }
 
     asyncUpdate() {
-        fs.writeFile(this._filepath, JSON.stringify(this._internal, null, '\t'), (err) => {
-            if (err) {
-                console.error(`path ${this._filepath}, doesnt exist!`);
-            }
-        });
+        updateFile(this._filepath);
     }
 
     find(key) {

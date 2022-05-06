@@ -44,7 +44,7 @@ class CalloutList extends React.Component {
 					callouts: res.callouts,
 				});
 				// Attempt to get location on page load, may not work before user interaction but worth a try
-				getLocation(navigator).then(pos => this.setState({
+				getLocation().then(pos => this.setState({
 					callouts: this.calculateDistances(res.callouts, pos)
 				}));
 			}).catch(() => this.setState({
@@ -58,7 +58,7 @@ class CalloutList extends React.Component {
 			case "closest":
 				this.state.callouts.sort((a, b) => a.distance - b.distance);
 				break;
-			case "furthest":
+			case "farthest":
 				this.state.callouts.sort((a, b) => b.distance - a.distance);
 				break;
 			case "oldest":
@@ -85,6 +85,17 @@ class CalloutList extends React.Component {
 		);
 	}
 
+	displayHelp() {
+		switch (this.state.userType) {
+			case "CUSTOMER":
+				return this.props.customerhelp;
+			case "PROFESSIONAL":
+				return this.props.professionalhelp;
+			default:
+				return "Loading user info...";
+		}
+	}
+
 	render() {
 		return (
 			// <Container> adds padding around the website content, makes it look nicer
@@ -106,8 +117,8 @@ class CalloutList extends React.Component {
 									<Form.Select onChange={e => this.setState({ sortBy: e.target.value })}>
 										{ // Professionals have distance sorting abilities
 											this.state.userType === "PROFESSIONAL" ? <>
-												<option value="closest">Closest to furthest</option>
-												<option value="furthest">Furthest to closest</option>
+												<option value="closest">Closest to farthest</option>
+												<option value="farthest">Farthest to closest</option>
 											</> : null
 										}
 										<option value="newest">Newest to oldest</option>
@@ -120,15 +131,10 @@ class CalloutList extends React.Component {
 					}
 				</Row>
 
-				{/* Display callouts if they exist */}
-				{
+				{ // Display callouts if they exist
 					this.state.callouts && this.state.callouts.length
 					? this.generateCallouts()
-					: (
-						this.state.userType === "CUSTOMER"
-						? this.props.customerhelp
-						: this.props.professionalhelp
-					)
+					: this.displayHelp()
 				}
 			</Container>
 		);

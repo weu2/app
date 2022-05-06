@@ -8,7 +8,7 @@ import Col from "react-bootstrap/Col";
 
 import MapNearbyProfessionals from "./MapNearbyProfessionals";
 import MapCalloutAndMe from "./MapCalloutAndMe";
-import CalloutImageInput from "./CalloutImageInput";
+import LocationLink from "./LocationLink";
 import LargeButton from "./LargeButton";
 
 // Card for rendering each callout along with basic details
@@ -31,7 +31,11 @@ class CalloutListed extends React.Component {
 									</tr>
 									<tr>
 										<th>Assigned To</th>
-										<td>{this.props.callout.assignedName ? this.props.callout.assignedName : "None"}</td>
+										<td>{
+											this.props.callout.assignedTo
+											? this.props.callout.assignedTo
+											: "None"
+										}</td>
 									</tr>
 									<tr>
 										<th>Number Plate</th>
@@ -42,14 +46,10 @@ class CalloutListed extends React.Component {
 										? <tr>
 											<th>Location</th>
 											<td>
-												<a
-													className="text-body"
-													href={`https://www.google.com/maps?q=${this.props.callout.locationLat},${this.props.callout.locationLong}`}
-													target="_blank"
-													rel="noopener noreferrer"
-												>
-													{this.props.callout.locationLat}, {this.props.callout.locationLong}
-												</a>
+												<LocationLink
+													latitude={this.props.callout.locationLat}
+													longitude={this.props.callout.locationLong}
+												/>
 											</td>
 										</tr>
 										: <tr>
@@ -64,13 +64,9 @@ class CalloutListed extends React.Component {
 									
 								</tbody>
 							</Table>
-							{
-								this.props.customer
-								? <CalloutImageInput callout={this.props.callout} />
-								: <Link to={`/callout/${this.props.callout.uuid}`}>
-									<LargeButton variant="primary" icon="arrow-right">More info</LargeButton>
-								</Link>
-							}
+							<Link to={`/callout/${this.props.callout.uuid}`}>
+								<LargeButton variant="primary" icon="arrow-right">More info</LargeButton>
+							</Link>
 						</Col>
 						<Col sm>
 							{

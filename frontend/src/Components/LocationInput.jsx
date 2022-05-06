@@ -19,19 +19,24 @@ class LocationInput extends React.Component {
 
 	componentDidMount() {
 		// Attempt to get location on page load, may not work before user interaction but worth a try
-		getLocation(navigator)
-			.then(pos => this.setState({ position: pos }));
+		getLocation().then(pos => this.setState({
+			position: pos
+		}));
 	}
 
 	setLatitude = (event) => {
 		this.setState(state => {
-			return { position: [event.target.value, state.position[1]] }
+			return {
+				position: [event.target.value, state.position[1]]
+			}
 		});
 	}
 
 	setLongitude = (event) => {
 		this.setState(state => {
-			return { position: [state.position[0], event.target.value] }
+			return {
+				position: [state.position[0], event.target.value]
+			}
 		});
 	}
 
