@@ -47,16 +47,9 @@ class RequestCallout extends React.Component {
 		// Prevent form submission from refreshing the page, since we send the data manually
 		event.preventDefault();
 
-		var validCard = this.refs.child.validateCardInfo();
-
 
 		const form = event.currentTarget;
 		if (form.checkValidity()) {
-
-			//check the card validity
-			if (!validCard){
-				return;
-			}
 
 			// Manually send form data to backend
 			backendCreateCallout(new FormData(form))
@@ -125,8 +118,6 @@ class RequestCallout extends React.Component {
 
 					{/* Include date automatically */}
 					<Form.Control name="dateTime" type="hidden" required value={Date.now()} />
-
-					<PaymentComponent ref="child"/>
 
 					{/* type="submit" automatically runs onSubmit, which runs this.submitForm */}
 					<LargeButton className="mb-3" variant="primary" type="submit" icon="arrow-right">

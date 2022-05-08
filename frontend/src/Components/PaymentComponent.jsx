@@ -2,6 +2,7 @@ import React from 'react'
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import LargeButton from "../Components/LargeButton";
+import { faRupiahSign } from '@fortawesome/free-solid-svg-icons';
 
 class PaymentComponent extends React.Component {
     
@@ -14,9 +15,20 @@ class PaymentComponent extends React.Component {
             cardName: null,
             cardExpire: null,
             cvc: null
-
 		};
 	}
+
+    //add this to parent page 		<PaymentComponent ref="child"/>  to allow acessing validateCardInfo from parent
+
+    /*Use var validCard = this.refs.child.validateCardInfo();
+        &
+        //check the card validity
+			if (!validCard){
+				return;
+			}
+
+        to check card validity from parent page
+    */
 
     validateCardInfo(){
 
@@ -56,8 +68,8 @@ class PaymentComponent extends React.Component {
 
         return true;
     }
-    
 
+ 
   render(){return (
     <Container>
 
@@ -69,7 +81,6 @@ class PaymentComponent extends React.Component {
                     <Form.Control
 							name="cardNumber"
 							type="number" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
-							autoComplete="cardNumber" // autocomplete is not essential, but for suggested values check developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
 							required
                             onChange={e => this.setState({ cardNumber: e.target.value })}
 						/>
@@ -84,7 +95,6 @@ class PaymentComponent extends React.Component {
                     <Form.Control
 							name="cardName"
 							type="text" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
-							autoComplete="cardName" // autocomplete is not essential, but for suggested values check developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
 							required
                             onChange={e => this.setState({ cardName: e.target.value })}
 						/>
@@ -99,7 +109,6 @@ class PaymentComponent extends React.Component {
                     <Form.Control
 							name="expireDate"
 							type="month" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
-							autoComplete="expireDate" // autocomplete is not essential, but for suggested values check developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
 							required
                             onChange={e => this.setState({ cardExpire: e.target.value })}
 						/>
@@ -114,7 +123,6 @@ class PaymentComponent extends React.Component {
                     <Form.Control
 							name="cvc"
 							type="password" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
-							autoComplete="cvc" // autocomplete is not essential, but for suggested values check developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
 							required
                             onChange={e => this.setState({ cvc: e.target.value })}
 						/>
