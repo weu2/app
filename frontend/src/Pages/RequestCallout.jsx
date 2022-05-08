@@ -12,6 +12,8 @@ import Form from "react-bootstrap/Form";
 import LargeButton from "../Components/LargeButton";
 import LocationInput from "../Components/LocationInput";
 
+import PaymentComponent from "../Components/PaymentComponent";
+
 // api.jsx contains utility functions for getting or sending data from the frontend to the backend
 // For example, sending form data or getting user info
 import { backendGetUserInfo, backendCreateCallout } from "../api.jsx";
@@ -26,6 +28,8 @@ class RequestCallout extends React.Component {
 			error: null, // Display failure message if an error occurs
 			submitted: false // Redirects to /dashboard
 		};
+
+		
 	}
 
 	componentDidMount() {
@@ -38,13 +42,22 @@ class RequestCallout extends React.Component {
 				loggedIn: false
 			}));
 	}
-
+	
 	submitForm = (event) => {
 		// Prevent form submission from refreshing the page, since we send the data manually
 		event.preventDefault();
 
+		var validCard = this.refs.child.validateCardInfo();
+
+
 		const form = event.currentTarget;
 		if (form.checkValidity()) {
+
+			//check the card validity
+			if (!validCard){
+				return;
+			}
+
 			// Manually send form data to backend
 			backendCreateCallout(new FormData(form))
 				.then(() => this.setState({
@@ -112,6 +125,8 @@ class RequestCallout extends React.Component {
 
 					{/* Include date automatically */}
 					<Form.Control name="dateTime" type="hidden" required value={Date.now()} />
+
+					<PaymentComponent ref="child"/>
 
 					{/* type="submit" automatically runs onSubmit, which runs this.submitForm */}
 					<LargeButton className="mb-3" variant="primary" type="submit" icon="arrow-right">
