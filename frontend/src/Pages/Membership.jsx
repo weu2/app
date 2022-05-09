@@ -10,17 +10,21 @@ import PaymentComponent from '../Components/PaymentComponent';
 
 import Form from "react-bootstrap/Form";
 
+import { backendGetUserInfo } from "../api.jsx";
+
 class Membership extends React.Component {
 
     constructor(props) {
 		super(props);
 		this.state = {
+            userInfo: null,
 			activeMember: false,
-            memberNumber: null,
+            memberEmail: null,
             renewalDate: null
 		};
 	}
 
+   
     /*Kalebs Plan
         create ui thats rendered for current members, which is just the member status, number and renewal date
         
@@ -30,7 +34,8 @@ class Membership extends React.Component {
 
     renewMembership(){
 
-        console.log("YO HO A BOTTLE OF RUM FOR ME!")
+
+        console.log("YO HO A BOTTLE OF RUM FOR ME!");
     }
 
 
