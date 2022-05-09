@@ -21,6 +21,7 @@ import LocationTracker from "./Components/LocationTracker";
 
 // Ensure React Leaflet maps work on all pages
 import "leaflet/dist/leaflet.css";
+import Membership from "./Pages/Membership";
 
 render(
 	<React.StrictMode>
@@ -36,6 +37,7 @@ render(
 				<Route path="findcallouts" element={<FindCallouts />} />
 				<Route path="requestcallout" element={<RequestCallout />} />
 				<Route path="callout/:id" element={<CalloutDetails />} />
+				<Route path="membership" element={<Membership />} />
 				<Route path="*" element={<NoPage />} />
 			</Routes>
 		</BrowserRouter>
