@@ -110,7 +110,7 @@ class CalloutList extends React.Component {
 					</Col>
 					{
 						(this.state.callouts && this.state.callouts.length)
-						&& <Col sm>
+						? <Col sm>
 							<Form.Group as={Row} controlId="formSort">
 								<Form.Label column sm={2}>Sort by</Form.Label>
 								<Col>
@@ -128,6 +128,7 @@ class CalloutList extends React.Component {
 								</Col>
 							</Form.Group>
 						</Col>
+						: null
 					}
 				</Row>
 

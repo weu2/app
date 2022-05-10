@@ -32,8 +32,8 @@ router.post('/login', upload.none(), (req, res) => {
 
 router.post('/register', upload.none(), (req, res) => {
 
-	const isLongLatRequired = req.body.type === "PROFESSIONAL";
-	console.log(isLongLatRequired);
+	const isLocationRequired = req.body.type === "PROFESSIONAL";
+
 	if(!apiValidator.validate(req, {
 		email: {type:"string", required:true},
 		firstName: {type:"string", required:true},
@@ -43,8 +43,8 @@ router.post('/register', upload.none(), (req, res) => {
 		license: {type:"string", required:true},
 		password: {type:"string", required:true},
 		type: {type:"string", required:true},
-		locationLat: {type:"string", required:isLongLatRequired},
-		locationLong: {type:"string", required:isLongLatRequired}
+		locationLat: {type:"string", required:isLocationRequired},
+		locationLong: {type:"string", required:isLocationRequired}
 	})) {
 		res.status(400).send('Missing API parameters');
 		return;
@@ -58,7 +58,7 @@ router.post('/register', upload.none(), (req, res) => {
 		req.body.license, 
 		req.body.password, 
 		req.body.type,
-		isLongLatRequired ? 
+		isLocationRequired ? 
 		{
 			locationLat: req.body.locationLat,
 			locationLong: req.body.locationLong

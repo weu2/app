@@ -236,7 +236,7 @@ class Profile extends React.Component {
 				</div>
 				{
 					('Notification' in window && navigator.serviceWorker)
-					&& <div>
+					? <div>
 						<h2 className="mb-4 mt-5">Notification Settings</h2>
 						<Form.Check
 							id="pushNotif"
@@ -247,6 +247,7 @@ class Profile extends React.Component {
 							onChange={this.updateNotifs}
 						/>
 					</div>
+					: null
 				}
 			</Container>
 		);

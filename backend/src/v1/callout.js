@@ -92,6 +92,11 @@ router.post('/nearby', (req, res) => {
 		
 		const callouts = new JsonDB('data/callouts.json');
 		const callout = callouts.find({ uuid: req.body.calloutid })[0];
+		// check there is a callout
+		if (!callout) {
+			res.status(400).send();
+			return;
+		}
 		const calloutLat = parseFloat(callout.locationLat);
 		const calloutLong = parseFloat(callout.locationLong);
 
@@ -136,7 +141,11 @@ router.post('/update', (req, res) => {
 	if (user.PROFESSIONAL) {
 		const callouts = new JsonDB('data/callouts.json');
 		const callout = callouts.find({ uuid: req.body.calloutid })[0];
-
+		// check there is a callout
+		if (!callout) {
+			res.status(400).send();
+			return;
+		}
 		switch (req.body.status) {
 			case "accepted":
 				if (callout.status !== "new") {
@@ -191,7 +200,7 @@ router.get('/list', (req, res) => {
 		const servProLong = parseFloat(user.PROFESSIONAL.locationLong);
 		
 		const calloutdb = new JsonDB('data/callouts.json');
-		const callouts = calloutdb.find({ status: {has:["inprogress","accepted"]},  assignedTo: userUuid  });
+		const callouts = calloutdb.find({ status: {has:["inprogress","accepted"]}, assignedTo: userUuid });
 		res.status(200).send({
 			type: "PROFESSIONAL",
 			callouts: callouts,
@@ -200,6 +209,32 @@ router.get('/list', (req, res) => {
 	} else {
 		res.status(401).send();
 	}
+});
+
+router.post('/assignee', (req, res) => {
+
+	if (!apiValidator.validate(req, {
+		calloutid: {type:"string", required:true}
+	})) {
+		res.status(400).send('Missing API parameters');
+		return;
+	}
+
+	const callouts = new JsonDB('data/callouts.json');
+	const callout = callouts.find({ uuid: req.body.calloutid })[0];
+	// check there is a callout and it is assigned
+	if (!callout || !callout.assignedTo) {
+		res.status(400).send();
+		return;
+	}
+	const users = new JsonDB('data/users.json');
+	const user = users.find({ uuid: callout.assignedTo })[0];
+	// check user is valid
+	if (!user) {
+		res.status(400).send();
+		return;
+	}
+	res.status(200).send({ name: `${user.firstName} ${user.lastName}` });
 });
 
 router.get('/newcallouts', (req, res) => {
@@ -245,8 +280,8 @@ router.post('/uploadimage', image.upload.single('image'), (req, res) => {
 		const calloutid = req.body.calloutid;
 		const callouts = new JsonDB('data/callouts.json');
 		const userUuid = auth.verifyClaim(req.cookies.claim);
-		const filtered = callouts.find({ customer: userUuid, uuid: calloutid })[0];
-		if (!filtered) {
+		const callout = callouts.find({ customer: userUuid, uuid: calloutid })[0];
+		if (!callout) {
 			res.status(400).send();
 			return;
 		}
