@@ -1,72 +1,52 @@
-import React from 'react'
+import React from "react";
 
 // <Container> adds padding to the sides of the page content, makes it look nicer
 import Container from "react-bootstrap/Container";
+import MembershipForm from "../Components/MembershipForm";
 
-// <LargeButton> is a subclass of React Bootstrap's <Button> with an icon added to the right side
-import LargeButton from "../Components/LargeButton";
-
-import PaymentComponent from '../Components/PaymentComponent';
-
-import Form from "react-bootstrap/Form";
-
+// api.jsx contains utility functions for getting or sending data from the frontend to the backend
+// For example, sending form data or getting user info
 import { backendGetUserInfo } from "../api.jsx";
 
 class Membership extends React.Component {
 
-    constructor(props) {
+	constructor(props) {
 		super(props);
 		this.state = {
-            userInfo: null,
-			activeMember: false,
-            memberEmail: null,
-            renewalDate: null
+			isMember: true,
+			activeMember: false
 		};
 	}
 
-   
-    /*Kalebs Plan
-        create ui thats rendered for current members, which is just the member status, number and renewal date
-        
-        create ui that renders for a non-active member which includes the payment component
-
-    */
-
-    renewMembership(){
-
-
-        console.log("YO HO A BOTTLE OF RUM FOR ME!");
-    }
-
-
-render(){
-  return (
-    <div>
-      <Container>
-            <h2>Membership</h2>
-            
-            {/*Common elements */}
-
-            <h5>Member Number: {this.state.memberNumber}</h5>
-
-            <h5>Membership Status: {this.state.activeMember === true ? <>Active</> : <>Inactive</>}</h5>
-            
-            <br />
-
-            {/* For active members */}
-
-            {this.state.activeMember === true ? <h5>Membership Renewal Date: {this.state.renewalDate} </h5> : null}
-
-
-            {/* for non active members */}
-            {this.state.activeMember === false ? <PaymentComponent /> : null}
-            {this.state.activeMember === false ? <LargeButton className="mb-3" variant="primary" type="submit" icon="arrow-right" onClick={this.renewMembership}>
-						                                Renew Membership
-					                             </LargeButton> : null}
-
-     </Container>
-    </div>
-  )}
+	render() {
+		return (
+			<Container>
+				<h2 className="mb-4">Membership</h2>
+				{
+					this.state.isMember
+					? <>
+						<h5>Member Number: {this.state.memberNumber}</h5>
+						<h5>Membership Status: {this.state.activeMember ? "Active" : "Inactive"}</h5>
+						{
+							this.state.activeMember
+							// For active members, display the renewal date
+							? <h5>Membership Renewal Date: {this.state.renewalDate}</h5>
+							// For non-active members, request new card information
+							: <>
+								<p>Please renew your membership below.</p>
+								<MembershipForm label="Renew Membership" />
+							</>
+						}
+					</>
+					: <>
+						<p>You do not currently have a membership with WeU.</p>
+						<p className="mb-4">To become a member, please fill in the details below.</p>
+						<MembershipForm label="Activate Membership" />
+					</>
+				}
+			</Container>
+		);
+	}
 }
 
-export default Membership
+export default Membership;

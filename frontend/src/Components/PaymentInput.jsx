@@ -4,21 +4,13 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
+// This class validates itself when placed within a <Form> element due to min and max
+ // FormData(form) is used to retrieve data within the form, including this class
 class PaymentInput extends React.Component {
-	
-	constructor(props) {
-		super(props);
-		this.state = {
-			price: 150
-		};
-	}
- 
- 	// This class validates itself when placed within a <Form> element due to min and max
- 	// FormData(form) is used to retrieve all data within the form, including this class
+
 	render() {
 		return (
 			<div {...this.props}>
-				<h5 className="mb-4">Price: ${this.state.price.toFixed(2)}</h5>
 				<Form.Group className="mb-3" controlId="cardNumber">
 					<Form.Label>Card Number</Form.Label>
 					<Form.Control
