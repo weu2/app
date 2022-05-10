@@ -58,10 +58,10 @@ class Register extends React.Component {
 				<h2 className="mb-4">Register</h2>
 
 				{/* Redirect to /login once the user submits */}
-				{this.state.submitted ? <Navigate to="/login"/> : null}
+				{this.state.submitted && <Navigate to="/login"/>}
 
 				{/* Display an error message if required */}
-				{this.state.error ? <Alert variant="danger">{this.state.error}</Alert> : null}
+				{this.state.error && <Alert variant="danger">{this.state.error}</Alert>}
 
 				{this.state.userType
 
@@ -171,11 +171,7 @@ class Register extends React.Component {
 
 					{/* Force service professionals to provide a location */}
 					{/* Not really required anymore since live location tracking is used */}
-					{
-						this.state.userType === "PROFESSIONAL"
-						? <LocationInput className="mb-3" />
-						: null
-					}
+					{this.state.userType === "PROFESSIONAL" && <LocationInput className="mb-3" />}
 
 					{/* Include user type automatically */}
 					<Form.Control name="type" type="hidden" required value={this.state.userType} />
