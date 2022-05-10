@@ -115,13 +115,13 @@ class Profile extends React.Component {
 					<h2 className="mb-4">My Profile</h2>
 
 					{/* Redirect to /login if the user is not logged in yet */}
-					{this.state.loggedIn ? null : <Navigate to="/login"/>}
+					{!this.state.loggedIn && <Navigate to="/login"/>}
 
 					{/* Show alert to indicate their account was updated */}
-					{this.state.updated ? <Alert variant="success">Updated your profile!</Alert> : null}
+					{this.state.updated && <Alert variant="success">Updated your profile!</Alert>}
 
 					{/* Display an error message if required */}
-					{this.state.error ? <Alert variant="danger">{this.state.error}</Alert> : null}
+					{this.state.error && <Alert variant="danger">{this.state.error}</Alert>}
 
 					{/* Show account type for debugging purposes */}
 					<p>Type: {this.state.type}</p>
@@ -230,13 +230,13 @@ class Profile extends React.Component {
 
 						{ // type="submit" automatically runs onSubmit, which runs this.submitForm
 							this.state.changedForm
-							? <Button variant="primary" type="submit">Update</Button>
-							: null
+							&& <Button variant="primary" type="submit">Update</Button>
 						}
 					</Form>
 				</div>
-				{'Notification' in window && navigator.serviceWorker ?
-					<div>
+				{
+					('Notification' in window && navigator.serviceWorker)
+					&& <div>
 						<h2 className="mb-4 mt-5">Notification Settings</h2>
 						<Form.Check
 							id="pushNotif"
@@ -247,7 +247,7 @@ class Profile extends React.Component {
 							onChange={this.updateNotifs}
 						/>
 					</div>
-				: null}
+				}
 			</Container>
 		);
 	}

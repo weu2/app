@@ -71,14 +71,12 @@ class NavigationBar extends React.Component {
 								? <>
 									<Nav.Link as={NavLink} to="/dashboard">Dashboard</Nav.Link>
 									{
-										this.state.userInfo && this.state.userInfo.CUSTOMER
-										? <Nav.Link as={NavLink} to="/requestcallout">Request Callout</Nav.Link>
-										: null
+										(this.state.userInfo && this.state.userInfo.CUSTOMER)
+										&& <Nav.Link as={NavLink} to="/requestcallout">Request Callout</Nav.Link>
 									}
 									{
-										this.state.userInfo && this.state.userInfo.PROFESSIONAL
-										? <Nav.Link as={NavLink} to="/findcallouts">Find Callouts</Nav.Link>
-										: null
+										(this.state.userInfo && this.state.userInfo.PROFESSIONAL)
+										&& <Nav.Link as={NavLink} to="/findcallouts">Find Callouts</Nav.Link>
 									}
 								</>
 								: <>
@@ -89,14 +87,13 @@ class NavigationBar extends React.Component {
 						</Nav>
 						{
 							this.state.loggedIn
-							? <Nav>
+							&& <Nav>
 								<NavDropdown title={<FontAwesomeIcon icon={faCircleUser} size="2x" />}>
 									<NavDropdown.Item as={Link} to="/profile">My Profile</NavDropdown.Item>
 									<NavDropdown.Divider/>
 									<NavDropdown.Item as={Link} to="/login" onClick={this.signOut}>Sign Out</NavDropdown.Item>
 								</NavDropdown>
 							</Nav>
-							: null
 						}
 					</Navbar.Collapse>
 				</Container>

@@ -75,7 +75,7 @@ class CalloutImageInput extends React.Component {
 				<Form.Control name="calloutid" type="hidden" value={this.props.callout.uuid} />
 
 				{/* Display an error message if required */}
-				{this.state.error ? <Alert variant="danger">{this.state.error}</Alert> : null}
+				{this.state.error && <Alert variant="danger">{this.state.error}</Alert>}
 			</Form>
 		);
 	}
