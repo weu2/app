@@ -19,7 +19,7 @@ import { getLocation, getDistance } from "../Components/LocationTracker";
 
 // api.jsx contains utility functions for getting or sending data from the frontend to the backend
 // For example, sending form data or getting user info
-import { backendGetCallout, backendUpdateCallout, backendGetUserInfo } from "../api.jsx";
+import { backendGetCallout, backendUpdateCallout, backendGetUserInfo, backendGetCalloutAssignee } from "../api.jsx";
 
 class CalloutDetails extends React.Component {
 
@@ -31,10 +31,11 @@ class CalloutDetails extends React.Component {
 			error: null, // Error message to display if required
 			callout: null, // Callout JSON data, may not trigger page update
 			status: null, // Status of the callout, e.g. "NEW", "INPROGRESS", "FINISHED"
-			assignedTo: null, // Assigned service professional name, triggers page update
+			assigneeName: "None", // Assigned service professional name
 			distance: null, // Distance to callout in kilometers
 			loggedIn: true, // Assume user can view page to avoid redirecting early
 			userType: null, // CUSTOMER or PROFESSIONAL
+			userName: "You", // Name to display to service professionals
 			nearby: null // Array of nearby service professionals
 		};
 	}
@@ -43,7 +44,8 @@ class CalloutDetails extends React.Component {
 
 		backendGetUserInfo()
 			.then(res => this.setState({
-				userType: res.type
+				userType: res.type,
+				userName: `${res.firstName} ${res.lastName}`
 			})).catch(() => this.setState({
 				// Redirect to /login if user isn't logged in yet
 				loggedIn: false
@@ -53,7 +55,6 @@ class CalloutDetails extends React.Component {
 			.then(res => {
 				this.setState({
 					status: res.status,
-					assignedTo: res.assignedTo,
 					callout: res
 				});
 
@@ -69,13 +70,18 @@ class CalloutDetails extends React.Component {
 			}).catch(res => this.setState({
 				error: `Error: ${res.status} (${res.statusText})`
 			}));
+
+		backendGetCalloutAssignee(this.state.id)
+			.then(res => this.setState({
+				assigneeName: res.name
+			}));
 	}
 
 	updateCallout = (status) => {
 		backendUpdateCallout(this.state.id, status)
 			.then(callout => this.setState({
 				status: status,
-				assignedTo: callout.assignedTo
+				assigneeName: this.state.userName
 			})).catch(res => this.setState({
 				error: `Error: ${res.status} (${res.statusText})`
 			}));
@@ -192,11 +198,7 @@ class CalloutDetails extends React.Component {
 							</tr>
 							<tr>
 								<th>Assigned To</th>
-								<td>{
-									this.state.assignedTo
-									? this.state.assignedTo
-									: "None"
-								}</td>
+								<td>{this.state.assigneeName}</td>
 							</tr>
 							<tr>
 								<th>Number Plate</th>
@@ -208,7 +210,7 @@ class CalloutDetails extends React.Component {
 							</tr>
 							{
 								(this.state.callout.images && this.state.callout.images.length)
-								&& <tr>
+								? <tr>
 									<td colSpan={2}>
 										{this.state.callout.images.map((image, index) =>
 											<Image
@@ -220,6 +222,7 @@ class CalloutDetails extends React.Component {
 										)}
 									</td>
 								</tr>
+								: null
 							}
 						</tbody>
 					</Table>

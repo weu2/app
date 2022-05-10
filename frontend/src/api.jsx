@@ -119,6 +119,19 @@ export function backendGetCallout(calloutId) {
 	}).then(res => res.json());
 }
 
+// Gets the name of the person assigned to a callout
+export function backendGetCalloutAssignee(calloutId) {
+	return fetchStrict("/api/v1/callout/assignee", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify({
+			calloutid: calloutId
+		})
+	}).then(res => res.json());
+}
+
 // Changes the status of a callout
 export function backendUpdateCallout(calloutId, status) {
 	return fetchStrict("/api/v1/callout/update", {

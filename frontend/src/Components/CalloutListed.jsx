@@ -11,8 +11,29 @@ import MapCalloutAndMe from "./MapCalloutAndMe";
 import LocationLink from "./LocationLink";
 import LargeButton from "./LargeButton";
 
+// api.jsx contains utility functions for getting or sending data from the frontend to the backend
+// For example, sending form data or getting user info
+import { backendGetCalloutAssignee } from "../api.jsx";
+
 // Card for rendering each callout along with basic details
 class CalloutListed extends React.Component {
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			assigneeName: "None" // Assigned service professional name
+		};
+	}
+
+	componentDidMount() {
+		// Try to get name of assigned service professional
+		if (this.props.callout.assignedTo) {
+			backendGetCalloutAssignee(this.props.callout.uuid)
+				.then(res => this.setState({
+					assigneeName: res.name
+				}));
+		}
+	}
 
 	render() {
 		return (
@@ -31,11 +52,7 @@ class CalloutListed extends React.Component {
 									</tr>
 									<tr>
 										<th>Assigned To</th>
-										<td>{
-											this.props.callout.assignedTo
-											? this.props.callout.assignedTo
-											: "None"
-										}</td>
+										<td>{this.state.assigneeName}</td>
 									</tr>
 									<tr>
 										<th>Number Plate</th>
