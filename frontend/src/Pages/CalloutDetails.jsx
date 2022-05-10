@@ -143,10 +143,10 @@ class CalloutDetails extends React.Component {
 		return (
 			<Container>
 				{/* Show error message if required */}
-				{this.state.error ? <Alert variant="danger">{this.state.error}</Alert> : null}
+				{this.state.error && <Alert variant="danger">{this.state.error}</Alert>}
 
 				{/* Redirect to /login if the user cannot view this page */}
-				{this.state.loggedIn ? null : <Navigate to="/login"/>}
+				{!this.state.loggedIn && <Navigate to="/login"/>}
 
 				{this.state.callout ?
 				<>
@@ -177,7 +177,7 @@ class CalloutDetails extends React.Component {
 							</tr>
 							{
 								this.state.userType === "PROFESSIONAL"
-								? <tr>
+								&& <tr>
 									<th>Distance</th>
 									<td>{
 										this.state.distance === null
@@ -185,7 +185,6 @@ class CalloutDetails extends React.Component {
 										: `${this.state.distance.toFixed(3)} km`
 									}</td>
 								</tr>
-								: null
 							}
 							<tr>
 								<th>Status</th>
@@ -208,8 +207,8 @@ class CalloutDetails extends React.Component {
 								<td>{this.state.callout.description}</td>
 							</tr>
 							{
-								this.state.callout.images && this.state.callout.images.length
-								? <tr>
+								(this.state.callout.images && this.state.callout.images.length)
+								&& <tr>
 									<td colSpan={2}>
 										{this.state.callout.images.map((image, index) =>
 											<Image
@@ -221,18 +220,13 @@ class CalloutDetails extends React.Component {
 										)}
 									</td>
 								</tr>
-								: null
 							}
 						</tbody>
 					</Table>
-					{
-						this.state.userType === "PROFESSIONAL"
-						? this.drawCalloutButtons()
-						: null
-					}
+					{this.state.userType === "PROFESSIONAL" && this.drawCalloutButtons()}
 					{
 						this.state.nearby
-						? <>
+						&& <>
 							<h4 className="mt-4 mb-3">Nearby Professionals</h4>
 							<Table striped bordered hover>
 								<thead>
@@ -257,7 +251,7 @@ class CalloutDetails extends React.Component {
 									)
 								}</tbody>
 							</Table>
-						</> : null
+						</>
 					}
 				</>
 				: <Alert variant="info">Loading callout details...</Alert>}

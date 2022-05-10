@@ -58,10 +58,10 @@ class Login extends React.Component {
 				<h2 className="mb-4">Login</h2>
 
 				{/* Redirect to /dashboard once the user has logged in */}
-				{this.state.loggedIn ? <Navigate to="/dashboard"/> : null}
+				{this.state.loggedIn && <Navigate to="/dashboard"/>}
 
 				{/* Display an error message if required */}
-				{this.state.error ? <Alert variant="danger">{this.state.error}</Alert> : null}
+				{this.state.error && <Alert variant="danger">{this.state.error}</Alert>}
 
 				{/* Form validation and submission is done manually, see react-bootstrap.github.io/forms/validation/ */}
 				<Form noValidate validated={this.state.validated} onSubmit={this.submitForm}>

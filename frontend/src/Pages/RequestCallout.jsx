@@ -11,8 +11,7 @@ import Form from "react-bootstrap/Form";
 // <LargeButton> is a subclass of React Bootstrap's <Button> with an icon added to the right side
 import LargeButton from "../Components/LargeButton";
 import LocationInput from "../Components/LocationInput";
-
-import PaymentComponent from "../Components/PaymentComponent";
+import PaymentInput from "../Components/PaymentInput";
 
 // api.jsx contains utility functions for getting or sending data from the frontend to the backend
 // For example, sending form data or getting user info
@@ -28,8 +27,6 @@ class RequestCallout extends React.Component {
 			error: null, // Display failure message if an error occurs
 			submitted: false // Redirects to /dashboard
 		};
-
-		
 	}
 
 	componentDidMount() {
@@ -42,15 +39,13 @@ class RequestCallout extends React.Component {
 				loggedIn: false
 			}));
 	}
-	
+
 	submitForm = (event) => {
 		// Prevent form submission from refreshing the page, since we send the data manually
 		event.preventDefault();
 
-
 		const form = event.currentTarget;
 		if (form.checkValidity()) {
-
 			// Manually send form data to backend
 			backendCreateCallout(new FormData(form))
 				.then(() => this.setState({
@@ -73,13 +68,13 @@ class RequestCallout extends React.Component {
 				<h2 className="mb-4">Request Callout</h2>
 
 				{/* Redirect to /login if the user cannot view this page */}
-				{this.state.loggedIn ? null : <Navigate to="/login"/>}
+				{!this.state.loggedIn && <Navigate to="/login"/>}
 
 				{/* Redirect to /dashboard after form submission */}
-				{this.state.submitted ? <Navigate to="/dashboard"/> : null}
+				{this.state.submitted && <Navigate to="/dashboard"/>}
 
 				{/* Display an error message if required */}
-				{this.state.error ? <Alert variant="danger">{this.state.error}</Alert> : null}
+				{this.state.error && <Alert variant="danger">{this.state.error}</Alert>}
 
 				{/* Form validation and submission is done manually, see react-bootstrap.github.io/forms/validation/ */}
 				<Form noValidate validated={this.state.validated} onSubmit={this.submitForm}>
@@ -118,6 +113,8 @@ class RequestCallout extends React.Component {
 
 					{/* Include date automatically */}
 					<Form.Control name="dateTime" type="hidden" required value={Date.now()} />
+
+					<PaymentInput className="mb-2" />
 
 					{/* type="submit" automatically runs onSubmit, which runs this.submitForm */}
 					<LargeButton className="mb-3" variant="primary" type="submit" icon="arrow-right">

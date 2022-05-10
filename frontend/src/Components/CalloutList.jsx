@@ -101,7 +101,7 @@ class CalloutList extends React.Component {
 			// <Container> adds padding around the website content, makes it look nicer
 			<Container>
 				{/* Redirect to /login if the user is not logged in yet */}
-				{this.state.loggedIn ? null : <Navigate to="/login"/>}
+				{!this.state.loggedIn && <Navigate to="/login"/>}
 
 				{/* "mb-3" is a Bootstrap CSS class for setting margin-bottom, see getbootstrap.com/docs/5.1/utilities/spacing/ */}
 				<Row className="mb-3">
@@ -109,17 +109,18 @@ class CalloutList extends React.Component {
 						<h2>{this.props.title}</h2>
 					</Col>
 					{
-						this.state.callouts && this.state.callouts.length
-						? <Col sm>
+						(this.state.callouts && this.state.callouts.length)
+						&& <Col sm>
 							<Form.Group as={Row} controlId="formSort">
 								<Form.Label column sm={2}>Sort by</Form.Label>
 								<Col>
 									<Form.Select onChange={e => this.setState({ sortBy: e.target.value })}>
 										{ // Professionals have distance sorting abilities
-											this.state.userType === "PROFESSIONAL" ? <>
+											this.state.userType === "PROFESSIONAL"
+											&& <>
 												<option value="closest">Closest to farthest</option>
 												<option value="farthest">Farthest to closest</option>
-											</> : null
+											</>
 										}
 										<option value="newest">Newest to oldest</option>
 										<option value="oldest">Oldest to newest</option>
@@ -127,7 +128,6 @@ class CalloutList extends React.Component {
 								</Col>
 							</Form.Group>
 						</Col>
-						: null
 					}
 				</Row>
 
