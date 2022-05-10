@@ -14,6 +14,7 @@ import Profile from "./Pages/Profile";
 import RequestCallout from "./Pages/RequestCallout";
 import CalloutDetails from "./Pages/CalloutDetails";
 import FindCallouts from "./Pages/FindCallouts";
+import Membership from "./Pages/Membership";
 import NoPage from "./Pages/404";
 
 import NavigationBar from "./Components/NavigationBar";
@@ -21,7 +22,6 @@ import LocationTracker from "./Components/LocationTracker";
 
 // Ensure React Leaflet maps work on all pages
 import "leaflet/dist/leaflet.css";
-import Membership from "./Pages/Membership";
 
 render(
 	<React.StrictMode>
@@ -36,8 +36,8 @@ render(
 				<Route path="profile" element={<Profile />} />
 				<Route path="findcallouts" element={<FindCallouts />} />
 				<Route path="requestcallout" element={<RequestCallout />} />
-				<Route path="callout/:id" element={<CalloutDetails />} />
 				<Route path="membership" element={<Membership />} />
+				<Route path="callout/:id" element={<CalloutDetails />} />
 				<Route path="*" element={<NoPage />} />
 			</Routes>
 		</BrowserRouter>
