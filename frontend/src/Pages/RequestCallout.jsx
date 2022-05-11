@@ -11,7 +11,6 @@ import Form from "react-bootstrap/Form";
 // <LargeButton> is a subclass of React Bootstrap's <Button> with an icon added to the right side
 import LargeButton from "../Components/LargeButton";
 import LocationInput from "../Components/LocationInput";
-import PaymentInput from "../Components/PaymentInput";
 
 // api.jsx contains utility functions for getting or sending data from the frontend to the backend
 // For example, sending form data or getting user info
