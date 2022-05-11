@@ -101,7 +101,7 @@ export function backendGetNearbyProfessionals(calloutId) {
 			"Content-Type": "application/json"
 		},
 		body: JSON.stringify({
-			calloutid: calloutId
+			calloutId: calloutId
 		})
 	}).then(res => res.json());
 }
@@ -114,7 +114,7 @@ export function backendGetCallout(calloutId) {
 			"Content-Type": "application/json"
 		},
 		body: JSON.stringify({
-			calloutid: calloutId
+			calloutId: calloutId
 		})
 	}).then(res => res.json());
 }
@@ -127,7 +127,7 @@ export function backendGetCalloutAssignee(calloutId) {
 			"Content-Type": "application/json"
 		},
 		body: JSON.stringify({
-			calloutid: calloutId
+			calloutId: calloutId
 		})
 	}).then(res => res.json());
 }
@@ -140,9 +140,17 @@ export function backendUpdateCallout(calloutId, status, price) {
 			"Content-Type": "application/json"
 		},
 		body: JSON.stringify({
-			calloutid: calloutId,
+			calloutId: calloutId,
 			status: status,
 			price: price // optional
 		})
 	}).then(res => res.json());
+}
+
+// Sends payment details to the backend
+export function backendPayOnDemand(formData) {
+	return fetchStrict("/api/v1/callout/pay", {
+		method: "POST",
+		body: formData
+	});
 }

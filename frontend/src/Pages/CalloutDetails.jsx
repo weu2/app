@@ -15,6 +15,7 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 
 import LocationLink from "../Components/LocationLink";
+import OnDemandForm from "../Components/OnDemandForm";
 import MapCalloutAndMe from "../Components/MapCalloutAndMe";
 import MapNearbyProfessionals from "../Components/MapNearbyProfessionals";
 import { getLocation, getDistance } from "../Components/LocationTracker";
@@ -307,11 +308,7 @@ class CalloutDetails extends React.Component {
 					{/* Request payment for unpaid callouts */}
 					{
 						(this.state.price && !this.state.callout.paymentProvided)
-						? <>
-							<p>Please complete your payment first.</p>
-							<h5 className="mb-4">Price: ${parseFloat(this.state.price).toFixed(2)}</h5>
-							<p>TODO: add form here</p>
-						</>
+						? <OnDemandForm callout={this.state.callout} />
 						: <>
 							{this.showMap()}
 							{this.showDetails()}

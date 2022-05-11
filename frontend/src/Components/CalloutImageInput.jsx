@@ -72,7 +72,7 @@ class CalloutImageInput extends React.Component {
 				/>
 
 				{/* Include callout ID in form submission automatically */}
-				<Form.Control name="calloutid" type="hidden" value={this.props.callout.uuid} />
+				<Form.Control name="calloutId" type="hidden" value={this.props.callout.uuid} />
 
 				{/* Display an error message if required */}
 				{this.state.error && <Alert variant="danger">{this.state.error}</Alert>}

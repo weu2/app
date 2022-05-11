@@ -23,6 +23,9 @@ class PaymentInput extends React.Component {
 	render() {
 		return (
 			<div {...this.props}>
+				{/* Include date automatically */}
+				<Form.Control name="dateTime" type="hidden" required value={Date.now()} />
+				
 				<Form.Group className="mb-3" controlId="cardHolder">
 					<Form.Label>Cardholder Name</Form.Label>
 					<Form.Control
