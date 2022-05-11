@@ -2,7 +2,7 @@ const uuid = require('uuid');
 const JsonDB = require('../common/jsondb');
 
 // Single payment for callout on demand
-function onDemand(customerId, calloutId, price, cardNumber, cardExpMonth, cardExpYear, cardCVC) {
+function onDemand(customerId, calloutId, price, cardNumber, cardExpMonth, cardExpYear, cardCVC, dateTime) {
 	// pretend to validate card info here
 	// don't store the CVC since it's sensitive info
 	return new Promise((res, rej) => {
@@ -16,7 +16,8 @@ function onDemand(customerId, calloutId, price, cardNumber, cardExpMonth, cardEx
 			type: "ondemand",
 			cardNumber: cardNumber,
 			cardExpMonth: cardExpMonth,
-			cardExpYear: cardExpYear
+			cardExpYear: cardExpYear,
+			dateTime: dateTime
 		});
 		res();
 	});
