@@ -16,7 +16,7 @@ import { backendTest } from "../api.jsx";
 
 
 //TEMPORARY
-import Rating from "../Components/Rating";
+import Review from "../Components/Review";
 
 class Home extends React.Component {
 
@@ -87,8 +87,9 @@ class Home extends React.Component {
 					For example, <code>mb-4</code> is a shorthand for <code>margin-bottom</code>, where the <code>4</code> is a preset margin size.
 				</p>
 
-				<Rating />
-
+					{/* TEMPORARY */}
+				<Review /> 
+		
 			</Container>
 		)
 	}

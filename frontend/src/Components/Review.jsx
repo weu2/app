@@ -4,7 +4,7 @@ import Form from "react-bootstrap/Form";
 
 import ReactStars from "react-rating-stars-component";
 
-class Rating extends React.Component {
+class Review extends React.Component {
 
     constructor(props) {
 		super(props);
@@ -85,4 +85,4 @@ class Rating extends React.Component {
   )}
 }
 
-export default Rating
+export default Review
