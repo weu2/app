@@ -204,10 +204,17 @@ class CalloutDetails extends React.Component {
 								<th>Number Plate</th>
 								<td>{this.state.callout.numberPlate}</td>
 							</tr>
-							<tr>
-								<th>Price</th>
-								<td>${parseFloat(this.state.callout.price).toFixed(2)}</td>
-							</tr>
+							{
+								this.state.callout.price
+								? <tr>
+									<th>Price</th>
+									<td>${parseFloat(this.state.callout.price).toFixed(2)}</td>
+								</tr>
+								: <tr>
+									<th>Payment Provided</th>
+									<td>{this.state.callout.paymentProvided ? "Yes" : "No"}</td>
+								</tr>
+							}
 							<tr>
 								<th>Description</th>
 								<td>{this.state.callout.description}</td>
@@ -232,8 +239,8 @@ class CalloutDetails extends React.Component {
 					</Table>
 					{this.state.userType === "PROFESSIONAL" && this.drawCalloutButtons()}
 					{
-						this.state.nearby
-						&& <>
+						(this.state.nearby && this.state.nearby.length)
+						? <>
 							<h4 className="mt-4 mb-3">Nearby Professionals</h4>
 							<Table striped bordered hover>
 								<thead>
@@ -259,6 +266,7 @@ class CalloutDetails extends React.Component {
 								}</tbody>
 							</Table>
 						</>
+						: null
 					}
 				</>
 				: <Alert variant="info">Loading callout details...</Alert>}

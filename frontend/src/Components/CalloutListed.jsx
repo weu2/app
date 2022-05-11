@@ -58,10 +58,17 @@ class CalloutListed extends React.Component {
 										<th>Number Plate</th>
 										<td>{this.props.callout.numberPlate}</td>
 									</tr>
-									<tr>
-										<th>Price</th>
-										<td>${parseFloat(this.props.callout.price).toFixed(2)}</td>
-									</tr>
+									{
+										this.props.callout.price
+										? <tr>
+											<th>Price</th>
+											<td>${parseFloat(this.props.callout.price).toFixed(2)}</td>
+										</tr>
+										: <tr>
+											<th>Payment Provided</th>
+											<td>{this.props.callout.paymentProvided ? "Yes" : "No"}</td>
+										</tr>
+									}
 									{
 										this.props.customer
 										? <tr>
