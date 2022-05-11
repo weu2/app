@@ -6,7 +6,7 @@ import MembershipForm from "../Components/MembershipForm";
 
 // api.jsx contains utility functions for getting or sending data from the frontend to the backend
 // For example, sending form data or getting user info
-import { backendGetUserInfo } from "../api.jsx";
+// import { backendGetUserInfo } from "../api.jsx";
 
 class Membership extends React.Component {
 

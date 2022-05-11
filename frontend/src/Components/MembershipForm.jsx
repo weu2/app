@@ -3,8 +3,8 @@ import React from "react";
 import Form from "react-bootstrap/Form";
 
 // <LargeButton> is a subclass of React Bootstrap's <Button> with an icon added to the right side
-import LargeButton from "../Components/LargeButton";
-import PaymentInput from "../Components/PaymentInput";
+import LargeButton from "./LargeButton";
+import PaymentInput from "./PaymentInput";
 
 class MembershipForm extends React.Component {
 
