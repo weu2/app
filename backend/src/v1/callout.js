@@ -277,11 +277,13 @@ router.post('/pay', upload.none(), (req, res) => {
 		cardNumber: {type:"string", required: true},
 		cardExpMonth: {type:"string", required: true},
 		cardExpYear: {type:"string", required: true},
+		cardCVC: {type:"string", required: true},
 		dateTime: {type:"string", required: true}
 	})) {
 		res.status(400).send('Missing API parameters');
 		return;
 	}
+	// add card validation stuff here
 
 	const calloutId = req.body.calloutId;
 	const callouts = new JsonDB('data/callouts.json');
