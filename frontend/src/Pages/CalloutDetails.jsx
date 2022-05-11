@@ -205,6 +205,10 @@ class CalloutDetails extends React.Component {
 								<td>{this.state.callout.numberPlate}</td>
 							</tr>
 							<tr>
+								<th>Price</th>
+								<td>${parseFloat(this.state.callout.price).toFixed(2)}</td>
+							</tr>
+							<tr>
 								<th>Description</th>
 								<td>{this.state.callout.description}</td>
 							</tr>
