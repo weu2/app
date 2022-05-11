@@ -192,18 +192,18 @@ router.get('/list', (req, res) => {
 		const userUuid = auth.verifyClaim(req.cookies.claim);
 		const users = new JsonDB('data/users.json');
 		const user = users.find({ uuid: userUuid })[0]; // user uuid should be checked already so no need to check it again
-		const callout = calloutdb.find({ customer: userUuid }); // te
-		const filtered = callout.filter(co => co.status !== "finished");
+		const callouts = calloutdb.find({ customer: userUuid });
+		// include finished callouts so customers can leave reviews
 		res.status(200).send({
 			type: "CUSTOMER",
-			callouts: filtered
+			callouts: callouts
 		});	
 	} else if (user.PROFESSIONAL) {
 		const servProLat = parseFloat(user.PROFESSIONAL.locationLat);
 		const servProLong = parseFloat(user.PROFESSIONAL.locationLong);
 		
 		const calloutdb = new JsonDB('data/callouts.json');
-		const callouts = calloutdb.find({ status: {has:["inprogress","accepted"]}, assignedTo: userUuid });
+		const callouts = calloutdb.find({ status: {has:["inprogress","accepted","finished"]}, assignedTo: userUuid });
 		res.status(200).send({
 			type: "PROFESSIONAL",
 			callouts: callouts,
