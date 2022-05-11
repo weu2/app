@@ -23,6 +23,20 @@ class PaymentInput extends React.Component {
 	render() {
 		return (
 			<div {...this.props}>
+				<Form.Group className="mb-3" controlId="cardHolder">
+					<Form.Label>Cardholder Name</Form.Label>
+					<Form.Control
+						name="cardHolder"
+						type="text" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
+						autoComplete="cc-name" // autocomplete is not essential, but for suggested values check developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
+						required
+					/>
+					{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
+					<Form.Control.Feedback type="invalid">
+						Please enter the cardholder's name.
+					</Form.Control.Feedback>
+				</Form.Group>
+
 				<Form.Group className="mb-3" controlId="cardNumber">
 					<Form.Label>Card Number</Form.Label>
 					<Form.Control
@@ -52,7 +66,7 @@ class PaymentInput extends React.Component {
 						<Form.Label>Expiration Date</Form.Label>
 						<Row>
 							<Col>
-								<Form.Group className="mb-3" controlId="cardMonth">
+								<Form.Group className="mb-3" controlId="cardExpMonth">
 									<Form.Control
 										name="cardExpMonth"
 										type="number" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
@@ -78,7 +92,7 @@ class PaymentInput extends React.Component {
 								</Form.Group>
 							</Col>
 							<Col>
-								<Form.Group className="mb-3" controlId="cardYear">
+								<Form.Group className="mb-3" controlId="cardExpYear">
 									<Form.Control
 										name="cardExpYear"
 										type="number" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
@@ -105,7 +119,7 @@ class PaymentInput extends React.Component {
 						</Row>
 					</Col>
 					<Col>
-						<Form.Group className="mb-3" controlId="cvc">
+						<Form.Group className="mb-3" controlId="cardCVC">
 							<Form.Label>CVC</Form.Label>
 							<Form.Control
 								name="cardCVC"
