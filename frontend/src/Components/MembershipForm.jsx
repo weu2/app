@@ -11,7 +11,7 @@ class MembershipForm extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			basePrice: 160,
+			basePrice: 80,
 			duration: 1,
 			validated: false
 		};
