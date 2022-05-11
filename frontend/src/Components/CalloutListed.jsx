@@ -51,20 +51,24 @@ class CalloutListed extends React.Component {
 										<td>{this.props.callout.status.toUpperCase()}</td>
 									</tr>
 									<tr>
+										<th>Number Plate</th>
+										<td>{this.props.callout.numberPlate}</td>
+									</tr>
+									<tr>
 										<th>Assigned To</th>
 										<td>{this.state.assigneeName}</td>
 									</tr>
 									<tr>
-										<th>Number Plate</th>
-										<td>{this.props.callout.numberPlate}</td>
+										<th>Price</th>
+										<td>{
+											this.props.callout.price
+											? `$${parseFloat(this.props.callout.price).toFixed(2)}`
+											: "Waiting for service professional"
+										}</td>
 									</tr>
 									{
 										this.props.callout.price
-										? <tr>
-											<th>Price</th>
-											<td>${parseFloat(this.props.callout.price).toFixed(2)}</td>
-										</tr>
-										: <tr>
+										&& <tr>
 											<th>Payment Provided</th>
 											<td>{this.props.callout.paymentProvided ? "Yes" : "No"}</td>
 										</tr>

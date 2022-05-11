@@ -218,20 +218,24 @@ class CalloutDetails extends React.Component {
 								<td>{this.state.status.toUpperCase()}</td>
 							</tr>
 							<tr>
+								<th>Number Plate</th>
+								<td>{this.state.callout.numberPlate}</td>
+							</tr>
+							<tr>
 								<th>Assigned To</th>
 								<td>{this.state.assigneeName}</td>
 							</tr>
 							<tr>
-								<th>Number Plate</th>
-								<td>{this.state.callout.numberPlate}</td>
+								<th>Price</th>
+								<td>{
+									this.state.price
+									? `$${parseFloat(this.state.price).toFixed(2)}`
+									: "Waiting for service professional"
+								}</td>
 							</tr>
 							{
 								this.state.price
-								? <tr>
-									<th>Price</th>
-									<td>${parseFloat(this.state.price).toFixed(2)}</td>
-								</tr>
-								: <tr>
+								&& <tr>
 									<th>Payment Provided</th>
 									<td>{this.state.callout.paymentProvided ? "Yes" : "No"}</td>
 								</tr>
