@@ -11,6 +11,8 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Table from "react-bootstrap/Table";
 import Image from "react-bootstrap/Image";
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
 
 import LocationLink from "../Components/LocationLink";
 import MapCalloutAndMe from "../Components/MapCalloutAndMe";
@@ -36,7 +38,9 @@ class CalloutDetails extends React.Component {
 			loggedIn: true, // Assume user can view page to avoid redirecting early
 			userType: null, // CUSTOMER or PROFESSIONAL
 			userName: "You", // Name to display to service professionals
-			nearby: null // Array of nearby service professionals
+			nearby: null, // Array of nearby service professionals
+			price: null, // Price of callout as received from database
+			inputPrice: "120" // Price of callout as displayed in input
 		};
 	}
 
@@ -51,36 +55,38 @@ class CalloutDetails extends React.Component {
 				loggedIn: false
 			}));
 
-		backendGetCallout(this.state.id)
-			.then(res => {
-				this.setState({
-					status: res.status,
-					callout: res
-				});
+		backendGetCallout(this.state.id).then(res => {
+			this.setState({
+				status: res.status,
+				callout: res
+			});
 
-				// Attempt to get location on page load, may not work before user interaction but worth a try
-				getLocation().then(pos => this.setState({
-					distance: getDistance(
-						pos[0],
-						pos[1],
-						parseFloat(res.locationLat),
-						parseFloat(res.locationLong)
-					)
-				}));
-			}).catch(res => this.setState({
-				error: `Error: ${res.status} (${res.statusText})`
-			}));
+			if (res.assignedTo) {
+				backendGetCalloutAssignee(this.state.id)
+					.then(res => this.setState({
+						assigneeName: res.name
+					}));
+			}
 
-		backendGetCalloutAssignee(this.state.id)
-			.then(res => this.setState({
-				assigneeName: res.name
+			// Attempt to get location on page load, may not work before user interaction but worth a try
+			getLocation().then(pos => this.setState({
+				distance: getDistance(
+					pos[0],
+					pos[1],
+					parseFloat(res.locationLat),
+					parseFloat(res.locationLong)
+				)
 			}));
+		}).catch(res => this.setState({
+			error: `Error: ${res.status} (${res.statusText})`
+		}));
 	}
 
 	updateCallout = (status) => {
-		backendUpdateCallout(this.state.id, status)
+		backendUpdateCallout(this.state.id, status, this.state.inputPrice)
 			.then(callout => this.setState({
-				status: status,
+				status: callout.status,
+				price: callout.price,
 				assigneeName: this.state.userName
 			})).catch(res => this.setState({
 				error: `Error: ${res.status} (${res.statusText})`
@@ -90,7 +96,22 @@ class CalloutDetails extends React.Component {
 	drawCalloutButtons() {
 		switch (this.state.status) {
 			case "new":
-				return (
+				return (<>
+					<Row className="mb-3">
+						<Form.Group controlId="formPrice">
+							<Form.Label>Please provide your service fee:</Form.Label>
+							<InputGroup>
+								<InputGroup.Text>$</InputGroup.Text>
+								<Form.Control
+									name="price"
+									type="number"
+									value={this.state.inputPrice}
+									onInput={e => this.setState({ inputPrice: e.target.value })}
+									required
+								/>
+							</InputGroup>
+						</Form.Group>
+					</Row>
 					<Row>
 						<Col>
 							<Button
@@ -114,7 +135,7 @@ class CalloutDetails extends React.Component {
 							</Link>
 						</Col>
 					</Row>
-				);
+				</>);
 			case "accepted":
 				return (
 					<Row>
@@ -205,10 +226,10 @@ class CalloutDetails extends React.Component {
 								<td>{this.state.callout.numberPlate}</td>
 							</tr>
 							{
-								this.state.callout.price
+								this.state.price
 								? <tr>
 									<th>Price</th>
-									<td>${parseFloat(this.state.callout.price).toFixed(2)}</td>
+									<td>${parseFloat(this.state.price).toFixed(2)}</td>
 								</tr>
 								: <tr>
 									<th>Payment Provided</th>

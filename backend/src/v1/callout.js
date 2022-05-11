@@ -128,6 +128,7 @@ router.post('/update', (req, res) => {
 	if (!apiValidator.validate(req, {
 		calloutid: {type:"string", required:true},
 		status: {type:"string", required:true},
+		price: {type:"string", required: req.body.status === "accepted"},
 	})) {
 		res.status(400).send('Missing API parameters');
 		return;
@@ -150,7 +151,11 @@ router.post('/update', (req, res) => {
 					res.status(400).send();
 					return;
 				}
-				callouts.update({ uuid: req.body.calloutid }, { assignedTo: userUuid, status: req.body.status });
+				callouts.update({ uuid: req.body.calloutid }, {
+					assignedTo: userUuid,
+					price: req.body.price,
+					status: req.body.status
+				});
 				break;
 			case "inprogress":
 				if (callout.status !== "accepted") {

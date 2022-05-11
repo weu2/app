@@ -133,7 +133,7 @@ export function backendGetCalloutAssignee(calloutId) {
 }
 
 // Changes the status of a callout
-export function backendUpdateCallout(calloutId, status) {
+export function backendUpdateCallout(calloutId, status, price) {
 	return fetchStrict("/api/v1/callout/update", {
 		method: "POST",
 		headers: {
@@ -141,7 +141,8 @@ export function backendUpdateCallout(calloutId, status) {
 		},
 		body: JSON.stringify({
 			calloutid: calloutId,
-			status: status
+			status: status,
+			price: price // optional
 		})
 	}).then(res => res.json());
 }
