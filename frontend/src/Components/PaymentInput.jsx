@@ -8,6 +8,18 @@ import Col from "react-bootstrap/Col";
  // FormData(form) is used to retrieve data within the form, including this class
 class PaymentInput extends React.Component {
 
+	constructor(props) {
+		super(props);
+		// Use state variables to manually validate input length
+		// Even though these are true, the form won't submit
+		this.state = {
+			cardNumberValid: true,
+			cardExpMonthValid: true,
+			cardExpYearValid: true,
+			cardCVCValid: true
+		};
+	}
+
 	render() {
 		return (
 			<div {...this.props}>
@@ -19,12 +31,19 @@ class PaymentInput extends React.Component {
 						autoComplete="cc-number" // autocomplete is not essential, but for suggested values check developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
 						min="0"
 						max="9999999999999999"
-						onInput={e => {e.target.value = e.target.value.slice(0, 16)}}
+						step="1"
+						isInvalid={!this.state.cardNumberValid}
+						onInput={e => {
+							e.target.value = e.target.value.slice(0, 16);
+							this.setState({
+								cardNumberValid: e.target.value.length === 16
+							});
+						}}
 						required
 					/>
 					{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
 					<Form.Control.Feedback type="invalid">
-						Invalid card number. Must be a 16 digit number.
+						Must be a 16 digit number.
 					</Form.Control.Feedback>
 				</Form.Group>
 
@@ -41,17 +60,25 @@ class PaymentInput extends React.Component {
 										placeholder="MM"
 										min="1"
 										max="12"
-										onInput={e => {e.target.value = e.target.value.slice(0, 2)}}
+										step="1"
+										isInvalid={!this.state.cardExpMonthValid}
+										onInput={e => {
+											e.target.value = e.target.value.slice(0, 2);
+											const numberValue = parseInt(e.target.value);
+											this.setState({
+												cardExpMonthValid: e.target.value.length === 2 && numberValue >= 1 && numberValue <= 12
+											});
+										}}
 										required
 									/>
 									{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
 									<Form.Control.Feedback type="invalid">
-										Invalid expiration month. Must be a number between 1 and 12.
+										Must be a 2 digit number between 01 and 12.
 									</Form.Control.Feedback>
 								</Form.Group>
 							</Col>
 							<Col>
-								<Form.Group className="mb-3" controlId="cardMonth">
+								<Form.Group className="mb-3" controlId="cardYear">
 									<Form.Control
 										name="cardExpYear"
 										type="number" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
@@ -59,12 +86,19 @@ class PaymentInput extends React.Component {
 										placeholder="YY"
 										min="0"
 										max="99"
-										onInput={e => {e.target.value = e.target.value.slice(0, 2)}}
+										step="1"
+										isInvalid={!this.state.cardExpYearValid}
+										onInput={e => {
+											e.target.value = e.target.value.slice(0, 2);
+											this.setState({
+												cardExpYearValid: e.target.value.length === 2
+											});
+										}}
 										required
 									/>
 									{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
 									<Form.Control.Feedback type="invalid">
-										Invalid expiration year. Must be a 2 digit number.
+										Must be a 2 digit number.
 									</Form.Control.Feedback>
 								</Form.Group>
 							</Col>
@@ -78,13 +112,20 @@ class PaymentInput extends React.Component {
 								type="number" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
 								min="0"
 								max="999"
-								onInput={e => {e.target.value = e.target.value.slice(0, 3)}}
+								step="1"
+								isInvalid={!this.state.cardCVCValid}
+								onInput={e => {
+									e.target.value = e.target.value.slice(0, 3);
+									this.setState({
+										cardCVCValid: e.target.value.length === 3
+									});
+								}}
 								autoComplete="cc-csc" // autocomplete is not essential, but for suggested values check developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
 								required
 							/>
 							{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
 							<Form.Control.Feedback type="invalid">
-								Invalid CVC. Must be a 3 digit number.
+								Must be a 3 digit number.
 							</Form.Control.Feedback>
 						</Form.Group>
 					</Col>
