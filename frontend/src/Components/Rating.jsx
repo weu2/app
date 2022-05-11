@@ -1,20 +1,83 @@
 import React from "react";
+import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
 
 import ReactStars from "react-rating-stars-component";
 
 class Rating extends React.Component {
 
+    constructor(props) {
+		super(props);
+		this.state = {
+			ratingLVL: ""
+		};
+	}
+
+
     handleRatingChange= (rating) =>{
-        console.log(rating);
+        var ratingLVL_ = "";
+        //based on rating score set the text
+        switch(rating){
+
+            case 1:
+                ratingLVL_ = "GIT GUD";
+                break;
+
+            case 2:
+                ratingLVL_ = "BASTION MAIN";
+                break;
+
+            case 3:
+                ratingLVL_ = "did the job";
+                break;
+
+            case 4:
+                ratingLVL_ = "POGGERS";
+                break;
+
+            case 5:
+                ratingLVL_ = "SHOUT EM A SLAB OF VB";
+                break;
+
+        }
+        //set the rating text in state
+        this.setState({ratingLVL: ratingLVL_})
+
+        //set hidden input to rating value
+        document.getElementById("ratingNumber").value = rating;
     }
 
-
-
+ 
   render(){
     return (
-        <div>
-            <ReactStars count={5} size={40} onChange={this.handleRatingChange} activeColor="#FF449E" />
-        </div>
+        <Container>
+
+                <Form.Group className="mb-3" controlId="formReviewText">
+						<Form.Label>Review</Form.Label>
+						<Form.Control
+							name="reviewText"
+                            input="text"
+                            as="textarea"
+							rows={4}
+						/>
+						{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
+						
+					</Form.Group>
+
+                <Form.Group className="mb-3" constolId="formReviewRating">
+                    <Form.Label>Rating</Form.Label>
+                    <Form.Control 
+                       type="hidden"
+                       id="ratingNumber"
+                    />
+                    
+                    <ReactStars count={5} size={40} onChange={this.handleRatingChange} activeColor="#FF449E" /> {this.state.ratingLVL}
+                </Form.Group>
+
+            
+
+
+        </Container>
   )}
 }
 
