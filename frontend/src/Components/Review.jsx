@@ -24,7 +24,7 @@ class Review extends React.Component {
                 break;
 
             case 2:
-                ratingLVL_ = "Not Good";
+                ratingLVL_ = "Mediocre";
                 break;
 
             case 3:
