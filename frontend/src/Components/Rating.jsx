@@ -66,12 +66,16 @@ class Rating extends React.Component {
 
                 <Form.Group className="mb-3" constolId="formReviewRating">
                     <Form.Label>Rating</Form.Label>
+
+                    {/*Hidden field makes acessing easier later*/}
                     <Form.Control 
                        type="hidden"
                        id="ratingNumber"
                     />
                     
-                    <ReactStars count={5} size={40} onChange={this.handleRatingChange} activeColor="#FF449E" /> {this.state.ratingLVL}
+                    {/* uses react stars library */}
+                    <ReactStars count={5} size={40} onChange={this.handleRatingChange} activeColor="#FF449E" /> 
+                    {this.state.ratingLVL}
                 </Form.Group>
 
             
