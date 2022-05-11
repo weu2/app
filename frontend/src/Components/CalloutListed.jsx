@@ -98,7 +98,7 @@ class CalloutListed extends React.Component {
 							<Link to={`/callout/${this.props.callout.uuid}`}>
 								<LargeButton variant="primary" icon="arrow-right">
 								{
-									this.props.callout.price && !this.props.callout.paymentProvided
+									(this.props.customer && this.props.callout.price && !this.props.callout.paymentProvided)
 									? "Complete Payment"
 									: "More Info"
 								}
