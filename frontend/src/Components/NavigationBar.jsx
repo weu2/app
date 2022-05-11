@@ -74,7 +74,7 @@ class NavigationBar extends React.Component {
 										(this.state.userInfo && this.state.userInfo.CUSTOMER)
 										? <>
 											<Nav.Link as={NavLink} to="/requestcallout">Request Callout</Nav.Link>
-											<Nav.Link as={NavLink} to="/membership">My Membership</Nav.Link>
+											<Nav.Link as={NavLink} to="/membership">Membership</Nav.Link>
 										</>
 										: null
 									}
