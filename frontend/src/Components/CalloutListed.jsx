@@ -96,7 +96,13 @@ class CalloutListed extends React.Component {
 								</tbody>
 							</Table>
 							<Link to={`/callout/${this.props.callout.uuid}`}>
-								<LargeButton variant="primary" icon="arrow-right">More info</LargeButton>
+								<LargeButton variant="primary" icon="arrow-right">
+								{
+									this.props.callout.price && !this.props.callout.paymentProvided
+									? "Complete Payment"
+									: "More Info"
+								}
+								</LargeButton>
 							</Link>
 						</Col>
 						<Col sm>
