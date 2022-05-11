@@ -58,6 +58,10 @@ class CalloutListed extends React.Component {
 										<th>Number Plate</th>
 										<td>{this.props.callout.numberPlate}</td>
 									</tr>
+									<tr>
+										<th>Price</th>
+										<td>${parseFloat(this.props.callout.price).toFixed(2)}</td>
+									</tr>
 									{
 										this.props.customer
 										? <tr>
@@ -78,7 +82,6 @@ class CalloutListed extends React.Component {
 											}</td>
 										</tr>
 									}
-									
 								</tbody>
 							</Table>
 							<Link to={`/callout/${this.props.callout.uuid}`}>

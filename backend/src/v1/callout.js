@@ -64,6 +64,7 @@ router.post('/create', upload.none(), (req, res) => {
 			locationLat: req.body.locationLat,
 			locationLong: req.body.locationLong,
 			numberPlate: req.body.numberPlate,
+			price: req.body.price,
 			images: [],
 			status: "new" // new - hasnt been confirmed
 							// accepted - service professional has accepted the callout and is on their way
