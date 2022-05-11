@@ -51,17 +51,28 @@ class CalloutListed extends React.Component {
 										<td>{this.props.callout.status.toUpperCase()}</td>
 									</tr>
 									<tr>
-										<th>Assigned To</th>
-										<td>{this.state.assigneeName}</td>
-									</tr>
-									<tr>
 										<th>Number Plate</th>
 										<td>{this.props.callout.numberPlate}</td>
 									</tr>
 									<tr>
-										<th>Price</th>
-										<td>${parseFloat(this.props.callout.price).toFixed(2)}</td>
+										<th>Assigned To</th>
+										<td>{this.state.assigneeName}</td>
 									</tr>
+									<tr>
+										<th>Price</th>
+										<td>{
+											this.props.callout.price
+											? `$${parseFloat(this.props.callout.price).toFixed(2)}`
+											: "Waiting for service professional"
+										}</td>
+									</tr>
+									{
+										this.props.callout.price
+										&& <tr>
+											<th>Payment Provided</th>
+											<td>{this.props.callout.paymentProvided ? "Yes" : "No"}</td>
+										</tr>
+									}
 									{
 										this.props.customer
 										? <tr>
@@ -85,7 +96,13 @@ class CalloutListed extends React.Component {
 								</tbody>
 							</Table>
 							<Link to={`/callout/${this.props.callout.uuid}`}>
-								<LargeButton variant="primary" icon="arrow-right">More info</LargeButton>
+								<LargeButton variant="primary" icon="arrow-right">
+								{
+									this.props.callout.price && !this.props.callout.paymentProvided
+									? "Complete Payment"
+									: "More Info"
+								}
+								</LargeButton>
 							</Link>
 						</Col>
 						<Col sm>

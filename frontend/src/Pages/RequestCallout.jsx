@@ -11,7 +11,6 @@ import Form from "react-bootstrap/Form";
 // <LargeButton> is a subclass of React Bootstrap's <Button> with an icon added to the right side
 import LargeButton from "../Components/LargeButton";
 import LocationInput from "../Components/LocationInput";
-import PaymentInput from "../Components/PaymentInput";
 
 // api.jsx contains utility functions for getting or sending data from the frontend to the backend
 // For example, sending form data or getting user info
@@ -25,8 +24,7 @@ class RequestCallout extends React.Component {
 			loggedIn: true, // Assume user can view page to avoid redirecting early
 			validated: false, // Shows feedback messages to show the user if they screwed up the form, see react-bootstrap.github.io/forms/validation/
 			error: null, // Display failure message if an error occurs
-			submitted: false, // Redirects to /dashboard
-			price: 160 // Price of callout, change later
+			submitted: false // Redirects to /dashboard
 		};
 	}
 
@@ -114,12 +112,6 @@ class RequestCallout extends React.Component {
 
 					{/* Include date automatically */}
 					<Form.Control name="dateTime" type="hidden" required value={Date.now()} />
-
-					{/* Include price automatically */}
-					<h5 className="mb-4">Price: ${this.state.price.toFixed(2)}</h5>
-					<Form.Control name="price" type="hidden" required value={this.state.price} />
-
-					<PaymentInput className="mb-2" />
 
 					{/* type="submit" automatically runs onSubmit, which runs this.submitForm */}
 					<LargeButton className="mb-3" variant="primary" type="submit" icon="arrow-right">
