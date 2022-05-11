@@ -3,6 +3,7 @@ const uuid = require('uuid');
 const multer = require('multer');
 
 const auth = require('./auth');
+const payment = require('./payment');
 const JsonDB = require('../common/jsondb');
 const apiValidator = require('../common/apiValidator');
 const geolocation = require('../common/geolocation');
@@ -19,16 +20,21 @@ router.use((req, res, next) => {
 	}
 });
 
-
-
 router.post('/create', upload.none(), (req, res) => {
 	
+	// for now assume the card number must be provided
+	// when memberships are added, it will be stored in users.json instead
 	if (!apiValidator.validate(req, {
 		description: {type:"string", required:true},
 		dateTime: {type:"string", required:true},
 		locationLat: {type:"string", required:true},
 		locationLong: {type:"string", required:true},
-		numberPlate: {type:"string", required:true}
+		numberPlate: {type:"string", required:true},
+		cardNumber: {type:"string", required:true},
+		cardExpMonth: {type:"string", required:true},
+		cardExpYear: {type:"string", required:true},
+		cardCVC: {type:"string", required:true},
+		price: {type:"string", required:true}
 	})) {
 		res.status(400).send('Missing API parameters');
 		return;
@@ -38,23 +44,35 @@ router.post('/create', upload.none(), (req, res) => {
 	// should be verified already
 	const userUuid = auth.verifyClaim(req.cookies.claim);
 	const calloutUuid = uuid.v4();
-	callouts.add({
-		uuid: calloutUuid, 
-		customer: userUuid,
-		assignedTo: null,
-		description: req.body.description,
-		dateTime: req.body.dateTime,
-		locationLat: req.body.locationLat,
-		locationLong: req.body.locationLong,
-		numberPlate: req.body.numberPlate,
-		images: [],
-		status: "new" // new - hasnt been confirmed
-						// accepted - service professional has accepted the callout and is on their way
-						// inprogress - service professional arrived and is fixing car
-						// finished - callout complete
-	});
-	res.status(200).send({ uuid: calloutUuid });
 
+	// pay before creating callout
+	payment.onDemand(userUuid,
+		calloutUuid,
+		req.body.price,
+		req.body.cardNumber,
+		req.body.cardExpMonth,
+		req.body.cardExpYear,
+		req.body.cardCVC
+	).then(() => {
+		callouts.add({
+			uuid: calloutUuid, 
+			customer: userUuid,
+			assignedTo: null,
+			description: req.body.description,
+			dateTime: req.body.dateTime,
+			locationLat: req.body.locationLat,
+			locationLong: req.body.locationLong,
+			numberPlate: req.body.numberPlate,
+			images: [],
+			status: "new" // new - hasnt been confirmed
+							// accepted - service professional has accepted the callout and is on their way
+							// inprogress - service professional arrived and is fixing car
+							// finished - callout complete
+		});
+		res.status(200).send({ uuid: calloutUuid });
+	}).catch(err =>
+		res.status(400).send(err)
+	);
 });
 
 router.post('/status', (req, res) => {

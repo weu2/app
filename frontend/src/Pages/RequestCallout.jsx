@@ -115,7 +115,10 @@ class RequestCallout extends React.Component {
 					{/* Include date automatically */}
 					<Form.Control name="dateTime" type="hidden" required value={Date.now()} />
 
+					{/* Include price automatically */}
 					<h5 className="mb-4">Price: ${this.state.price.toFixed(2)}</h5>
+					<Form.Control name="price" type="hidden" required value={this.state.price} />
+
 					<PaymentInput className="mb-2" />
 
 					{/* type="submit" automatically runs onSubmit, which runs this.submitForm */}
