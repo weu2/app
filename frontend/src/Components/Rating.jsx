@@ -20,23 +20,23 @@ class Rating extends React.Component {
         switch(rating){
 
             case 1:
-                ratingLVL_ = "GIT GUD";
+                ratingLVL_ = "Not Great";
                 break;
 
             case 2:
-                ratingLVL_ = "BASTION MAIN";
+                ratingLVL_ = "Not Good";
                 break;
 
             case 3:
-                ratingLVL_ = "did the job";
+                ratingLVL_ = "Good";
                 break;
 
             case 4:
-                ratingLVL_ = "POGGERS";
+                ratingLVL_ = "Great";
                 break;
 
             case 5:
-                ratingLVL_ = "SHOUT EM A SLAB OF VB";
+                ratingLVL_ = "Awesome";
                 break;
 
         }
