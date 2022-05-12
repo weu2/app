@@ -1,15 +1,11 @@
 const fetch = require('node-fetch');
 
 // base URL will need to change for production applications
-
 const base = "https://api-m.sandbox.paypal.com";
 
-
 //const { CLIENT_ID, APP_SECRET } = process.env; // pull from environment variables
-
 const CLIENT_ID = "ARQf06TlEPtCBphO-MGSVagFYq1Ope-Iha8U4Gw2bC33qphW3AafXdU3Wjll1RfnCJtingVcyVtr7yRx";
 const APP_SECRET = "EBshTYH9p7Zm_toVALQBtdQbcahYAzNAcFtQRPLwOmawcZ9i1Jdwo95o2-qqSiZG5mxXzvWDD85LPZ1I";
-
 
 // call this function to create your client token
 function generateClientToken() {
@@ -28,9 +24,7 @@ function generateClientToken() {
             });
         });
     });
-
 }
-
 
 // access token is used to authenticate all REST API requests
 function generateAccessToken() {
@@ -49,7 +43,6 @@ function generateAccessToken() {
 }
 
 // create an order
-
 function createOrder(amount) {
     return new Promise((res, rej) => {
         generateAccessToken().then(accessToken => {
@@ -77,7 +70,6 @@ function createOrder(amount) {
 }
 
 function capturePayment(orderId) {
-
     return new Promise((res, rej) => {
         generateAccessToken().then(accessToken => {
             const url = `${base}/v2/checkout/orders/${orderId}/capture`;
@@ -92,7 +84,6 @@ function capturePayment(orderId) {
             });
         });
     });
-
 }
 
 module.exports.generateClientToken = generateClientToken;

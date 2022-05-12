@@ -107,10 +107,16 @@ class CalloutDetails extends React.Component {
 								<Form.Control
 									name="price"
 									type="number"
+									min="1"
+									max="1000"
 									value={this.state.inputPrice}
 									onInput={e => this.setState({ inputPrice: e.target.value })}
+									isInvalid={this.state.inputPrice < 1 || this.state.inputPrice > 1000}
 									required
 								/>
+								<Form.Control.Feedback type="invalid">
+									Must be a number between $1.00 and $1000.0.
+								</Form.Control.Feedback>
 							</InputGroup>
 						</Form.Group>
 					</Row>
@@ -119,6 +125,7 @@ class CalloutDetails extends React.Component {
 							<Button
 								variant="success"
 								className="mb-3 w-100"
+								disabled={this.state.inputPrice < 1 || this.state.inputPrice > 1000}
 								onClick={() => this.updateCallout("accepted")}
 							>
 								Accept
