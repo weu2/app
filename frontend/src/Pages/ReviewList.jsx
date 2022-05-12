@@ -82,7 +82,7 @@ class ReviewList extends React.Component {
 								<Form.Label column sm={2}>Sort by</Form.Label>
 								<Col>
 									<Form.Select onChange={e => this.setState({ sortBy: e.target.value })}>
-										<option value="newest" selected>Newest to oldest</option>
+										<option value="newest" defaultValue>Newest to oldest</option>
 										<option value="oldest">Oldest to newest</option>
 										<option value="ratingdesc">Highest to lowest rating</option>
 										<option value="ratingasc">Lowest to highest rating</option>

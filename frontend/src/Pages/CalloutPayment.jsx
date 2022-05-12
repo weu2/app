@@ -7,7 +7,7 @@ import Alert from "react-bootstrap/Alert";
 import Spinner from "react-bootstrap/Spinner";
 import Table from "react-bootstrap/Table";
 
-import UrlPartGrabber from "../Components/UrlPartGrabber";
+import URLPartGrabber from "../Components/URLPartGrabber";
 
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
@@ -53,7 +53,7 @@ class CalloutPayment extends React.Component {
 		return (
 			<Container>
 				{/* Get callout ID from URL */}
-				<UrlPartGrabber onload={this.loadCallout}/>
+				<URLPartGrabber onload={this.loadCallout}/>
 
 				{/* Show error message if required */}
 				{this.state.error && <Alert variant="danger">{this.state.error}</Alert>}

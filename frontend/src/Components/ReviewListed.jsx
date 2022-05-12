@@ -34,7 +34,7 @@ class ReviewListed extends React.Component {
 					Review on {new Date(parseInt(this.props.review.dateTime)).toLocaleString("en-US")}
 				</Card.Header>
 				<Card.Body>
-					<Card.Title className="mb-0">Serviced by {this.state.professional}</Card.Title>
+					<Card.Title className="mb-0 mt-1">Serviced by {this.state.professional}</Card.Title>
 					<ReactStars
 						count={5}
 						size={40}

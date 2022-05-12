@@ -15,7 +15,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Spinner from "react-bootstrap/Spinner";
 
 import LocationLink from "../Components/LocationLink";
-import UrlPartGrabber from "../Components/UrlPartGrabber";
+import URLPartGrabber from "../Components/URLPartGrabber";
 import MapCalloutAndMe from "../Components/MapCalloutAndMe";
 import MapNearbyProfessionals from "../Components/MapNearbyProfessionals";
 import CalloutImageInput from "../Components/CalloutImageInput";
@@ -310,7 +310,7 @@ class CalloutDetails extends React.Component {
 		return (
 			<Container>
 				{/* Get callout ID from URL */}
-				<UrlPartGrabber onload={this.loadCallout}/>
+				<URLPartGrabber onload={this.loadCallout}/>
 
 				{/* Show error message if required */}
 				{this.state.error && <Alert variant="danger">{this.state.error}</Alert>}

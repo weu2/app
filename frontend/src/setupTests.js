@@ -19,8 +19,8 @@ global.navigator.geolocation = {
 };
 
 // Fake SVG rendering for React Leaflet, from stackoverflow.com/questions/54382414
-const createElementNSOrig = global.document.createElementNS
-	global.document.createElementNS = function(namespaceURI, qualifiedName) {
+const createElementNSOrig = global.document.createElementNS;
+global.document.createElementNS = function(namespaceURI, qualifiedName) {
 	if (namespaceURI === "http://www.w3.org/2000/svg" && qualifiedName === "svg"){
 	const element = createElementNSOrig.apply(this, arguments)
 		element.createSVGRect = function() {};

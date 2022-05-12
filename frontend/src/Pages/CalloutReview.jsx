@@ -9,7 +9,7 @@ import Alert from "react-bootstrap/Alert";
 import Form from "react-bootstrap/Form";
 import Spinner from "react-bootstrap/Spinner";
 
-import UrlPartGrabber from "../Components/UrlPartGrabber";
+import URLPartGrabber from "../Components/URLPartGrabber";
 import LargeButton from "../Components/LargeButton";
 
 // api.jsx contains utility functions for getting or sending data from the frontend to the backend
@@ -91,7 +91,7 @@ class CalloutReview extends React.Component {
 		return (
 			<Container>
 				{/* Get callout ID from URL */}
-				<UrlPartGrabber onload={this.loadCallout}/>
+				<URLPartGrabber onload={this.loadCallout}/>
 
 				{/* Redirect to dashboard once reviewed */}
 				{this.state.reviewed && <Navigate to="/dashboard" />}
@@ -136,7 +136,7 @@ class CalloutReview extends React.Component {
 							</Form.Group>
 
 							{/* Include rating in form submission automatically */}
-							<Form.Control type="hidden" name="rating" value={this.state.rating} required />
+							<Form.Control name="rating" type="hidden" value={this.state.rating} required />
 
 							{/* Include callout ID in form submission automatically */}
 							<Form.Control name="calloutId" type="hidden" value={this.state.callout.uuid} required />
