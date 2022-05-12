@@ -9,6 +9,7 @@ router.use((req, res, next) => {
 router.use('/user', require('./user'));
 router.use('/callout', require('./callout'));
 router.use('/image', require('./image'));
+router.use('/review', require('./review'));
 
 router.get('/test', (req, res) => {
     res.send({response:true});

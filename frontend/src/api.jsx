@@ -196,3 +196,21 @@ export function backendReview(formData) {
 		body: formData
 	});
 }
+
+// Gets all reviews from all customers
+export function backendGetReviews() {
+	return fetchStrict("/api/v1/review/list").then(res => res.json());
+}
+
+// Gets details on a review such as customer and callout info
+export function backendGetReviewInfo(reviewId) {
+	return fetchStrict("/api/v1/review/getInfo", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify({
+			reviewId: reviewId
+		})
+	}).then(res => res.json());
+}

@@ -13,3 +13,9 @@ it("checks callout image input types are valid", () => {
 	expect(container.querySelector("input[name=\"image\"]").type).toBe("file");
 	expect(container.querySelector("input[name=\"calloutId\"]").type).toBe("hidden");
 });
+
+it("checks callout image input types are required", () => {
+	const { container } = render(<CalloutImageInput callout={{ images: [] }} customer />);
+	expect(container.querySelector("input[name=\"image\"]").required).toBe(true);
+	expect(container.querySelector("input[name=\"calloutId\"]").required).toBe(true);
+});

@@ -123,7 +123,7 @@ class CalloutReview extends React.Component {
 							<Form.Group controlId="formReviewText" className="mb-3">
 								<Form.Label className="mb-3">Review</Form.Label>
 								<Form.Control
-									name="reviewText"
+									name="description"
 									input="text"
 									as="textarea"
 									rows={4}
@@ -131,15 +131,18 @@ class CalloutReview extends React.Component {
 								/>
 								{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
 								<Form.Control.Feedback type="invalid">
-									Please provide a review.
+									Please provide a review description.
 								</Form.Control.Feedback>
 							</Form.Group>
 
 							{/* Include rating in form submission automatically */}
-							<Form.Control type="hidden" name="reviewScore" value={this.state.rating} required />
+							<Form.Control type="hidden" name="rating" value={this.state.rating} required />
 
 							{/* Include callout ID in form submission automatically */}
-							<Form.Control name="calloutId" type="hidden" value={this.state.callout.uuid} />
+							<Form.Control name="calloutId" type="hidden" value={this.state.callout.uuid} required />
+
+							{/* Include date automatically */}
+							<Form.Control name="dateTime" type="hidden" value={Date.now()} required />
 
 							{/* type="submit" automatically runs onSubmit, which runs this.submitForm */}
 							<LargeButton className="mb-3" variant="primary" type="submit" icon="arrow-right">

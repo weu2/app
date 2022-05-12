@@ -1,10 +1,10 @@
 import React from "react";
 import { Link, Navigate } from "react-router-dom";
 
+import ReactStars from "react-rating-stars-component";
+
 // <Container> adds padding to the sides of the page content, makes it look nicer
 import Container from "react-bootstrap/Container";
-
-// <Alert> is useful for displaying success or error messages, see react-bootstrap.github.io/components/alerts/
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
@@ -171,6 +171,22 @@ class CalloutDetails extends React.Component {
 		return (
 			<Table bordered striped>
 				<tbody>
+					{
+						this.state.callout.rating
+						&& <tr>
+							<th>Rating</th>
+							<td className="p-0">
+								<ReactStars
+									classNames="position-absolute ms-1"
+									count={5}
+									size={26}
+									edit={false}
+									activeColor="#FF449E"
+									value={parseFloat(this.state.callout.rating)}
+								/>
+							</td>
+						</tr>
+					}
 					<tr>
 						<th>Location</th>
 						<td>
@@ -208,7 +224,7 @@ class CalloutDetails extends React.Component {
 						<td>{
 							this.state.price
 							? `$${parseFloat(this.state.price).toFixed(2)}`
-							: "Waiting for service professional"
+							: "Waiting for service professional to accept"
 						}</td>
 					</tr>
 					{

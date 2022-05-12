@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import ReactStars from "react-rating-stars-component";
+
 import Card from "react-bootstrap/Card";
 import Table from "react-bootstrap/Table";
 import Row from "react-bootstrap/Row";
@@ -47,6 +49,7 @@ class CalloutListed extends React.Component {
 
 	customerButton() {
 		if (this.props.callout.price && !this.props.callout.paymentComplete) {
+			// Force customer to pay for callout
 			return (
 				<Link to={`/callout/${this.props.callout.uuid}/pay`}>
 					<LargeButton variant="primary" icon="arrow-right">
@@ -54,7 +57,8 @@ class CalloutListed extends React.Component {
 					</LargeButton>
 				</Link>
 			);
-		} else if (this.props.callout.status === "finished") {
+		} else if (this.props.callout.status === "finished" && !this.props.callout.rating) {
+			// Force customer to review callout
 			return (
 				<Link to={`/callout/${this.props.callout.uuid}/review`}>
 					<LargeButton variant="primary" icon="arrow-right">
@@ -78,31 +82,20 @@ class CalloutListed extends React.Component {
 						<Col sm={7} className="mb-3">
 							<Table borderless>
 								<tbody>
-									<tr>
-										<th>Status</th>
-										<td>{this.props.callout.status.toUpperCase()}</td>
-									</tr>
-									<tr>
-										<th>Number Plate</th>
-										<td>{this.props.callout.numberPlate}</td>
-									</tr>
-									<tr>
-										<th>Assigned To</th>
-										<td>{this.state.assigneeName}</td>
-									</tr>
-									<tr>
-										<th>Price</th>
-										<td>{
-											this.props.callout.price
-											? `$${parseFloat(this.props.callout.price).toFixed(2)}`
-											: "Waiting for service professional"
-										}</td>
-									</tr>
 									{
-										this.props.callout.price
+										this.props.callout.rating
 										&& <tr>
-											<th>Payment Provided</th>
-											<td>{this.props.callout.paymentComplete ? "Yes" : "No"}</td>
+											<th>Rating</th>
+											<td className="p-0">
+												<ReactStars
+													classNames="position-absolute ms-1"
+													count={5}
+													size={26}
+													edit={false}
+													activeColor="#FF449E"
+													value={parseFloat(this.props.callout.rating)}
+												/>
+											</td>
 										</tr>
 									}
 									{
@@ -124,6 +117,42 @@ class CalloutListed extends React.Component {
 												: `${this.props.callout.distance.toFixed(3)} km`
 											}</td>
 										</tr>
+									}
+									<tr>
+										<th>Status</th>
+										<td>{this.props.callout.status.toUpperCase()}</td>
+									</tr>
+									<tr>
+										<th>Number Plate</th>
+										<td>{this.props.callout.numberPlate}</td>
+									</tr>
+									<tr>
+										<th>Assigned To</th>
+										<td>{this.state.assigneeName}</td>
+									</tr>
+									<tr>
+										<th>Price</th>
+										<td>{
+											this.props.callout.price
+											? `$${parseFloat(this.props.callout.price).toFixed(2)}`
+											: "Waiting for service professional to accept"
+										}</td>
+									</tr>
+									{
+										(this.props.callout.price && !this.props.callout.paymentComplete)
+										? <tr>
+											<th>Payment Provided</th>
+											<td>No</td>
+										</tr>
+										: null
+									}
+									{
+										(this.props.callout.status === "finished" && !this.props.callout.rating)
+										? <tr>
+											<th>Review Provided</th>
+											<td>No</td>
+										</tr>
+										: null
 									}
 								</tbody>
 							</Table>

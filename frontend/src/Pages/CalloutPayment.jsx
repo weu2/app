@@ -66,7 +66,8 @@ class CalloutPayment extends React.Component {
 
 						<h2 className="mb-4">Callout on {new Date(parseInt(this.state.callout.dateTime)).toLocaleString("en-US")}</h2>
 						<h5 className="mb-4">Price: ${parseFloat(this.state.callout.price).toFixed(2)}</h5>
-						<p>For the purposes of this app, we are only using PayPal's sandbox environment and thus you must use this login provided.</p>
+						<p>For the purposes of this app, we are only using PayPal's sandbox environment.</p>
+						<p>Please use the login credentials provided below:</p>
 
 						<Table bordered>
 							<tbody>

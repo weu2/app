@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 
+// <Container> adds padding to the sides of the page content, makes it look nicer
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -83,6 +84,7 @@ class NavigationBar extends React.Component {
 										? <Nav.Link as={NavLink} to="/findcallouts">Find Callouts</Nav.Link>
 										: null
 									}
+									<Nav.Link as={NavLink} to="/reviews">Reviews</Nav.Link>
 								</>
 								: <>
 									<Nav.Link as={NavLink} to="/login">Login</Nav.Link>

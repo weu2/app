@@ -62,6 +62,12 @@ class CalloutList extends React.Component {
 			case "farthest":
 				this.state.callouts.sort((a, b) => b.distance - a.distance);
 				break;
+			case "ratingasc":
+				this.state.callouts.sort((a, b) => a.rating - b.rating);
+				break;
+			case "ratingdesc":
+				this.state.callouts.sort((a, b) => b.rating - a.rating);
+				break;
 			case "oldest":
 				this.state.callouts.sort((a, b) => a.dateTime.localeCompare(b.dateTime));
 				break;
@@ -127,6 +133,8 @@ class CalloutList extends React.Component {
 										}
 										<option value="newest">Newest to oldest</option>
 										<option value="oldest">Oldest to newest</option>
+										<option value="ratingdesc">Highest to lowest rating</option>
+										<option value="ratingasc">Lowest to highest rating</option>
 									</Form.Select>
 								</Col>
 							</Form.Group>
@@ -136,7 +144,7 @@ class CalloutList extends React.Component {
 				</Row>
 
 				{ // Display callouts if they exist
-					this.state.callouts && this.state.callouts.length
+					(this.state.callouts && this.state.callouts.length)
 					? this.generateCallouts()
 					: this.displayHelp()
 				}
