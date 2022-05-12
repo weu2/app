@@ -69,7 +69,7 @@ class NavigationBar extends React.Component {
 							{
 								this.state.loggedIn
 								? <>
-									<Nav.Link as={NavLink} to="/dashboard">Dashboard</Nav.Link>
+									<Nav.Link as={NavLink} to="/dashboard">Hello, {this.state.userInfo && this.state.userInfo.firstName}</Nav.Link>
 									{
 										(this.state.userInfo && this.state.userInfo.CUSTOMER)
 										? <Nav.Link as={NavLink} to="/requestcallout">Request Callout</Nav.Link>
@@ -91,7 +91,6 @@ class NavigationBar extends React.Component {
 							this.state.loggedIn
 							&& 
 							<Nav>
-								<Nav.Link>Hello, {this.state.userInfo && this.state.userInfo.firstName}</Nav.Link>
 								<NavDropdown title={<FontAwesomeIcon icon={faCircleUser} size="2x" />}>
 									<NavDropdown.Item as={Link} to="/profile">My Profile</NavDropdown.Item>
 									<NavDropdown.Divider/>
