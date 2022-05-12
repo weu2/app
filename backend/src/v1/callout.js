@@ -153,7 +153,7 @@ router.post('/update', (req, res) => {
 					return;
 				}
 				callouts.update({ uuid: req.body.calloutId }, {
-					assignedTo: userUuid,
+					assignedTo: req.userUUID,
 					price: req.body.price,
 					status: req.body.status
 				});
