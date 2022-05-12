@@ -223,22 +223,20 @@ class CalloutDetails extends React.Component {
 						<th>Description</th>
 						<td>{this.state.callout.description}</td>
 					</tr>
+					{
+						(this.state.userType === "CUSTOMER" || (this.state.callout.images && this.state.callout.images.length))
+						? <tr>
+							<td className="p-0" colSpan={2}>
+								<CalloutImageInput
+									callout={this.state.callout}
+									customer={this.state.userType === "CUSTOMER" ? 1 : 0}
+								/>
+							</td>
+						</tr>
+						: null
+					}
 				</tbody>
 			</Table>
-		);
-	}
-
-	showImages() {
-		return (
-			<div>
-			{
-				this.state.callout
-				&& <CalloutImageInput
-					callout={this.state.callout}
-					customer={this.state.userType === "CUSTOMER" ? 1 : 0}
-				/>
-			}
-			</div>
 		);
 	}
 
@@ -310,7 +308,6 @@ class CalloutDetails extends React.Component {
 						: <>
 							{this.showMap()}
 							{this.showDetails()}
-							{this.showImages()}
 							{this.state.userType === "PROFESSIONAL" && this.drawCalloutButtons()}
 							{this.showNearby()}
 						</>

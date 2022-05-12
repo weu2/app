@@ -78,11 +78,10 @@ class CalloutImageInput extends React.Component {
 				{/* Display an error message if required */}
 				{this.state.error && <Alert variant="danger">{this.state.error}</Alert>}
 			</Form>
-			: <div>
+			: <div className="p-2">
 			{
 				this.state.images.map((image, index) =>
 					<Image
-						className="mt-2 mb-1"
 						src={`/api/v1/image/${image}`}
 						key={index}
 						thumbnail
