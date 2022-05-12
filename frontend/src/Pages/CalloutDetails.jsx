@@ -12,6 +12,7 @@ import Col from "react-bootstrap/Col";
 import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
+import Spinner from "react-bootstrap/Spinner";
 
 import LocationLink from "../Components/LocationLink";
 import OnDemandForm from "../Components/OnDemandForm";
@@ -298,22 +299,26 @@ class CalloutDetails extends React.Component {
 				{/* Redirect to /login if the user cannot view this page */}
 				{!this.state.loggedIn && <Navigate to="/login"/>}
 
-				{this.state.callout ?
-				<>
-					<h2 className="mb-4">Callout on {new Date(parseInt(this.state.callout.dateTime)).toLocaleString("en-US")}</h2>
-					{/* Request payment for unpaid callouts */}
-					{
-						(this.state.userType === "CUSTOMER" && this.state.price && !this.state.callout.paymentComplete)
-						? <OnDemandForm callout={this.state.callout} />
-						: <>
-							{this.showMap()}
-							{this.showDetails()}
-							{this.state.userType === "PROFESSIONAL" && this.drawCalloutButtons()}
-							{this.showNearby()}
-						</>
-					}
-				</>
-				: <Alert variant="info">Loading callout details...</Alert>}
+				{
+					this.state.callout
+					? <>
+						<h2 className="mb-4">Callout on {new Date(parseInt(this.state.callout.dateTime)).toLocaleString("en-US")}</h2>
+						{/* Request payment for unpaid callouts */}
+						{
+							(this.state.userType === "CUSTOMER" && this.state.price && !this.state.callout.paymentComplete)
+							? <OnDemandForm callout={this.state.callout} />
+							: <>
+								{this.showMap()}
+								{this.showDetails()}
+								{this.state.userType === "PROFESSIONAL" && this.drawCalloutButtons()}
+								{this.showNearby()}
+							</>
+						}
+					</>
+					: <Spinner variant="primary" animation="border" role="status">
+						<span className="visually-hidden">Loading callout details...</span>
+					</Spinner>
+				}
 			</Container>
 		);
 	}

@@ -86,7 +86,9 @@ class OnDemandForm extends React.Component {
 								}
 							}/>
 					</PayPalScriptProvider>
-					: <Spinner animation="border" />
+					: <Spinner variant="primary" animation="border" role="status">
+						<span className="visually-hidden">Loading PayPal...</span>
+					</Spinner>
 				}
 			</>
 		);

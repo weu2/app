@@ -41,9 +41,9 @@ class CalloutListed extends React.Component {
 				<Card.Header>
 					Callout on {new Date(parseInt(this.props.callout.dateTime)).toLocaleString("en-US")}
 				</Card.Header>
-				<Card.Body>
+				<Card.Body className="pb-1">
 					<Row>
-						<Col sm={7}>
+						<Col sm={7} className="mb-3">
 							<Table borderless>
 								<tbody>
 									<tr>
@@ -105,7 +105,7 @@ class CalloutListed extends React.Component {
 								</LargeButton>
 							</Link>
 						</Col>
-						<Col sm>
+						<Col sm className="mb-3">
 							{
 								this.props.customer
 								? <MapNearbyProfessionals
