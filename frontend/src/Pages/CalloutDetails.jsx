@@ -15,7 +15,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Spinner from "react-bootstrap/Spinner";
 
 import LocationLink from "../Components/LocationLink";
-import OnDemandForm from "../Components/OnDemandForm";
+import UrlPartGrabber from "../Components/UrlPartGrabber";
 import MapCalloutAndMe from "../Components/MapCalloutAndMe";
 import MapNearbyProfessionals from "../Components/MapNearbyProfessionals";
 import CalloutImageInput from "../Components/CalloutImageInput";
@@ -30,8 +30,6 @@ class CalloutDetails extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			// useParams would be better, but doesn't work with React classes
-			id: decodeURIComponent(document.location.pathname.split("/").pop()),
 			error: null, // Error message to display if required
 			callout: null, // Callout JSON data, may not trigger page update
 			status: null, // Status of the callout, e.g. "NEW", "INPROGRESS", "FINISHED"
@@ -47,7 +45,6 @@ class CalloutDetails extends React.Component {
 	}
 
 	componentDidMount() {
-
 		backendGetUserInfo()
 			.then(res => this.setState({
 				userType: res.type,
@@ -56,8 +53,10 @@ class CalloutDetails extends React.Component {
 				// Redirect to /login if user isn't logged in yet
 				loggedIn: false
 			}));
+	}
 
-		backendGetCallout(this.state.id).then(res => {
+	loadCallout = (params) => {
+		backendGetCallout(params.id).then(res => {
 			this.setState({
 				status: res.status,
 				price: res.price,
@@ -65,7 +64,7 @@ class CalloutDetails extends React.Component {
 			});
 
 			if (res.assignedTo) {
-				backendGetCalloutAssignee(this.state.id)
+				backendGetCalloutAssignee(params.id)
 					.then(res => this.setState({
 						assigneeName: res.name
 					}));
@@ -86,7 +85,7 @@ class CalloutDetails extends React.Component {
 	}
 
 	updateCallout = (status) => {
-		backendUpdateCallout(this.state.id, status, this.state.inputPrice)
+		backendUpdateCallout(this.state.callout.uuid, status, this.state.inputPrice)
 			.then(callout => this.setState({
 				status: callout.status,
 				price: callout.price,
@@ -119,8 +118,7 @@ class CalloutDetails extends React.Component {
 						<Col>
 							<Button
 								variant="success"
-								style={{ width: "100%" }}
-								className="mb-3"
+								className="mb-3 w-100"
 								onClick={() => this.updateCallout("accepted")}
 							>
 								Accept
@@ -128,11 +126,7 @@ class CalloutDetails extends React.Component {
 						</Col>
 						<Col>
 							<Link to="/findcallouts">
-								<Button
-									variant="danger"
-									style={{ width: "100%" }}
-									className="mb-3"
-								>
+								<Button variant="danger" className="mb-3 w-100">
 									Deny
 								</Button>
 							</Link>
@@ -141,27 +135,23 @@ class CalloutDetails extends React.Component {
 				</>);
 			case "accepted":
 				return (
-					<Row>
-						<Button
-							variant="success"
-							className="mb-3"
-							onClick={() => this.updateCallout("inprogress")}
-						>
-							Arrived on site
-						</Button>
-					</Row>
+					<Button
+						variant="success"
+						className="mb-3 w-100"
+						onClick={() => this.updateCallout("inprogress")}
+					>
+						Arrived on site
+					</Button>
 				);
 			case "inprogress":
 				return (
-					<Row>
-						<Button
-							variant="success"
-							className="mb-3"
-							onClick={() => this.updateCallout("finished")}
-						>
-							Finished working
-						</Button>
-					</Row>
+					<Button
+						variant="success"
+						className="mb-3 w-100"
+						onClick={() => this.updateCallout("finished")}
+					>
+						Finished working
+					</Button>
 				);
 			case "finished":
 			default:
@@ -245,14 +235,16 @@ class CalloutDetails extends React.Component {
 		return (
 			this.state.userType === "CUSTOMER"
 			? <MapNearbyProfessionals
-				uuid={this.state.id}
+				uuid={this.state.callout.uuid}
 				position={[this.state.callout.locationLat, this.state.callout.locationLong]}
-				style={{ width: "100%", height: "256px" }}
+				className="w-100"
+				style={{ height: "256px" }}
 				ondata={nearby => this.setState({ nearby: nearby })}
 			/>
 			: <MapCalloutAndMe
 				position={[this.state.callout.locationLat, this.state.callout.locationLong]}
-				style={{ width: "100%", height: "256px" }}
+				className="w-100"
+				style={{ height: "256px" }}
 			/>
 		);
 	}
@@ -293,6 +285,9 @@ class CalloutDetails extends React.Component {
 	render() {
 		return (
 			<Container>
+				{/* Get callout ID from URL */}
+				<UrlPartGrabber onload={this.loadCallout}/>
+
 				{/* Show error message if required */}
 				{this.state.error && <Alert variant="danger">{this.state.error}</Alert>}
 
@@ -303,17 +298,10 @@ class CalloutDetails extends React.Component {
 					this.state.callout
 					? <>
 						<h2 className="mb-4">Callout on {new Date(parseInt(this.state.callout.dateTime)).toLocaleString("en-US")}</h2>
-						{/* Request payment for unpaid callouts */}
-						{
-							(this.state.userType === "CUSTOMER" && this.state.price && !this.state.callout.paymentComplete)
-							? <OnDemandForm callout={this.state.callout} />
-							: <>
-								{this.showMap()}
-								{this.showDetails()}
-								{this.state.userType === "PROFESSIONAL" && this.drawCalloutButtons()}
-								{this.showNearby()}
-							</>
-						}
+						{this.showMap()}
+						{this.showDetails()}
+						{this.state.userType === "PROFESSIONAL" && this.drawCalloutButtons()}
+						{this.showNearby()}
 					</>
 					: <Spinner variant="primary" animation="border" role="status">
 						<span className="visually-hidden">Loading callout details...</span>

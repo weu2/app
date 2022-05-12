@@ -95,15 +95,19 @@ class CalloutListed extends React.Component {
 									}
 								</tbody>
 							</Table>
-							<Link to={`/callout/${this.props.callout.uuid}`}>
-								<LargeButton variant="primary" icon="arrow-right">
-								{
-									(this.props.customer && this.props.callout.price && !this.props.callout.paymentComplete)
-									? "Complete Payment"
-									: "More Info"
-								}
-								</LargeButton>
-							</Link>
+							{
+								(this.props.customer && this.props.callout.price && !this.props.callout.paymentComplete)
+								? <Link to={`/callout/${this.props.callout.uuid}/pay`}>
+									<LargeButton variant="primary" icon="arrow-right">
+										Complete Payment
+									</LargeButton>
+								</Link>
+								: <Link to={`/callout/${this.props.callout.uuid}`}>
+									<LargeButton variant="primary" icon="arrow-right">
+										More Info
+									</LargeButton>
+								</Link>
+							}
 						</Col>
 						<Col sm className="mb-3">
 							{
@@ -111,12 +115,14 @@ class CalloutListed extends React.Component {
 								? <MapNearbyProfessionals
 									uuid={this.props.callout.uuid}
 									position={[this.props.callout.locationLat, this.props.callout.locationLong]}
-									style={{ width: "100%", height: "100%", minHeight: "128px" }}
+									className="w-100 h-100"
+									style={{ minHeight: "128px" }}
 								/>
 								// Display two markers for customers and mechanics
 								: <MapCalloutAndMe
 									position={[this.props.callout.locationLat, this.props.callout.locationLong]}
-									style={{ width: "100%", height: "100%", minHeight: "128px" }}
+									className="w-100 h-100"
+									style={{ minHeight: "128px" }}
 								/>
 							}
 						</Col>

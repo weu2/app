@@ -81,7 +81,8 @@ class LocationInput extends React.Component {
 			<MapMyLocation
 				position={this.state.position}
 				setposition={pos => this.setState({ position: pos })}
-				style={{ width: "100%", height: "256px" }}
+				className="w-100"
+				style={{ height: "256px" }}
 			/>
 		</div>
 	}
