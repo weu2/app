@@ -277,6 +277,25 @@ router.get('/prefetchPaymentInfo', (req, res) => {
 	});
 });
 
+router.post('/cancelPayment', (req, res) => {
+
+	if (!apiValidator.validate(req, {
+		calloutId: {type:"string", required: true},
+	})) {
+		res.status(400).send('Missing API parameters');
+		return;
+	}
+
+	const callouts = new JsonDB('data/callouts.json');
+	const callout = callouts.find({ customer: req.userUUID, uuid: req.body.calloutId })[0];
+	if (!callout) {
+		res.status(400).send();
+		return;
+	}
+
+	callouts.update({ customer: req.userUUID, uuid: req.body.calloutId }, { paymentID: "" });
+});
+
 router.post('/createPayment', (req, res) => {
 
 	if (!apiValidator.validate(req, {
@@ -316,8 +335,12 @@ router.post('/capturePayment', (req, res) => {
 	}
 
 	PayPal.capturePayment(callout.paymentID).then(data => {
-		callouts.update({ customer: req.userUUID, uuid: req.body.calloutId }, { paymentComplete: true });
-		res.status(200).send(data);
+		if(data.status === "COMPLETED") {	
+			callouts.update({ customer: req.userUUID, uuid: req.body.calloutId }, { paymentComplete: true });
+			res.status(200).send(data);
+		} else {
+			res.status(400).send(data);
+		}
 	})
 
 });

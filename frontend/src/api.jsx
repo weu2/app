@@ -163,6 +163,20 @@ export function backendCreatePayment(calloutId) {
 	}).then(res => res.json());
 }
 
+export function backendCancelPayment(calloutId) {
+	return fetch("/api/v1/callout/cancelPayment", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify({
+			calloutId: calloutId
+		})
+	})
+	// not sure if this will cause issues
+	.then(res => res.json());
+}
+
 export function backendCapturePayment(calloutId) {
 	return fetch("/api/v1/callout/capturePayment", {
 		method: "POST",

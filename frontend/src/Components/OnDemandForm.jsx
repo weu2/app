@@ -2,12 +2,13 @@ import React from "react";
 
 import Table from "react-bootstrap/Table";
 import Spinner from "react-bootstrap/Spinner";
+import Alert from "react-bootstrap/Alert";
 
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";	
 
 // api.jsx contains utility functions for getting or sending data from the frontend to the backend
 // For example, sending form data or getting user info
-import { backendPreFetchPaymentInformation, backendCreatePayment, backendCapturePayment } from "../api.jsx";
+import { backendPreFetchPaymentInformation, backendCreatePayment, backendCapturePayment, backendCancelPayment } from "../api.jsx";
 
 class OnDemandForm extends React.Component {
 
@@ -15,7 +16,8 @@ class OnDemandForm extends React.Component {
 		super(props);
 		this.state = {
 			initialOptions: null,
-			paypalClientToken: ""
+			paypalClientToken: "",
+			error: null
 		}
 	}
 
@@ -35,6 +37,7 @@ class OnDemandForm extends React.Component {
 	render() {
 		return (
 			<>
+				{this.state.error && <Alert variant="danger">{this.state.error}</Alert>}
 				<h5 className="mb-4">Price: ${parseFloat(this.props.callout.price).toFixed(2)}</h5>
 				<p>For the purposes of this app, we are only using PayPal's sandbox environment and thus you must use this login provided.</p>
 				<Table bordered>
@@ -62,11 +65,24 @@ class OnDemandForm extends React.Component {
 							}
 							onApprove={
 								(data, actions) => {
+									//
 									return backendCapturePayment(this.props.callout.uuid)
 										.then(res => {
 											window.location.reload();
-											return res.id;
 										});
+								}
+							}
+							onCancel={
+								(data) => {
+									console.log("this is the cancel thing");
+									backendCancelPayment(this.props.callout.uuid);
+								}
+							}
+							onError = {
+								(err) => {
+									this.setState({
+										error:"PayPal could not process your payment!"
+									});
 								}
 							}/>
 					</PayPalScriptProvider>
