@@ -14,10 +14,6 @@ import LargeButton from "../Components/LargeButton";
 // For example, sending form data or getting user info
 import { backendTest } from "../api.jsx";
 
-
-//TEMPORARY
-import Review from "../Components/Review";
-
 class Home extends React.Component {
 
 	constructor(props) {
@@ -86,10 +82,6 @@ class Home extends React.Component {
 				<p>
 					For example, <code>mb-4</code> is a shorthand for <code>margin-bottom</code>, where the <code>4</code> is a preset margin size.
 				</p>
-
-					{/* TEMPORARY */}
-				<Review /> 
-		
 			</Container>
 		)
 	}
