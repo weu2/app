@@ -108,7 +108,7 @@ class CalloutReview extends React.Component {
 								<Form.Label className="mb-0">Rating</Form.Label>
 								<div className="position-relative">
 									{/* Stars are locked to block display so had to position the text manually */}
-									<span className="position-absolute" style={{ top: 20, left: 180 }}>
+									<span className="position-absolute" style={{ top: 20, left: 210 }}>
 										{this.state.ratingLabel}
 									</span>
 									<ReactStars

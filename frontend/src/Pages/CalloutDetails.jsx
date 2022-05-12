@@ -234,6 +234,14 @@ class CalloutDetails extends React.Component {
 							<td>{this.state.callout.paymentComplete ? "Yes" : "No"}</td>
 						</tr>
 					}
+					{
+						(this.state.status === "finished" && !this.state.callout.rating)
+						? <tr>
+							<th>Review Provided</th>
+							<td>No</td>
+						</tr>
+						: null
+					}
 					<tr>
 						<th>Description</th>
 						<td>{this.state.callout.description}</td>

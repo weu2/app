@@ -24,7 +24,7 @@ class RequestCallout extends React.Component {
 			loggedIn: true, // Assume user can view page to avoid redirecting early
 			validated: false, // Shows feedback messages to show the user if they screwed up the form, see react-bootstrap.github.io/forms/validation/
 			error: null, // Display failure message if an error occurs
-			submitted: false // Redirects to /dashboard
+			calloutId: null // Redirect to appropriate callout page
 		};
 	}
 
@@ -47,9 +47,9 @@ class RequestCallout extends React.Component {
 		if (form.checkValidity()) {
 			// Manually send form data to backend
 			backendCreateCallout(new FormData(form))
-				.then(() => this.setState({
-					// Redirect to /dashboard
-					submitted: true
+				.then(res => this.setState({
+					// Redirect to callout page
+					calloutId: res.uuid
 				})).catch(async(res) => this.setState({
 					// Show error message
 					error: `Error: ${res.status} (${res.statusText}) ${await res.text()}`
@@ -69,8 +69,8 @@ class RequestCallout extends React.Component {
 				{/* Redirect to /login if the user cannot view this page */}
 				{!this.state.loggedIn && <Navigate to="/login"/>}
 
-				{/* Redirect to /dashboard after form submission */}
-				{this.state.submitted && <Navigate to="/dashboard"/>}
+				{/* Redirect to callout page after form submission */}
+				{this.state.calloutId && <Navigate to={`/callout/${this.state.calloutId}`}/>}
 
 				{/* Display an error message if required */}
 				{this.state.error && <Alert variant="danger">{this.state.error}</Alert>}

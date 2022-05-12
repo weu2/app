@@ -75,12 +75,12 @@ export function backendUploadImage(image) {
 	}).then(res => res.json());
 }
 
-// Attempts to open a new callout, adding a new entry to /data/callouts.json
+// Attempts to open a new callout, adds an entry to /data/callouts.json and returns the UUID
 export function backendCreateCallout(formData) {
 	return fetchStrict("/api/v1/callout/create", {
 		method: "POST",
 		body: formData
-	});
+	}).then(res => res.json());
 }
 
 // Gets a list of callouts, either all opened by a customer or accepted by a service professional
