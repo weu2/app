@@ -36,7 +36,7 @@ class OnDemandForm extends React.Component {
 		return (
 			<>
 				<h5 className="mb-4">Price: ${parseFloat(this.props.callout.price).toFixed(2)}</h5>
-				<p>For the purposes of this app, please don't use your real paypal account!</p>
+				<p>For the purposes of this app, we are only using PayPal's sandbox environment and thus you must use this login provided.</p>
 				<Table bordered>
 					<tbody>
 						<tr>
