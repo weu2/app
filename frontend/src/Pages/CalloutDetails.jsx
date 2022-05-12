@@ -10,7 +10,6 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Table from "react-bootstrap/Table";
-// import Image from "react-bootstrap/Image";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 
@@ -234,8 +233,10 @@ class CalloutDetails extends React.Component {
 			<div>
 			{
 				this.state.callout
-				&&
-				<CalloutImageInput callout={this.state.callout} userType={this.state.userType}/>
+				&& <CalloutImageInput
+					callout={this.state.callout}
+					customer={this.state.userType === "CUSTOMER" ? 1 : 0}
+				/>
 			}
 			</div>
 		);
