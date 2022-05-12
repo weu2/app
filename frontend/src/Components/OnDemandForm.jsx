@@ -1,7 +1,7 @@
 import React from "react";
 
-import Alert from "react-bootstrap/Alert";
-import Form from "react-bootstrap/Form";
+import Table from "react-bootstrap/Table";
+import Spinner from "react-bootstrap/Spinner";
 
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";	
 
@@ -14,8 +14,6 @@ class OnDemandForm extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			validated: false,
-			error: null,
 			initialOptions: null,
 			paypalClientToken: ""
 		}
@@ -28,7 +26,7 @@ class OnDemandForm extends React.Component {
 					"client-id": res.clientId,
 					"currency": "AUD",
 					"intent": "capture",
-					"data-client-token":res.clientToken
+					"data-client-token": res.clientToken
 				}
 			});
 		});
@@ -36,20 +34,24 @@ class OnDemandForm extends React.Component {
 
 	render() {
 		return (
-			<Form noValidate validated={this.state.validated} onSubmit={this.submitForm}>
-
-				{/* Display an error message if required */}
-				{this.state.error && <Alert variant="danger">{this.state.error}</Alert>}
-				
-				<p className="mb-4">FOR THE PURPOSES OF THIS APP, THIS USES PAYPAL'S SANDBOX ENVIRONMENT, PLEASE DO NOT USE YOUR *REAL* PAYPAL ACCOUNT</p>
-				<p className>SB Email: sb-spkqx16304132@personal.example.com</p>
-				<p className="mb-4">SB Password: uiYy7B$T</p>
-				
+			<>
 				<h5 className="mb-4">Price: ${parseFloat(this.props.callout.price).toFixed(2)}</h5>
-
+				<p>For the purposes of this app, please don't use your real paypal account!</p>
+				<Table bordered>
+					<tbody>
+						<tr>
+							<th>Email</th>
+							<td>sb-spkqx16304132@personal.example.com</td>
+						</tr>
+						<tr>
+							<th>Password</th>
+							<td>uiYy7B$T</td>
+						</tr>
+					</tbody>
+				</Table>
 				{
-					this.state.initialOptions 
-					&& <PayPalScriptProvider options={this.state.initialOptions}>
+					this.state.initialOptions
+					? <PayPalScriptProvider options={this.state.initialOptions}>
 						<PayPalButtons 
 							style={{ layout: "vertical" }}
 							createOrder={
@@ -61,12 +63,16 @@ class OnDemandForm extends React.Component {
 							onApprove={
 								(data, actions) => {
 									return backendCapturePayment(this.props.callout.uuid)
-										.then(res => res.id);
+										.then(res => {
+											window.location.reload();
+											return res.id;
+										});
 								}
 							}/>
 					</PayPalScriptProvider>
+					: <Spinner animation="border" />
 				}
-			</Form>
+			</>
 		);
 	}
 }
