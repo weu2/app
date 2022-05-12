@@ -16,6 +16,7 @@ import CalloutDetails from "./Pages/CalloutDetails";
 import FindCallouts from "./Pages/FindCallouts";
 import Membership from "./Pages/Membership";
 import CalloutPayment from "./Pages/CalloutPayment";
+import CalloutReview from "./Pages/CalloutReview";
 import NoPage from "./Pages/404";
 
 import NavigationBar from "./Components/NavigationBar";
@@ -40,7 +41,7 @@ render(
 				<Route path="membership" element={<Membership />} />
 				<Route path="callout/:id" element={<CalloutDetails />} />
 				<Route path="callout/:id/pay" element={<CalloutPayment />} />
-				<Route path="callout/:id/review" element={<CalloutPayment />} />
+				<Route path="callout/:id/review" element={<CalloutReview />} />
 				<Route path="*" element={<NoPage />} />
 			</Routes>
 		</BrowserRouter>

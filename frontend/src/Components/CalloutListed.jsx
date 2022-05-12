@@ -102,11 +102,19 @@ class CalloutListed extends React.Component {
 										Complete Payment
 									</LargeButton>
 								</Link>
-								: <Link to={`/callout/${this.props.callout.uuid}`}>
-									<LargeButton variant="primary" icon="arrow-right">
-										More Info
-									</LargeButton>
-								</Link>
+								: (
+									this.props.callout.status === "finished"
+									? <Link to={`/callout/${this.props.callout.uuid}/review`}>
+										<LargeButton variant="primary" icon="arrow-right">
+											Write Review
+										</LargeButton>
+									</Link>
+									: <Link to={`/callout/${this.props.callout.uuid}`}>
+										<LargeButton variant="primary" icon="arrow-right">
+											More Info
+										</LargeButton>
+									</Link>
+								)
 							}
 						</Col>
 						<Col sm className="mb-3">
