@@ -35,6 +35,38 @@ class CalloutListed extends React.Component {
 		}
 	}
 
+	defaultButton() {
+		return (
+			<Link to={`/callout/${this.props.callout.uuid}`}>
+				<LargeButton variant="primary" icon="arrow-right">
+					More Info
+				</LargeButton>
+			</Link>
+		);
+	}
+
+	customerButton() {
+		if (this.props.callout.price && !this.props.callout.paymentComplete) {
+			return (
+				<Link to={`/callout/${this.props.callout.uuid}/pay`}>
+					<LargeButton variant="primary" icon="arrow-right">
+						Complete Payment
+					</LargeButton>
+				</Link>
+			);
+		} else if (this.props.callout.status === "finished") {
+			return (
+				<Link to={`/callout/${this.props.callout.uuid}/review`}>
+					<LargeButton variant="primary" icon="arrow-right">
+						Write Review
+					</LargeButton>
+				</Link>
+			);
+		} else {
+			return this.defaultButton();
+		}
+	}
+
 	render() {
 		return (
 			<Card {...this.props}>
@@ -95,27 +127,7 @@ class CalloutListed extends React.Component {
 									}
 								</tbody>
 							</Table>
-							{
-								(this.props.customer && this.props.callout.price && !this.props.callout.paymentComplete)
-								? <Link to={`/callout/${this.props.callout.uuid}/pay`}>
-									<LargeButton variant="primary" icon="arrow-right">
-										Complete Payment
-									</LargeButton>
-								</Link>
-								: (
-									this.props.callout.status === "finished"
-									? <Link to={`/callout/${this.props.callout.uuid}/review`}>
-										<LargeButton variant="primary" icon="arrow-right">
-											Write Review
-										</LargeButton>
-									</Link>
-									: <Link to={`/callout/${this.props.callout.uuid}`}>
-										<LargeButton variant="primary" icon="arrow-right">
-											More Info
-										</LargeButton>
-									</Link>
-								)
-							}
+							{this.props.customer ? this.customerButton() : this.defaultButton()}
 						</Col>
 						<Col sm className="mb-3">
 							{

@@ -64,12 +64,12 @@ export function backendGetURL() {
 // cookie set by the server and the frontend never has to worry about passing the claim back and forth
 // only ever deal with "you're not valid" state
 export function backendGetUserInfo() {
-	return fetchStrict("/api/v1/user/getinfo").then(res => res.json());
+	return fetchStrict("/api/v1/user/getInfo").then(res => res.json());
 }
 
 // Upload an image to the backend, returns the UUID
 export function backendUploadImage(image) {
-	return fetchStrict("/api/v1/callout/uploadimage", {
+	return fetchStrict("/api/v1/callout/uploadImage", {
 		method: "POST",
 		body: image
 	}).then(res => res.json());
@@ -90,7 +90,7 @@ export function backendGetMyCallouts() {
 
 // Gets a list of new callouts
 export function backendGetNewCallouts() {
-	return fetchStrict("/api/v1/callout/newcallouts").then(res => res.json());
+	return fetchStrict("/api/v1/callout/listNew").then(res => res.json());
 }
 
 // Gets a list of service professionals nearby a callout
@@ -187,4 +187,12 @@ export function backendCapturePayment(calloutId) {
 			calloutId: calloutId
 		})
 	}).then(res => res.json());
+}
+
+// Attempts to add a review for a callout
+export function backendReview(formData) {
+	return fetchStrict("/api/v1/callout/review", {
+		method: "POST",
+		body: formData
+	});
 }

@@ -40,11 +40,11 @@ router.post('/register', upload.none(), (req, res) => {
 		lastName: {type:"string", required:true},
 		address: {type:"string", required:true},
 		phoneNumber: {type:"string", required:true},
-		license: {type:"string", required:true},
+		license: {type:"numberString", required:true},
 		password: {type:"string", required:true},
 		type: {type:"string", required:true},
-		locationLat: {type:"string", required:isLocationRequired},
-		locationLong: {type:"string", required:isLocationRequired}
+		locationLat: {type:"numberString", required:isLocationRequired},
+		locationLong: {type:"numberString", required:isLocationRequired}
 	})) {
 		res.status(400).send('Missing API parameters');
 		return;
@@ -100,8 +100,8 @@ router.post('/update', upload.none(), (req, res) => {
 router.post('/track', upload.none(), (req, res) => {
 
 	if(!apiValidator.validate(req, {
-		locationLat: {type:"string", required:true},
-		locationLong: {type:"string", required:true}
+		locationLat: {type:"numberString", required:true},
+		locationLong: {type:"numberString", required:true}
 	})) {
 		res.status(400).send('Missing API parameters');
 		return;
@@ -137,7 +137,7 @@ function getType(user) {
 	return null;
 }
 
-router.get('/getinfo', (req, res) => {
+router.get('/getInfo', (req, res) => {
 	const uuid = auth.verifyClaim(req.cookies.claim);
 	if (uuid) {
 		const users = new JsonDB('data/users.json');

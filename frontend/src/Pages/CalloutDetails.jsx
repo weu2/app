@@ -114,6 +114,7 @@ class CalloutDetails extends React.Component {
 									isInvalid={this.state.inputPrice < 1 || this.state.inputPrice > 1000}
 									required
 								/>
+								{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
 								<Form.Control.Feedback type="invalid">
 									Must be a number between $1.00 and $1000.0.
 								</Form.Control.Feedback>

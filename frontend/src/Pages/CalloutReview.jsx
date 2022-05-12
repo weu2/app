@@ -1,4 +1,5 @@
 import React from "react";
+import { Navigate } from "react-router-dom";
 
 import ReactStars from "react-rating-stars-component";
 
@@ -13,7 +14,7 @@ import LargeButton from "../Components/LargeButton";
 
 // api.jsx contains utility functions for getting or sending data from the frontend to the backend
 // For example, sending form data or getting user info
-import { backendGetCallout } from "../api.jsx";
+import { backendGetCallout, backendReview } from "../api.jsx";
 
 class CalloutReview extends React.Component {
 
@@ -23,6 +24,7 @@ class CalloutReview extends React.Component {
 			error: null, // Error message to display if required
 			callout: null, // Callout JSON data, may not trigger page update
 			validated: false,
+			reviewed: false,
 			rating: 0,
 			ratingLabel: ""
 		};
@@ -64,14 +66,14 @@ class CalloutReview extends React.Component {
 		const form = event.currentTarget;
 		if (form.checkValidity()) {
 			// Manually send form data to backend
-			//backendRegister(new FormData(form))
-				//.then(() => this.setState({
-					// Redirect to /login
-					//submitted: true
-				//})).catch(async(res) => this.setState({
+			backendReview(new FormData(form))
+				.then(() => this.setState({
+					// Redirect to /dashboard
+					reviewed: true
+				})).catch(res => this.setState({
 					// Show error message
-					//error: `Error: ${res.status} (${res.statusText}) ${await res.text()}`
-				//}));
+					error: `Error: ${res.status} (${res.statusText})`
+				}));
 		}
 		// Show validation messages if required
 		this.setState({ validated: true });
@@ -90,6 +92,9 @@ class CalloutReview extends React.Component {
 			<Container>
 				{/* Get callout ID from URL */}
 				<UrlPartGrabber onload={this.loadCallout}/>
+
+				{/* Redirect to dashboard once reviewed */}
+				{this.state.reviewed && <Navigate to="/dashboard" />}
 
 				{/* Show error message if required */}
 				{this.state.error && <Alert variant="danger">{this.state.error}</Alert>}
@@ -124,10 +129,17 @@ class CalloutReview extends React.Component {
 									rows={4}
 									required
 								/>
+								{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
+								<Form.Control.Feedback type="invalid">
+									Please provide a review.
+								</Form.Control.Feedback>
 							</Form.Group>
 
-							{/*Hidden field makes acessing easier later*/}
+							{/* Include rating in form submission automatically */}
 							<Form.Control type="hidden" name="reviewScore" value={this.state.rating} required />
+
+							{/* Include callout ID in form submission automatically */}
+							<Form.Control name="calloutId" type="hidden" value={this.state.callout.uuid} />
 
 							{/* type="submit" automatically runs onSubmit, which runs this.submitForm */}
 							<LargeButton className="mb-3" variant="primary" type="submit" icon="arrow-right">
