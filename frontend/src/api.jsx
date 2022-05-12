@@ -154,3 +154,27 @@ export function backendPayOnDemand(formData) {
 		body: formData
 	});
 }
+
+export function backendPreFetchPaymentInformation() {
+	return fetch("/api/v1/callout/prefetchPaymentInfo").then(res => res.json());
+}
+
+export function backendCreatePayment(calloutId) {
+	return fetch("/api/v1/callout/createPayment", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body : JSON.stringify({calloutId: calloutId})
+		}).then(res => res.json());
+}
+
+export function backendCapturePayment(calloutId) {
+	return fetch("/api/v1/callout/capturePayment", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body : JSON.stringify({calloutId: calloutId})
+		}).then(res => res.json());
+}
