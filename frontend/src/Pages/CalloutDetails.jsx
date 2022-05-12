@@ -18,6 +18,7 @@ import LocationLink from "../Components/LocationLink";
 import OnDemandForm from "../Components/OnDemandForm";
 import MapCalloutAndMe from "../Components/MapCalloutAndMe";
 import MapNearbyProfessionals from "../Components/MapNearbyProfessionals";
+import CalloutImageInput from "../Components/CalloutImageInput";
 import { getLocation, getDistance } from "../Components/LocationTracker";
 
 // api.jsx contains utility functions for getting or sending data from the frontend to the backend
@@ -223,24 +224,20 @@ class CalloutDetails extends React.Component {
 						<th>Description</th>
 						<td>{this.state.callout.description}</td>
 					</tr>
-					{
-						(this.state.callout.images && this.state.callout.images.length)
-						? <tr>
-							<td colSpan={2}>
-								{this.state.callout.images.map((image, index) =>
-									<Image
-										src={`/api/v1/image/${image}`}
-										key={index}
-										width={256}
-										thumbnail
-									/>
-								)}
-							</td>
-						</tr>
-						: null
-					}
 				</tbody>
 			</Table>
+		);
+	}
+
+	showImages() {
+		return (
+			<div>
+			{
+				this.state.callout
+				&&
+				<CalloutImageInput callout={this.state.callout} userType={this.state.userType}/>
+			}
+			</div>
 		);
 	}
 
@@ -312,6 +309,7 @@ class CalloutDetails extends React.Component {
 						: <>
 							{this.showMap()}
 							{this.showDetails()}
+							{this.showImages()}
 							{this.state.userType === "PROFESSIONAL" && this.drawCalloutButtons()}
 							{this.showNearby()}
 						</>
