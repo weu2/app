@@ -13,7 +13,7 @@ class Membership extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			isMember: true,
+			isMember: false,
 			activeMember: false
 		};
 	}
@@ -22,26 +22,26 @@ class Membership extends React.Component {
 		return (
 			<Container>
 				<h2 className="mb-4">Membership</h2>
+				<h5>Has Membership: {this.state.isMember ? "Yes" : "No"}</h5>
+				<h5 className="mb-4">Membership Status: {this.state.activeMember ? "Active" : "Inactive"}</h5>
 				{
 					this.state.isMember
-					? <>
-						<h5>Member Number: {this.state.memberNumber}</h5>
-						<h5>Membership Status: {this.state.activeMember ? "Active" : "Inactive"}</h5>
-						{
-							this.state.activeMember
-							// For active members, display the renewal date
-							? <h5>Membership Renewal Date: {this.state.renewalDate}</h5>
-							// For non-active members, request new card information
-							: <>
-								<p>Please renew your membership below.</p>
-								<MembershipForm label="Renew Membership" />
-							</>
-						}
-					</>
+					? (
+						this.state.activeMember
+						// For active members, display the renewal date
+						? <>
+							<h5>Membership Renewal Date: TODO</h5>
+						</>
+						// For non-active members, request new card information
+						: <>
+							<p>Please renew your membership below.</p>
+							<MembershipForm />
+						</>
+					)
 					: <>
 						<p>You do not currently have a membership with WeU.</p>
 						<p className="mb-4">To become a member, please fill in the details below.</p>
-						<MembershipForm label="Activate Membership" />
+						<MembershipForm />
 					</>
 				}
 			</Container>
