@@ -157,8 +157,10 @@ export function backendCreatePayment(calloutId) {
 		headers: {
 			"Content-Type": "application/json"
 		},
-		body : JSON.stringify({calloutId: calloutId})
-		}).then(res => res.json());
+		body: JSON.stringify({
+			calloutId: calloutId
+		})
+	}).then(res => res.json());
 }
 
 export function backendCapturePayment(calloutId) {
@@ -167,6 +169,8 @@ export function backendCapturePayment(calloutId) {
 		headers: {
 			"Content-Type": "application/json"
 		},
-		body : JSON.stringify({calloutId: calloutId})
-		}).then(res => res.json());
+		body: JSON.stringify({
+			calloutId: calloutId
+		})
+	}).then(res => res.json());
 }
