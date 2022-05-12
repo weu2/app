@@ -274,6 +274,8 @@ router.get('/prefetchPaymentInfo', (req, res) => {
 			clientId : clientId, 
 			clientToken : clientToken 
 		});
+	}).catch(() => {
+		res.status(400).send();
 	});
 });
 
@@ -296,7 +298,9 @@ router.post('/createPayment', (req, res) => {
 	PayPal.createOrder(callout.price).then(data => {
 		callouts.update({ customer: req.userUUID, uuid: req.body.calloutId }, { paymentID: data.id });
 		res.status(200).send(data);
-	})
+	}).catch(() => {
+		res.status(400).send();
+	});
 });
 
 router.post('/capturePayment', (req, res) => {
@@ -318,8 +322,9 @@ router.post('/capturePayment', (req, res) => {
 	PayPal.capturePayment(callout.paymentID).then(data => {
 		callouts.update({ customer: req.userUUID, uuid: req.body.calloutId }, { paymentComplete: true });
 		res.status(200).send(data);
-	})
-
+	}).catch(() => {
+		res.status(400).send();
+	});
 });
 
 
