@@ -93,6 +93,12 @@ class NavigationBar extends React.Component {
 						{
 							this.state.loggedIn
 							&& <Nav>
+								{
+									this.state.userInfo
+									&& <Navbar.Collapse>
+										<Navbar.Text className="me-1">Hello, {this.state.userInfo.firstName}</Navbar.Text>
+									</Navbar.Collapse>
+								}
 								<NavDropdown title={<FontAwesomeIcon icon={faCircleUser} size="2x" />}>
 									<NavDropdown.Item as={Link} to="/profile">My Profile</NavDropdown.Item>
 									<NavDropdown.Divider/>

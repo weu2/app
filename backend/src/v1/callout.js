@@ -6,13 +6,16 @@ const auth = require('./auth');
 const JsonDB = require('../common/jsondb');
 const apiValidator = require('../common/apiValidator');
 const geolocation = require('../common/geolocation');
+const PayPal = require('../common/paypal');
 
 const upload = multer();
 const router = express.Router();
 
 router.use((req, res, next) => {
 	// first we validate the user
-	if (auth.verifyClaim(req.cookies.claim)) {
+	const userUUID = auth.verifyClaim(req.cookies.claim)
+	if (userUUID) {
+		req.userUUID = userUUID;
 		next();
 	} else {
 		res.status(401).send();
@@ -34,18 +37,18 @@ router.post('/create', upload.none(), (req, res) => {
 
 	const callouts = new JsonDB('data/callouts.json');
 	// should be verified already
-	const userUuid = auth.verifyClaim(req.cookies.claim);
 	const calloutUuid = uuid.v4();
 	callouts.add({
 		uuid: calloutUuid, 
-		customer: userUuid,
+		customer: req.userUUID, // request will contain user uuid because the middlewear handler resolves it
 		assignedTo: null,
 		description: req.body.description,
 		dateTime: req.body.dateTime,
 		locationLat: req.body.locationLat,
 		locationLong: req.body.locationLong,
 		numberPlate: req.body.numberPlate,
-		paymentProvided: false,
+		paymentID: "",
+		paymentComplete: false,
 		images: [],
 		status: "new" // new - hasnt been confirmed
 						// accepted - service professional has accepted the callout and is on their way
@@ -83,9 +86,8 @@ router.post('/nearby', (req, res) => {
 		return;
 	}
 
-	const userUuid = auth.verifyClaim(req.cookies.claim);
 	const users = new JsonDB('data/users.json');
-	const user = users.find({ uuid: userUuid })[0]; // user uuid should be checked already so no need to check it again
+	const user = users.find({ uuid: req.userUUID })[0]; // user uuid should be checked already so no need to check it again
 	if (user.CUSTOMER) {
 		
 		const callouts = new JsonDB('data/callouts.json');
@@ -134,9 +136,8 @@ router.post('/update', (req, res) => {
 		return;
 	}
 
-	const userUuid = auth.verifyClaim(req.cookies.claim);
 	const users = new JsonDB('data/users.json');
-	const user = users.find({ uuid: userUuid })[0]; // user uuid should be checked already so no need to check it again
+	const user = users.find({ uuid: req.userUUID })[0]; // user uuid should be checked already so no need to check it again
 	if (user.PROFESSIONAL) {
 		const callouts = new JsonDB('data/callouts.json');
 		const callout = callouts.find({ uuid: req.body.calloutId })[0];
@@ -152,7 +153,7 @@ router.post('/update', (req, res) => {
 					return;
 				}
 				callouts.update({ uuid: req.body.calloutId }, {
-					assignedTo: userUuid,
+					assignedTo: req.userUUID,
 					price: req.body.price,
 					status: req.body.status
 				});
@@ -183,27 +184,25 @@ router.post('/update', (req, res) => {
 
 router.get('/list', (req, res) => {
 	
-	const userUuid = auth.verifyClaim(req.cookies.claim);
 	const users = new JsonDB('data/users.json');
-	const user = users.find({ uuid: userUuid })[0]; // user uuid should be checked already so no need to check it again
+	const user = users.find({ uuid: req.userUUID })[0]; // user uuid should be checked already so no need to check it again
 	
 	if (user.CUSTOMER) {
 		const calloutdb = new JsonDB('data/callouts.json');
-		const userUuid = auth.verifyClaim(req.cookies.claim);
 		const users = new JsonDB('data/users.json');
-		const user = users.find({ uuid: userUuid })[0]; // user uuid should be checked already so no need to check it again
-		const callout = calloutdb.find({ customer: userUuid }); // te
-		const filtered = callout.filter(co => co.status !== "finished");
+		const user = users.find({ uuid: req.userUUID })[0]; // user uuid should be checked already so no need to check it again
+		const callouts = calloutdb.find({ customer: req.userUUID });
+		// include finished callouts so customers can leave reviews
 		res.status(200).send({
 			type: "CUSTOMER",
-			callouts: filtered
+			callouts: callouts
 		});	
 	} else if (user.PROFESSIONAL) {
 		const servProLat = parseFloat(user.PROFESSIONAL.locationLat);
 		const servProLong = parseFloat(user.PROFESSIONAL.locationLong);
 		
 		const calloutdb = new JsonDB('data/callouts.json');
-		const callouts = calloutdb.find({ status: {has:["inprogress","accepted"]}, assignedTo: userUuid });
+		const callouts = calloutdb.find({ status: {has:["inprogress","accepted","finished"]}, assignedTo: req.userUUID });
 		res.status(200).send({
 			type: "PROFESSIONAL",
 			callouts: callouts,
@@ -242,9 +241,8 @@ router.post('/assignee', (req, res) => {
 
 router.get('/newcallouts', (req, res) => {
 	
-	const userUuid = auth.verifyClaim(req.cookies.claim);
 	const users = new JsonDB('data/users.json');
-	const user = users.find({ uuid: userUuid })[0]; // user uuid should be checked already so no need to check it again
+	const user = users.find({ uuid: req.userUUID })[0]; // user uuid should be checked already so no need to check it again
 	
 	if (user.PROFESSIONAL) {
 		const servProLat = parseFloat(user.PROFESSIONAL.locationLat);
@@ -269,47 +267,66 @@ router.get('/newcallouts', (req, res) => {
 	}
 });
 
-router.post('/pay', upload.none(), (req, res) => {
+router.get('/prefetchPaymentInfo', (req, res) => {
+	PayPal.generateClientToken().then(clientToken => {
+		const clientId = PayPal.clientId;
+		res.status(200).send({ 
+			clientId : clientId, 
+			clientToken : clientToken 
+		});
+	}).catch(() => {
+		res.status(400).send();
+	});
+});
+
+router.post('/createPayment', (req, res) => {
 
 	if (!apiValidator.validate(req, {
 		calloutId: {type:"string", required: true},
-		cardHolder: {type:"string", required: true},
-		cardNumber: {type:"string", required: true},
-		cardExpMonth: {type:"string", required: true},
-		cardExpYear: {type:"string", required: true},
-		cardCVC: {type:"string", required: true},
-		dateTime: {type:"string", required: true}
 	})) {
 		res.status(400).send('Missing API parameters');
 		return;
 	}
-	// add card validation stuff here
 
-	const calloutId = req.body.calloutId;
 	const callouts = new JsonDB('data/callouts.json');
-	const userUuid = auth.verifyClaim(req.cookies.claim);
-	const callout = callouts.find({ customer: userUuid, uuid: calloutId })[0];
+	const callout = callouts.find({ customer: req.userUUID, uuid: req.body.calloutId })[0];
 	if (!callout) {
 		res.status(400).send();
 		return;
 	}
-	callouts.update({ customer: userUuid, uuid: calloutId }, { paymentProvided: true });
 
-	const payments = new JsonDB('data/payments.json');
-	const paymentUuid = uuid.v4();
-	payments.add({
-		type: "ondemand",
-		uuid: paymentUuid,
-		calloutId: calloutId,
-		price: callout.price, // not really needed but might be useful later
-		cardHolder: req.body.cardHolder,
-		cardNumber: req.body.cardNumber,
-		cardExpMonth: req.body.cardExpMonth,
-		cardExpYear: req.body.cardExpYear,
-		dateTime: req.body.dateTime
+	PayPal.createOrder(callout.price).then(data => {
+		callouts.update({ customer: req.userUUID, uuid: req.body.calloutId }, { paymentID: data.id });
+		res.status(200).send(data);
+	}).catch(() => {
+		res.status(400).send();
 	});
-	res.status(200).send();
 });
+
+router.post('/capturePayment', (req, res) => {
+
+	if (!apiValidator.validate(req, {
+		calloutId: {type:"string", required: true},
+	})) {
+		res.status(400).send('Missing API parameters');
+		return;
+	}
+
+	const callouts = new JsonDB('data/callouts.json');
+	const callout = callouts.find({ customer: req.userUUID, uuid: req.body.calloutId })[0];
+	if (!callout) {
+		res.status(400).send();
+		return;
+	}
+
+	PayPal.capturePayment(callout.paymentID).then(data => {
+		callouts.update({ customer: req.userUUID, uuid: req.body.calloutId }, { paymentComplete: true });
+		res.status(200).send(data);
+	}).catch(() => {
+		res.status(400).send();
+	});
+});
+
 
 const image = require('../common/image');
 router.post('/uploadimage', image.upload.single('image'), (req, res) => {

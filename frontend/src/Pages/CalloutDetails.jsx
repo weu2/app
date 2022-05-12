@@ -10,7 +10,6 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Table from "react-bootstrap/Table";
-import Image from "react-bootstrap/Image";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 
@@ -18,6 +17,7 @@ import LocationLink from "../Components/LocationLink";
 import OnDemandForm from "../Components/OnDemandForm";
 import MapCalloutAndMe from "../Components/MapCalloutAndMe";
 import MapNearbyProfessionals from "../Components/MapNearbyProfessionals";
+import CalloutImageInput from "../Components/CalloutImageInput";
 import { getLocation, getDistance } from "../Components/LocationTracker";
 
 // api.jsx contains utility functions for getting or sending data from the frontend to the backend
@@ -216,7 +216,7 @@ class CalloutDetails extends React.Component {
 						this.state.price
 						&& <tr>
 							<th>Payment Provided</th>
-							<td>{this.state.callout.paymentProvided ? "Yes" : "No"}</td>
+							<td>{this.state.callout.paymentComplete ? "Yes" : "No"}</td>
 						</tr>
 					}
 					<tr>
@@ -224,17 +224,13 @@ class CalloutDetails extends React.Component {
 						<td>{this.state.callout.description}</td>
 					</tr>
 					{
-						(this.state.callout.images && this.state.callout.images.length)
+						(this.state.userType === "CUSTOMER" || (this.state.callout.images && this.state.callout.images.length))
 						? <tr>
-							<td colSpan={2}>
-								{this.state.callout.images.map((image, index) =>
-									<Image
-										src={`/api/v1/image/${image}`}
-										key={index}
-										width={256}
-										thumbnail
-									/>
-								)}
+							<td className="p-0" colSpan={2}>
+								<CalloutImageInput
+									callout={this.state.callout}
+									customer={this.state.userType === "CUSTOMER" ? 1 : 0}
+								/>
 							</td>
 						</tr>
 						: null
@@ -307,7 +303,7 @@ class CalloutDetails extends React.Component {
 					<h2 className="mb-4">Callout on {new Date(parseInt(this.state.callout.dateTime)).toLocaleString("en-US")}</h2>
 					{/* Request payment for unpaid callouts */}
 					{
-						(this.state.userType === "CUSTOMER" && this.state.price && !this.state.callout.paymentProvided)
+						(this.state.userType === "CUSTOMER" && this.state.price && !this.state.callout.paymentComplete)
 						? <OnDemandForm callout={this.state.callout} />
 						: <>
 							{this.showMap()}
