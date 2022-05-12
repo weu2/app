@@ -24,9 +24,9 @@ class OnDemandForm extends React.Component {
 				initialOptions : {
 					"client-id": res.clientId,
 			    	currency: "AUD",
-			    	intent: "capture"
-				},
-				paypalClientToken:res.clientToken
+			    	intent: "capture",
+			    	"data-client-token":res.clientToken
+				}
 			});
 		});
 	}
