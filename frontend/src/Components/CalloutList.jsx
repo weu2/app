@@ -6,6 +6,7 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Spinner from "react-bootstrap/Spinner";
 
 import CalloutListed from "./CalloutListed";
 import { getLocation, getDistance } from "./LocationTracker";
@@ -92,7 +93,9 @@ class CalloutList extends React.Component {
 			case "PROFESSIONAL":
 				return this.props.professionalhelp;
 			default:
-				return "Loading user info...";
+				return <Spinner variant="primary" animation="border" role="status">
+					<span className="visually-hidden">Loading user info...</span>
+				</Spinner>;
 		}
 	}
 

@@ -41,9 +41,9 @@ class CalloutListed extends React.Component {
 				<Card.Header>
 					Callout on {new Date(parseInt(this.props.callout.dateTime)).toLocaleString("en-US")}
 				</Card.Header>
-				<Card.Body>
+				<Card.Body className="pb-1">
 					<Row>
-						<Col sm={7}>
+						<Col sm={7} className="mb-3">
 							<Table borderless>
 								<tbody>
 									<tr>
@@ -70,7 +70,7 @@ class CalloutListed extends React.Component {
 										this.props.callout.price
 										&& <tr>
 											<th>Payment Provided</th>
-											<td>{this.props.callout.paymentProvided ? "Yes" : "No"}</td>
+											<td>{this.props.callout.paymentComplete ? "Yes" : "No"}</td>
 										</tr>
 									}
 									{
@@ -98,14 +98,14 @@ class CalloutListed extends React.Component {
 							<Link to={`/callout/${this.props.callout.uuid}`}>
 								<LargeButton variant="primary" icon="arrow-right">
 								{
-									(this.props.customer && this.props.callout.price && !this.props.callout.paymentProvided)
+									(this.props.customer && this.props.callout.price && !this.props.callout.paymentComplete)
 									? "Complete Payment"
 									: "More Info"
 								}
 								</LargeButton>
 							</Link>
 						</Col>
-						<Col sm>
+						<Col sm className="mb-3">
 							{
 								this.props.customer
 								? <MapNearbyProfessionals
