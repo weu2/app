@@ -216,7 +216,7 @@ class CalloutDetails extends React.Component {
 						this.state.price
 						&& <tr>
 							<th>Payment Provided</th>
-							<td>{this.state.callout.paymentProvided ? "Yes" : "No"}</td>
+							<td>{this.state.callout.paymentComplete ? "Yes" : "No"}</td>
 						</tr>
 					}
 					<tr>
@@ -307,7 +307,7 @@ class CalloutDetails extends React.Component {
 					<h2 className="mb-4">Callout on {new Date(parseInt(this.state.callout.dateTime)).toLocaleString("en-US")}</h2>
 					{/* Request payment for unpaid callouts */}
 					{
-						(this.state.userType === "CUSTOMER" && this.state.price && !this.state.callout.paymentProvided)
+						(this.state.userType === "CUSTOMER" && this.state.price && !this.state.callout.paymentComplete)
 						? <OnDemandForm callout={this.state.callout} />
 						: <>
 							{this.showMap()}
