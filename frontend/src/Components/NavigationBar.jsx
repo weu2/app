@@ -69,7 +69,11 @@ class NavigationBar extends React.Component {
 							{
 								this.state.loggedIn
 								? <>
-									<Nav.Link as={NavLink} to="/dashboard">Hello, {this.state.userInfo && this.state.userInfo.firstName}</Nav.Link>
+									{
+										this.state.userInfo  
+										? <Nav.Link as={NavLink} to="/dashboard">Hello, {this.state.userInfo.firstName}</Nav.Link>
+										: null
+									}
 									{
 										(this.state.userInfo && this.state.userInfo.CUSTOMER)
 										? <Nav.Link as={NavLink} to="/requestcallout">Request Callout</Nav.Link>
