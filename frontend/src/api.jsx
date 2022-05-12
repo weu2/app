@@ -147,14 +147,6 @@ export function backendUpdateCallout(calloutId, status, price) {
 	}).then(res => res.json());
 }
 
-// Sends payment details to the backend
-export function backendPayOnDemand(formData) {
-	return fetchStrict("/api/v1/callout/pay", {
-		method: "POST",
-		body: formData
-	});
-}
-
 export function backendPreFetchPaymentInformation() {
 	return fetch("/api/v1/callout/prefetchPaymentInfo").then(res => res.json());
 }
