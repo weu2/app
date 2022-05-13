@@ -42,7 +42,7 @@ router.post('/create', upload.none(), (req, res) => {
 		uuid: calloutUuid, 
 		customer: req.userUuid, // request will contain user uuid because the middlewear handler resolves it
 		assignedTo: null,
-		rating: null,
+		review: null,
 		description: req.body.description,
 		dateTime: req.body.dateTime,
 		locationLat: req.body.locationLat,
@@ -347,40 +347,6 @@ router.post('/capturePayment', (req, res) => {
 			res.status(400).send(data);
 		}
 	})
-});
-
-router.post('/review', upload.none(), (req, res) => {
-
-	if (!apiValidator.validate(req, {
-		calloutId: {type:"string", required: true},
-		rating: {type:"numberString", required: true},
-		description: {type:"string", required: true},
-		dateTime: {type:"numberString", required: true}
-	})) {
-		res.status(400).send('Missing API parameters');
-		return;
-	}
-
-	// add stars to callout to make it look nice
-	const callouts = new JsonDB('data/callouts.json');
-	const callout = callouts.find({ customer: req.userUuid, uuid: req.body.calloutId })[0];
-	if (!callout) {
-		res.status(400).send();
-		return;
-	}
-	callouts.update({ customer: req.userUuid, uuid: req.body.calloutId }, { rating: req.body.rating });
-
-	// add review to review database
-	const reviews = new JsonDB('data/reviews.json');
-	reviews.add({
-		uuid: uuid.v4(),
-		calloutId: req.body.calloutId,
-		description: req.body.description,
-		rating: req.body.rating,
-		dateTime: req.body.dateTime
-	});
-
-	res.status(200).send();
 });
 
 const image = require('../common/image');

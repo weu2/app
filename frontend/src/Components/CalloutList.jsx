@@ -6,8 +6,8 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Spinner from "react-bootstrap/Spinner";
 
+import CustomSpinner from "./CustomSpinner";
 import CalloutListed from "./CalloutListed";
 import { getLocation, getDistance } from "./LocationTracker";
 
@@ -63,10 +63,18 @@ class CalloutList extends React.Component {
 				this.state.callouts.sort((a, b) => b.distance - a.distance);
 				break;
 			case "ratingasc":
-				this.state.callouts.sort((a, b) => a.rating - b.rating);
+				this.state.callouts.sort((a, b) => {
+					const aRating = a.review ? a.review.rating : 0;
+					const bRating = b.review ? b.review.rating : 0;
+					return aRating - bRating;
+				});
 				break;
 			case "ratingdesc":
-				this.state.callouts.sort((a, b) => b.rating - a.rating);
+				this.state.callouts.sort((a, b) => {
+					const aRating = a.review ? a.review.rating : 0;
+					const bRating = b.review ? b.review.rating : 0;
+					return bRating - aRating;
+				});
 				break;
 			case "oldest":
 				this.state.callouts.sort((a, b) => a.dateTime.localeCompare(b.dateTime));
@@ -99,9 +107,7 @@ class CalloutList extends React.Component {
 			case "PROFESSIONAL":
 				return this.props.professionalhelp;
 			default:
-				return <Spinner variant="primary" animation="border" role="status">
-					<span className="visually-hidden">Loading user info...</span>
-				</Spinner>;
+				return <CustomSpinner label="Loading user info..."/>
 		}
 	}
 

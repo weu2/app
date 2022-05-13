@@ -3,11 +3,11 @@ import React from "react";
 // <Container> adds padding to the sides of the page content, makes it look nicer
 import Container from "react-bootstrap/Container";
 import Alert from "react-bootstrap/Alert";
-import Spinner from "react-bootstrap/Spinner";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
+import CustomSpinner from "../Components/CustomSpinner";
 import ReviewListed from "../Components/ReviewListed";
 
 // api.jsx contains utility functions for getting or sending data from the frontend to the backend
@@ -38,10 +38,10 @@ class ReviewList extends React.Component {
 	sortReviews() {
 		switch (this.state.sortBy) {
 			case "ratingasc":
-				this.state.reviews.sort((a, b) => a.rating - b.rating);
+				this.state.reviews.sort((a, b) => a.review.rating - b.review.rating);
 				break;
 			case "ratingdesc":
-				this.state.reviews.sort((a, b) => b.rating - a.rating);
+				this.state.reviews.sort((a, b) => b.review.rating - a.review.rating);
 				break;
 			case "oldest":
 				this.state.reviews.sort((a, b) => a.dateTime.localeCompare(b.dateTime));
@@ -57,10 +57,10 @@ class ReviewList extends React.Component {
 		// Ensure reviews are sorted before rendering
 		this.sortReviews();
 		// Create a <ReviewListed> component to display each review
-		return this.state.reviews.map(review =>
+		return this.state.reviews.map((review, index) =>
 			<ReviewListed
-				key={review.uuid}
-				review={review}
+				key={index}
+				details={review}
 				className="mb-3"
 			/>
 		);
@@ -107,9 +107,7 @@ class ReviewList extends React.Component {
 							<p>Please check back later.</p>
 						</>
 					)
-					: <Spinner variant="primary" animation="border" role="status">
-						<span className="visually-hidden">Loading reviews...</span>
-					</Spinner>
+					: <CustomSpinner label="Loading reviews..."/>
 				}
 			</Container>
 		);

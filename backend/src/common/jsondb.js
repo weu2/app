@@ -45,16 +45,18 @@ class JSONDB {
 		updateFile(this._filepath);
 	}
 
-	getAll() {
-		return this._internal;
-	}
-
+	// to find strings with matching values:
+	// find({ status: {has: ["inprogress","accepted","finished"]})
+	// to find where something does not equal:
+	// find({ review: {not: null}})
 	find(key) {
 		const keys = Object.keys(key);
 		return this._internal.filter(e => {
 			return keys.reduce((p, c) => {
-				if (key[c].has) {
+				if (key[c].has !== undefined) {
 					return p && key[c].has.includes(e[c]);
+				} else if (key[c].not !== undefined) {
+					return p && e[c] !== key[c].not;
 				} else {
 					return p && e[c] === key[c];
 				}
@@ -78,11 +80,11 @@ class JSONDB {
 				if (val[k] === null) {
 					e[k] = null;
 				} else {
-					if (val[k].append) {
+					if (val[k].append !== undefined) {
 						if (Array.isArray(e[k]) && Array.isArray(val[k].append)) {
 							val[k].append.forEach(p => e[k].push(p));
 						}
-					} else if (val[k].new) {
+					} else if (val[k].new !== undefined) {
 						e[k] = val[k].new;
 					} else {
 						e[k] = val[k];

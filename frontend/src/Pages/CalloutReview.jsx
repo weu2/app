@@ -7,8 +7,8 @@ import ReactStars from "react-rating-stars-component";
 import Container from "react-bootstrap/Container";
 import Alert from "react-bootstrap/Alert";
 import Form from "react-bootstrap/Form";
-import Spinner from "react-bootstrap/Spinner";
 
+import CustomSpinner from "../Components/CustomSpinner";
 import URLPartGrabber from "../Components/URLPartGrabber";
 import LargeButton from "../Components/LargeButton";
 
@@ -150,9 +150,7 @@ class CalloutReview extends React.Component {
 							</LargeButton>
 						</Form>
 					</>
-					: <Spinner variant="primary" animation="border" role="status">
-						<span className="visually-hidden">Loading callout details...</span>
-					</Spinner>
+					: <CustomSpinner label="Loading callout details..."/>
 				}
 			</Container>
 		);

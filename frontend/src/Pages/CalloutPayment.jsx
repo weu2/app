@@ -4,9 +4,9 @@ import { Navigate } from "react-router-dom";
 // <Container> adds padding to the sides of the page content, makes it look nicer
 import Container from "react-bootstrap/Container";
 import Alert from "react-bootstrap/Alert";
-import Spinner from "react-bootstrap/Spinner";
 import Table from "react-bootstrap/Table";
 
+import CustomSpinner from "../Components/CustomSpinner";
 import URLPartGrabber from "../Components/URLPartGrabber";
 
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
@@ -111,14 +111,10 @@ class CalloutPayment extends React.Component {
 										}
 									}/>
 							</PayPalScriptProvider>
-							: <Spinner variant="primary" animation="border" role="status">
-								<span className="visually-hidden">Loading PayPal...</span>
-							</Spinner>
+							: <CustomSpinner label="Loading PayPal..."/>
 						}
 					</>
-					: <Spinner variant="primary" animation="border" role="status">
-						<span className="visually-hidden">Loading callout details...</span>
-					</Spinner>
+					: <CustomSpinner label="Loading callout details..."/>
 				}
 			</Container>
 		);

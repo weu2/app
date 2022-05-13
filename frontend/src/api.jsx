@@ -189,9 +189,9 @@ export function backendCapturePayment(calloutId) {
 	}).then(res => res.json());
 }
 
-// Attempts to add a review for a callout
+// Attempts to create or edit a review for a callout
 export function backendReview(formData) {
-	return fetchStrict("/api/v1/callout/review", {
+	return fetchStrict("/api/v1/review/create", {
 		method: "POST",
 		body: formData
 	});
@@ -200,17 +200,4 @@ export function backendReview(formData) {
 // Gets all reviews from all customers
 export function backendGetReviews() {
 	return fetchStrict("/api/v1/review/list").then(res => res.json());
-}
-
-// Gets details on a review such as customer and callout info
-export function backendGetReviewInfo(reviewId) {
-	return fetchStrict("/api/v1/review/getInfo", {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json"
-		},
-		body: JSON.stringify({
-			reviewId: reviewId
-		})
-	}).then(res => res.json());
 }

@@ -57,7 +57,7 @@ class CalloutListed extends React.Component {
 					</LargeButton>
 				</Link>
 			);
-		} else if (this.props.callout.status === "finished" && !this.props.callout.rating) {
+		} else if (this.props.callout.status === "finished" && !this.props.callout.review) {
 			// Force customer to review callout
 			return (
 				<Link to={`/callout/${this.props.callout.uuid}/review`}>
@@ -83,7 +83,7 @@ class CalloutListed extends React.Component {
 							<Table borderless>
 								<tbody>
 									{
-										this.props.callout.rating
+										this.props.callout.review
 										&& <tr>
 											<th>Rating</th>
 											<td className="p-0">
@@ -93,7 +93,7 @@ class CalloutListed extends React.Component {
 													size={26}
 													edit={false}
 													activeColor="#FF449E"
-													value={parseFloat(this.props.callout.rating)}
+													value={parseFloat(this.props.callout.review.rating)}
 												/>
 											</td>
 										</tr>
@@ -147,7 +147,7 @@ class CalloutListed extends React.Component {
 										: null
 									}
 									{
-										(this.props.callout.status === "finished" && !this.props.callout.rating)
+										(this.props.callout.status === "finished" && !this.props.callout.review)
 										? <tr>
 											<th>Review Provided</th>
 											<td>No</td>

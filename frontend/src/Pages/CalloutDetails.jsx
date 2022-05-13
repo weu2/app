@@ -12,8 +12,8 @@ import Col from "react-bootstrap/Col";
 import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-import Spinner from "react-bootstrap/Spinner";
 
+import CustomSpinner from "../Components/CustomSpinner";
 import LocationLink from "../Components/LocationLink";
 import URLPartGrabber from "../Components/URLPartGrabber";
 import MapCalloutAndMe from "../Components/MapCalloutAndMe";
@@ -172,7 +172,7 @@ class CalloutDetails extends React.Component {
 			<Table bordered striped>
 				<tbody>
 					{
-						this.state.callout.rating
+						this.state.callout.review
 						&& <tr>
 							<th>Rating</th>
 							<td className="p-0">
@@ -182,7 +182,7 @@ class CalloutDetails extends React.Component {
 									size={26}
 									edit={false}
 									activeColor="#FF449E"
-									value={parseFloat(this.state.callout.rating)}
+									value={parseFloat(this.state.callout.review.rating)}
 								/>
 							</td>
 						</tr>
@@ -235,7 +235,7 @@ class CalloutDetails extends React.Component {
 						</tr>
 					}
 					{
-						(this.state.status === "finished" && !this.state.callout.rating)
+						(this.state.status === "finished" && !this.state.callout.review)
 						? <tr>
 							<th>Review Provided</th>
 							<td>No</td>
@@ -335,9 +335,7 @@ class CalloutDetails extends React.Component {
 						{this.state.userType === "PROFESSIONAL" && this.drawCalloutButtons()}
 						{this.showNearby()}
 					</>
-					: <Spinner variant="primary" animation="border" role="status">
-						<span className="visually-hidden">Loading callout details...</span>
-					</Spinner>
+					: <CustomSpinner label="Loading callout details..."/>
 				}
 			</Container>
 		);
