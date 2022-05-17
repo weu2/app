@@ -22,8 +22,7 @@ class CalloutPayment extends React.Component {
 		this.state = {
 			error: null, // Error message to display if required
 			callout: null, // Callout JSON data, may not trigger page update
-			initialOptions: null,
-			paypalClientToken: "",
+			initialOptions: null, // Initial PayPal settings
 			paid: false // Redirects to regular callout page
 		};
 	}
@@ -35,7 +34,8 @@ class CalloutPayment extends React.Component {
 					"client-id": res.clientId,
 					"currency": "AUD",
 					"intent": "capture",
-					"data-client-token": res.clientToken
+					"data-client-token": res.clientToken,
+					"vault": true
 				}
 			})
 		));
@@ -85,7 +85,7 @@ class CalloutPayment extends React.Component {
 							this.state.initialOptions
 							? <PayPalScriptProvider options={this.state.initialOptions}>
 								<PayPalButtons 
-									style={{ layout: "vertical" }}
+									style={{ layout: "vertical", label: "pay" }}
 									createOrder={
 										(data, actions) => {
 											return backendCreatePayment(this.state.callout.uuid)

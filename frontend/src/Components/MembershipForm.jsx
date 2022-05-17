@@ -1,36 +1,80 @@
 import React from "react";
 
-import Form from "react-bootstrap/Form";
+import Alert from "react-bootstrap/Alert";
+
+import CustomSpinner from "../Components/CustomSpinner";
+
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+
+// api.jsx contains utility functions for getting or sending data from the frontend to the backend
+// For example, sending form data or getting user info
+import { backendPreFetchPaymentInformation } from "../api.jsx";
 
 class MembershipForm extends React.Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			basePrice: 80, // Price per month
-			duration: 1, // Membership duration in months
-			validated: false
+			initialOptions: null, // Initial PayPal settings
+			error: null // Error message to display if required
 		};
 	}
 
+	componentDidMount() {
+		backendPreFetchPaymentInformation().then(res => (
+			this.setState({
+				initialOptions: {
+					"client-id": res.clientId,
+					"currency": "AUD",
+					"intent": "capture",
+					"data-client-token": res.clientToken,
+					"vault": true
+				}
+			})
+		));
+	}
+
 	render() {
-		return (
-			<>
-				<Form.Group className="mb-3" controlId="membershipDuration">
-					<Form.Label>Membership Duration (Months)</Form.Label>
-					<Form.Control
-						name="membershipDuration"
-						type="number" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
-						min="1"
-						defaultValue={this.state.duration}
-						onInput={event => this.setState({ duration: event.target.value })}
-						required
-					/>
-				</Form.Group>
-				<h5 className="mb-4">Price: ${this.state.basePrice.toFixed(2)} x {this.state.duration} = ${(this.state.basePrice * this.state.duration).toFixed(2)}</h5>
-				<p>TODO: Add PayPal stuff here</p>
-			</>
-		);
+		return (<>
+				{/* Show error message if required */}
+				{this.state.error && <Alert variant="danger">{this.state.error}</Alert>}
+
+				{
+					this.state.initialOptions
+					? <PayPalScriptProvider options={this.state.initialOptions}>
+						<PayPalButtons
+							style={{ layout: "vertical", label: "subscribe" }}
+							createSubscription={
+								(data, actions) => { // P-5NL64788VY579522XMKBXB6Q
+									console.log(data);
+									console.log(actions);
+									return false;
+								}
+							}
+							onApprove={
+								(data, actions) => {
+									console.log(data);
+									console.log(actions);
+									return false;
+								}
+							}
+							onCancel={
+								(data) => {
+									console.log(data);
+									return false;
+								}
+							}
+							onError = {
+								(err) => {
+									this.setState({
+										error: "Error: PayPal could not process your payment!"
+									});
+								}
+							}/>
+					</PayPalScriptProvider>
+					: <CustomSpinner label="Loading PayPal..."/>
+				}
+		</>);
 	}
 }
 
