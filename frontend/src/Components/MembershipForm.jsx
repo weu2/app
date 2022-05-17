@@ -8,7 +8,7 @@ import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
 // api.jsx contains utility functions for getting or sending data from the frontend to the backend
 // For example, sending form data or getting user info
-import { backendPreFetchPaymentInformation } from "../api.jsx";
+import { backendPreFetchPaymentInformation, backendCaptureMembership, backendCreateMembership } from "../api.jsx";
 
 class MembershipForm extends React.Component {
 
@@ -26,7 +26,7 @@ class MembershipForm extends React.Component {
 				initialOptions: {
 					"client-id": res.clientId,
 					"currency": "AUD",
-					"intent": "capture",
+					"intent": "subscription",
 					"data-client-token": res.clientToken,
 					"vault": true
 				}
@@ -45,23 +45,13 @@ class MembershipForm extends React.Component {
 						<PayPalButtons
 							style={{ layout: "vertical", label: "subscribe" }}
 							createSubscription={
-								(data, actions) => { // P-5NL64788VY579522XMKBXB6Q
-									console.log(data);
-									console.log(actions);
-									return false;
+								(data, actions) => { 
+									return backendCreateMembership().then(data => data.id);
 								}
 							}
 							onApprove={
 								(data, actions) => {
-									console.log(data);
-									console.log(actions);
-									return false;
-								}
-							}
-							onCancel={
-								(data) => {
-									console.log(data);
-									return false;
+									backendCaptureMembership(data);
 								}
 							}
 							onError = {

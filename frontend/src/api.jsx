@@ -189,6 +189,22 @@ export function backendCapturePayment(calloutId) {
 	}).then(res => res.json());
 }
 
+export function backendCreateMembership() {
+	return fetch("/api/v1/membership/create", {
+		method: "POST"
+	}).then(res => res.json());
+}
+
+export function backendCaptureMembership(paypalData) {
+	fetch("/api/v1/membership/capture", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify(paypalData)
+	});
+}
+
 // Attempts to create or edit a review for a callout
 export function backendReview(formData) {
 	return fetchStrict("/api/v1/review/create", {

@@ -6,6 +6,7 @@ const base = "https://api-m.sandbox.paypal.com";
 //const { CLIENT_ID, APP_SECRET } = process.env; // pull from environment variables
 const CLIENT_ID = "ARQf06TlEPtCBphO-MGSVagFYq1Ope-Iha8U4Gw2bC33qphW3AafXdU3Wjll1RfnCJtingVcyVtr7yRx";
 const APP_SECRET = "EBshTYH9p7Zm_toVALQBtdQbcahYAzNAcFtQRPLwOmawcZ9i1Jdwo95o2-qqSiZG5mxXzvWDD85LPZ1I";
+const PLAN = "P-5NL64788VY579522XMKBXB6Q";
 
 // call this function to create your client token
 function generateClientToken() {
@@ -154,7 +155,37 @@ function createPlan() {
 	});
 }
 
+
+function createSubscription() {
+
+	return new Promise((res, rej) => {
+		generateAccessToken().then(accessToken => {
+			fetch(`${base}/v1/billing/subscriptions`, { //P-5NL64788VY579522XMKBXB6Q
+				method: "post",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${accessToken}`,
+				},
+				body: JSON.stringify({
+					"plan_id": PLAN,
+				})
+			}).then(response => {
+				if(response.ok) {
+					return response.json();
+				} else {
+					response.text().then(console.log)
+					rej();
+				}
+			}).then(data => {
+				res(data);
+			}).catch(rej);
+		}).catch(rej);
+	});
+
+}
+
 module.exports.generateClientToken = generateClientToken;
 module.exports.createOrder = createOrder;
 module.exports.capturePayment = capturePayment;
+module.exports.createSubscription = createSubscription;
 module.exports.clientId = CLIENT_ID;

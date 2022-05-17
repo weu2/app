@@ -8,6 +8,7 @@ router.use((req, res, next) => {
 
 router.use('/user', require('./user'));
 router.use('/callout', require('./callout'));
+router.use('/membership', require('./membership'));
 router.use('/image', require('./image'));
 router.use('/review', require('./review'));
 

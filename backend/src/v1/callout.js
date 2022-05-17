@@ -321,6 +321,7 @@ router.post('/createPayment', (req, res) => {
 	}).catch(() => {
 		res.status(400).send();
 	});
+	
 });
 
 router.post('/capturePayment', (req, res) => {
