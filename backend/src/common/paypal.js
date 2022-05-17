@@ -18,7 +18,7 @@ function generateClientToken() {
 					"Accept-Language": "en_US",
 					"Content-Type": "application/json",
 				},
-			}).then(res => res.json()).then(data => {
+			}).then(data => data.json()).then(data => {
 				res(data.client_token);
 			}).catch(rej);
 		}).catch(rej);
@@ -35,7 +35,7 @@ function generateAccessToken() {
 			headers: {
 				Authorization: `Basic ${auth}`,
 			},
-		}).then(res => res.json()).then(data => {
+		}).then(data => data.json()).then(data => {
 			res(data.access_token);
 		}).catch(rej);
 	});
@@ -60,7 +60,7 @@ function createOrder(amount) {
 						},
 					}],
 				}),
-			}).then(res => res.json()).catch(rej);
+			}).then(data => data.json()).then(res).catch(rej);
 		}).catch(rej);
 	});
 }
@@ -74,14 +74,14 @@ function capturePayment(orderId) {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${accessToken}`,
 				},
-			}).then(res => res.json()).then(data => {
+			}).then(data => data.json()).then(data => {
 				res(data);
 			}).catch(rej);
 		}).catch(rej);
 	});
 }
 
-// only call this once
+// called from createPlan()
 function createProduct() {
 	return new Promise((res, rej) => {
 		generateAccessToken().then(accessToken => {
@@ -97,8 +97,58 @@ function createProduct() {
 					type: "SERVICE",
 					category: "AUTO_SERVICE"
 				}),
-			}).then(res => res.json()).then(data => {
+			}).then(data => data.json()).then(data => {
 				res(data.id);
+			}).catch(rej);
+		}).catch(rej);
+	});
+}
+
+// only call this once
+function createPlan() {
+	return new Promise((res, rej) => {
+		generateAccessToken().then(accessToken => {
+			createProduct().then(productId => {
+				fetch(`${base}/v1/billing/plans`, {
+					method: "post",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${accessToken}`,
+					},
+					body: JSON.stringify({
+						product_id: productId,
+						name: "WeU Subscription",
+						description: "Recurring membership to WeU",
+						billing_cycles: [
+							{
+								frequency: {
+									interval_unit: "MONTH",
+									interval_count: 1
+								},
+								tenure_type: "REGULAR",
+								sequence: 1,
+								total_cycles: 12,
+								pricing_scheme: {
+									fixed_price: {
+										value: "80",
+										currency_code: "AUD"
+									}
+								}
+							}
+						],
+						payment_preferences: {
+							auto_bill_outstanding: true,
+							setup_fee: {
+								value: "80",
+								currency_code: "AUD"
+							},
+							setup_fee_failure_action: "CONTINUE",
+							payment_failure_threshold: 3
+						}
+					}),
+				}).then(data => data.json()).then(data => {
+					res(data.id);
+				}).catch(rej);
 			}).catch(rej);
 		}).catch(rej);
 	});
