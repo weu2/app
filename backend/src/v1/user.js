@@ -115,15 +115,11 @@ router.post('/track', upload.none(), (req, res) => {
 			res.status(400).send();
 			return;
 		}
+		// don't error since this URL gets spammed on all user types
 		if (user.PROFESSIONAL) {
-			// Warning: this overrides the entire object contents of PROFESSIONAL
-			// should really only changed the latitude/longitude and nothing else
-			users.update({ uuid: uuid }, {
-				PROFESSIONAL: {
-					locationLat: req.body.locationLat,
-					locationLong: req.body.locationLong
-				}
-			});
+			user.PROFESSIONAL.locationLat = req.body.locationLat;
+			user.PROFESSIONAL.locationLong = req.body.locationLong;
+			users.asyncUpdate();
 		}
 		res.status(200).send();
 	} else {

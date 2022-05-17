@@ -196,7 +196,7 @@ export function backendCreateMembership() {
 }
 
 export function backendCaptureMembership(paypalData) {
-	fetch("/api/v1/membership/capture", {
+	return fetch("/api/v1/membership/capture", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json"

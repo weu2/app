@@ -46,12 +46,19 @@ class MembershipForm extends React.Component {
 							style={{ layout: "vertical", label: "subscribe" }}
 							createSubscription={
 								(data, actions) => { 
-									return backendCreateMembership().then(data => data.id);
+									return backendCreateMembership()
+										.then(data => data.id)
+										.catch(res => this.setState({
+											error: `Error: ${res.status} (${res.statusText})`
+										}));
 								}
 							}
 							onApprove={
 								(data, actions) => {
-									backendCaptureMembership(data);
+									return backendCaptureMembership(data)
+										.catch(res => this.setState({
+											error: `Error: ${res.status} (${res.statusText})`
+										}));
 								}
 							}
 							onError = {
