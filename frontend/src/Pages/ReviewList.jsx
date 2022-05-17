@@ -44,11 +44,11 @@ class ReviewList extends React.Component {
 				this.state.reviews.sort((a, b) => b.review.rating - a.review.rating);
 				break;
 			case "oldest":
-				this.state.reviews.sort((a, b) => a.review.dateTime.localeCompare(b.dateTime));
+				this.state.reviews.sort((a, b) => a.review.dateTime.localeCompare(b.review.dateTime));
 				break;
 			case "newest":
 			default:
-				this.state.reviews.sort((a, b) => b.review.dateTime.localeCompare(a.dateTime));
+				this.state.reviews.sort((a, b) => b.review.dateTime.localeCompare(a.review.dateTime));
 				break;
 		}
 	}
