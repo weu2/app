@@ -155,12 +155,10 @@ function createPlan() {
 	});
 }
 
-
 function createSubscription() {
-
 	return new Promise((res, rej) => {
 		generateAccessToken().then(accessToken => {
-			fetch(`${base}/v1/billing/subscriptions`, { //P-5NL64788VY579522XMKBXB6Q
+			fetch(`${base}/v1/billing/subscriptions`, {
 				method: "post",
 				headers: {
 					"Content-Type": "application/json",
@@ -170,10 +168,9 @@ function createSubscription() {
 					"plan_id": PLAN,
 				})
 			}).then(response => {
-				if(response.ok) {
+				if (response.ok) {
 					return response.json();
 				} else {
-					response.text().then(console.log)
 					rej();
 				}
 			}).then(data => {
@@ -181,7 +178,6 @@ function createSubscription() {
 			}).catch(rej);
 		}).catch(rej);
 	});
-
 }
 
 module.exports.generateClientToken = generateClientToken;

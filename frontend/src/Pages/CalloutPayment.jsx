@@ -89,18 +89,27 @@ class CalloutPayment extends React.Component {
 									createOrder={
 										(data, actions) => {
 											return backendCreatePayment(this.state.callout.uuid)
-												.then(res => res.id);
+												.then(res => res.id)
+												.catch(res => this.setState({
+													error: `Error: ${res.status} (${res.statusText})`
+												}));
 										}
 									}
 									onApprove={
 										(data, actions) => {
 											return backendCapturePayment(this.state.callout.uuid)
-												.then(res => this.setState({ paid: true }));
+												.then(res => this.setState({ paid: true }))
+												.catch(res => this.setState({
+													error: `Error: ${res.status} (${res.statusText})`
+												}));
 										}
 									}
 									onCancel={
 										(data) => {
-											backendCancelPayment(this.state.callout.uuid);
+											return backendCancelPayment(this.state.callout.uuid)
+												.catch(res => this.setState({
+													error: `Error: ${res.status} (${res.statusText})`
+												}));;
 										}
 									}
 									onError = {
