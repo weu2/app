@@ -16,7 +16,6 @@ try {
     const secureserver = https.createServer(options, app)
     secureserver.listen(httpsport, () => console.log(`HTTPS server started, listening on port ${httpsport}`));
 
-    console.error('TLS certificate not present');
     const http = require('http');
     const httpServer = require('./httpServer.js');
     const notsecureserver = http.createServer(httpServer)
