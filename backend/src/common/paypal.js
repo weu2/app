@@ -9,81 +9,99 @@ const APP_SECRET = "EBshTYH9p7Zm_toVALQBtdQbcahYAzNAcFtQRPLwOmawcZ9i1Jdwo95o2-qq
 
 // call this function to create your client token
 function generateClientToken() {
-    return new Promise((res, rej) => {
-        generateAccessToken().then(accessToken => {
-            fetch(`${base}/v1/identity/generate-token`, {
-            method: "post",
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-                    "Accept-Language": "en_US",
-                    "Content-Type": "application/json",
-                },
-
-            }).then(res => res.json()).then(data => {
-                res(data.client_token);
-            });
-        });
-    });
+	return new Promise((res, rej) => {
+		generateAccessToken().then(accessToken => {
+			fetch(`${base}/v1/identity/generate-token`, {
+				method: "post",
+				headers: {
+				Authorization: `Bearer ${accessToken}`,
+					"Accept-Language": "en_US",
+					"Content-Type": "application/json",
+				},
+			}).then(res => res.json()).then(data => {
+				res(data.client_token);
+			}).catch(rej);
+		}).catch(rej);
+	});
 }
 
 // access token is used to authenticate all REST API requests
 function generateAccessToken() {
-    return new Promise((res, rej) => {
-        const auth = Buffer.from(CLIENT_ID + ":" + APP_SECRET).toString("base64");
-        fetch(`${base}/v1/oauth2/token`, {
-            method: "post",
-            body: "grant_type=client_credentials",
-            headers: {
-                Authorization: `Basic ${auth}`,
-            },
-        }).then(res => res.json()).then(data => {
-            res(data.access_token);
-        });
-    });
+	return new Promise((res, rej) => {
+		const auth = Buffer.from(CLIENT_ID + ":" + APP_SECRET).toString("base64");
+		fetch(`${base}/v1/oauth2/token`, {
+			method: "post",
+			body: "grant_type=client_credentials",
+			headers: {
+				Authorization: `Basic ${auth}`,
+			},
+		}).then(res => res.json()).then(data => {
+			res(data.access_token);
+		}).catch(rej);
+	});
 }
 
 // create an order
 function createOrder(amount) {
-    return new Promise((res, rej) => {
-        generateAccessToken().then(accessToken => {
-            const url = `${base}/v2/checkout/orders`;
-            fetch(url, {
-                method: "post",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${accessToken}`,
-                },
-                body: JSON.stringify({
-                    intent: "CAPTURE",
-                    purchase_units: [{
-                        amount: {
-                            currency_code: "AUD",
-                            value: amount
-                        },
-                    }],
-                }),
-            }).then(res => res.json()).then(data => {
-                res(data);
-            });
-        });
-    });
+	return new Promise((res, rej) => {
+		generateAccessToken().then(accessToken => {
+			fetch(`${base}/v2/checkout/orders`, {
+				method: "post",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${accessToken}`,
+				},
+				body: JSON.stringify({
+					intent: "CAPTURE",
+					purchase_units: [{
+						amount: {
+							currency_code: "AUD",
+							value: amount
+						},
+					}],
+				}),
+			}).then(res => res.json()).catch(rej);
+		}).catch(rej);
+	});
 }
 
 function capturePayment(orderId) {
-    return new Promise((res, rej) => {
-        generateAccessToken().then(accessToken => {
-            const url = `${base}/v2/checkout/orders/${orderId}/capture`;
-            fetch(url, {
-                method: "post",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            }).then(res => res.json()).then(data => {
-                res(data);
-            });
-        });
-    });
+	return new Promise((res, rej) => {
+		generateAccessToken().then(accessToken => {
+			fetch(`${base}/v2/checkout/orders/${orderId}/capture`, {
+				method: "post",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${accessToken}`,
+				},
+			}).then(res => res.json()).then(data => {
+				res(data);
+			}).catch(rej);
+		}).catch(rej);
+	});
+}
+
+// only call this once
+function createProduct() {
+	return new Promise((res, rej) => {
+		generateAccessToken().then(accessToken => {
+			fetch(`${base}/v1/catalogs/products`, {
+				method: "post",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${accessToken}`,
+				},
+				body: JSON.stringify({
+					name: "WeU Subscription",
+					description: "Recurring membership to WeU",
+					type: "SERVICE",
+					category: "AUTO_SERVICE"
+				}),
+			}).then(res => res.json()).then(data => {
+				res(data.id);
+			}).catch(rej);
+		}).catch(rej);
+	});
 }
 
 module.exports.generateClientToken = generateClientToken;
