@@ -1,8 +1,6 @@
 import React from "react";
 import { Link, Navigate } from "react-router-dom";
 
-import ReactStars from "react-rating-stars-component";
-
 // <Container> adds padding to the sides of the page content, makes it look nicer
 import Container from "react-bootstrap/Container";
 import Alert from "react-bootstrap/Alert";
@@ -13,6 +11,7 @@ import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 
+import CustomRating from "../Components/CustomRating";
 import CustomSpinner from "../Components/CustomSpinner";
 import LocationLink from "../Components/LocationLink";
 import URLPartGrabber from "../Components/URLPartGrabber";
@@ -175,14 +174,11 @@ class CalloutDetails extends React.Component {
 						this.state.callout.review
 						&& <tr>
 							<th>Rating</th>
-							<td className="p-0">
-								<ReactStars
-									classNames="position-absolute ms-1"
-									count={5}
-									size={26}
-									edit={false}
-									activeColor="#FF449E"
-									value={parseFloat(this.state.callout.review.rating)}
+							<td>
+								<CustomRating
+									size={20}
+									initialRating={parseFloat(this.state.callout.review.rating)}
+									readonly
 								/>
 							</td>
 						</tr>

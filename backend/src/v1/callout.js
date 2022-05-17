@@ -35,8 +35,15 @@ router.post('/create', upload.none(), (req, res) => {
 		return;
 	}
 
+	const users = new JsonDB('data/users.json');
+	const user = users.find({ uuid: req.userUuid })[0];
+	// only customers can create callouts
+	if (!user.CUSTOMER) {
+		res.status(400).send();
+		return;
+	}
+
 	const callouts = new JsonDB('data/callouts.json');
-	// should be verified already
 	const calloutUuid = uuid.v4();
 	callouts.add({
 		uuid: calloutUuid, 
@@ -48,8 +55,8 @@ router.post('/create', upload.none(), (req, res) => {
 		locationLat: req.body.locationLat,
 		locationLong: req.body.locationLong,
 		numberPlate: req.body.numberPlate,
-		paymentID: "",
-		paymentComplete: false,
+		paymentId: user.CUSTOMER.subscription ?? null, // use plan ID as payment ID
+		paymentComplete: user.CUSTOMER.subscription !== null, // subscriptions mean payments are complete
 		images: [],
 		status: "new" // new - hasnt been confirmed
 						// accepted - service professional has accepted the callout and is on their way
@@ -296,7 +303,7 @@ router.post('/cancelPayment', (req, res) => {
 		return;
 	}
 
-	callouts.update({ customer: req.userUuid, uuid: req.body.calloutId }, { paymentID: "" });
+	callouts.update({ customer: req.userUuid, uuid: req.body.calloutId }, { paymentId: null });
 });
 
 router.post('/createPayment', (req, res) => {
@@ -316,7 +323,7 @@ router.post('/createPayment', (req, res) => {
 	}
 
 	PayPal.createOrder(callout.price).then(data => {
-		callouts.update({ customer: req.userUuid, uuid: req.body.calloutId }, { paymentID: data.id });
+		callouts.update({ customer: req.userUuid, uuid: req.body.calloutId }, { paymentId: data.id });
 		res.status(200).send(data);
 	}).catch(() => {
 		res.status(400).send();
@@ -339,7 +346,7 @@ router.post('/capturePayment', (req, res) => {
 		return;
 	}
 
-	PayPal.capturePayment(callout.paymentID).then(data => {
+	PayPal.capturePayment(callout.paymentId).then(data => {
 		if (data.status === "COMPLETED") {
 			callouts.update({ customer: req.userUuid, uuid: req.body.calloutId }, { paymentComplete: true });
 			res.status(200).send(data);

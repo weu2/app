@@ -1,87 +1,102 @@
 import React from "react";
 
-// <Alert> is useful for displaying success or error messages, see react-bootstrap.github.io/components/alerts/
-import Alert from "react-bootstrap/Alert";
-import Button from "react-bootstrap/Button";
-
 // <Container> adds padding to the sides of the page content, makes it look nicer
 import Container from "react-bootstrap/Container";
+import Carousel from "react-bootstrap/Carousel";
+import Card from "react-bootstrap/Card";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
-// <LargeButton> is a subclass of React Bootstrap's <Button> with an icon added to the right side
-import LargeButton from "../Components/LargeButton";
-
-// api.jsx contains utility functions for getting or sending data from the frontend to the backend
-// For example, sending form data or getting user info
-import { backendTest } from "../api.jsx";
+import CustomRating from "../Components/CustomRating";
 
 class Home extends React.Component {
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			data: null // Holds a variable only when backendTest() succeeds
-		};
-	}
-
-	componentDidMount() {
-		// Check whether the backend works
-		backendTest().then(res => this.setState({
-			data: res.response // Store something in "this.state.data" if it does
-		}));
-	}
 
 	render() {
 		return (
 			// <Container> adds padding around the website content, makes it look nicer
 			<Container>
 				{/* "mb-4" is a Bootstrap CSS class for setting margin-bottom, see getbootstrap.com/docs/5.1/utilities/spacing/ */}
-				<h1 className="mb-4">
+				<h1 className="mb-4 text-center">
 					{/* Logos are stored as vector art for the best possible quality
 					"/logo.svg" is the shorthand for "/public/logo.svg" */}
 					Welcome to <img src="/logo.svg" width="128" alt="WeU"/>
 				</h1>
-				{/* variant="success" means an <Alert> is green, variant="danger" means an <Alert> is red
-					See react-bootstrap.github.io/components/alerts/ for more details */}
-				<Alert variant={this.state.data ? "success" : "danger"} className="mb-4">
-					{/* if "this.state.data" exists, the backend works */}
-					{this.state.data ? "Backend is working!" : "Backend is not working!"}
-				</Alert>
-				{/* "mb-3" is a Bootstrap CSS class for setting margin-bottom, see getbootstrap.com/docs/5.1/utilities/spacing/ */}
-				<div className="mb-3">
-					{/* variant="primary" makes the button pink, see react-bootstrap.github.io/components/buttons/ for more colours */}
-					<Button variant="primary">Primary button</Button>
-				</div>
-				<div className="mb-3">
-					{/* variant="secondary" makes the button green, see react-bootstrap.github.io/components/buttons/ for more colours */}
-					<Button variant="secondary">Secondary button</Button>
-				</div>
-				<div className="mb-4">
-					{/* <LargeButton> is a subclass of <Button> I made to put an arrow on the right hand side
-					Currently the only icon is "arrow-right", you can add more later in Components/LargeButton.jsx */}
-					<LargeButton variant="primary" icon="arrow-right">
-						Custom button from Components/LargeButton.jsx
-					</LargeButton>
-				</div>
-				<p>
-					This website uses <a href="https://reactjs.org" target="_blank" rel="noopener noreferrer">React</a> for the frontend
-					and <a href="https://expressjs.com/" target="_blank" rel="noopener noreferrer">Express</a> for the backend.
-				</p>
-				<p>
-					It also uses <a href="https://react-bootstrap.github.io/getting-started/introduction" target="_blank" rel="noopener noreferrer">React Bootstrap</a>.
-					This includes many custom React components like <code>{"<Button>"}</code> to avoid raw HTML.
-				</p>
-				<div className="mb-3">
-					{/* "me-2" is a Bootstrap CSS class for setting margin-end, see getbootstrap.com/docs/5.1/utilities/spacing/ */}
-					{/* Default HTML <button> should not be used, React Bootstrap's <Button> is better */}
-					<button className="me-2">Regular HTML button</button>
-					<Button>React Bootstrap button</Button>
-				</div>
-				<p>
-					Bootstrap comes with <a href="https://getbootstrap.com/docs/5.1/utilities/spacing/" target="_blank" rel="noopener noreferrer">lots of CSS classes</a> to avoid writing raw CSS.
-				</p>
-				<p>
-					For example, <code>mb-4</code> is a shorthand for <code>margin-bottom</code>, where the <code>4</code> is a preset margin size.
-				</p>
+				<h5 className="mb-3 text-center">WeU offers the highest quality roadside assistance at unbeatable prices.</h5>
+				<p className="mb-4 text-center">Hundreds of customers and service professionals work with us every day. To join us, click the "register" link in the top navigation bar.</p>
+				
+				<h3 className="mb-4">Payment plans</h3>
+				<Row>
+					<Col sm className="mb-3">
+						<Card bg="primary" text="black">
+							<Card.Header as="h5" className="text-center">Pay on Demand</Card.Header>
+							<Card.Body style={{ backgroundColor: "#FFFFFFAA" }}>
+								<Card.Title className="text-center">
+									Price chosen by service professional
+								</Card.Title>
+								<Card.Text>
+									By default, pay once and forget. The price of each callout is decided by the service professional depending on the requirements.
+								</Card.Text>
+							</Card.Body>
+						</Card>
+					</Col>
+					<Col className="mb-3">
+						<Card bg="secondary" text="black">
+							<Card.Header as="h5" className="text-center">Membership Subscription</Card.Header>
+							<Card.Body style={{ backgroundColor: "#FFFFFFAA" }}>
+								<Card.Title className="text-center">
+									$80 / month
+								</Card.Title>
+								<Card.Text>
+									Power users can pay $80 each month for as much service as needed. The membership can be cancelled at any time.
+								</Card.Text>
+							</Card.Body>
+						</Card>
+					</Col>
+				</Row>
+
+				<h3 className="mb-4 mt-2">Services</h3>
+				<p>We provide services for all types of roadside issues, including but not limited to:</p>
+				<ul>
+					<li>Flat tyre repair</li>
+					<li>Spark plug repair</li>
+					<li>Car battery repair</li>
+					<li>Engine repair</li>
+					<li>Transmission repair</li>
+					<li>Windshield replacement</li>
+					<li>Keys locked in car</li>
+					<li>Towing</li>
+				</ul>
+
+				<h3 className="mb-3 mt-4">Testimonials</h3>
+				<Carousel variant="dark">
+					<Carousel.Item>
+						<div className="w-100 pb-5 text-center">
+							<CustomRating readonly initialRating={5} size={25} className="mb-2" />
+							<blockquote className="blockquote mb-0">
+								<p>"Got drunk and drove my Honda Civic off a cliff. Mechanic patched it up as good as new!"</p>
+								<footer className="blockquote-footer">Caleb Wait</footer>
+							</blockquote>
+						</div>
+					</Carousel.Item>
+					<Carousel.Item>
+						<div className="w-100 pb-5 text-center">
+							<CustomRating readonly initialRating={4} size={25} className="mb-2" />
+							<blockquote className="blockquote mb-0">
+								<p>"Extremely good service, almost made it to Wagga Wagga in time."</p>
+								<footer className="blockquote-footer">Kaleb Dodds-Pratt</footer>
+							</blockquote>
+						</div>
+					</Carousel.Item>
+					<Carousel.Item>
+						<div className="w-100 pb-5 text-center">
+							<CustomRating readonly initialRating={5} size={25} className="mb-2" />
+							<blockquote className="blockquote mb-0">
+								<p>"Accidentally hit a pedestrian. Mechanic came quick, fixed the car and even paid off the police. Couldn't ask for more!"</p>
+								<footer className="blockquote-footer">Hallam Roberts</footer>
+							</blockquote>
+						</div>
+					</Carousel.Item>
+				</Carousel>
 			</Container>
 		)
 	}

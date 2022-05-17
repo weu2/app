@@ -13,7 +13,7 @@ function generateClientToken() {
 	return new Promise((res, rej) => {
 		generateAccessToken().then(accessToken => {
 			fetch(`${base}/v1/identity/generate-token`, {
-				method: "post",
+				method: "POST",
 				headers: {
 				Authorization: `Bearer ${accessToken}`,
 					"Accept-Language": "en_US",
@@ -31,7 +31,7 @@ function generateAccessToken() {
 	return new Promise((res, rej) => {
 		const auth = Buffer.from(CLIENT_ID + ":" + APP_SECRET).toString("base64");
 		fetch(`${base}/v1/oauth2/token`, {
-			method: "post",
+			method: "POST",
 			body: "grant_type=client_credentials",
 			headers: {
 				Authorization: `Basic ${auth}`,
@@ -47,7 +47,7 @@ function createOrder(amount) {
 	return new Promise((res, rej) => {
 		generateAccessToken().then(accessToken => {
 			fetch(`${base}/v2/checkout/orders`, {
-				method: "post",
+				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${accessToken}`,
@@ -70,7 +70,7 @@ function capturePayment(orderId) {
 	return new Promise((res, rej) => {
 		generateAccessToken().then(accessToken => {
 			fetch(`${base}/v2/checkout/orders/${orderId}/capture`, {
-				method: "post",
+				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${accessToken}`,
@@ -82,8 +82,58 @@ function capturePayment(orderId) {
 	});
 }
 
-// called from createPlan()
-function createProduct() {
+function createSubscription() {
+	return new Promise((res, rej) => {
+		generateAccessToken().then(accessToken => {
+			fetch(`${base}/v1/billing/subscriptions`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${accessToken}`,
+				},
+				body: JSON.stringify({
+					plan_id: PLAN,
+				}),
+			}).then(response => {
+				if (response.ok) {
+					return response.json();
+				} else {
+					rej();
+				}
+			}).then(data => {
+				res(data);
+			}).catch(rej);
+		}).catch(rej);
+	});
+}
+
+function cancelSubscription(planId) {
+	return new Promise((res, rej) => {
+		generateAccessToken().then(accessToken => {
+			fetch(`${base}/v1/billing/subscriptions/${planId}/cancel`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${accessToken}`,
+				},
+				body: JSON.stringify({
+					reason: "Customer cancelled WeU membership",
+				}),
+			}).then(res).catch(rej);
+		}).catch(rej);
+	});
+}
+
+module.exports.generateClientToken = generateClientToken;
+module.exports.createOrder = createOrder;
+module.exports.capturePayment = capturePayment;
+module.exports.createSubscription = createSubscription;
+module.exports.cancelSubscription = cancelSubscription;
+module.exports.clientId = CLIENT_ID;
+
+// For generating plan tokens, not required unless you need a new one
+
+/*function createProduct() {
 	return new Promise((res, rej) => {
 		generateAccessToken().then(accessToken => {
 			fetch(`${base}/v1/catalogs/products`, {
@@ -105,7 +155,6 @@ function createProduct() {
 	});
 }
 
-// only call this once
 function createPlan() {
 	return new Promise((res, rej) => {
 		generateAccessToken().then(accessToken => {
@@ -153,35 +202,4 @@ function createPlan() {
 			}).catch(rej);
 		}).catch(rej);
 	});
-}
-
-function createSubscription() {
-	return new Promise((res, rej) => {
-		generateAccessToken().then(accessToken => {
-			fetch(`${base}/v1/billing/subscriptions`, {
-				method: "post",
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${accessToken}`,
-				},
-				body: JSON.stringify({
-					"plan_id": PLAN,
-				})
-			}).then(response => {
-				if (response.ok) {
-					return response.json();
-				} else {
-					rej();
-				}
-			}).then(data => {
-				res(data);
-			}).catch(rej);
-		}).catch(rej);
-	});
-}
-
-module.exports.generateClientToken = generateClientToken;
-module.exports.createOrder = createOrder;
-module.exports.capturePayment = capturePayment;
-module.exports.createSubscription = createSubscription;
-module.exports.clientId = CLIENT_ID;
+}*/

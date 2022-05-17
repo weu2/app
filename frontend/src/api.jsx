@@ -148,11 +148,11 @@ export function backendUpdateCallout(calloutId, status, price) {
 }
 
 export function backendPreFetchPaymentInformation() {
-	return fetch("/api/v1/callout/prefetchPaymentInfo").then(res => res.json());
+	return fetchStrict("/api/v1/callout/prefetchPaymentInfo").then(res => res.json());
 }
 
 export function backendCreatePayment(calloutId) {
-	return fetch("/api/v1/callout/createPayment", {
+	return fetchStrict("/api/v1/callout/createPayment", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json"
@@ -164,7 +164,7 @@ export function backendCreatePayment(calloutId) {
 }
 
 export function backendCancelPayment(calloutId) {
-	return fetch("/api/v1/callout/cancelPayment", {
+	return fetchStrict("/api/v1/callout/cancelPayment", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json"
@@ -178,7 +178,7 @@ export function backendCancelPayment(calloutId) {
 }
 
 export function backendCapturePayment(calloutId) {
-	return fetch("/api/v1/callout/capturePayment", {
+	return fetchStrict("/api/v1/callout/capturePayment", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json"
@@ -190,18 +190,24 @@ export function backendCapturePayment(calloutId) {
 }
 
 export function backendCreateMembership() {
-	return fetch("/api/v1/membership/create", {
+	return fetchStrict("/api/v1/membership/create", {
 		method: "POST"
 	}).then(res => res.json());
 }
 
 export function backendCaptureMembership(paypalData) {
-	return fetch("/api/v1/membership/capture", {
+	return fetchStrict("/api/v1/membership/capture", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json"
 		},
 		body: JSON.stringify(paypalData)
+	});
+}
+
+export function backendCancelMembership() {
+	return fetchStrict("/api/v1/membership/cancel", {
+		method: "POST"
 	});
 }
 

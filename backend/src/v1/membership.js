@@ -29,7 +29,7 @@ router.post("/capture", (req, res) => {
 	
 	const users = new JsonDB('data/users.json');
 	const user = users.find({ uuid: req.userUuid })[0];
-
+	// ensure user details are valid
 	if (!user || !user.CUSTOMER) {
 		res.status(400).send();
 		return;
@@ -39,6 +39,25 @@ router.post("/capture", (req, res) => {
 	users.asyncUpdate();
 
 	res.status(200).send();
+});
+
+router.post("/cancel", (req, res) => {
+
+	const users = new JsonDB('data/users.json');
+	const user = users.find({ uuid: req.userUuid })[0];
+	// ensure user details are valid
+	if (!user || !user.CUSTOMER || !user.CUSTOMER.subscription) {
+		res.status(400).send();
+		return;
+	}
+
+	PayPal.cancelSubscription(user.CUSTOMER.subscription).then(() => {
+		user.CUSTOMER.subscription = null;
+		users.asyncUpdate();
+		res.status(200).send();
+	}).catch(() => {
+		res.status(400).send();
+	});
 });
 
 module.exports = router;

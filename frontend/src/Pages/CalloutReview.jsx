@@ -1,8 +1,6 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 
-import ReactStars from "react-rating-stars-component";
-
 // <Container> adds padding to the sides of the page content, makes it look nicer
 import Container from "react-bootstrap/Container";
 import Alert from "react-bootstrap/Alert";
@@ -11,6 +9,7 @@ import Form from "react-bootstrap/Form";
 import CustomSpinner from "../Components/CustomSpinner";
 import URLPartGrabber from "../Components/URLPartGrabber";
 import LargeButton from "../Components/LargeButton";
+import CustomRating from "../Components/CustomRating";
 
 // api.jsx contains utility functions for getting or sending data from the frontend to the backend
 // For example, sending form data or getting user info
@@ -93,30 +92,26 @@ class CalloutReview extends React.Component {
 				{/* Get callout ID from URL */}
 				<URLPartGrabber onload={this.loadCallout}/>
 
-				{/* Redirect to dashboard once reviewed */}
-				{this.state.reviewed && <Navigate to="/dashboard" />}
-
 				{/* Show error message if required */}
 				{this.state.error && <Alert variant="danger">{this.state.error}</Alert>}
 				
 				{
 					this.state.callout
 					? <>
+						{/* Redirect to regular callout page once paid */}
+						{this.state.reviewed && <Navigate to={`/callout/${this.state.callout.uuid}`}/>}
+
 						<h2 className="mb-4">Callout on {new Date(parseInt(this.state.callout.dateTime)).toLocaleString("en-US")}</h2>
 						<Form noValidate validated={this.state.validated} onSubmit={this.submitForm}>
 							<Form.Group controlId="formReviewRating" className="mb-2">
-								<Form.Label className="mb-0">Rating</Form.Label>
-								<div className="position-relative">
-									{/* Stars are locked to block display so had to position the text manually */}
-									<span className="position-absolute" style={{ top: 20, left: 210 }}>
-										{this.state.ratingLabel}
-									</span>
-									<ReactStars
-										count={5}
-										size={40}
+								<Form.Label className="mb-3">Rating</Form.Label>
+								<div className="mb-3">
+									<CustomRating
+										size={25}
+										initialRating={this.state.rating}
 										onChange={this.handleRatingChange}
-										activeColor="#FF449E"
 									/>
+									<span className="ms-2">{this.state.ratingLabel}</span>
 								</div>
 							</Form.Group>
 

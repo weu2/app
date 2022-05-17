@@ -4,8 +4,8 @@ import { Navigate } from "react-router-dom";
 // <Container> adds padding to the sides of the page content, makes it look nicer
 import Container from "react-bootstrap/Container";
 import Alert from "react-bootstrap/Alert";
-import Table from "react-bootstrap/Table";
 
+import DemoPaymentInfo from "../Components/DemoPaymentInfo";
 import CustomSpinner from "../Components/CustomSpinner";
 import URLPartGrabber from "../Components/URLPartGrabber";
 
@@ -66,21 +66,7 @@ class CalloutPayment extends React.Component {
 
 						<h2 className="mb-4">Callout on {new Date(parseInt(this.state.callout.dateTime)).toLocaleString("en-US")}</h2>
 						<h5 className="mb-4">Price: ${parseFloat(this.state.callout.price).toFixed(2)}</h5>
-						<p>For the purposes of this app, we are only using PayPal's sandbox environment.</p>
-						<p>Please use the login credentials provided below:</p>
-
-						<Table bordered>
-							<tbody>
-								<tr>
-									<th>Email</th>
-									<td>sb-spkqx16304132@personal.example.com</td>
-								</tr>
-								<tr>
-									<th>Password</th>
-									<td>uiYy7B$T</td>
-								</tr>
-							</tbody>
-						</Table>
+						<DemoPaymentInfo />
 						{
 							this.state.initialOptions
 							? <PayPalScriptProvider options={this.state.initialOptions}>

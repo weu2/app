@@ -1,8 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import ReactStars from "react-rating-stars-component";
-
 import Card from "react-bootstrap/Card";
 import Table from "react-bootstrap/Table";
 import Row from "react-bootstrap/Row";
@@ -12,6 +10,7 @@ import MapNearbyProfessionals from "./MapNearbyProfessionals";
 import MapCalloutAndMe from "./MapCalloutAndMe";
 import LocationLink from "./LocationLink";
 import LargeButton from "./LargeButton";
+import CustomRating from "./CustomRating";
 
 // api.jsx contains utility functions for getting or sending data from the frontend to the backend
 // For example, sending form data or getting user info
@@ -86,14 +85,11 @@ class CalloutListed extends React.Component {
 										this.props.callout.review
 										&& <tr>
 											<th>Rating</th>
-											<td className="p-0">
-												<ReactStars
-													classNames="position-absolute ms-1"
-													count={5}
-													size={26}
-													edit={false}
-													activeColor="#FF449E"
-													value={parseFloat(this.props.callout.review.rating)}
+											<td>
+												<CustomRating
+													size={20}
+													initialRating={parseFloat(this.props.callout.review.rating)}
+													readonly
 												/>
 											</td>
 										</tr>
