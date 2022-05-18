@@ -60,12 +60,15 @@ class Profile extends React.Component {
 		const form = event.currentTarget;
 		if (form.checkValidity()) {
 			// Manually send form data to backend
-			backendUpdate(new FormData(form))
+			const formData = new FormData(form);
+			backendUpdate(formData)
 				.then(() => {
 					// Show "updated" alert
 					this.setState({ updated: true });
 					// Update the name label in the navigation bar
-					document.dispatchEvent(new Event("updateInfo"));
+					document.dispatchEvent(new CustomEvent("updateFirstName", {
+						detail: { name: formData.get("firstName") }
+					}));
 				}).catch(async(res) => this.setState({
 					error: `Error: ${res.status} (${res.statusText}) ${await res.text()}`
 				}));

@@ -21,6 +21,7 @@ class NavigationBar extends React.Component {
 		super(props);
 		this.state = {
 			loggedIn: document.cookie.includes("claim"),
+			firstName: null,
 			userInfo: null
 		};
 	}
@@ -33,7 +34,9 @@ class NavigationBar extends React.Component {
 		});
 		
 		// Use custom event to update navigation bar from profile page
-		document.addEventListener("updateInfo", this.fetchUserInfo);
+		document.addEventListener("updateFirstName", event => {
+			this.setState({ firstName: event.detail.name });
+		});
 
 		if (this.state.loggedIn) {
 			this.fetchUserInfo();
@@ -42,14 +45,21 @@ class NavigationBar extends React.Component {
 
 	fetchUserInfo = () => {
 		backendGetUserInfo()
-			.then(res => this.setState({ userInfo: res }));
+			.then(res => this.setState({
+				userInfo: res,
+				firstName: res.firstName
+			}));
 	}
 
 	signOut = () => {
 		// Clear claim cookie, signing out the user
 		document.cookie = "claim=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 		// Force navigation bar to refresh
-		this.setState({ loggedIn: false, userInfo: null });
+		this.setState({
+			loggedIn: false,
+			userInfo: null,
+			firstName: null
+		});
 	}
 
 	render() {
@@ -102,7 +112,7 @@ class NavigationBar extends React.Component {
 								{
 									this.state.userInfo
 									&& <Navbar.Collapse>
-										<Navbar.Text className="me-1">Hello, {this.state.userInfo.firstName}</Navbar.Text>
+										<Navbar.Text className="me-1">Hello, {this.state.firstName}</Navbar.Text>
 									</Navbar.Collapse>
 								}
 								<NavDropdown title={<FontAwesomeIcon icon={faCircleUser} size="2x" />}>
