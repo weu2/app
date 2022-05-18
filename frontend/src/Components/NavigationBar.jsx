@@ -26,11 +26,15 @@ class NavigationBar extends React.Component {
 	}
 
 	componentDidMount() {
-		// Use custom event to navigation bar from login page
+		// Use custom event to update navigation bar from login page
 		document.addEventListener("loggedIn", () => {
 			this.setState({ loggedIn: true });
 			this.fetchUserInfo();
 		});
+		
+		// Use custom event to update navigation bar from profile page
+		document.addEventListener("updateInfo", this.fetchUserInfo);
+
 		if (this.state.loggedIn) {
 			this.fetchUserInfo();
 		}

@@ -35,11 +35,9 @@ class Login extends React.Component {
 			// Manually send form data to backend
 			backendLogin(new FormData(form))
 				.then(() => {
-					this.setState({
-						// Redirect to /dashboard
-						loggedIn: true
-					})
-					// Send user info to the navigation bar
+					// Redirect to /dashboard
+					this.setState({ loggedIn: true });
+					// Update the navigation bar
 					document.dispatchEvent(new Event("loggedIn"));
 				}).catch(async(res) => this.setState({
 					// Show error message

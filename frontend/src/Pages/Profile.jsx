@@ -61,9 +61,12 @@ class Profile extends React.Component {
 		if (form.checkValidity()) {
 			// Manually send form data to backend
 			backendUpdate(new FormData(form))
-				.then(() => this.setState({
-					updated: true // Show "updated" alert
-				})).catch(async(res) => this.setState({
+				.then(() => {
+					// Show "updated" alert
+					this.setState({ updated: true });
+					// Update the name label in the navigation bar
+					document.dispatchEvent(new Event("updateInfo"));
+				}).catch(async(res) => this.setState({
 					error: `Error: ${res.status} (${res.statusText}) ${await res.text()}`
 				}));
 		}
@@ -239,6 +242,7 @@ class Profile extends React.Component {
 					? <div>
 						<h2 className="mb-4 mt-5">Notification Settings</h2>
 						<Form.Check
+							className="mb-3"
 							id="pushNotif"
 							type="switch" // Custom Bootstrap type, see react-bootstrap.github.io/forms/checks-radios/
 							name="pushNotif"
