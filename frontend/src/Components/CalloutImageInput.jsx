@@ -68,7 +68,7 @@ class CalloutImageInput extends React.Component {
 					name="image"
 					type="file"
 					accept="image/jpeg"
-					capture
+					capture="environment"
 					onChange={this.loadImage}
 					required
 				/>
