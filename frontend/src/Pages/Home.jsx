@@ -68,49 +68,67 @@ class Home extends React.Component {
 				</ul>
 
 				<h3 className="mb-3 mt-4">Testimonials</h3>
-				<Carousel variant="dark">
+				<Carousel variant="dark" className="pb-5">
 					<Carousel.Item>
-						<div className="w-100 pb-5 text-center">
-							<CustomRating readonly initialRating={5} size={25} className="mb-2" />
-							<blockquote className="blockquote mb-0">
+						<div className="w-100 text-center">
+							<CustomRating readonly initialRating={5} size={25} />
+							<blockquote className="blockquote mt-2">
 								<p>"Got drunk and drove my 180SX off a cliff. Mechanic patched it up as good as new!"</p>
 								<footer className="blockquote-footer">Caleb Wait</footer>
 							</blockquote>
 						</div>
 					</Carousel.Item>
 					<Carousel.Item>
-						<div className="w-100 pb-5 text-center">
-							<CustomRating readonly initialRating={4} size={25} className="mb-2" />
-							<blockquote className="blockquote mb-0">
+						<div className="w-100 text-center">
+							<CustomRating readonly initialRating={4} size={25} />
+							<blockquote className="blockquote mt-2">
 								<p>"Extremely good service, almost made it to Wagga Wagga in time for the wave."</p>
 								<footer className="blockquote-footer">Kaleb Dodds-Pratt</footer>
 							</blockquote>
 						</div>
 					</Carousel.Item>
 					<Carousel.Item>
-						<div className="w-100 pb-5 text-center">
-							<CustomRating readonly initialRating={5} size={25} className="mb-2" />
-							<blockquote className="blockquote mb-0">
+						<div className="w-100 text-center">
+							<CustomRating readonly initialRating={5} size={25} />
+							<blockquote className="blockquote mt-2">
 								<p>"Accidentally hit a pedestrian. Mechanic came quick, fixed the car and even paid off the police. Couldn't ask for more!"</p>
 								<footer className="blockquote-footer">Hallam Roberts</footer>
 							</blockquote>
 						</div>
 					</Carousel.Item>
 					<Carousel.Item>
-						<div className="w-100 pb-5 text-center">
-							<CustomRating readonly initialRating={5} size={25} className="mb-2" />
-							<blockquote className="blockquote mb-0">
+						<div className="w-100 text-center">
+							<CustomRating readonly initialRating={5} size={25} />
+							<blockquote className="blockquote mt-2">
 								<p>"My EV ran flat on my drive to Dapto. Mechanic brought some AAAs from his wife's boyfriend, got there just in time to see my dealer!"</p>
 								<footer className="blockquote-footer">Geofry Boswell</footer>
 							</blockquote>
 						</div>
 					</Carousel.Item>
 					<Carousel.Item>
-						<div className="w-100 pb-5 text-center">
-							<CustomRating readonly initialRating={4} size={25} className="mb-2" />
-							<blockquote className="blockquote mb-0">
+						<div className="w-100 text-center">
+							<CustomRating readonly initialRating={4} size={25} />
+							<blockquote className="blockquote mt-2">
 								<p>"The mechanic put kitchen oil into my diesel car."</p>
 								<footer className="blockquote-footer">Elon Musk</footer>
+							</blockquote>
+						</div>
+					</Carousel.Item>
+					<Carousel.Item>
+						<div className="w-100 text-center">
+							<CustomRating readonly initialRating={5} size={25} />
+							<blockquote className="blockquote mt-2">
+								<p>"Got me wheels stolen right off the Falcon on Church St.<br/>Service guy got me back on the road though he did have some wheels that looked exactly like my stolen ones in his tray."</p>
+								<footer className="blockquote-footer">Davo Smith</footer>
+							</blockquote>
+						</div>
+					</Carousel.Item>
+					<Carousel.Item>
+						<div className="w-100 text-center">
+							<CustomRating readonly initialRating={5} size={25} />
+							<blockquote className="blockquote mt-2">
+								<p>"Fixed up the car after I had a little oopsie"</p>
+								<footer className="blockquote-footer">Princess Diana's driver</footer>
 							</blockquote>
 						</div>
 					</Carousel.Item>
