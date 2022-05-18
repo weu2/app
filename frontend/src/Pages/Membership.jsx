@@ -70,9 +70,8 @@ class Membership extends React.Component {
 				{/* Redirect to /login if the user cannot view this page */}
 				{!this.state.loggedIn && <Navigate to="/login"/>}
 				{
-					this.state.userType === null
-					? <CustomSpinner label="Loading user info..."/>
-					: (
+					this.state.userType
+					? (
 						this.state.isMember
 						? <>
 							<p>You are a member and will be charged automatically.</p>
@@ -119,6 +118,7 @@ class Membership extends React.Component {
 							}
 						</>
 					)
+					: <CustomSpinner label="Loading user info..."/>
 				}
 			</Container>
 		);

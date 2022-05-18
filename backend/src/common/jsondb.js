@@ -45,6 +45,10 @@ class JSONDB {
 		updateFile(this._filepath);
 	}
 
+	getAll() {
+		return this._internal;
+	}
+
 	// to find strings with matching values:
 	// find({ status: {has: ["inprogress","accepted","finished"]})
 	// to find where something does not equal:

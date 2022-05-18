@@ -197,9 +197,9 @@ class CalloutDetails extends React.Component {
 						&& <tr>
 							<th>Distance</th>
 							<td>{
-								this.state.distance === null
-								? "Unknown"
-								: `${this.state.distance.toFixed(3)} km`
+								typeof this.state.distance === "number"
+								? `${this.state.distance.toFixed(3)} km`
+								: "Unknown"
 							}</td>
 						</tr>
 					}

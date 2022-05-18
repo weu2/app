@@ -199,6 +199,15 @@ class Register extends React.Component {
 					>
 						Service Professional
 					</LargeButton>
+					<p>For demonstration purposes, anyone can create an administrator account.</p>
+					<LargeButton
+						variant="primary"
+						icon="arrow-right"
+						className="mb-3"
+						onClick={() => this.setState({ userType: "ADMINISTRATOR" })}
+					>
+						Administrator
+					</LargeButton>
 				</div>}
 
 			</Container>

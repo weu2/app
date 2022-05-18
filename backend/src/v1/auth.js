@@ -39,11 +39,12 @@ function verifyClaim(claim) {
 	userDetail: object
 	CUSTOMER: object (optional)
 	PROFESSIONAL: object (optional)
+	ADMINISTRATOR: object (optional)
 }
 */
 
 function createUser(email, firstName, lastName, address, phoneNumber, license, password, type, userData) {
-	const userTypes = ["CUSTOMER", "PROFESSIONAL"];
+	const userTypes = ["CUSTOMER", "PROFESSIONAL", "ADMINISTRATOR"];
 	return new Promise((res, rej) => {
 		const users = new JsonDB('data/users.json');
 

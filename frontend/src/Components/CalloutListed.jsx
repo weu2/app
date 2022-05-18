@@ -108,9 +108,9 @@ class CalloutListed extends React.Component {
 										: <tr>
 											<th>Distance</th>
 											<td>{
-												this.props.callout.distance === undefined
-												? "Unknown"
-												: `${this.props.callout.distance.toFixed(3)} km`
+												typeof this.props.callout.distance === "number"
+												? `${this.props.callout.distance.toFixed(3)} km`
+												: "Unknown"
 											}</td>
 										</tr>
 									}

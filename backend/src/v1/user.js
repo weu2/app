@@ -130,6 +130,7 @@ router.post('/track', upload.none(), (req, res) => {
 function getType(user) {
 	if (user.CUSTOMER) return "CUSTOMER";
 	if (user.PROFESSIONAL) return "PROFESSIONAL";
+	if (user.ADMINISTRATOR) return "ADMINISTRATOR";
 	return null;
 }
 

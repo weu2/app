@@ -106,6 +106,8 @@ class CalloutList extends React.Component {
 				return this.props.customerhelp;
 			case "PROFESSIONAL":
 				return this.props.professionalhelp;
+			case "ADMINISTRATOR":
+				return this.props.administratorhelp;
 			default:
 				return <CustomSpinner label="Loading user info..."/>
 		}

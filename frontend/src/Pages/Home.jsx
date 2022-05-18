@@ -96,6 +96,24 @@ class Home extends React.Component {
 							</blockquote>
 						</div>
 					</Carousel.Item>
+					<Carousel.Item>
+						<div className="w-100 pb-5 text-center">
+							<CustomRating readonly initialRating={5} size={25} className="mb-2" />
+							<blockquote className="blockquote mb-0">
+								<p>"My EV ran flat on my drive to Dapto. Mechanic brought some AAAs from his wife's boyfriend, got there just in time to see my dealer!"</p>
+								<footer className="blockquote-footer">Geofry Boswell</footer>
+							</blockquote>
+						</div>
+					</Carousel.Item>
+					<Carousel.Item>
+						<div className="w-100 pb-5 text-center">
+							<CustomRating readonly initialRating={4} size={25} className="mb-2" />
+							<blockquote className="blockquote mb-0">
+								<p>"The mechanic put kitchen oil into my diesel car."</p>
+								<footer className="blockquote-footer">Elon Musk</footer>
+							</blockquote>
+						</div>
+					</Carousel.Item>
 				</Carousel>
 			</Container>
 		)

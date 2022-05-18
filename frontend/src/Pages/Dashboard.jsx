@@ -26,6 +26,9 @@ class Dashboard extends React.Component {
 						Use the link in the top menu to find new callouts.
 					</p>
 				</>}
+				administratorhelp={<>
+					<p>All callouts will be listed here.</p>
+				</>}
 			/>
 		);
 	}

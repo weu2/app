@@ -56,7 +56,7 @@ router.post('/create', upload.none(), (req, res) => {
 		locationLong: req.body.locationLong,
 		numberPlate: req.body.numberPlate,
 		paymentId: user.CUSTOMER.subscription ?? null, // use plan ID as payment ID
-		paymentComplete: user.CUSTOMER.subscription !== null, // subscriptions mean payments are complete
+		paymentComplete: typeof user.CUSTOMER.subscription === "string", // subscriptions mean payments are complete
 		images: [],
 		status: "new" // new - hasnt been confirmed
 						// accepted - service professional has accepted the callout and is on their way
@@ -130,6 +130,8 @@ router.post('/nearby', (req, res) => {
 			}
 		});
 		res.status(200).send(returnList);
+	} else {
+		res.status(401).send();
 	}
 });
 
@@ -197,24 +199,30 @@ router.get('/list', (req, res) => {
 	
 	if (user.CUSTOMER) {
 		const calloutdb = new JsonDB('data/callouts.json');
-		const users = new JsonDB('data/users.json');
-		const user = users.find({ uuid: req.userUuid })[0]; // user uuid should be checked already so no need to check it again
 		const callouts = calloutdb.find({ customer: req.userUuid });
-		// include finished callouts so customers can leave reviews
+		// includes finished callouts so customers can leave reviews
 		res.status(200).send({
 			type: "CUSTOMER",
 			callouts: callouts
-		});	
+		});
 	} else if (user.PROFESSIONAL) {
 		const servProLat = parseFloat(user.PROFESSIONAL.locationLat);
 		const servProLong = parseFloat(user.PROFESSIONAL.locationLong);
-		
+
 		const calloutdb = new JsonDB('data/callouts.json');
 		const callouts = calloutdb.find({ status: {has:["inprogress","accepted","finished"]}, assignedTo: req.userUuid });
 		res.status(200).send({
 			type: "PROFESSIONAL",
 			callouts: callouts,
 			position: [servProLat, servProLong] // for easier frontend display
+		});
+	} else if (user.ADMINISTRATOR) {
+		const calloutdb = new JsonDB('data/callouts.json');
+		const callouts = calloutdb.getAll();
+		// include finished callouts so customers can leave reviews
+		res.status(200).send({
+			type: "ADMINISTRATOR",
+			callouts: callouts
 		});
 	} else {
 		res.status(401).send();
