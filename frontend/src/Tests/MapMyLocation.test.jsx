@@ -7,7 +7,7 @@ it("checks map marker is rendered", () => {
 		position={[24.0, 36.0]}
 		style={{ width: "128px", height: "128px" }}
 	/>);
-	expect(screen.getByRole("img")).toBeInTheDocument();
+	expect(screen.getByAltText("Marker")).toBeInTheDocument();
 });
 
 it("checks map marker has correct icon", () => {
@@ -15,6 +15,6 @@ it("checks map marker has correct icon", () => {
 		position={[24.0, 36.0]}
 		style={{ width: "128px", height: "128px" }}
 	/>);
-	const markerSrc = screen.getByRole("img").src;
+	const markerSrc = screen.getByAltText("Marker").src;
 	expect(markerSrc.split("/").pop()).toBe("markerself.png");
 });
