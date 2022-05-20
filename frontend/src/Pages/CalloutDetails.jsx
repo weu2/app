@@ -128,13 +128,13 @@ class CalloutDetails extends React.Component {
 								disabled={this.state.inputPrice < 1 || this.state.inputPrice > 1000}
 								onClick={() => this.updateCallout("accepted")}
 							>
-								Accept
+								Accept Callout
 							</Button>
 						</Col>
 						<Col>
 							<Link to="/findcallouts">
 								<Button variant="danger" className="mb-3 w-100">
-									Deny
+									Deny Callout
 								</Button>
 							</Link>
 						</Col>
@@ -146,9 +146,12 @@ class CalloutDetails extends React.Component {
 						variant="success"
 						className="mb-3 w-100"
 						onClick={() => this.updateCallout("inprogress")}
-					>
-						Arrived on site
-					</Button>
+						disabled={!this.state.callout.paymentComplete}
+					>{
+						this.state.callout.paymentComplete
+						? "Arrived on site"
+						: "Arrived on site (waiting for payment)"
+					}</Button>
 				);
 			case "inprogress":
 				return (

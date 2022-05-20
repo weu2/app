@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import Alert from "react-bootstrap/Alert";
+import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Table from "react-bootstrap/Table";
 import Row from "react-bootstrap/Row";
@@ -14,7 +16,7 @@ import CustomRating from "./CustomRating";
 
 // api.jsx contains utility functions for getting or sending data from the frontend to the backend
 // For example, sending form data or getting user info
-import { backendGetCalloutAssignee } from "../api.jsx";
+import { backendGetCalloutAssignee, backendUpdateCallout } from "../api.jsx";
 
 // Card for rendering each callout along with basic details
 class CalloutListed extends React.Component {
@@ -22,7 +24,10 @@ class CalloutListed extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			assigneeName: "None" // Assigned service professional name
+			assigneeName: "None", // Assigned service professional name
+			status: props.callout.status, // To force UI update when callout is cancelled
+			price: props.callout.price, // To force UI update when callout is cancelled
+			error: null
 		};
 	}
 
@@ -46,17 +51,39 @@ class CalloutListed extends React.Component {
 		);
 	}
 
+	denyCallout = () => {
+		backendUpdateCallout(this.props.callout.uuid, "new")
+			.then(callout => this.setState({
+				assigneeName: "None",
+				status: callout.status,
+				price: callout.price
+			})).catch(res => this.setState({
+				error: `Error: ${res.status} (${res.statusText})`
+			}));
+	}
+
 	customerButton() {
-		if (this.props.callout.price && !this.props.callout.paymentComplete) {
+		if (this.state.price && !this.props.callout.paymentComplete) {
 			// Force customer to pay for callout
-			return (
-				<Link to={`/callout/${this.props.callout.uuid}/pay`}>
-					<LargeButton variant="primary" icon="arrow-right">
-						Complete Payment
-					</LargeButton>
-				</Link>
-			);
-		} else if (this.props.callout.status === "finished" && !this.props.callout.review) {
+			return (<>
+				{/* Display an error message if required */}
+				{this.state.error && <Alert variant="danger">{this.state.error}</Alert>}
+				<Row>
+					<Col>
+						<Link to={`/callout/${this.props.callout.uuid}/pay`}>
+							<Button variant="success" className="w-100">
+								Accept Price
+							</Button>
+						</Link>
+					</Col>
+					<Col>
+						<Button variant="danger" className="w-100" onClick={this.denyCallout}>
+							Deny Price
+						</Button>
+					</Col>
+				</Row>
+			</>);
+		} else if (this.state.status === "finished" && !this.props.callout.review) {
 			// Force customer to review callout
 			return (
 				<Link to={`/callout/${this.props.callout.uuid}/review`}>
@@ -116,7 +143,7 @@ class CalloutListed extends React.Component {
 									}
 									<tr>
 										<th>Status</th>
-										<td>{this.props.callout.status.toUpperCase()}</td>
+										<td>{this.state.status.toUpperCase()}</td>
 									</tr>
 									<tr>
 										<th>Number Plate</th>
@@ -129,13 +156,13 @@ class CalloutListed extends React.Component {
 									<tr>
 										<th>Price</th>
 										<td>{
-											this.props.callout.price
-											? `$${parseFloat(this.props.callout.price).toFixed(2)}`
+											this.state.price
+											? `$${parseFloat(this.state.price).toFixed(2)}`
 											: "Waiting for service professional to accept"
 										}</td>
 									</tr>
 									{
-										(this.props.callout.price && !this.props.callout.paymentComplete)
+										(this.state.price && !this.props.callout.paymentComplete)
 										? <tr>
 											<th>Payment Provided</th>
 											<td>No</td>
@@ -143,7 +170,7 @@ class CalloutListed extends React.Component {
 										: null
 									}
 									{
-										(this.props.callout.status === "finished" && !this.props.callout.review)
+										(this.state.status === "finished" && !this.props.callout.review)
 										? <tr>
 											<th>Review Provided</th>
 											<td>No</td>

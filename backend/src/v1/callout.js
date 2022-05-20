@@ -49,6 +49,7 @@ router.post('/create', upload.none(), (req, res) => {
 		uuid: calloutUuid, 
 		customer: req.userUuid, // request will contain user uuid because the middlewear handler resolves it
 		assignedTo: null,
+		price: null,
 		review: null,
 		description: req.body.description,
 		dateTime: req.body.dateTime,
@@ -146,16 +147,17 @@ router.post('/update', (req, res) => {
 		return;
 	}
 
+	const callouts = new JsonDB('data/callouts.json');
+	const callout = callouts.find({ uuid: req.body.calloutId })[0];
+	// check there is a callout
+	if (!callout) {
+		res.status(400).send();
+		return;
+	}
+
 	const users = new JsonDB('data/users.json');
 	const user = users.find({ uuid: req.userUuid })[0]; // user uuid should be checked already so no need to check it again
 	if (user.PROFESSIONAL) {
-		const callouts = new JsonDB('data/callouts.json');
-		const callout = callouts.find({ uuid: req.body.calloutId })[0];
-		// check there is a callout
-		if (!callout) {
-			res.status(400).send();
-			return;
-		}
 		switch (req.body.status) {
 			case "accepted":
 				if (callout.status !== "new") {
@@ -187,9 +189,20 @@ router.post('/update', (req, res) => {
 				return;
 		}
 		res.status(200).send(callout);
-	} else {
-		res.status(400).send();
+		return;
+	} else if (user.CUSTOMER) {
+		// allow customers to deny callout prices
+		if (req.body.status === "new" && callout.status === "accepted") {
+			callouts.update({ uuid: req.body.calloutId }, {
+				assignedTo: null,
+				price: null,
+				status: "new"
+			});
+			res.status(200).send(callout);
+			return;
+		}
 	}
+	res.status(400).send();
 });
 
 router.get('/list', (req, res) => {

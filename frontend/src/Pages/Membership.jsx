@@ -22,8 +22,9 @@ class Membership extends React.Component {
 		this.state = {
 			initialOptions: null, // Initial PayPal settings
 			error: null, // Error message to display if required
-			userType: null,
-			isMember: false,
+			userType: null, // Used to verify whether the user is logged in
+			isMember: false, // Assume user is not a member yet
+			cancelling: false, // Show a loading spinner while cancelling membership
 			loggedIn: true // Assume user can view page to avoid redirecting early
 		};
 	}
@@ -51,11 +52,15 @@ class Membership extends React.Component {
 	}
 
 	cancelMembership = () => {
+		// Show loading spinner until cancellation is complete
+		this.setState({ cancelling: true });
 		backendCancelMembership()
 			.then(() => this.setState({
-				isMember: false
+				isMember: false,
+				cancelling: false
 			})).catch(res => this.setState({
-				error: `Error: ${res.status} (${res.statusText})`
+				error: `Error: ${res.status} (${res.statusText})`,
+				cancelling: false
 			}));
 	}
 
@@ -76,7 +81,11 @@ class Membership extends React.Component {
 						? <>
 							<p>You are a member and will be charged automatically.</p>
 							<p>Cancel your membership with the button below:</p>
-							<Button variant="primary" onClick={this.cancelMembership}>Cancel membership</Button>
+							{
+								this.state.cancelling
+								? <CustomSpinner label="Cancelling membership..."/>
+								: <Button variant="primary" onClick={this.cancelMembership}>Cancel membership</Button>
+							}
 						</>
 						: <>
 							<h5 className="mb-4">WeU's membership program offers unlimited callouts for $80/month!</h5>

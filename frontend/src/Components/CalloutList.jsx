@@ -55,6 +55,7 @@ class CalloutList extends React.Component {
 	}
 
 	sortCallouts() {
+		const statusLevels = { new: 0, accepted: 1, inprogress: 2, finished: 3 };
 		switch (this.state.sortBy) {
 			case "closest":
 				this.state.callouts.sort((a, b) => a.distance - b.distance);
@@ -75,6 +76,12 @@ class CalloutList extends React.Component {
 					const bRating = b.review ? b.review.rating : 0;
 					return bRating - aRating;
 				});
+				break;
+			case "statusasc":
+				this.state.callouts.sort((a, b) => statusLevels[a.status] - statusLevels[b.status]);
+				break;
+			case "statusdesc":
+				this.state.callouts.sort((a, b) => statusLevels[b.status] - statusLevels[a.status]);
 				break;
 			case "oldest":
 				this.state.callouts.sort((a, b) => a.dateTime.localeCompare(b.dateTime));
@@ -141,6 +148,8 @@ class CalloutList extends React.Component {
 										}
 										<option value="newest">Newest to oldest</option>
 										<option value="oldest">Oldest to newest</option>
+										<option value="statusasc">New to finished status</option>
+										<option value="statusdesc">Finished to new status</option>
 										<option value="ratingdesc">Highest to lowest rating</option>
 										<option value="ratingasc">Lowest to highest rating</option>
 									</Form.Select>
