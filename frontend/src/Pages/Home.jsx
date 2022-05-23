@@ -123,15 +123,6 @@ class Home extends React.Component {
 							</blockquote>
 						</div>
 					</Carousel.Item>
-					<Carousel.Item>
-						<div className="w-100 text-center">
-							<CustomRating readonly initialRating={5} size={25} />
-							<blockquote className="blockquote mt-2">
-								<p>"Fixed up the car after I had a little oopsie"</p>
-								<footer className="blockquote-footer">Princess Diana's driver</footer>
-							</blockquote>
-						</div>
-					</Carousel.Item>
 				</Carousel>
 			</Container>
 		)
