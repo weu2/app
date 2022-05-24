@@ -84,7 +84,10 @@ const Report = require('fluentreports' ).Report;
 function createReport(report, header, data) {
     return new Promise(function(resolve, reject) {
         try {
-            const rpt = new Report(`data/reports/${uuid.v4()}.pdf`)
+            fs.mkdir(path.dirname(reportDir), { recursive: true }, (err) => {
+                if (err) throw err; // not sure why this would happen, no perms maybe unix moment
+            });
+            const rpt = new Report(`${reportDir}${uuid.v4()}.pdf`)
 
             if(report.footer)
                 rpt.pageFooter(report.footer);
