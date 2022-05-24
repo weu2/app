@@ -1,4 +1,5 @@
 import React from "react";
+import { Navigate } from "react-router-dom";
 
 // <Container> adds padding to the sides of the page content, makes it look nicer
 import Container from "react-bootstrap/Container";
@@ -15,7 +16,8 @@ class Reports extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			types: null
+			types: null,
+			loggedIn: true
 		};
 	}
 
@@ -23,6 +25,8 @@ class Reports extends React.Component {
 		backendGetReportTypes()
 			.then(res => this.setState({
 				types: res
+			})).catch(() => this.setState({
+				loggedIn: false
 			}));
 	}
 
@@ -36,13 +40,19 @@ class Reports extends React.Component {
 	render() {
 		return (
 			<Container>
-			{
-				this.state.types 
-				?
-				this.state.types.map(e => <LargeButton className="mb-3" icon="arrow-right" key={e} onClick={() => this.makeReport(e)}>{`Generate and download ${e} report`}</LargeButton>)
-				:
-				<CustomSpinner label="Loading callout details..."/>
-			}
+				<h2 className="mb-3">Reports</h2>
+
+				{/* Redirect to /login if not logged in */}
+				{!this.state.loggedIn && <Navigate to="/login"/>}
+				{
+					this.state.types
+					? this.state.types.map(type =>
+						<LargeButton key={type} className="mb-3" icon="arrow-right" onClick={() => this.makeReport(type)}>
+							{`Generate and download ${type} report`}
+						</LargeButton>
+					)
+					: <CustomSpinner label="Loading report types..."/>
+				}
 			</Container>
 		);
 	}
