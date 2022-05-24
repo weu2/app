@@ -99,6 +99,7 @@ class NavigationBar extends React.Component {
 										: null
 									}
 									<Nav.Link as={NavLink} to="/reviews">Reviews</Nav.Link>
+									<Nav.Link as={NavLink} to="/reports">Reports</Nav.Link>
 								</>
 								: <>
 									<Nav.Link as={NavLink} to="/login">Login</Nav.Link>

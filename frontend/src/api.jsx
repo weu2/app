@@ -223,3 +223,21 @@ export function backendReview(formData) {
 export function backendGetReviews() {
 	return fetchStrict("/api/v1/review/list").then(res => res.json());
 }
+
+// reports
+
+export function backendGetReportTypes() {
+	return fetchStrict("/api/v1/report/types").then(res => res.json());
+}
+
+export function backendGetReport(reportType) {
+	return fetchStrict("/api/v1/report/generate", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify({
+			type: reportType
+		})
+	}).then(res => res.blob());
+}

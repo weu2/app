@@ -73,7 +73,7 @@ class Home extends React.Component {
 						<div className="w-100 text-center">
 							<CustomRating readonly initialRating={5} size={25} />
 							<blockquote className="blockquote mt-2">
-								<p>"Got drunk and drove my 180SX off a cliff. Mechanic patched it up as good as new!"</p>
+								<p>"Got drunk and drove my Honda Civic off a cliff. Mechanic patched it up as good as new!"</p>
 								<footer className="blockquote-footer">Caleb Wait</footer>
 							</blockquote>
 						</div>

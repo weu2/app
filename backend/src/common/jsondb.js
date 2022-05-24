@@ -57,12 +57,16 @@ class JSONDB {
 		const keys = Object.keys(key);
 		return this._internal.filter(e => {
 			return keys.reduce((p, c) => {
-				if (key[c].has !== undefined) {
-					return p && key[c].has.includes(e[c]);
-				} else if (key[c].not !== undefined) {
-					return p && e[c] !== key[c].not;
+				if (key[c]) {
+					if (key[c].has) {
+						return p && key[c].has.includes(e[c]);
+					} else if (key[c].not) {
+						return p && e[c] !== key[c].not;
+					} else {
+						return p && e[c] === key[c];
+					}
 				} else {
-					return p && e[c] === key[c];
+					return p;
 				}
 			}, true);
 		});
