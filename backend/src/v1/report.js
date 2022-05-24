@@ -80,34 +80,37 @@ const adminReports = {
 //    users: {}
 };
 
-const Report = require('fluentreports' ).Report;
+const Report = require('fluentreports').Report;
 function createReport(report, header, data) {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function(res, rej) {
         try {
-            fs.mkdir(path.dirname(reportDir), { recursive: true }, (err) => {
+            fs.mkdir(reportDir, { recursive: true }, (err) => {
                 if (err) throw err; // not sure why this would happen, no perms maybe unix moment
-            });
-            const rpt = new Report(`${reportDir}${uuid.v4()}.pdf`)
 
-            if(report.footer)
-                rpt.pageFooter(report.footer);
-            if(report.header)
-                rpt.pageHeader((rpt) => report.header(rpt, header));
-            if(report.finalSummary)
-                rpt.finalSummary(report.summary);
-            if(report.detail)
-                rpt.detail( report.detail);
-            report.headerData = header;
-            rpt.data( data )
-                .render(function(err, filepath){
-                    var names = filepath.split("/");
-                    var name =  names[names.length - 1];
-                    resolve(name);
-                }); 
-            }
-        catch(err)
+                const rpt = new Report(`${reportDir}${uuid.v4()}.pdf`);
+
+                if (report.footer) {
+                    rpt.pageFooter(report.footer);
+                }
+                if (report.header) {
+                    rpt.pageHeader((rpt) => report.header(rpt, header));
+                }
+                if (report.finalSummary) {
+                    rpt.finalSummary(report.summary);
+                }
+                if (report.detail) {
+                    rpt.detail(report.detail);
+                }
+                report.headerData = header;
+                rpt.data(data)
+                    .render(function(err, filepath){
+                        res(filepath.split("/").pop());
+                    });
+            });
+        }
+        catch (err)
         {
-            reject(err);
+            rej(err);
         }
     });
 }
@@ -160,7 +163,7 @@ router.post('/generate', (req, res) => {
     
     if (user.PROFESSIONAL) {
         report = professionalReports[req.body.type];
-        data = Object.assign([], callouts.find({assignedTo:req.userUuid}));
+        data = Object.assign([], callouts.find({ assignedTo: req.userUuid }));
         data.forEach(item => {
             const customer = users.find({ uuid: item.customer })[0]; // user uuid should be checked already so no need to check it again
             item.customerName = `${customer.firstName} ${customer.lastName}`;

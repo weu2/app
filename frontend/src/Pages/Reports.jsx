@@ -40,7 +40,7 @@ class Reports extends React.Component {
 	render() {
 		return (
 			<Container>
-				<h2 className="mb-3">Reports</h2>
+				<h2 className="mb-4">Reports</h2>
 
 				{/* Redirect to /login if not logged in */}
 				{!this.state.loggedIn && <Navigate to="/login"/>}
@@ -48,7 +48,7 @@ class Reports extends React.Component {
 					this.state.types
 					? this.state.types.map(type =>
 						<LargeButton key={type} className="mb-3" icon="arrow-right" onClick={() => this.makeReport(type)}>
-							{`Generate and download ${type} report`}
+							{`Download ${type} report`}
 						</LargeButton>
 					)
 					: <CustomSpinner label="Loading report types..."/>
