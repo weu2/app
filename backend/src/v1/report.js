@@ -80,7 +80,7 @@ const adminReports = {
 //    users: {}
 };
 
-const Report = require('fluentReports' ).Report;
+const Report = require('fluentreports' ).Report;
 function createReport(report, header, data) {
     return new Promise(function(resolve, reject) {
         try {
