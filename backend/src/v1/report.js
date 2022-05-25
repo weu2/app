@@ -7,6 +7,7 @@ const fs = require('fs');
 const auth = require('./auth');
 const JsonDB = require('../common/jsondb');
 const apiValidator = require('../common/apiValidator');
+const Report = require('fluentreports').Report;
 
 const reportDir = 'data/reports/';
 
@@ -22,7 +23,7 @@ const professionalReports = {
                 {data: "Status", width: 80},
                 {data: "Plate", width: 60},
                 {data: "Customer", width: 140},
-                {data: "Location", width: 120},           
+                {data: "Location", width: 120},
             ], {border: 1, padding:5});
             rpt.band([
                 {data: new Date(parseInt(data.dateTime)).toLocaleDateString(), width: 75},
@@ -37,7 +38,7 @@ const professionalReports = {
         summary: function(rpt) {
         },
         footer: function(rpt) {
-            rpt.pageNumber( {footer: true, align: "center", text:"Page {0} of {1}"} );  
+            rpt.pageNumber( {footer: true, align: "center", text:"Page {0} of {1}"} );
         }
     },
     payments: {
@@ -64,7 +65,7 @@ const professionalReports = {
         summary: function(rpt) {
         },
         footer: function(rpt) {
-            rpt.pageNumber( {footer: true, align: "center", text:"Page {0} of {1}"} );  
+            rpt.pageNumber( {footer: true, align: "center", text:"Page {0} of {1}"} );
         }
     }
 };
@@ -81,7 +82,7 @@ const customerReports = {
                 {data: "Status", width: 80},
                 {data: "Plate", width: 60},
                 {data: "Professional", width: 140},
-                {data: "Location", width: 120},      
+                {data: "Location", width: 120},
             ], {border: 1, padding:5});
             rpt.band([
                 {data: new Date(parseInt(data.dateTime)).toLocaleDateString(), width: 75},
@@ -96,7 +97,7 @@ const customerReports = {
         summary: function(rpt) {
         },
         footer: function(rpt) {
-            rpt.pageNumber( {footer: true, align: "center", text:"Page {0} of {1}"} );  
+            rpt.pageNumber( {footer: true, align: "center", text:"Page {0} of {1}"} );
         }
     },
     payments: {
@@ -123,7 +124,7 @@ const customerReports = {
         summary: function(rpt) {
         },
         footer: function(rpt) {
-            rpt.pageNumber( {footer: true, align: "center", text:"Page {0} of {1}"} );  
+            rpt.pageNumber( {footer: true, align: "center", text:"Page {0} of {1}"} );
         }
     }
 };
@@ -141,7 +142,7 @@ const adminReports = {
                 {data: "Plate", width: 60},
                 {data: "Customer", width: 100},
                 {data: "Professional", width: 100},
-                {data: "Location", width: 120},          
+                {data: "Location", width: 120},
             ], {border: 1, padding:5});
             rpt.band([
                 {data: new Date(parseInt(data.dateTime)).toLocaleDateString(), width: 75},
@@ -157,7 +158,7 @@ const adminReports = {
         summary: function(rpt) {
         },
         footer: function(rpt) {
-            rpt.pageNumber( {footer: true, align: "center", text:"Page {0} of {1}"} );  
+            rpt.pageNumber( {footer: true, align: "center", text:"Page {0} of {1}"} );
         }
     },
     payments: {
@@ -184,12 +185,11 @@ const adminReports = {
         summary: function(rpt) {
         },
         footer: function(rpt) {
-            rpt.pageNumber( {footer: true, align: "center", text:"Page {0} of {1}"} );  
+            rpt.pageNumber( {footer: true, align: "center", text:"Page {0} of {1}"} );
         }
     }
 };
 
-const Report = require('fluentreports').Report;
 function createReport(report, header, data) {
     return new Promise(function(res, rej) {
         try {
@@ -238,7 +238,6 @@ router.use((req, res, next) => {
 });
 
 router.get('/types', (req, res) => {
-
     const users = new JsonDB('data/users.json');
     const user = users.find({ uuid: req.userUuid })[0]; // user uuid should be checked already so no need to check it again
     let reports;
