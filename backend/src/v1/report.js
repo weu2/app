@@ -14,8 +14,8 @@ const reportDir = 'data/reports/';
 const professionalReports = {
     callouts: {
         header: function(rpt, data) {
-            rpt.print(`Callouts for ${data.name}`, {fontSize:24});
-            rpt.print([new Date().toLocaleString()], {fontSize:18});
+            rpt.print(`Callouts for ${data.name}`, {fontSize: 24});
+            rpt.print([new Date().toLocaleString()], {fontSize: 18});
         },
         detail: function(rpt, data) {
             rpt.band([
@@ -24,7 +24,7 @@ const professionalReports = {
                 {data: "Plate", width: 60},
                 {data: "Customer", width: 140},
                 {data: "Location", width: 120},
-            ], {border: 1, padding:5});
+            ], {border: 1, padding: 5});
             rpt.band([
                 {data: new Date(parseInt(data.dateTime)).toLocaleDateString(), width: 75},
                 {data: data.status.toUpperCase(), width: 80},
@@ -32,40 +32,40 @@ const professionalReports = {
                 {data: data.customerName, width: 140},
                 {data: data.locationLat, width: 60},
                 {data: data.locationLong, width: 60}
-            ], {border: 1, padding:5});
-            rpt.print(data.description, {addY:5});
+            ], {border: 1, padding: 5});
+            rpt.print(data.description, {addY: 5});
         },
         summary: function(rpt) {
         },
         footer: function(rpt) {
-            rpt.pageNumber( {footer: true, align: "center", text:"Page {0} of {1}"} );
+            rpt.pageNumber({footer: true, align: "center", text: "Page {0} of {1}"});
         }
     },
     payments: {
         header: function(rpt, data) {
-            rpt.print(`Statement for ${data.name}`, {fontSize:24});
-            rpt.print([new Date().toLocaleString()], {fontSize:18});
+            rpt.print(`Statement for ${data.name}`, {fontSize: 24});
+            rpt.print([new Date().toLocaleString()], {fontSize: 18});
             rpt.band([
                 {data: "Date", width: 80},
                 {data: "Customer", width: 140},
                 {data: "Status", width: 80},
                 {data: "Owed", width: 80},
                 {data: "Paid", width: 80},
-            ], {border: 1, padding:5});
+            ], {border: 1, padding: 5});
         },
         detail: function(rpt, data) {
             rpt.band([
                 {data: new Date(parseInt(data.dateTime)).toLocaleDateString(), width: 80},
                 {data: data.customerName, width: 140},
                 {data: data.status.toUpperCase(), width: 80},
-                {data: data.price ? `$${data.price}` : "Not set", width: 80},
-                {data: data.paymentComplete ? (data.price ? `$${data.price}` : "Not set") : '$0', width: 80},
-            ], {border: 1, padding:5});
+                {data: data.price ? `$${parseFloat(data.price).toFixed(2)}` : "Not set", width: 80},
+                {data: data.paymentComplete ? (data.price ? `$${parseFloat(data.price).toFixed(2)}` : "Not set") : '$0.00', width: 80},
+            ], {border: 1, padding: 5});
         },
         summary: function(rpt) {
         },
         footer: function(rpt) {
-            rpt.pageNumber( {footer: true, align: "center", text:"Page {0} of {1}"} );
+            rpt.pageNumber({footer: true, align: "center", text: "Page {0} of {1}"});
         }
     }
 };
@@ -73,8 +73,8 @@ const professionalReports = {
 const customerReports = {
     callouts: {
         header: function(rpt, data) {
-            rpt.print(`Callouts for ${data.name}`, {fontSize:24});
-            rpt.print([new Date().toLocaleString()], {fontSize:18});
+            rpt.print(`Callouts by ${data.name}`, {fontSize: 24});
+            rpt.print([new Date().toLocaleString()], {fontSize: 18});
         },
         detail: function(rpt, data) {
             rpt.band([
@@ -83,7 +83,7 @@ const customerReports = {
                 {data: "Plate", width: 60},
                 {data: "Professional", width: 140},
                 {data: "Location", width: 120},
-            ], {border: 1, padding:5});
+            ], {border: 1, padding: 5});
             rpt.band([
                 {data: new Date(parseInt(data.dateTime)).toLocaleDateString(), width: 75},
                 {data: data.status.toUpperCase(), width: 80},
@@ -91,40 +91,40 @@ const customerReports = {
                 {data: data.professionalName, width: 140},
                 {data: data.locationLat, width: 60},
                 {data: data.locationLong, width: 60}
-            ], {border: 1, padding:5});
-            rpt.print(data.description, {addY:5});
+            ], {border: 1, padding: 5});
+            rpt.print(data.description, {addY: 5});
         },
         summary: function(rpt) {
         },
         footer: function(rpt) {
-            rpt.pageNumber( {footer: true, align: "center", text:"Page {0} of {1}"} );
+            rpt.pageNumber({footer: true, align: "center", text: "Page {0} of {1}"});
         }
     },
     payments: {
         header: function(rpt, data) {
-            rpt.print(`Statement for ${data.name}`, {fontSize:24});
-            rpt.print([new Date().toLocaleString()], {fontSize:18});
+            rpt.print(`Statement for ${data.name}`, {fontSize: 24});
+            rpt.print([new Date().toLocaleString()], {fontSize: 18});
             rpt.band([
                 {data: "Date", width: 80},
                 {data: "Professional", width: 140},
                 {data: "Status", width: 80},
                 {data: "Owed", width: 80},
                 {data: "Paid", width: 80},
-            ], {border: 1, padding:5});
+            ], {border: 1, padding: 5});
         },
         detail: function(rpt, data) {
             rpt.band([
                 {data: new Date(parseInt(data.dateTime)).toLocaleDateString(), width: 80},
                 {data: data.professionalName, width: 140},
                 {data: data.status.toUpperCase(), width: 80},
-                {data: data.price ? `$${data.price}` : "Not set", width: 80},
-                {data: data.paymentComplete ? (data.price ? `$${data.price}` : "Not set") : '$0', width: 80},
-            ], {border: 1, padding:5});
+                {data: data.price ? `$${parseFloat(data.price).toFixed(2)}` : "Not set", width: 80},
+                {data: data.paymentComplete ? (data.price ? `$${parseFloat(data.price).toFixed(2)}` : "Not set") : '$0.00', width: 80},
+            ], {border: 1, padding: 5});
         },
         summary: function(rpt) {
         },
         footer: function(rpt) {
-            rpt.pageNumber( {footer: true, align: "center", text:"Page {0} of {1}"} );
+            rpt.pageNumber({footer: true, align: "center", text: "Page {0} of {1}"});
         }
     }
 };
@@ -132,8 +132,8 @@ const customerReports = {
 const adminReports = {
     callouts: {
         header: function(rpt, data) {
-            rpt.print("All callouts", {fontSize:24});
-            rpt.print([new Date().toLocaleString()], {fontSize:18});
+            rpt.print("All callouts", {fontSize: 24});
+            rpt.print([new Date().toLocaleString()], {fontSize: 18});
         },
         detail: function(rpt, data) {
             rpt.band([
@@ -143,7 +143,7 @@ const adminReports = {
                 {data: "Customer", width: 100},
                 {data: "Professional", width: 100},
                 {data: "Location", width: 120},
-            ], {border: 1, padding:5});
+            ], {border: 1, padding: 5});
             rpt.band([
                 {data: new Date(parseInt(data.dateTime)).toLocaleDateString(), width: 75},
                 {data: data.status.toUpperCase(), width: 80},
@@ -152,40 +152,40 @@ const adminReports = {
                 {data: data.professionalName, width: 100},
                 {data: data.locationLat, width: 60},
                 {data: data.locationLong, width: 60}
-            ], {border: 1, padding:5});
-            rpt.print(data.description, {addY:5});
+            ], {border: 1, padding: 5});
+            rpt.print(data.description, {addY: 5});
         },
         summary: function(rpt) {
         },
         footer: function(rpt) {
-            rpt.pageNumber( {footer: true, align: "center", text:"Page {0} of {1}"} );
+            rpt.pageNumber({footer: true, align: "center", text: "Page {0} of {1}"});
         }
     },
     payments: {
         header: function(rpt, data) {
-            rpt.print("All statements", {fontSize:24});
-            rpt.print([new Date().toLocaleString()], {fontSize:18});
+            rpt.print("All statements", {fontSize: 24});
+            rpt.print([new Date().toLocaleString()], {fontSize: 18});
             rpt.band([
                 {data: "Date", width: 80},
                 {data: "Customer", width: 140},
                 {data: "Status", width: 80},
                 {data: "Owed", width: 80},
                 {data: "Paid", width: 80},
-            ], {border: 1, padding:5});
+            ], {border: 1, padding: 5});
         },
         detail: function(rpt, data) {
             rpt.band([
                 {data: new Date(parseInt(data.dateTime)).toLocaleDateString(), width: 80},
                 {data: data.customerName, width: 140},
                 {data: data.status.toUpperCase(), width: 80},
-                {data: data.price ? `$${data.price}` : "Not set", width: 80},
-                {data: data.paymentComplete ? (data.price ? `$${data.price}` : "Not set") : '$0', width: 80},
-            ], {border: 1, padding:5});
+                {data: data.price ? `$${parseFloat(data.price).toFixed(2)}` : "Not set", width: 80},
+                {data: data.paymentComplete ? (data.price ? `$${parseFloat(data.price).toFixed(2)}` : "Not set") : '$0.00', width: 80},
+            ], {border: 1, padding: 5});
         },
         summary: function(rpt) {
         },
         footer: function(rpt) {
-            rpt.pageNumber( {footer: true, align: "center", text:"Page {0} of {1}"} );
+            rpt.pageNumber({footer: true, align: "center", text: "Page {0} of {1}"});
         }
     }
 };
@@ -269,7 +269,7 @@ function addNames(data, users) {
 router.post('/generate', (req, res) => {
 
     if (!apiValidator.validate(req, {
-        type: {type:"string", required:true},
+        type: {type: "string", required: true},
     })) {
         res.status(400).send('Missing API parameters');
         return;
