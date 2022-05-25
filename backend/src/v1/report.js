@@ -15,27 +15,24 @@ const professionalReports = {
         header: function(rpt, data) {
             rpt.print(`Callouts for ${data.name}`, {fontSize:24});
             rpt.print([new Date().toLocaleString()], {fontSize:18});
-
         },
         detail: function(rpt, data) {
             rpt.band([
                 {data: "Date", width: 75},
-                {data: "Status", width: 80},                    
-                {data: "Number Plate", width: 60},
+                {data: "Status", width: 80},
+                {data: "Plate", width: 60},
                 {data: "Customer", width: 140},
-                {data: "Location", width: 120},
-                                
+                {data: "Location", width: 120},           
             ], {border: 1, padding:5});
             rpt.band([
                 {data: new Date(parseInt(data.dateTime)).toLocaleDateString(), width: 75},
-                {data: data.status.toUpperCase(), width: 80},                    
+                {data: data.status.toUpperCase(), width: 80},
                 {data: data.numberPlate, width: 60},
-                {data: data.customerName, width: 140},                    
-                {data: data.locationLat, width: 60},                    
-                {data: data.locationLong, width: 60}                   
+                {data: data.customerName, width: 140},
+                {data: data.locationLat, width: 60},
+                {data: data.locationLong, width: 60}
             ], {border: 1, padding:5});
             rpt.print(data.description, {addY:5});
-            
         },
         summary: function(rpt) {
         },
@@ -50,7 +47,7 @@ const professionalReports = {
             rpt.band([
                 {data: "Date", width: 80},
                 {data: "Customer", width: 140},
-                {data: "Status", width: 80},                    
+                {data: "Status", width: 80},
                 {data: "Owed", width: 80},
                 {data: "Paid", width: 80},
             ], {border: 1, padding:5});
@@ -58,26 +55,138 @@ const professionalReports = {
         detail: function(rpt, data) {
             rpt.band([
                 {data: new Date(parseInt(data.dateTime)).toLocaleDateString(), width: 80},
-                {data: data.customerName, width: 140},     
-                {data: data.status.toUpperCase(), width: 80},                    
-                {data: `$${data.price}`, width: 80},
-                {data: data.paymentComplete ? `$${data.price}` : '$0.0', width: 80},
+                {data: data.customerName, width: 140},
+                {data: data.status.toUpperCase(), width: 80},
+                {data: data.price ? `$${data.price}` : "Not set", width: 80},
+                {data: data.paymentComplete ? (data.price ? `$${data.price}` : "Not set") : '$0', width: 80},
             ], {border: 1, padding:5});
         },
         summary: function(rpt) {
         },
         footer: function(rpt) {
+            rpt.pageNumber( {footer: true, align: "center", text:"Page {0} of {1}"} );  
         }
-    }//,
-//    statement: {}
+    }
 };
 
-const userReports = {
-//    statement: {}
+const customerReports = {
+    callouts: {
+        header: function(rpt, data) {
+            rpt.print(`Callouts for ${data.name}`, {fontSize:24});
+            rpt.print([new Date().toLocaleString()], {fontSize:18});
+        },
+        detail: function(rpt, data) {
+            rpt.band([
+                {data: "Date", width: 75},
+                {data: "Status", width: 80},
+                {data: "Plate", width: 60},
+                {data: "Professional", width: 140},
+                {data: "Location", width: 120},      
+            ], {border: 1, padding:5});
+            rpt.band([
+                {data: new Date(parseInt(data.dateTime)).toLocaleDateString(), width: 75},
+                {data: data.status.toUpperCase(), width: 80},
+                {data: data.numberPlate, width: 60},
+                {data: data.professionalName, width: 140},
+                {data: data.locationLat, width: 60},
+                {data: data.locationLong, width: 60}
+            ], {border: 1, padding:5});
+            rpt.print(data.description, {addY:5});
+        },
+        summary: function(rpt) {
+        },
+        footer: function(rpt) {
+            rpt.pageNumber( {footer: true, align: "center", text:"Page {0} of {1}"} );  
+        }
+    },
+    payments: {
+        header: function(rpt, data) {
+            rpt.print(`Statement for ${data.name}`, {fontSize:24});
+            rpt.print([new Date().toLocaleString()], {fontSize:18});
+            rpt.band([
+                {data: "Date", width: 80},
+                {data: "Professional", width: 140},
+                {data: "Status", width: 80},
+                {data: "Owed", width: 80},
+                {data: "Paid", width: 80},
+            ], {border: 1, padding:5});
+        },
+        detail: function(rpt, data) {
+            rpt.band([
+                {data: new Date(parseInt(data.dateTime)).toLocaleDateString(), width: 80},
+                {data: data.professionalName, width: 140},
+                {data: data.status.toUpperCase(), width: 80},
+                {data: data.price ? `$${data.price}` : "Not set", width: 80},
+                {data: data.paymentComplete ? (data.price ? `$${data.price}` : "Not set") : '$0', width: 80},
+            ], {border: 1, padding:5});
+        },
+        summary: function(rpt) {
+        },
+        footer: function(rpt) {
+            rpt.pageNumber( {footer: true, align: "center", text:"Page {0} of {1}"} );  
+        }
+    }
 };
 
 const adminReports = {
-//    users: {}
+    callouts: {
+        header: function(rpt, data) {
+            rpt.print("All callouts", {fontSize:24});
+            rpt.print([new Date().toLocaleString()], {fontSize:18});
+        },
+        detail: function(rpt, data) {
+            rpt.band([
+                {data: "Date", width: 75},
+                {data: "Status", width: 80},
+                {data: "Plate", width: 60},
+                {data: "Customer", width: 100},
+                {data: "Professional", width: 100},
+                {data: "Location", width: 120},          
+            ], {border: 1, padding:5});
+            rpt.band([
+                {data: new Date(parseInt(data.dateTime)).toLocaleDateString(), width: 75},
+                {data: data.status.toUpperCase(), width: 80},
+                {data: data.numberPlate, width: 60},
+                {data: data.customerName, width: 100},
+                {data: data.professionalName, width: 100},
+                {data: data.locationLat, width: 60},
+                {data: data.locationLong, width: 60}
+            ], {border: 1, padding:5});
+            rpt.print(data.description, {addY:5});
+        },
+        summary: function(rpt) {
+        },
+        footer: function(rpt) {
+            rpt.pageNumber( {footer: true, align: "center", text:"Page {0} of {1}"} );  
+        }
+    },
+    payments: {
+        header: function(rpt, data) {
+            rpt.print("All statements", {fontSize:24});
+            rpt.print([new Date().toLocaleString()], {fontSize:18});
+            rpt.band([
+                {data: "Date", width: 80},
+                {data: "Customer", width: 140},
+                {data: "Status", width: 80},
+                {data: "Owed", width: 80},
+                {data: "Paid", width: 80},
+            ], {border: 1, padding:5});
+        },
+        detail: function(rpt, data) {
+            rpt.band([
+                {data: new Date(parseInt(data.dateTime)).toLocaleDateString(), width: 80},
+                {data: data.customerName, width: 140},
+                {data: data.status.toUpperCase(), width: 80},
+                {data: data.price ? `$${data.price}` : "Not set", width: 80},
+                {data: data.paymentComplete ? (data.price ? `$${data.price}` : "Not set") : '$0', width: 80},
+            ], {border: 1, padding:5});
+        },
+        summary: function(rpt) {
+        },
+        footer: function(rpt) {
+            rpt.pageNumber( {footer: true, align: "center", text:"Page {0} of {1}"} );  
+        }
+    }
 };
 
 const Report = require('fluentreports').Report;
@@ -107,9 +216,7 @@ function createReport(report, header, data) {
                         res(filepath.split("/").pop());
                     });
             });
-        }
-        catch (err)
-        {
+        } catch (err) {
             rej(err);
         }
     });
@@ -138,12 +245,27 @@ router.get('/types', (req, res) => {
     if (user.PROFESSIONAL) {
         reports = Object.keys(professionalReports);
     } else if (user.CUSTOMER) {
-        reports = Object.keys(userReports);
+        reports = Object.keys(customerReports);
     } else if (user.ADMINISTRATOR) {
-        reports = Object.keys(adminstratorReports);
+        reports = Object.keys(adminReports);
     }
     res.status(200).send(reports);
 });
+
+function addNames(data, users) {
+    const callouts = Object.assign([], data);
+    callouts.forEach(item => {
+        const customer = users.find({ uuid: item.customer })[0]; // user uuid should be checked already so no need to check it again
+        item.customerName = `${customer.firstName} ${customer.lastName}`;
+        if (item.assignedTo) {
+            const pro = users.find({ uuid: item.assignedTo })[0];
+            item.professionalName = `${pro.firstName} ${pro.lastName}`;
+        } else {
+            item.professionalName = "None";
+        }
+    });
+    return callouts;
+}
 
 router.post('/generate', (req, res) => {
 
@@ -161,33 +283,27 @@ router.post('/generate', (req, res) => {
     let report;
     let data;
     
-    if (user.PROFESSIONAL) {
-        report = professionalReports[req.body.type];
-        data = Object.assign([], callouts.find({ assignedTo: req.userUuid }));
-        data.forEach(item => {
-            const customer = users.find({ uuid: item.customer })[0]; // user uuid should be checked already so no need to check it again
-            item.customerName = `${customer.firstName} ${customer.lastName}`;
-        });
-    } else if (user.CUSTOMER) {
+    if (user.CUSTOMER) {
         report = customerReports[req.body.type];
+        data = addNames(callouts.find({ customer: req.userUuid }), users);
+    } else if (user.PROFESSIONAL) {
+        report = professionalReports[req.body.type];
+        data = addNames(callouts.find({ assignedTo: req.userUuid }), users);
     } else if (user.ADMINISTRATOR) {
-        report = administratorReports[req.body.type];
+        report = adminReports[req.body.type];
+        data = addNames(callouts.getAll(), users);
     }
 
-    let header = {
-        name: `${user.firstName} ${user.lastName}`
-    };
-
-    if(report)
-        createReport(report, header, data)
+    if (report) {
+        createReport(report, {name: `${user.firstName} ${user.lastName}`}, data)
             .then(name => {
-                //console.log(name);
-                res.status(200).download(`./${reportDir}${name}`);//send({name:name});
+                res.status(200).download(`./${reportDir}${name}`);
             }).catch(err => {
                 res.status(400).send();
             });
-    else 
+    } else {
         res.status(400).send();
+    }
 });
 
 module.exports = router;
