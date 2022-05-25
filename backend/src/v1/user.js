@@ -33,16 +33,17 @@ router.post('/login', upload.none(), (req, res) => {
 router.post('/register', upload.none(), (req, res) => {
 
 	const isLocationRequired = req.body.type === "PROFESSIONAL";
+	const isDetailsRequired = req.body.type !== "ADMINISTRATOR";
 
 	if(!apiValidator.validate(req, {
 		email: {type:"string", required:true},
 		firstName: {type:"string", required:true},
 		lastName: {type:"string", required:true},
-		address: {type:"string", required:true},
-		phoneNumber: {type:"string", required:true},
-		license: {type:"numberString", required:true},
 		password: {type:"string", required:true},
 		type: {type:"string", required:true},
+		address: {type:"string", required:isDetailsRequired},
+		phoneNumber: {type:"string", required:isDetailsRequired},
+		license: {type:"numberString", required:isDetailsRequired},
 		locationLat: {type:"numberString", required:isLocationRequired},
 		locationLong: {type:"numberString", required:isLocationRequired}
 	})) {

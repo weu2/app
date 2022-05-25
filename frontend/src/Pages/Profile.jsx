@@ -186,53 +186,58 @@ class Profile extends React.Component {
 							</Form.Group>
 						</Row>
 
-						<Form.Group className="mb-3" controlId="formAddress">
-							<Form.Label>Address</Form.Label>
-							<Form.Control
-								name="address"
-								type="text" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
-								autoComplete="street-address"
-								defaultValue={this.state.address}
-								onChange={this.changedForm}
-								required
-							/>
-							{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
-							<Form.Control.Feedback type="invalid">
-								Please provide your address.
-							</Form.Control.Feedback>
-						</Form.Group>
+						{
+							this.state.type !== "ADMINISTRATOR"
+							&& <>
+								<Form.Group className="mb-3" controlId="formAddress">
+									<Form.Label>Address</Form.Label>
+									<Form.Control
+										name="address"
+										type="text" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
+										autoComplete="street-address"
+										defaultValue={this.state.address}
+										onChange={this.changedForm}
+										required
+									/>
+									{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
+									<Form.Control.Feedback type="invalid">
+										Please provide your address.
+									</Form.Control.Feedback>
+								</Form.Group>
 
-						<Form.Group className="mb-3" controlId="formPhoneNumber">
-							<Form.Label>Phone Number</Form.Label>
-							<Form.Control
-								name="phoneNumber"
-								type="tel" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
-								autoComplete="tel"
-								defaultValue={this.state.phoneNumber}
-								onChange={this.changedForm}
-								required
-							/>
-							{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
-							<Form.Control.Feedback type="invalid">
-								Please provide your phone number.
-							</Form.Control.Feedback>
-						</Form.Group>
+								<Form.Group className="mb-3" controlId="formPhoneNumber">
+									<Form.Label>Phone Number</Form.Label>
+									<Form.Control
+										name="phoneNumber"
+										type="tel" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
+										autoComplete="tel"
+										defaultValue={this.state.phoneNumber}
+										onChange={this.changedForm}
+										required
+									/>
+									{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
+									<Form.Control.Feedback type="invalid">
+										Please provide your phone number.
+									</Form.Control.Feedback>
+								</Form.Group>
 
-						<Form.Group className="mb-4" controlId="formLicense">
-							<Form.Label>License Number</Form.Label>
-							<Form.Control
-								name="license"
-								type="number" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
-								autoComplete="license"
-								defaultValue={this.state.license}
-								onChange={this.changedForm}
-								required
-							/>
-							{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
-							<Form.Control.Feedback type="invalid">
-								Please provide your license number.
-							</Form.Control.Feedback>
-						</Form.Group>
+								<Form.Group className="mb-4" controlId="formLicense">
+									<Form.Label>License Number</Form.Label>
+									<Form.Control
+										name="license"
+										type="number" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
+										autoComplete="license"
+										defaultValue={this.state.license}
+										onChange={this.changedForm}
+										required
+									/>
+									{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
+									<Form.Control.Feedback type="invalid">
+										Please provide your license number.
+									</Form.Control.Feedback>
+								</Form.Group>
+							</>
+						}
 
 						{ // type="submit" automatically runs onSubmit, which runs this.submitForm
 							this.state.changedForm

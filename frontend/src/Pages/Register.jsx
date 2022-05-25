@@ -127,47 +127,52 @@ class Register extends React.Component {
 						</Form.Group>
 					</Row>
 
-					<Form.Group className="mb-3" controlId="formAddress">
-						<Form.Label>Address</Form.Label>
-						<Form.Control
-							name="address"
-							type="text" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
-							autoComplete="street-address" // autocomplete is not essential, but for suggested values check developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
-							required
-						/>
-						{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
-						<Form.Control.Feedback type="invalid">
-							Please provide your address.
-						</Form.Control.Feedback>
-					</Form.Group>
+					{
+						this.state.userType !== "ADMINISTRATOR"
+						&& <>
+							<Form.Group className="mb-3" controlId="formAddress">
+								<Form.Label>Address</Form.Label>
+								<Form.Control
+									name="address"
+									type="text" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
+									autoComplete="street-address" // autocomplete is not essential, but for suggested values check developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
+									required
+								/>
+								{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
+								<Form.Control.Feedback type="invalid">
+									Please provide your address.
+								</Form.Control.Feedback>
+							</Form.Group>
 
-					<Form.Group className="mb-3" controlId="formPhoneNumber">
-						<Form.Label>Phone Number</Form.Label>
-						<Form.Control
-							name="phoneNumber"
-							type="tel" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
-							autoComplete="tel" // autocomplete is not essential, but for suggested values check developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
-							required
-						/>
-						{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
-						<Form.Control.Feedback type="invalid">
-							Please provide your phone number.
-						</Form.Control.Feedback>
-					</Form.Group>
+							<Form.Group className="mb-3" controlId="formPhoneNumber">
+								<Form.Label>Phone Number</Form.Label>
+								<Form.Control
+									name="phoneNumber"
+									type="tel" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
+									autoComplete="tel" // autocomplete is not essential, but for suggested values check developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
+									required
+								/>
+								{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
+								<Form.Control.Feedback type="invalid">
+									Please provide your phone number.
+								</Form.Control.Feedback>
+							</Form.Group>
 
-					<Form.Group className="mb-4" controlId="formLicense">
-						<Form.Label>License Number</Form.Label>
-						<Form.Control
-							name="license"
-							type="number" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
-							autoComplete="license" // autocomplete is not essential, but for suggested values check developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
-							required
-						/>
-						{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
-						<Form.Control.Feedback type="invalid">
-							Please provide your license number.
-						</Form.Control.Feedback>
-					</Form.Group>
+							<Form.Group className="mb-3" controlId="formLicense">
+								<Form.Label>License Number</Form.Label>
+								<Form.Control
+									name="license"
+									type="number" // Standard HTML input type, for valid values check www.w3schools.com/html/html_form_input_types.asp
+									autoComplete="license" // autocomplete is not essential, but for suggested values check developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete
+									required
+								/>
+								{/* Display feedback message if the user screws up the input, see react-bootstrap.github.io/forms/validation/ */}
+								<Form.Control.Feedback type="invalid">
+									Please provide your license number.
+								</Form.Control.Feedback>
+							</Form.Group>
+						</>
+					}
 
 					{/* Force service professionals to provide a location */}
 					{/* Not really required anymore since live location tracking is used */}
@@ -177,7 +182,7 @@ class Register extends React.Component {
 					<Form.Control name="type" type="hidden" value={this.state.userType} required />
 
 					{/* type="submit" automatically runs onSubmit, which runs this.submitForm */}
-					<LargeButton className="mb-3" variant="primary" type="submit" icon="arrow-right">
+					<LargeButton className="mb-3 mt-3" variant="primary" type="submit" icon="arrow-right">
 						Submit
 					</LargeButton>
 				</Form>
