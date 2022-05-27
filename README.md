@@ -1,7 +1,7 @@
 # <img src="frontend/public/logo.svg" width="192" alt="Welcome to WeU" />
 We are students of the University of Wollongong. This repository contains code for our CSIT314 assignment.
 
-External packages are listed in the `package.json` files within the `frontend/` and `backend/` folders.
+External packages are listed in the `package.json` files within the `frontend` and `backend` folders.
 
 ## Academic Integrity and Credit
 NOTE: This program uses open source libraries, frameworks and APIs developed by other people not involved with this group, nor are enrolled in this subject and university.
