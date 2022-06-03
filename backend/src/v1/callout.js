@@ -325,6 +325,7 @@ router.post('/cancelPayment', (req, res) => {
 	}
 
 	callouts.update({ customer: req.userUuid, uuid: req.body.calloutId }, { paymentId: null });
+	res.status(200).send();
 });
 
 router.post('/createPayment', (req, res) => {
